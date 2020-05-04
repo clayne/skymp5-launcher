@@ -1,0 +1,32 @@
+﻿using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace UpdatesClient.Modules.SelfUpdater
+{
+    internal static class Hashing
+    {
+        public static string GetSHA512FromFile(FileStream file)
+        {
+            byte[] fileData = new byte[file.Length];
+            file.Read(fileData, 0, (int)file.Length);
+
+            return GetSHA512Hash(fileData);
+        }
+        public static string GetSHA512FromText(string text)
+        {
+            return GetSHA512Hash(Encoding.UTF8.GetBytes(text));
+        }
+
+        private static string GetSHA512Hash(byte[] source)
+        {
+            using (SHA512 algorithm = SHA512.Create())
+            {
+                byte[] hash = algorithm.ComputeHash(source);
+
+                return new string(hash.SelectMany(a => a.ToString("X2")).ToArray());
+            }
+        }
+    }
+}
