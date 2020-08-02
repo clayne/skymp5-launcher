@@ -27,8 +27,8 @@ namespace UpdatesClient
         private string MasterHash;
         private string SelfHash;
 
-        private string FullPathToSelfExe = Assembly.GetExecutingAssembly().Location;
-        private string NameExeFile = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
+        private readonly string FullPathToSelfExe = Assembly.GetExecutingAssembly().Location;
+        private readonly string NameExeFile = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
 
         public static new App Current { get { return Application.Current as App; } }
 
@@ -88,12 +88,12 @@ namespace UpdatesClient
                 SplashWindow.SetStatus("Проверка обновления лаунчера");
 
                 MasterHash = await Updater.GetLauncherHash();
-                SelfHash = Hashing.GetSHA512FromFile(File.OpenRead(FullPathToSelfExe));
+                SelfHash = Hashing.GetMD5FromFile(File.OpenRead(FullPathToSelfExe));
 
                 if (MasterHash == null || MasterHash == "") throw new Exception("Hash is empty");
                 if (NameExeFile == null || NameExeFile == "") throw new Exception("Path is empty");
 
-                if (!CheckFile(NameExeFile))
+                if (!CheckFile(FullPathToSelfExe))
                 {
                     SplashWindow.SetStatus("Обновление лаунчера");
                     SplashWindow.SetProgressMode(false);
@@ -133,12 +133,12 @@ namespace UpdatesClient
         //****************************************************************//
         private bool CheckFile(string pathToFile)
         {
-            if (File.Exists(pathToFile) && MasterHash.ToUpper() == Hashing.GetSHA512FromFile(File.OpenRead(pathToFile)).ToUpper()) return true;
+            if (File.Exists(pathToFile) && MasterHash.ToUpper() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper()) return true;
             else return false;
         }
-        private bool Update()
+        private bool Update() 
         {
-            Downloader downloader = new Downloader(Updater.AddressToLauncher, $"{NameExeFile}.update.exe", MasterHash);
+            Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, $"{NameExeFile}.update.exe");
             downloader.DownloadChanged += SplashWindow.SetProgress;
             return downloader.Download();
         }

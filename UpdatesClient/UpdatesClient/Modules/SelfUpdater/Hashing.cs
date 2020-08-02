@@ -28,5 +28,26 @@ namespace UpdatesClient.Modules.SelfUpdater
                 return new string(hash.SelectMany(a => a.ToString("X2")).ToArray());
             }
         }
+
+        public static string GetMD5FromFile(FileStream file)
+        {
+            byte[] fileData = new byte[file.Length];
+            file.Read(fileData, 0, (int)file.Length);
+
+            return GetMD5Hash(fileData);
+        }
+        public static string GetMD5FromText(string text)
+        {
+            return GetMD5Hash(Encoding.UTF8.GetBytes(text));
+        }
+        private static string GetMD5Hash(byte[] source)
+        {
+            using (MD5 algorithm = MD5.Create())
+            {
+                byte[] hash = algorithm.ComputeHash(source);
+
+                return new string(hash.SelectMany(a => a.ToString("X2")).ToArray());
+            }
+        }
     }
 }

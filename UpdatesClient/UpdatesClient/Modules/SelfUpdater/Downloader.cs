@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Windows;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -12,18 +13,16 @@ namespace UpdatesClient.Modules.SelfUpdater
         private long iFileSize = 0;
         private double DownValue = 0;
         private double DownMax = 0;
-        private int iBufferSize = 1024;
+        private readonly int iBufferSize = 1024;
         private long iExistLen = 0;
 
-        private string sDestinationPath;
-        private string sInternetPath;
-        private string sMasterHash;
+        private readonly string sDestinationPath;
+        private readonly string sInternetPath;
 
-        public Downloader(string _sInternetPath, string _sDestinationPath, string _sMasterHash)
+        public Downloader(string _sInternetPath, string _sDestinationPath)
         {
             sDestinationPath = _sDestinationPath;
             sInternetPath = _sInternetPath;
-            sMasterHash = _sMasterHash;
             iBufferSize *= 10;
         }
 
@@ -32,10 +31,9 @@ namespace UpdatesClient.Modules.SelfUpdater
             try
             {
                 DownloadFile();
-
                 return true;
             }
-            catch (Exception er) { /*Logger.Error(er);*/ }
+            catch (Exception er) { MessageBox.Show(er.ToString()); }
             return false;
         }
 
@@ -47,7 +45,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             string path = Path.GetDirectoryName(sPath);
             if (path != null && path != "") Directory.CreateDirectory(path);
 
-            hwRq = (HttpWebRequest)HttpWebRequest.Create(new Uri($"{Updater.PROTOCOL}{sInternetPath}"));
+            hwRq = (HttpWebRequest)HttpWebRequest.Create(new Uri($"{sInternetPath}"));
             hwRq.Timeout = 10000;
             hwRq.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
             hwRq.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
