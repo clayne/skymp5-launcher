@@ -33,7 +33,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                 DownloadFile();
                 return true;
             }
-            catch (Exception er) { MessageBox.Show(er.ToString()); }
+            catch (Exception er) { /*Logger*/ }
             return false;
         }
 

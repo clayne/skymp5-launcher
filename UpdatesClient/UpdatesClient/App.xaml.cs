@@ -138,6 +138,8 @@ namespace UpdatesClient
         }
         private bool Update() 
         {
+            if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
+
             Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, $"{NameExeFile}.update.exe");
             downloader.DownloadChanged += SplashWindow.SetProgress;
             return downloader.Download();
