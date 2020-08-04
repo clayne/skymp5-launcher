@@ -1,4 +1,4 @@
-﻿<Window x:Class="UpdatesClient.MainWindow"
+﻿<Window x:Name="wind" x:Class="UpdatesClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -22,7 +22,7 @@
             </local1:ImageButton.Image>
         </local1:ImageButton>
 
-        <local1:ProgressBarBtn x:Name="MainBtn" Grid.Row="1" Value="0" IsIndeterminate="True" StatusText="PLAY" ProgressMargin="20" SelectColor="#26000000" PressColor="#3F000000" Margin="12.5,0,12.5,0" NormalColor="#00000000"/>
+        <local1:ProgressBarBtn x:Name="MainBtn" Grid.Row="1" Value="100" IsDisabled="True" IsIndeterminate="False" StatusText="Ожидание" ProgressMargin="20" SelectColor="#26000000" PressColor="#3F000000" Margin="12.5,0,12.5,0" NormalColor="#00000000" ColorBar="#FFFF7604" Click="MainBtn_Click"/>
 
     </Grid>
 </Window>
