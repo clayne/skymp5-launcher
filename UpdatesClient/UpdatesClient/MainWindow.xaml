@@ -4,9 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient"
+        xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="300" Width="300" ResizeMode="NoResize" WindowStyle="None" Background="#FF232323" WindowStartupLocation="CenterScreen">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SkyMP - Launcher" Foreground="White" FontSize="16" Margin="5,0,0,0" />
+        <Rectangle x:Name="TitleWindow" Fill="#26000000"/>
+        
+        <local1:ImageButton HorizontalAlignment="Right" Width="25" NormalColor="White" SelectColor="Red" PressColor="#FF630000" Click="ImageButton_Click" >
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="Assets/Images/Exit.png"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+
+        <local1:ProgressBarBtn x:Name="MainBtn" Grid.Row="1" Value="0" IsIndeterminate="True" StatusText="PLAY" ProgressMargin="20" SelectColor="#26000000" PressColor="#3F000000" Margin="12.5,0,12.5,0" NormalColor="#00000000"/>
+
     </Grid>
 </Window>

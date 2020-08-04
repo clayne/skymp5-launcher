@@ -56,6 +56,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
+    <Compile Include="UI\Controllers\ImageButton.xaml.cs">
+      <DependentUpon>ImageButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\ProgressBarBtn.xaml.cs">
+      <DependentUpon>ProgressBarBtn.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,6 +76,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Modules\SelfUpdater\SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ProgressBarBtn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,6 +126,9 @@
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Libraries\" />
     <Folder Include="Core\Structs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
