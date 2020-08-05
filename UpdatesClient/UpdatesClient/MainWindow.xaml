@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UpdatesClient"
         xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300" ResizeMode="NoResize" WindowStyle="None" Background="#FF232323" WindowStartupLocation="CenterScreen">
+        Title="SkyMP Launcher" Height="300" Width="300" ResizeMode="NoResize" WindowStyle="None" Background="#FF232323" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>

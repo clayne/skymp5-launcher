@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient.Modules.SelfUpdater"
         mc:Ignorable="d"
-        Title="SplashScreen" Height="120" Width="400" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        Title="SkyMP Launcher" Height="120" Width="400" ScrollViewer.VerticalScrollBarVisibility="Disabled"
         WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF4B4B4B">
     <Grid>
         <ProgressBar Name="progBar" Minimum="0" Maximum="1" Value="-1" IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Foreground="#FF06AC06"/>

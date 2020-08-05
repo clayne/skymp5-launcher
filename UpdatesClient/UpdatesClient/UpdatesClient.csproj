@@ -34,9 +34,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\Images\favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -57,7 +61,80 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Downloader.cs" />
+    <Compile Include="Core\Enums\BtnAction.cs" />
     <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Constants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Exception.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2InputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2OutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\Adler32.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\BZip2Crc.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\Crc32.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\IChecksum.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\SharpZipBaseException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\StreamDecodingException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\StreamUnsupportedException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\UnexpectedEndOfStreamException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\ValueOutOfRangeException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\FileSystemScanner.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\INameTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\InvalidNameException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\IScanFilter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\NameFilter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\PathFilter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\StreamUtils.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\WindowsPathUtils.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\PkzipClassic.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\ZipAESStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\ZipAESTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZip.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZipConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZipException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GzipInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GzipOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\InvalidHeaderException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarArchive.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarBuffer.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarEntry.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarExtendedHeaderReader.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarHeader.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Deflater.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterEngine.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterHuffman.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterPending.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Inflater.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\InflaterDynHeader.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\PendingBuffer.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\FastZip.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\IEntryFactory.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\WindowsNameTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipEntry.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipEntryFactory.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipExtraData.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipFile.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipHelperStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipNameTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipStrings.cs" />
+    <Compile Include="Core\Net.cs" />
+    <Compile Include="Core\Unpacker.cs" />
     <Compile Include="UI\Controllers\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
     </Compile>
@@ -124,12 +201,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Enums\" />
-    <Folder Include="Core\Libraries\" />
     <Folder Include="Core\Structs\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
