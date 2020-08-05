@@ -25,7 +25,6 @@ namespace UpdatesClient.Core
         {
             foreach (DirectoryInfo dir in new DirectoryInfo(fromDir).GetDirectories())
             {
-                Delete($"{toDir}\\{dir.Name}");
                 Create($"{toDir}\\{dir.Name}");
                 CopyToDir(dir.FullName, $"{toDir}\\{dir.Name}");
             }

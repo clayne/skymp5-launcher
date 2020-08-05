@@ -32,7 +32,7 @@ namespace UpdatesClient
         //War color: #FFFF7604
         //Er color: #FFFF0404
 
-        private BrushConverter converter = new BrushConverter();
+        private readonly BrushConverter converter = new BrushConverter();
         private BtnAction BtnAction = BtnAction.Check;
 
         public MainWindow()
@@ -231,11 +231,12 @@ namespace UpdatesClient
             }
 
             Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-
-            startInfo.FileName = $"{Properties.Settings.Default.PathToSkyrim}\\skse64_loader.exe";
-            startInfo.Arguments = $"--UUID Launcher --Session TEST";
-            startInfo.WorkingDirectory = $"{Properties.Settings.Default.PathToSkyrim}\\";
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = $"{Properties.Settings.Default.PathToSkyrim}\\skse64_loader.exe",
+                Arguments = $"--UUID Launcher --Session TEST",
+                WorkingDirectory = $"{Properties.Settings.Default.PathToSkyrim}\\"
+            };
 
             process.StartInfo = startInfo;
             process.Start();
