@@ -234,8 +234,9 @@ namespace UpdatesClient
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = $"{Properties.Settings.Default.PathToSkyrim}\\skse64_loader.exe",
-                Arguments = $"--UUID Launcher --Session TEST",
-                WorkingDirectory = $"{Properties.Settings.Default.PathToSkyrim}\\"
+                //Arguments = $"--UUID Launcher --Session TEST",
+                WorkingDirectory = $"{Properties.Settings.Default.PathToSkyrim}\\",
+                Verb = "runas"
             };
 
             process.StartInfo = startInfo;
