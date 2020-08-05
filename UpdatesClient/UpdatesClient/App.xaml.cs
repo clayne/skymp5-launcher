@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Modules.SelfUpdater;
@@ -81,10 +82,11 @@ namespace UpdatesClient
         {
             try
             {
-                SplashWindow = splashWindow;
-#if (DEBUG || DeR) 
+#if (DEBUG || DeR)
+                Thread.Sleep(5); //Без этого может не работать
                 StartLuancher();
 #else
+                SplashWindow = splashWindow;
                 SplashWindow.SetStatus("Проверка обновления лаунчера");
 
                 MasterHash = await Updater.GetLauncherHash();
