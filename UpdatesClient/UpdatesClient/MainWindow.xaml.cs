@@ -41,7 +41,7 @@ namespace UpdatesClient
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
 
             wind.Loaded += delegate {
-                if (string.IsNullOrEmpty(Properties.Settings.Default.PathToSkyrim))
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.PathToSkyrim))
                 {
                     SetGameFolder();
                 }
