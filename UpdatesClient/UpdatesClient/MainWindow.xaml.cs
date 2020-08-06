@@ -55,6 +55,7 @@ namespace UpdatesClient
         {
             using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
+                dialog.Description = "Выберите папку с TES: Skyrim SE";
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
 
                 if (result == System.Windows.Forms.DialogResult.OK)
