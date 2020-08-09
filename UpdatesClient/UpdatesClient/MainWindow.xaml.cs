@@ -46,8 +46,11 @@ namespace UpdatesClient
                 {
                     SetGameFolder();
                 }
-                MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
-                CheckClient();
+                if(BtnAction != BtnAction.InstallSKSE)
+                {
+                    MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
+                    CheckClient();
+                }
             };
 
         }
@@ -68,8 +71,18 @@ namespace UpdatesClient
                     }
                     else if (!File.Exists(dialog.SelectedPath + "\\skse64_loader.exe"))
                     {
-                        MessageBox.Show("SKSE не обнаружен", "Ошибка");
-                        SetGameFolder();
+                        if(MessageBox.Show("SKSE не обнаружен, установить?", "Ошибка", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            Properties.Settings.Default.PathToSkyrim = dialog.SelectedPath;
+                            Properties.Settings.Default.Version = "0.0.0.0";
+                            Properties.Settings.Default.Save();
+                            BtnAction = BtnAction.InstallSKSE;
+                            DownloadLib();
+                        }
+                        else
+                        {
+                            SetGameFolder();
+                        }
                     }
                     else
                     {
@@ -112,6 +125,135 @@ namespace UpdatesClient
             MainBtn.IsDisabled = false;
         }
 
+        private void DownloadLib()
+        {
+            if(!File.Exists(Properties.Settings.Default.PathToSkyrim + "\\tmp\\7z.dll"))
+            {
+                MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF7604");
+                MainBtn.IsDisabled = true;
+                MainBtn.IsIndeterminate = false;
+                MainBtn.Value = 0;
+
+                MainBtn.StatusText = "0%";
+
+                string req = Net.URL_Lib;
+                Downloader downloader = new Downloader($@"{Properties.Settings.Default.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
+                downloader.DownloadChanged += Downloader_DownloadChanged;
+                downloader.DownloadComplete += Downloader_DownloadLibComplete;
+                downloader.StartAsync();
+            }
+            else
+            {
+                InstallSKSE();
+            }
+        }
+        private async void Downloader_DownloadLibComplete(string DestinationFile, string Vers)
+        {
+            if (DestinationFile == null)
+            {
+                await Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+                {
+                    MainBtn.Value = 100;
+                    MainBtn.IsIndeterminate = false;
+                    MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF0404");
+                    MainBtn.StatusText = "Ошибка";
+                });
+                await Task.Delay(1000);
+                await Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+                {
+                    MainBtn.IsDisabled = false;
+                    MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF7604");
+                    DownloadLib();
+                });
+            }
+            else
+            {
+                await Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+                {
+                    InstallSKSE();
+                });
+            }
+        }
+        private async void InstallSKSE()
+        {
+            MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF7604");
+            MainBtn.IsDisabled = true;
+            MainBtn.IsIndeterminate = false;
+            MainBtn.Value = 0;
+
+            MainBtn.StatusText = "0%";
+
+            string req = await Net.GetUrlToSKSE();
+            Downloader downloader = new Downloader($@"{Properties.Settings.Default.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
+            downloader.DownloadChanged += Downloader_DownloadChanged;
+            downloader.DownloadComplete += Downloader_DownloadSKSEComplete;
+            downloader.StartAsync();
+        }
+
+        private async void Downloader_DownloadSKSEComplete(string DestinationFile, string Vers)
+        {
+            if (DestinationFile == null)
+            {
+                await Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+                {
+                    MainBtn.Value = 100;
+                    MainBtn.IsIndeterminate = false;
+                    MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF0404");
+                    MainBtn.StatusText = "Ошибка";
+                });
+                await Task.Delay(1000);
+                await Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+                {
+                    MainBtn.IsDisabled = false;
+                    MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
+                    MainBtn.StatusText = "Повторить";
+                });
+            }
+            else
+            {
+                await Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+                {
+                    ExtractSKSE(DestinationFile);
+                });
+            }
+        }
+        private async void ExtractSKSE(string file)
+        {
+            try
+            {
+                MainBtn.IsDisabled = true;
+                MainBtn.IsIndeterminate = true;
+                MainBtn.Value = 100;
+                MainBtn.StatusText = "Распаковка";
+
+                if (await Task.Run(() => Unpacker.SevenZUnpack(file, Properties.Settings.Default.PathToSkyrim)))
+                {
+                    MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
+                    CheckClient();
+                }
+                else
+                {
+                    MainBtn.StatusText = "Повторить";
+                    BtnAction = BtnAction.InstallSKSE;
+                }
+                MainBtn.IsDisabled = false;
+                MainBtn.IsIndeterminate = false;
+                MainBtn.Value = 100;
+            }
+            catch (Exception e)
+            {
+                MainBtn.IsDisabled = false;
+                MainBtn.IsIndeterminate = false;
+                MainBtn.Value = 100;
+                YandexMetrica.ReportError("ExtractSKSE", e);
+                MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF0404");
+                MainBtn.StatusText = "Ошибка";
+                await Task.Delay(1000);
+                MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
+                MainBtn.StatusText = "Повторить";
+            }
+        }
+
 
         private void ImageButton_Click(object sender, EventArgs e)
         {
@@ -130,6 +272,9 @@ namespace UpdatesClient
                     break;
                 case BtnAction.Check:
                     CheckClient();
+                    break;
+                case BtnAction.InstallSKSE:
+                    InstallSKSE();
                     break;
             }
         }
@@ -205,6 +350,9 @@ namespace UpdatesClient
             catch (Exception e)
             {
                 YandexMetrica.ReportError("Extract", e);
+                MainBtn.IsDisabled = false;
+                MainBtn.IsIndeterminate = false;
+                MainBtn.Value = 100;
                 MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF0404");
                 MainBtn.StatusText = "Ошибка";
                 await Task.Delay(1000);
@@ -230,7 +378,8 @@ namespace UpdatesClient
         {
             if(!File.Exists($"{Properties.Settings.Default.PathToSkyrim}\\skse64_loader.exe"))
             {
-                MessageBox.Show("SKSE не обнаружен", "Ошибка");
+                if (MessageBox.Show("SKSE не обнаружен, установить?", "Ошибка", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    InstallSKSE();
                 return;
             }
 
