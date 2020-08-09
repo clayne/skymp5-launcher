@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Yandex.Metrica;
 
 namespace UpdatesClient.UI.Controllers
 {
@@ -38,7 +39,7 @@ namespace UpdatesClient.UI.Controllers
                 btn.MouseLeftButtonDown += Btn_MouseLeftButtonDown;
                 btn.MouseLeftButtonUp += Btn_MouseLeftButtonUp;
             }
-            catch (Exception e) { MessageBox.Show(e.ToString()); }
+            catch (Exception e) { YandexMetrica.ReportError("ImageButton", e); }
             
         }
 

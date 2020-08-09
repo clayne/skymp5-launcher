@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Enums;
+using Yandex.Metrica;
 
 namespace UpdatesClient
 {
@@ -98,8 +99,9 @@ namespace UpdatesClient
                     BtnAction = BtnAction.Play;
                 }
             }
-            catch (Exception er)
+            catch (Exception e)
             {
+                YandexMetrica.ReportError("CheckClient", e);
                 MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF0404");
                 MainBtn.StatusText = "Ошибка";
                 await Task.Delay(1000);
@@ -202,6 +204,7 @@ namespace UpdatesClient
             }
             catch (Exception e)
             {
+                YandexMetrica.ReportError("Extract", e);
                 MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF0404");
                 MainBtn.StatusText = "Ошибка";
                 await Task.Delay(1000);
@@ -242,6 +245,9 @@ namespace UpdatesClient
 
             process.StartInfo = startInfo;
             process.Start();
+
+            YandexMetrica.ReportEvent("StartGame");
+
             Close();
         }
     }

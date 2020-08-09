@@ -19,12 +19,12 @@ namespace UpdatesClient.Modules.SelfUpdater
         {
             IAsyncResult result = null;
 
-            AsyncCallback initCompleted = delegate (IAsyncResult ar)
+            void initCompleted(IAsyncResult ar)
             {
                 App.Current.ApplicationInitialize.EndInvoke(result);
 
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate { Close(); });
-            };
+            }
             result = App.Current.ApplicationInitialize.BeginInvoke(this, initCompleted, null);
         }
 

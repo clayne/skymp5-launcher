@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Modules.SelfUpdater;
+using Yandex.Metrica;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 
 namespace UpdatesClient
@@ -26,7 +27,6 @@ namespace UpdatesClient
         private SplashScreen SplashWindow;
 
         private string MasterHash;
-        private string SelfHash;
 
         private readonly string FullPathToSelfExe = Assembly.GetExecutingAssembly().Location;
         private readonly string NameExeFile = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
@@ -37,6 +37,11 @@ namespace UpdatesClient
         {
             if (!Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
+
+            string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
+            if(!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
+            YandexMetricaFolder.SetCurrent(tmpPath);
+            YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
 
             InitApp();
         }
@@ -70,7 +75,7 @@ namespace UpdatesClient
 
         private void InitApp()
         {
-            ApplicationInitialize = _applicationInitialize;
+            ApplicationInitialize = ApplicationInit;
         }
 
         private void ExitApp()
@@ -78,7 +83,7 @@ namespace UpdatesClient
             Application.Current.Shutdown();
         }
 
-        private async void _applicationInitialize(SplashScreen splashWindow)
+        private async void ApplicationInit(SplashScreen splashWindow)
         {
             try
             {
@@ -90,7 +95,6 @@ namespace UpdatesClient
                 SplashWindow.SetStatus("Проверка обновления лаунчера");
 
                 MasterHash = await Updater.GetLauncherHash();
-                SelfHash = Hashing.GetMD5FromFile(File.OpenRead(FullPathToSelfExe));
 
                 if (MasterHash == null || MasterHash == "") throw new Exception("Hash is empty");
                 if (NameExeFile == null || NameExeFile == "") throw new Exception("Path is empty");
@@ -122,7 +126,11 @@ namespace UpdatesClient
                 }
 #endif
             }
-            catch (Exception e) { MessageBox.Show("Сведения: \n" + e.ToString(), "Критическая ошибка"); }
+            catch (Exception e) 
+            {
+                YandexMetrica.ReportError($"CriticalError_{Security.UID}", e);
+                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Security.UID}", "Критическая ошибка"); 
+            }
         }
         private void StartLuancher()
         {

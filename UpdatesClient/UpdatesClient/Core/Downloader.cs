@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Yandex.Metrica;
 
 namespace UpdatesClient.Core
 {
@@ -57,7 +58,12 @@ namespace UpdatesClient.Core
                 
                 DownloadComplete?.Invoke(sDestinationPath, sVers);
             }
-            catch (Exception er) { Downloading = false; DownloadComplete?.Invoke(null, sVers); }
+            catch (Exception e) 
+            { 
+                Downloading = false;
+                YandexMetrica.ReportError("Downloader", e);
+                DownloadComplete?.Invoke(null, sVers); 
+            }
         }
 
         private void DownloadFile()

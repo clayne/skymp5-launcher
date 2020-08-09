@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Management;
+using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
     internal static class Security
     {
+        internal static string UID;
+
+
         internal static bool CheckEnvironment()
         {
 #if (DEBUG)
@@ -34,6 +38,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                 foreach (ManagementObject mo in mbsList)
                 {
                     id = mo["ProcessorId"].ToString();
+                    UID = Hashing.GetMD5FromText(id);
                     break;
                 }
                 return id != "";

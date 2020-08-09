@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Windows;
+using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -33,7 +34,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                 DownloadFile();
                 return true;
             }
-            catch (Exception er) { /*Logger*/ }
+            catch (Exception e) { YandexMetrica.ReportError("SelfUpdate_Downloader", e); }
             return false;
         }
 
