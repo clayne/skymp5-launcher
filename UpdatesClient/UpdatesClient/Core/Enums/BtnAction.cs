@@ -10,6 +10,7 @@ namespace UpdatesClient.Core.Enums
     {
         Play,
         Update,
-        Check
+        Check,
+        InstallSKSE              
     }
 }

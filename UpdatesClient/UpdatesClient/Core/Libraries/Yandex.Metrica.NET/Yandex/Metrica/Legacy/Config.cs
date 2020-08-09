@@ -1,94 +1,88 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Yandex.Metrica.Legacy.Config
-// Assembly: Yandex.Metrica.NET, Version=3.5.1.0, Culture=neutral, PublicKeyToken=21e4d3bd28ff137d
-// MVID: 30D77F94-06C4-410D-9A5A-E6909B7FCAB1
-// Assembly location: C:\Users\Felldoh\source\repos\skyrim-multiplayer\updates-client\UpdatesClient\UpdatesClient\bin\Debug\Yandex.Metrica.NET.dll
-
-using SilentOrbit.ProtocolBuffers;
+﻿using SilentOrbit.ProtocolBuffers;
 using System.IO;
 using System.Text;
 
 namespace Yandex.Metrica.Legacy
 {
-  internal class Config
-  {
-    public string UUID { get; set; }
-
-    public ulong LastStartupTime { get; set; }
-
-    public ulong LastStopTime { get; set; }
-
-    public ulong CurrentSessionId { get; set; }
-
-    public ulong CurrentSessionEventCounter { get; set; }
-
-    public bool Init { get; set; }
-
-    public string ApiKey { get; set; }
-
-    public ulong DispatchPeriodMilliseconds { get; set; }
-
-    public uint MaxReportsCount { get; set; }
-
-    public bool TrackLocationEnabled { get; set; }
-
-    public bool ReportCrashesEnabled { get; set; }
-
-    public string CustomStartupUrl { get; set; }
-
-    public string CustomAppVersion { get; set; }
-
-    public Config.Location CustomLocation { get; set; }
-
-    public string ReportUrl { get; set; }
-
-    public string CheckUpdatesUrl { get; set; }
-
-    public bool Suspended { get; set; }
-
-    public ulong BackgroundSessionEventCounter { get; set; }
-
-    public ulong SessionInactivityTimeoutMilliseconds { get; set; }
-
-    public ulong LastIdentityEventMilliseconds { get; set; }
-
-    public long ServerTimeOffset { get; set; }
-
-    internal static Config Deserialize(Stream stream)
+    internal class Config
     {
-      Config instance = new Config();
-      Config.Deserialize(stream, instance);
-      return instance;
-    }
+        public string UUID { get; set; }
 
-    internal static Config DeserializeLengthDelimited(Stream stream)
-    {
-      Config instance = new Config();
-      Config.DeserializeLengthDelimited(stream, instance);
-      return instance;
-    }
+        public ulong LastStartupTime { get; set; }
 
-    internal static Config DeserializeLength(Stream stream, int length)
-    {
-      Config instance = new Config();
-      Config.DeserializeLength(stream, length, instance);
-      return instance;
-    }
+        public ulong LastStopTime { get; set; }
 
-    internal static Config Deserialize(byte[] buffer)
-    {
-      Config instance = new Config();
-      using (MemoryStream memoryStream = new MemoryStream(buffer))
-        Config.Deserialize((Stream) memoryStream, instance);
-      return instance;
-    }
+        public ulong CurrentSessionId { get; set; }
 
-    internal static Config Deserialize(byte[] buffer, Config instance)
-    {
-      using (MemoryStream memoryStream = new MemoryStream(buffer))
-        Config.Deserialize((Stream) memoryStream, instance);
-      return instance;
-    }
+        public ulong CurrentSessionEventCounter { get; set; }
+
+        public bool Init { get; set; }
+
+        public string ApiKey { get; set; }
+
+        public ulong DispatchPeriodMilliseconds { get; set; }
+
+        public uint MaxReportsCount { get; set; }
+
+        public bool TrackLocationEnabled { get; set; }
+
+        public bool ReportCrashesEnabled { get; set; }
+
+        public string CustomStartupUrl { get; set; }
+
+        public string CustomAppVersion { get; set; }
+
+        public Config.Location CustomLocation { get; set; }
+
+        public string ReportUrl { get; set; }
+
+        public string CheckUpdatesUrl { get; set; }
+
+        public bool Suspended { get; set; }
+
+        public ulong BackgroundSessionEventCounter { get; set; }
+
+        public ulong SessionInactivityTimeoutMilliseconds { get; set; }
+
+        public ulong LastIdentityEventMilliseconds { get; set; }
+
+        public long ServerTimeOffset { get; set; }
+
+        internal static Config Deserialize(Stream stream)
+        {
+            Config instance = new Config();
+            Config.Deserialize(stream, instance);
+            return instance;
+        }
+
+        internal static Config DeserializeLengthDelimited(Stream stream)
+        {
+            Config instance = new Config();
+            Config.DeserializeLengthDelimited(stream, instance);
+            return instance;
+        }
+
+        internal static Config DeserializeLength(Stream stream, int length)
+        {
+            Config instance = new Config();
+            Config.DeserializeLength(stream, length, instance);
+            return instance;
+        }
+
+        internal static Config Deserialize(byte[] buffer)
+        {
+            Config instance = new Config();
+            using (MemoryStream memoryStream = new MemoryStream(buffer))
+                Config.Deserialize((Stream)memoryStream, instance);
+            return instance;
+        }
+
+        internal static Config Deserialize(byte[] buffer, Config instance)
+        {
+            using (MemoryStream memoryStream = new MemoryStream(buffer))
+                Config.Deserialize((Stream)memoryStream, instance);
+            return instance;
+        }
 
         internal static Config Deserialize(Stream stream, Config instance)
         {
@@ -259,503 +253,503 @@ namespace Yandex.Metrica.Legacy
         }
 
         internal static Config DeserializeLengthDelimited(Stream stream, Config instance)
-    {
-      long num1 = (long) ProtocolParser.ReadUInt32(stream) + stream.Position;
-      while (stream.Position < num1)
-      {
-        int num2 = stream.ReadByte();
-        switch (num2)
         {
-          case -1:
-            throw new EndOfStreamException();
-          case 10:
-            instance.UUID = ProtocolParser.ReadString(stream);
-            continue;
-          case 16:
-            instance.LastStartupTime = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 24:
-            instance.LastStopTime = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 32:
-            instance.CurrentSessionId = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 40:
-            instance.CurrentSessionEventCounter = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 48:
-            instance.Init = ProtocolParser.ReadBool(stream);
-            continue;
-          case 58:
-            instance.ApiKey = ProtocolParser.ReadString(stream);
-            continue;
-          case 64:
-            instance.DispatchPeriodMilliseconds = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 72:
-            instance.MaxReportsCount = ProtocolParser.ReadUInt32(stream);
-            continue;
-          case 80:
-            instance.TrackLocationEnabled = ProtocolParser.ReadBool(stream);
-            continue;
-          case 88:
-            instance.ReportCrashesEnabled = ProtocolParser.ReadBool(stream);
-            continue;
-          case 98:
-            instance.CustomStartupUrl = ProtocolParser.ReadString(stream);
-            continue;
-          case 106:
-            instance.CustomAppVersion = ProtocolParser.ReadString(stream);
-            continue;
-          case 114:
-            if (instance.CustomLocation == null)
+            long num1 = (long)ProtocolParser.ReadUInt32(stream) + stream.Position;
+            while (stream.Position < num1)
             {
-              instance.CustomLocation = Config.Location.DeserializeLengthDelimited(stream);
-              continue;
+                int num2 = stream.ReadByte();
+                switch (num2)
+                {
+                    case -1:
+                        throw new EndOfStreamException();
+                    case 10:
+                        instance.UUID = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 16:
+                        instance.LastStartupTime = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 24:
+                        instance.LastStopTime = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 32:
+                        instance.CurrentSessionId = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 40:
+                        instance.CurrentSessionEventCounter = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 48:
+                        instance.Init = ProtocolParser.ReadBool(stream);
+                        continue;
+                    case 58:
+                        instance.ApiKey = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 64:
+                        instance.DispatchPeriodMilliseconds = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 72:
+                        instance.MaxReportsCount = ProtocolParser.ReadUInt32(stream);
+                        continue;
+                    case 80:
+                        instance.TrackLocationEnabled = ProtocolParser.ReadBool(stream);
+                        continue;
+                    case 88:
+                        instance.ReportCrashesEnabled = ProtocolParser.ReadBool(stream);
+                        continue;
+                    case 98:
+                        instance.CustomStartupUrl = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 106:
+                        instance.CustomAppVersion = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 114:
+                        if (instance.CustomLocation == null)
+                        {
+                            instance.CustomLocation = Config.Location.DeserializeLengthDelimited(stream);
+                            continue;
+                        }
+                        Config.Location.DeserializeLengthDelimited(stream, instance.CustomLocation);
+                        continue;
+                    case 122:
+                        instance.ReportUrl = ProtocolParser.ReadString(stream);
+                        continue;
+                    default:
+                        Key key = ProtocolParser.ReadKey((byte)num2, stream);
+                        switch (key.Field)
+                        {
+                            case 0:
+                                throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
+                            case 16:
+                                if (key.WireType == Wire.LengthDelimited)
+                                {
+                                    instance.CheckUpdatesUrl = ProtocolParser.ReadString(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 17:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.Suspended = ProtocolParser.ReadBool(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 18:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.BackgroundSessionEventCounter = ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 19:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.SessionInactivityTimeoutMilliseconds = ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 20:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.LastIdentityEventMilliseconds = ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 21:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.ServerTimeOffset = (long)ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            default:
+                                ProtocolParser.SkipKey(stream, key);
+                                continue;
+                        }
+                }
             }
-            Config.Location.DeserializeLengthDelimited(stream, instance.CustomLocation);
-            continue;
-          case 122:
-            instance.ReportUrl = ProtocolParser.ReadString(stream);
-            continue;
-          default:
-            Key key = ProtocolParser.ReadKey((byte) num2, stream);
-            switch (key.Field)
+            if (stream.Position != num1)
+                throw new ProtocolBufferException("Read past max limit");
+            return instance;
+        }
+
+        internal static Config DeserializeLength(Stream stream, int length, Config instance)
+        {
+            long num1 = stream.Position + (long)length;
+            while (stream.Position < num1)
             {
-              case 0:
-                throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
-              case 16:
-                if (key.WireType == Wire.LengthDelimited)
+                int num2 = stream.ReadByte();
+                switch (num2)
                 {
-                  instance.CheckUpdatesUrl = ProtocolParser.ReadString(stream);
-                  continue;
+                    case -1:
+                        throw new EndOfStreamException();
+                    case 10:
+                        instance.UUID = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 16:
+                        instance.LastStartupTime = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 24:
+                        instance.LastStopTime = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 32:
+                        instance.CurrentSessionId = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 40:
+                        instance.CurrentSessionEventCounter = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 48:
+                        instance.Init = ProtocolParser.ReadBool(stream);
+                        continue;
+                    case 58:
+                        instance.ApiKey = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 64:
+                        instance.DispatchPeriodMilliseconds = ProtocolParser.ReadUInt64(stream);
+                        continue;
+                    case 72:
+                        instance.MaxReportsCount = ProtocolParser.ReadUInt32(stream);
+                        continue;
+                    case 80:
+                        instance.TrackLocationEnabled = ProtocolParser.ReadBool(stream);
+                        continue;
+                    case 88:
+                        instance.ReportCrashesEnabled = ProtocolParser.ReadBool(stream);
+                        continue;
+                    case 98:
+                        instance.CustomStartupUrl = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 106:
+                        instance.CustomAppVersion = ProtocolParser.ReadString(stream);
+                        continue;
+                    case 114:
+                        if (instance.CustomLocation == null)
+                        {
+                            instance.CustomLocation = Config.Location.DeserializeLengthDelimited(stream);
+                            continue;
+                        }
+                        Config.Location.DeserializeLengthDelimited(stream, instance.CustomLocation);
+                        continue;
+                    case 122:
+                        instance.ReportUrl = ProtocolParser.ReadString(stream);
+                        continue;
+                    default:
+                        Key key = ProtocolParser.ReadKey((byte)num2, stream);
+                        switch (key.Field)
+                        {
+                            case 0:
+                                throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
+                            case 16:
+                                if (key.WireType == Wire.LengthDelimited)
+                                {
+                                    instance.CheckUpdatesUrl = ProtocolParser.ReadString(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 17:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.Suspended = ProtocolParser.ReadBool(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 18:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.BackgroundSessionEventCounter = ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 19:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.SessionInactivityTimeoutMilliseconds = ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 20:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.LastIdentityEventMilliseconds = ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            case 21:
+                                if (key.WireType == Wire.Varint)
+                                {
+                                    instance.ServerTimeOffset = (long)ProtocolParser.ReadUInt64(stream);
+                                    continue;
+                                }
+                                continue;
+                            default:
+                                ProtocolParser.SkipKey(stream, key);
+                                continue;
+                        }
                 }
-                continue;
-              case 17:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.Suspended = ProtocolParser.ReadBool(stream);
-                  continue;
-                }
-                continue;
-              case 18:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.BackgroundSessionEventCounter = ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              case 19:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.SessionInactivityTimeoutMilliseconds = ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              case 20:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.LastIdentityEventMilliseconds = ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              case 21:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.ServerTimeOffset = (long) ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              default:
-                ProtocolParser.SkipKey(stream, key);
-                continue;
             }
+            if (stream.Position != num1)
+                throw new ProtocolBufferException("Read past max limit");
+            return instance;
         }
-      }
-      if (stream.Position != num1)
-        throw new ProtocolBufferException("Read past max limit");
-      return instance;
-    }
 
-    internal static Config DeserializeLength(Stream stream, int length, Config instance)
-    {
-      long num1 = stream.Position + (long) length;
-      while (stream.Position < num1)
-      {
-        int num2 = stream.ReadByte();
-        switch (num2)
+        internal static void Serialize(Stream stream, Config instance)
         {
-          case -1:
-            throw new EndOfStreamException();
-          case 10:
-            instance.UUID = ProtocolParser.ReadString(stream);
-            continue;
-          case 16:
-            instance.LastStartupTime = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 24:
-            instance.LastStopTime = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 32:
-            instance.CurrentSessionId = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 40:
-            instance.CurrentSessionEventCounter = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 48:
-            instance.Init = ProtocolParser.ReadBool(stream);
-            continue;
-          case 58:
-            instance.ApiKey = ProtocolParser.ReadString(stream);
-            continue;
-          case 64:
-            instance.DispatchPeriodMilliseconds = ProtocolParser.ReadUInt64(stream);
-            continue;
-          case 72:
-            instance.MaxReportsCount = ProtocolParser.ReadUInt32(stream);
-            continue;
-          case 80:
-            instance.TrackLocationEnabled = ProtocolParser.ReadBool(stream);
-            continue;
-          case 88:
-            instance.ReportCrashesEnabled = ProtocolParser.ReadBool(stream);
-            continue;
-          case 98:
-            instance.CustomStartupUrl = ProtocolParser.ReadString(stream);
-            continue;
-          case 106:
-            instance.CustomAppVersion = ProtocolParser.ReadString(stream);
-            continue;
-          case 114:
-            if (instance.CustomLocation == null)
+            MemoryStream stream1 = ProtocolParser.Stack.Pop();
+            if (instance.UUID != null)
             {
-              instance.CustomLocation = Config.Location.DeserializeLengthDelimited(stream);
-              continue;
+                stream.WriteByte((byte)10);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.UUID));
             }
-            Config.Location.DeserializeLengthDelimited(stream, instance.CustomLocation);
-            continue;
-          case 122:
-            instance.ReportUrl = ProtocolParser.ReadString(stream);
-            continue;
-          default:
-            Key key = ProtocolParser.ReadKey((byte) num2, stream);
-            switch (key.Field)
+            stream.WriteByte((byte)16);
+            ProtocolParser.WriteUInt64(stream, instance.LastStartupTime);
+            stream.WriteByte((byte)24);
+            ProtocolParser.WriteUInt64(stream, instance.LastStopTime);
+            stream.WriteByte((byte)32);
+            ProtocolParser.WriteUInt64(stream, instance.CurrentSessionId);
+            stream.WriteByte((byte)40);
+            ProtocolParser.WriteUInt64(stream, instance.CurrentSessionEventCounter);
+            stream.WriteByte((byte)48);
+            ProtocolParser.WriteBool(stream, instance.Init);
+            if (instance.ApiKey != null)
             {
-              case 0:
-                throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
-              case 16:
-                if (key.WireType == Wire.LengthDelimited)
-                {
-                  instance.CheckUpdatesUrl = ProtocolParser.ReadString(stream);
-                  continue;
-                }
-                continue;
-              case 17:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.Suspended = ProtocolParser.ReadBool(stream);
-                  continue;
-                }
-                continue;
-              case 18:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.BackgroundSessionEventCounter = ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              case 19:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.SessionInactivityTimeoutMilliseconds = ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              case 20:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.LastIdentityEventMilliseconds = ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              case 21:
-                if (key.WireType == Wire.Varint)
-                {
-                  instance.ServerTimeOffset = (long) ProtocolParser.ReadUInt64(stream);
-                  continue;
-                }
-                continue;
-              default:
-                ProtocolParser.SkipKey(stream, key);
-                continue;
+                stream.WriteByte((byte)58);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.ApiKey));
+            }
+            stream.WriteByte((byte)64);
+            ProtocolParser.WriteUInt64(stream, instance.DispatchPeriodMilliseconds);
+            stream.WriteByte((byte)72);
+            ProtocolParser.WriteUInt32(stream, instance.MaxReportsCount);
+            stream.WriteByte((byte)80);
+            ProtocolParser.WriteBool(stream, instance.TrackLocationEnabled);
+            stream.WriteByte((byte)88);
+            ProtocolParser.WriteBool(stream, instance.ReportCrashesEnabled);
+            if (instance.CustomStartupUrl != null)
+            {
+                stream.WriteByte((byte)98);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.CustomStartupUrl));
+            }
+            if (instance.CustomAppVersion != null)
+            {
+                stream.WriteByte((byte)106);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.CustomAppVersion));
+            }
+            if (instance.CustomLocation != null)
+            {
+                stream.WriteByte((byte)114);
+                stream1.SetLength(0L);
+                Config.Location.Serialize((Stream)stream1, instance.CustomLocation);
+                uint length = (uint)stream1.Length;
+                ProtocolParser.WriteUInt32(stream, length);
+                stream1.WriteTo(stream);
+            }
+            if (instance.ReportUrl != null)
+            {
+                stream.WriteByte((byte)122);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.ReportUrl));
+            }
+            if (instance.CheckUpdatesUrl != null)
+            {
+                stream.WriteByte((byte)130);
+                stream.WriteByte((byte)1);
+                ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.CheckUpdatesUrl));
+            }
+            stream.WriteByte((byte)136);
+            stream.WriteByte((byte)1);
+            ProtocolParser.WriteBool(stream, instance.Suspended);
+            stream.WriteByte((byte)144);
+            stream.WriteByte((byte)1);
+            ProtocolParser.WriteUInt64(stream, instance.BackgroundSessionEventCounter);
+            stream.WriteByte((byte)152);
+            stream.WriteByte((byte)1);
+            ProtocolParser.WriteUInt64(stream, instance.SessionInactivityTimeoutMilliseconds);
+            stream.WriteByte((byte)160);
+            stream.WriteByte((byte)1);
+            ProtocolParser.WriteUInt64(stream, instance.LastIdentityEventMilliseconds);
+            stream.WriteByte((byte)168);
+            stream.WriteByte((byte)1);
+            ProtocolParser.WriteUInt64(stream, (ulong)instance.ServerTimeOffset);
+            ProtocolParser.Stack.Push(stream1);
+        }
+
+        internal static byte[] SerializeToBytes(Config instance)
+        {
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                Config.Serialize((Stream)memoryStream, instance);
+                return memoryStream.ToArray();
             }
         }
-      }
-      if (stream.Position != num1)
-        throw new ProtocolBufferException("Read past max limit");
-      return instance;
-    }
 
-    internal static void Serialize(Stream stream, Config instance)
-    {
-      MemoryStream stream1 = ProtocolParser.Stack.Pop();
-      if (instance.UUID != null)
-      {
-        stream.WriteByte((byte) 10);
-        ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.UUID));
-      }
-      stream.WriteByte((byte) 16);
-      ProtocolParser.WriteUInt64(stream, instance.LastStartupTime);
-      stream.WriteByte((byte) 24);
-      ProtocolParser.WriteUInt64(stream, instance.LastStopTime);
-      stream.WriteByte((byte) 32);
-      ProtocolParser.WriteUInt64(stream, instance.CurrentSessionId);
-      stream.WriteByte((byte) 40);
-      ProtocolParser.WriteUInt64(stream, instance.CurrentSessionEventCounter);
-      stream.WriteByte((byte) 48);
-      ProtocolParser.WriteBool(stream, instance.Init);
-      if (instance.ApiKey != null)
-      {
-        stream.WriteByte((byte) 58);
-        ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.ApiKey));
-      }
-      stream.WriteByte((byte) 64);
-      ProtocolParser.WriteUInt64(stream, instance.DispatchPeriodMilliseconds);
-      stream.WriteByte((byte) 72);
-      ProtocolParser.WriteUInt32(stream, instance.MaxReportsCount);
-      stream.WriteByte((byte) 80);
-      ProtocolParser.WriteBool(stream, instance.TrackLocationEnabled);
-      stream.WriteByte((byte) 88);
-      ProtocolParser.WriteBool(stream, instance.ReportCrashesEnabled);
-      if (instance.CustomStartupUrl != null)
-      {
-        stream.WriteByte((byte) 98);
-        ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.CustomStartupUrl));
-      }
-      if (instance.CustomAppVersion != null)
-      {
-        stream.WriteByte((byte) 106);
-        ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.CustomAppVersion));
-      }
-      if (instance.CustomLocation != null)
-      {
-        stream.WriteByte((byte) 114);
-        stream1.SetLength(0L);
-        Config.Location.Serialize((Stream) stream1, instance.CustomLocation);
-        uint length = (uint) stream1.Length;
-        ProtocolParser.WriteUInt32(stream, length);
-        stream1.WriteTo(stream);
-      }
-      if (instance.ReportUrl != null)
-      {
-        stream.WriteByte((byte) 122);
-        ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.ReportUrl));
-      }
-      if (instance.CheckUpdatesUrl != null)
-      {
-        stream.WriteByte((byte) 130);
-        stream.WriteByte((byte) 1);
-        ProtocolParser.WriteBytes(stream, Encoding.UTF8.GetBytes(instance.CheckUpdatesUrl));
-      }
-      stream.WriteByte((byte) 136);
-      stream.WriteByte((byte) 1);
-      ProtocolParser.WriteBool(stream, instance.Suspended);
-      stream.WriteByte((byte) 144);
-      stream.WriteByte((byte) 1);
-      ProtocolParser.WriteUInt64(stream, instance.BackgroundSessionEventCounter);
-      stream.WriteByte((byte) 152);
-      stream.WriteByte((byte) 1);
-      ProtocolParser.WriteUInt64(stream, instance.SessionInactivityTimeoutMilliseconds);
-      stream.WriteByte((byte) 160);
-      stream.WriteByte((byte) 1);
-      ProtocolParser.WriteUInt64(stream, instance.LastIdentityEventMilliseconds);
-      stream.WriteByte((byte) 168);
-      stream.WriteByte((byte) 1);
-      ProtocolParser.WriteUInt64(stream, (ulong) instance.ServerTimeOffset);
-      ProtocolParser.Stack.Push(stream1);
-    }
-
-    internal static byte[] SerializeToBytes(Config instance)
-    {
-      using (MemoryStream memoryStream = new MemoryStream())
-      {
-        Config.Serialize((Stream) memoryStream, instance);
-        return memoryStream.ToArray();
-      }
-    }
-
-    internal static void SerializeLengthDelimited(Stream stream, Config instance)
-    {
-      byte[] bytes = Config.SerializeToBytes(instance);
-      ProtocolParser.WriteUInt32(stream, (uint) bytes.Length);
-      stream.Write(bytes, 0, bytes.Length);
-    }
-
-    internal class Location
-    {
-      public double Lat { get; set; }
-
-      public double Lon { get; set; }
-
-      internal static Config.Location Deserialize(Stream stream)
-      {
-        Config.Location instance = new Config.Location();
-        Config.Location.Deserialize(stream, instance);
-        return instance;
-      }
-
-      internal static Config.Location DeserializeLengthDelimited(Stream stream)
-      {
-        Config.Location instance = new Config.Location();
-        Config.Location.DeserializeLengthDelimited(stream, instance);
-        return instance;
-      }
-
-      internal static Config.Location DeserializeLength(Stream stream, int length)
-      {
-        Config.Location instance = new Config.Location();
-        Config.Location.DeserializeLength(stream, length, instance);
-        return instance;
-      }
-
-      internal static Config.Location Deserialize(byte[] buffer)
-      {
-        Config.Location instance = new Config.Location();
-        using (MemoryStream memoryStream = new MemoryStream(buffer))
-          Config.Location.Deserialize((Stream) memoryStream, instance);
-        return instance;
-      }
-
-      internal static Config.Location Deserialize(byte[] buffer, Config.Location instance)
-      {
-        using (MemoryStream memoryStream = new MemoryStream(buffer))
-          Config.Location.Deserialize((Stream) memoryStream, instance);
-        return instance;
-      }
-
-      internal static Config.Location Deserialize(Stream stream, Config.Location instance)
-      {
-        BinaryReader binaryReader = new BinaryReader(stream);
-        while (true)
+        internal static void SerializeLengthDelimited(Stream stream, Config instance)
         {
-          int num = stream.ReadByte();
-          switch (num)
-          {
-            case -1:
-              goto label_7;
-            case 9:
-              instance.Lat = binaryReader.ReadDouble();
-              continue;
-            case 17:
-              instance.Lon = binaryReader.ReadDouble();
-              continue;
-            default:
-              Key key = ProtocolParser.ReadKey((byte) num, stream);
-              if (key.Field != 0U)
-              {
-                ProtocolParser.SkipKey(stream, key);
-                continue;
-              }
-              goto label_5;
-          }
+            byte[] bytes = Config.SerializeToBytes(instance);
+            ProtocolParser.WriteUInt32(stream, (uint)bytes.Length);
+            stream.Write(bytes, 0, bytes.Length);
         }
-label_5:
-        throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
-label_7:
-        return instance;
-      }
 
-      internal static Config.Location DeserializeLengthDelimited(
-        Stream stream,
-        Config.Location instance)
-      {
-        BinaryReader binaryReader = new BinaryReader(stream);
-        long num1 = (long) ProtocolParser.ReadUInt32(stream) + stream.Position;
-        while (stream.Position < num1)
+        internal class Location
         {
-          int num2 = stream.ReadByte();
-          switch (num2)
-          {
-            case -1:
-              throw new EndOfStreamException();
-            case 9:
-              instance.Lat = binaryReader.ReadDouble();
-              continue;
-            case 17:
-              instance.Lon = binaryReader.ReadDouble();
-              continue;
-            default:
-              Key key = ProtocolParser.ReadKey((byte) num2, stream);
-              if (key.Field == 0U)
+            public double Lat { get; set; }
+
+            public double Lon { get; set; }
+
+            internal static Config.Location Deserialize(Stream stream)
+            {
+                Config.Location instance = new Config.Location();
+                Config.Location.Deserialize(stream, instance);
+                return instance;
+            }
+
+            internal static Config.Location DeserializeLengthDelimited(Stream stream)
+            {
+                Config.Location instance = new Config.Location();
+                Config.Location.DeserializeLengthDelimited(stream, instance);
+                return instance;
+            }
+
+            internal static Config.Location DeserializeLength(Stream stream, int length)
+            {
+                Config.Location instance = new Config.Location();
+                Config.Location.DeserializeLength(stream, length, instance);
+                return instance;
+            }
+
+            internal static Config.Location Deserialize(byte[] buffer)
+            {
+                Config.Location instance = new Config.Location();
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                    Config.Location.Deserialize((Stream)memoryStream, instance);
+                return instance;
+            }
+
+            internal static Config.Location Deserialize(byte[] buffer, Config.Location instance)
+            {
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                    Config.Location.Deserialize((Stream)memoryStream, instance);
+                return instance;
+            }
+
+            internal static Config.Location Deserialize(Stream stream, Config.Location instance)
+            {
+                BinaryReader binaryReader = new BinaryReader(stream);
+                while (true)
+                {
+                    int num = stream.ReadByte();
+                    switch (num)
+                    {
+                        case -1:
+                            goto label_7;
+                        case 9:
+                            instance.Lat = binaryReader.ReadDouble();
+                            continue;
+                        case 17:
+                            instance.Lon = binaryReader.ReadDouble();
+                            continue;
+                        default:
+                            Key key = ProtocolParser.ReadKey((byte)num, stream);
+                            if (key.Field != 0U)
+                            {
+                                ProtocolParser.SkipKey(stream, key);
+                                continue;
+                            }
+                            goto label_5;
+                    }
+                }
+                label_5:
                 throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
-              ProtocolParser.SkipKey(stream, key);
-              continue;
-          }
+                label_7:
+                return instance;
+            }
+
+            internal static Config.Location DeserializeLengthDelimited(
+              Stream stream,
+              Config.Location instance)
+            {
+                BinaryReader binaryReader = new BinaryReader(stream);
+                long num1 = (long)ProtocolParser.ReadUInt32(stream) + stream.Position;
+                while (stream.Position < num1)
+                {
+                    int num2 = stream.ReadByte();
+                    switch (num2)
+                    {
+                        case -1:
+                            throw new EndOfStreamException();
+                        case 9:
+                            instance.Lat = binaryReader.ReadDouble();
+                            continue;
+                        case 17:
+                            instance.Lon = binaryReader.ReadDouble();
+                            continue;
+                        default:
+                            Key key = ProtocolParser.ReadKey((byte)num2, stream);
+                            if (key.Field == 0U)
+                                throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
+                            ProtocolParser.SkipKey(stream, key);
+                            continue;
+                    }
+                }
+                if (stream.Position != num1)
+                    throw new ProtocolBufferException("Read past max limit");
+                return instance;
+            }
+
+            internal static Config.Location DeserializeLength(
+              Stream stream,
+              int length,
+              Config.Location instance)
+            {
+                BinaryReader binaryReader = new BinaryReader(stream);
+                long num1 = stream.Position + (long)length;
+                while (stream.Position < num1)
+                {
+                    int num2 = stream.ReadByte();
+                    switch (num2)
+                    {
+                        case -1:
+                            throw new EndOfStreamException();
+                        case 9:
+                            instance.Lat = binaryReader.ReadDouble();
+                            continue;
+                        case 17:
+                            instance.Lon = binaryReader.ReadDouble();
+                            continue;
+                        default:
+                            Key key = ProtocolParser.ReadKey((byte)num2, stream);
+                            if (key.Field == 0U)
+                                throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
+                            ProtocolParser.SkipKey(stream, key);
+                            continue;
+                    }
+                }
+                if (stream.Position != num1)
+                    throw new ProtocolBufferException("Read past max limit");
+                return instance;
+            }
+
+            internal static void Serialize(Stream stream, Config.Location instance)
+            {
+                BinaryWriter binaryWriter = new BinaryWriter(stream);
+                MemoryStream stream1 = ProtocolParser.Stack.Pop();
+                stream.WriteByte((byte)9);
+                binaryWriter.Write(instance.Lat);
+                stream.WriteByte((byte)17);
+                binaryWriter.Write(instance.Lon);
+                ProtocolParser.Stack.Push(stream1);
+            }
+
+            internal static byte[] SerializeToBytes(Config.Location instance)
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    Config.Location.Serialize((Stream)memoryStream, instance);
+                    return memoryStream.ToArray();
+                }
+            }
+
+            internal static void SerializeLengthDelimited(Stream stream, Config.Location instance)
+            {
+                byte[] bytes = Config.Location.SerializeToBytes(instance);
+                ProtocolParser.WriteUInt32(stream, (uint)bytes.Length);
+                stream.Write(bytes, 0, bytes.Length);
+            }
         }
-        if (stream.Position != num1)
-          throw new ProtocolBufferException("Read past max limit");
-        return instance;
-      }
-
-      internal static Config.Location DeserializeLength(
-        Stream stream,
-        int length,
-        Config.Location instance)
-      {
-        BinaryReader binaryReader = new BinaryReader(stream);
-        long num1 = stream.Position + (long) length;
-        while (stream.Position < num1)
-        {
-          int num2 = stream.ReadByte();
-          switch (num2)
-          {
-            case -1:
-              throw new EndOfStreamException();
-            case 9:
-              instance.Lat = binaryReader.ReadDouble();
-              continue;
-            case 17:
-              instance.Lon = binaryReader.ReadDouble();
-              continue;
-            default:
-              Key key = ProtocolParser.ReadKey((byte) num2, stream);
-              if (key.Field == 0U)
-                throw new ProtocolBufferException("Invalid field id: 0, something went wrong in the stream");
-              ProtocolParser.SkipKey(stream, key);
-              continue;
-          }
-        }
-        if (stream.Position != num1)
-          throw new ProtocolBufferException("Read past max limit");
-        return instance;
-      }
-
-      internal static void Serialize(Stream stream, Config.Location instance)
-      {
-        BinaryWriter binaryWriter = new BinaryWriter(stream);
-        MemoryStream stream1 = ProtocolParser.Stack.Pop();
-        stream.WriteByte((byte) 9);
-        binaryWriter.Write(instance.Lat);
-        stream.WriteByte((byte) 17);
-        binaryWriter.Write(instance.Lon);
-        ProtocolParser.Stack.Push(stream1);
-      }
-
-      internal static byte[] SerializeToBytes(Config.Location instance)
-      {
-        using (MemoryStream memoryStream = new MemoryStream())
-        {
-          Config.Location.Serialize((Stream) memoryStream, instance);
-          return memoryStream.ToArray();
-        }
-      }
-
-      internal static void SerializeLengthDelimited(Stream stream, Config.Location instance)
-      {
-        byte[] bytes = Config.Location.SerializeToBytes(instance);
-        ProtocolParser.WriteUInt32(stream, (uint) bytes.Length);
-        stream.Write(bytes, 0, bytes.Length);
-      }
     }
-  }
 }
