@@ -14,6 +14,7 @@ namespace UpdatesClient.Core
                 SevenZipLibraryManager.SetLibraryPath(pathToLib);
 
                 string tmpFiles = $"{Properties.Settings.Default.PathToSkyrim}\\tmp\\files\\";
+                Delete(tmpFiles);
                 Create(tmpFiles);
 
                 using (var extractor = new SevenZipExtractor(file))
@@ -39,6 +40,7 @@ namespace UpdatesClient.Core
             if (!File.Exists(file)) return false;
 
             string tmpFiles = $"{Properties.Settings.Default.PathToSkyrim}\\tmp\\files\\";
+            Delete(tmpFiles);
             Create(tmpFiles);
 
             ZipFile.ExtractToDirectory(file, tmpFiles);
