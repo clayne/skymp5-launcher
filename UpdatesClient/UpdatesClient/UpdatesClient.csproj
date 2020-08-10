@@ -14,29 +14,38 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNMANAGED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;UNMANAGED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\Images\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +64,208 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Downloader.cs" />
+    <Compile Include="Core\Enums\BtnAction.cs" />
+    <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Constants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Exception.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2InputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2OutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\Adler32.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\BZip2Crc.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\Crc32.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\IChecksum.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\SharpZipBaseException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\StreamDecodingException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\StreamUnsupportedException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\UnexpectedEndOfStreamException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\ValueOutOfRangeException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\FileSystemScanner.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\INameTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\InvalidNameException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\IScanFilter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\NameFilter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\PathFilter.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\StreamUtils.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\WindowsPathUtils.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\PkzipClassic.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\ZipAESStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\ZipAESTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZip.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZipConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZipException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GzipInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GzipOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\InvalidHeaderException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarArchive.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarBuffer.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarEntry.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarExtendedHeaderReader.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarHeader.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Deflater.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterEngine.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterHuffman.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterPending.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Inflater.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\InflaterDynHeader.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\PendingBuffer.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\FastZip.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\IEntryFactory.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\WindowsNameTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipConstants.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipEntry.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipEntryFactory.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipException.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipExtraData.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipFile.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipHelperStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipInputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipNameTransform.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipOutputStream.cs" />
+    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipStrings.cs" />
+    <Compile Include="Core\Libraries\SevenZip\ArchiveEmulationStreamProxy.cs" />
+    <Compile Include="Core\Libraries\SevenZip\ArchiveExtractCallback.cs" />
+    <Compile Include="Core\Libraries\SevenZip\ArchiveFileInfo.cs" />
+    <Compile Include="Core\Libraries\SevenZip\ArchiveOpenCallback.cs" />
+    <Compile Include="Core\Libraries\SevenZip\ArchiveProperty.cs" />
+    <Compile Include="Core\Libraries\SevenZip\ArchiveUpdateCallback.cs" />
+    <Compile Include="Core\Libraries\SevenZip\CallbackBase.cs" />
+    <Compile Include="Core\Libraries\SevenZip\COM.cs" />
+    <Compile Include="Core\Libraries\SevenZip\CompressionMode.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\ExtractFileCallback.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\ExtractFileCallbackArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\ExtractFileCallbackReason.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\FileInfoEventArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\FileNameEventArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\FileOverwriteEventArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\ICancellable.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\IntEventArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\OpenEventArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\PercentDoneEventArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventArguments\ProgressEventArgs.cs" />
+    <Compile Include="Core\Libraries\SevenZip\EventSynchronizationStrategy.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\CompressionFailedException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\ExtractionFailedException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\LzmaException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipArchiveException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipCompressionFailedException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipExtractionFailedException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipInvalidFileNamesException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipLibraryException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipSfxValidationException.cs" />
+    <Compile Include="Core\Libraries\SevenZip\FileChecker.cs" />
+    <Compile Include="Core\Libraries\SevenZip\Formats.cs" />
+    <Compile Include="Core\Libraries\SevenZip\InternalCompressionMode.cs" />
+    <Compile Include="Core\Libraries\SevenZip\LibraryFeature.cs" />
+    <Compile Include="Core\Libraries\SevenZip\LibraryManager.cs" />
+    <Compile Include="Core\Libraries\SevenZip\LZMA\LzmaDecodeStream.cs" />
+    <Compile Include="Core\Libraries\SevenZip\LZMA\LzmaEncodeStream.cs" />
+    <Compile Include="Core\Libraries\SevenZip\LZMA\LzmaProgressCallback.cs" />
+    <Compile Include="Core\Libraries\SevenZip\NativeMethods.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Common\CRC.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Common\InBuffer.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Common\OutBuffer.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZMA\LzmaBase.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZMA\LzmaDecoder.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZMA\LzmaEncoder.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\IMatchFinder.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\LzBinTree.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\LzInWindow.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\LzOutWindow.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\RangeCoder\RangeCoder.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\RangeCoder\RangeCoderBit.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="Core\Libraries\SevenZip\sdk\ICoder.cs" />
+    <Compile Include="Core\Libraries\SevenZip\SevenZipBase.cs" />
+    <Compile Include="Core\Libraries\SevenZip\SevenZipCompressor.cs" />
+    <Compile Include="Core\Libraries\SevenZip\SevenZipCompressorAsynchronous.cs" />
+    <Compile Include="Core\Libraries\SevenZip\SevenZipExtractor.cs" />
+    <Compile Include="Core\Libraries\SevenZip\SevenZipExtractorAsynchronous.cs" />
+    <Compile Include="Core\Libraries\SevenZip\SevenZipSfx.cs" />
+    <Compile Include="Core\Libraries\SevenZip\StreamWrappers.cs" />
+    <Compile Include="Core\Libraries\SevenZip\UpdateData.cs" />
+    <Compile Include="Core\Libraries\SevenZip\ZipEncryptionMethod.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\AllocationStack.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\Key.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\KeyValue.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\MemoryStreamStack.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\PositionStream.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ProtocolBufferException.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ProtocolParser.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\StreamRead.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ThreadSafeStack.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ThreadUnsafeStack.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\Wire.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\System\Threading\Tasks\TaskEx.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Web.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Windows\Devices\Geolocation\Geocoordinate.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\IExposable.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\IMemoryBox.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\IStorage.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Memory.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Specific\KeyFileStorage.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Store.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Sugar.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\Adapter.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\DataExtensions.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\Identification.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\JsonProfile.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\JsonSerializer.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\Standard.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\UnixTimestampConverter.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\Config.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\ConfigProtoSerializer.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\IsolatedStreamStorage`1.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\IStreamSerializer`1.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\LegacyManager.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Lifecycler.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\LiteClient.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\LiteMetricaCore.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\LiteMetricaService.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\Config.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\Critical.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\DeviceProperties.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\EventFactory.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\Extensions.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\ProductInfo.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\ReportMessage.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\ReportPackage.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\SessionExtensions.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\SessionModel.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\StartupResponse.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Patterns\ADataProvider`1.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Patterns\ILifecycler.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Properties\AssemblyProperties.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\DeviceDataProvider.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\FingerprintDataProvider.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\LocationDataProvider.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\NetworkDataProvider.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\ServiceData.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetrica.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaActivator.cs" />
+    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaFolder.cs" />
+    <Compile Include="Core\Net.cs" />
+    <Compile Include="Core\Unpacker.cs" />
+    <Compile Include="UI\Controllers\ImageButton.xaml.cs">
+      <DependentUpon>ImageButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\ProgressBarBtn.xaml.cs">
+      <DependentUpon>ProgressBarBtn.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,8 +278,28 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Modules\SelfUpdater\SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ProgressBarBtn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\SelfUpdater\Downloader.cs" />
+    <Compile Include="Modules\SelfUpdater\Hashing.cs" />
+    <Compile Include="Modules\SelfUpdater\Security.cs" />
+    <Compile Include="Modules\SelfUpdater\SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\SelfUpdater\Updater.cs" />
+    <Compile Include="Modules\SelfUpdater\WinFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -87,12 +318,25 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Core\Structs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Core\Libraries\SevenZip\gpl.txt" />
+    <Resource Include="Core\Libraries\SevenZip\lgpl.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
