@@ -259,7 +259,6 @@ namespace SevenZip
         /// <summary>
         /// Gets the current library features.
         /// </summary>
-        [CLSCompliant(false)]
         public static LibraryFeature CurrentLibraryFeatures => SevenZipLibraryManager.CurrentLibraryFeatures;
 
         /// <summary>

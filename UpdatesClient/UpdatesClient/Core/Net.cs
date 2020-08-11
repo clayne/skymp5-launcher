@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using UpdatesClient.Modules.Configs;
 
 namespace UpdatesClient.Core
 {
@@ -20,7 +21,7 @@ namespace UpdatesClient.Core
         {
             string result = await Request($"{URL_Version}", null);
 
-            return Properties.Settings.Default.Version != result;
+            return ModVersion.Version != result;
         }
 
         public static async Task<(string, string)> GetUrlToClient()
