@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Management;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,6 +42,8 @@ namespace UpdatesClient
             string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
             if(!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
             YandexMetricaFolder.SetCurrent(tmpPath);
+
+            YandexMetrica.Config.CustomAppVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
 
             InitApp();

@@ -22,7 +22,7 @@
             </local1:ImageButton.Image>
         </local1:ImageButton>
 
-        <local1:ProgressBarBtn x:Name="MainBtn" Grid.Row="1" Value="100" IsDisabled="True" IsIndeterminate="False" StatusText="Ожидание" ProgressMargin="20" SelectColor="#26000000" PressColor="#3F000000" Margin="12.5,0,12.5,0" NormalColor="#00000000" ColorBar="#FFFF7604" Click="MainBtn_Click"/>
+        <local1:ProgressBarBtn x:Name="MainBtn" Grid.Row="1" Value="100" IsDisabled="True" IsIndeterminate="False" StatusText="Ожидание" ProgressMargin="20" SelectColor="#26000000" PressColor="#3F000000" Margin="12.5,0,12.5,0" NormalColor="#00000000" ColorBar="#FFFF7604" Click="MainBtn_Click" WarningColor="#FFFF7604" ErrorColor="#FFFF0404" BaseColor="#FF04D9FF"/>
 
     </Grid>
 </Window>

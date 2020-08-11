@@ -42,6 +42,18 @@ namespace UpdatesClient.Core
             if (path != null && path != "" && !Directory.Exists(path)) Directory.CreateDirectory(path);
 
             await Task.Run(() => StartDown());
+
+            DownloadComplete?.Invoke(sDestinationPath, sVers);
+        }
+
+        public async Task StartSync()
+        {
+            string path = Path.GetDirectoryName(sDestinationPath);
+            if (path != null && path != "" && !Directory.Exists(path)) Directory.CreateDirectory(path);
+
+            await Task.Run(() => StartDown());
+
+            DownloadComplete?.Invoke(sDestinationPath, sVers);
         }
 
         private void StartDown()
@@ -55,14 +67,12 @@ namespace UpdatesClient.Core
                 DownloadFile();
 
                 Downloading = false;
-                
-                DownloadComplete?.Invoke(sDestinationPath, sVers);
             }
             catch (Exception e) 
             { 
                 Downloading = false;
                 YandexMetrica.ReportError("Downloader", e);
-                DownloadComplete?.Invoke(null, sVers); 
+                sDestinationPath = null;
             }
         }
 
