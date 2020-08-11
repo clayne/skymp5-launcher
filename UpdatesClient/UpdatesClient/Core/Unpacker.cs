@@ -1,6 +1,7 @@
 ﻿using SevenZip;
 using System.IO;
 using System.IO.Compression;
+using UpdatesClient.Modules.Configs;
 
 namespace UpdatesClient.Core
 {
@@ -8,12 +9,12 @@ namespace UpdatesClient.Core
     {
         public static bool SevenZUnpack(string file, string extractTo)
         {
-            string pathToLib = Properties.Settings.Default.PathToSkyrim + "\\tmp\\7z.dll";
+            string pathToLib = Settings.PathToSkyrim + "\\tmp\\7z.dll";
             if (File.Exists(pathToLib) && File.Exists(file))
             {
                 SevenZipLibraryManager.SetLibraryPath(pathToLib);
 
-                string tmpFiles = $"{Properties.Settings.Default.PathToSkyrim}\\tmp\\files\\";
+                string tmpFiles = $"{Settings.PathToSkyrim}\\tmp\\files\\";
                 Delete(tmpFiles);
                 Create(tmpFiles);
 
@@ -39,7 +40,7 @@ namespace UpdatesClient.Core
         {
             if (!File.Exists(file)) return false;
 
-            string tmpFiles = $"{Properties.Settings.Default.PathToSkyrim}\\tmp\\files\\";
+            string tmpFiles = $"{Settings.PathToSkyrim}\\tmp\\files\\";
             Delete(tmpFiles);
             Create(tmpFiles);
 

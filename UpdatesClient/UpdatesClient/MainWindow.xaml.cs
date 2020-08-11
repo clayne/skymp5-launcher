@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Enums;
+using UpdatesClient.Modules.Configs;
 using Yandex.Metrica;
 
 namespace UpdatesClient
@@ -41,12 +42,17 @@ namespace UpdatesClient
             InitializeComponent();
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
 
+            Settings.Load();
+
             wind.Loaded += delegate {
-                if (string.IsNullOrEmpty(Properties.Settings.Default.PathToSkyrim))
+                if (string.IsNullOrEmpty(Settings.PathToSkyrim))
                 {
                     SetGameFolder();
                 }
-                if(BtnAction != BtnAction.InstallSKSE)
+
+                ModVersion.Load();
+
+                if (BtnAction != BtnAction.InstallSKSE)
                 {
                     MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
                     CheckClient();
@@ -73,9 +79,8 @@ namespace UpdatesClient
                     {
                         if(MessageBox.Show("SKSE не обнаружен, установить?", "Ошибка", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            Properties.Settings.Default.PathToSkyrim = dialog.SelectedPath;
-                            Properties.Settings.Default.Version = "0.0.0.0";
-                            Properties.Settings.Default.Save();
+                            Settings.PathToSkyrim = dialog.SelectedPath;
+                            Settings.Save();
                             BtnAction = BtnAction.InstallSKSE;
                             DownloadLib();
                         }
@@ -86,9 +91,8 @@ namespace UpdatesClient
                     }
                     else
                     {
-                        Properties.Settings.Default.PathToSkyrim = dialog.SelectedPath;
-                        Properties.Settings.Default.Version = "0.0.0.0";
-                        Properties.Settings.Default.Save();
+                        Settings.PathToSkyrim = dialog.SelectedPath;
+                        Settings.Save();
                     }
                 }
                 else { Application.Current.Shutdown(); }
@@ -127,7 +131,7 @@ namespace UpdatesClient
 
         private void DownloadLib()
         {
-            if(!File.Exists(Properties.Settings.Default.PathToSkyrim + "\\tmp\\7z.dll"))
+            if(!File.Exists(Settings.PathToSkyrim + "\\tmp\\7z.dll"))
             {
                 MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FFFF7604");
                 MainBtn.IsDisabled = true;
@@ -137,7 +141,7 @@ namespace UpdatesClient
                 MainBtn.StatusText = "0%";
 
                 string req = Net.URL_Lib;
-                Downloader downloader = new Downloader($@"{Properties.Settings.Default.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
+                Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
                 downloader.DownloadChanged += Downloader_DownloadChanged;
                 downloader.DownloadComplete += Downloader_DownloadLibComplete;
                 downloader.StartAsync();
@@ -184,7 +188,7 @@ namespace UpdatesClient
             MainBtn.StatusText = "0%";
 
             string req = await Net.GetUrlToSKSE();
-            Downloader downloader = new Downloader($@"{Properties.Settings.Default.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
+            Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
             downloader.DownloadChanged += Downloader_DownloadChanged;
             downloader.DownloadComplete += Downloader_DownloadSKSEComplete;
             downloader.StartAsync();
@@ -226,7 +230,7 @@ namespace UpdatesClient
                 MainBtn.Value = 100;
                 MainBtn.StatusText = "Распаковка";
 
-                if (await Task.Run(() => Unpacker.SevenZUnpack(file, Properties.Settings.Default.PathToSkyrim)))
+                if (await Task.Run(() => Unpacker.SevenZUnpack(file, Settings.PathToSkyrim)))
                 {
                     MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
                     CheckClient();
@@ -288,7 +292,7 @@ namespace UpdatesClient
             MainBtn.StatusText = "0%";
 
             (string, string) req = await Net.GetUrlToClient();
-            Downloader downloader = new Downloader($@"{Properties.Settings.Default.PathToSkyrim}\tmp\client.zip", req.Item1, req.Item2);
+            Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\client.zip", req.Item1, req.Item2);
             downloader.DownloadChanged += Downloader_DownloadChanged;
             downloader.DownloadComplete += Downloader_DownloadComplete;
             downloader.StartAsync();
@@ -331,10 +335,10 @@ namespace UpdatesClient
                 MainBtn.Value = 100;
                 MainBtn.StatusText = "Распаковка";
 
-                if(await Task.Run(() => Unpacker.Unpack(file, Properties.Settings.Default.PathToSkyrim)))
+                if(await Task.Run(() => Unpacker.Unpack(file, Settings.PathToSkyrim)))
                 {
-                    Properties.Settings.Default.Version = vers;
-                    Properties.Settings.Default.Save();
+                    ModVersion.Version = vers;
+                    ModVersion.Save();
                     MainBtn.StatusText = "Играть";
                     BtnAction = BtnAction.Play;
                 }
@@ -376,7 +380,7 @@ namespace UpdatesClient
 
         private void Play()
         {
-            if(!File.Exists($"{Properties.Settings.Default.PathToSkyrim}\\skse64_loader.exe"))
+            if(!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
                 if (MessageBox.Show("SKSE не обнаружен, установить?", "Ошибка", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     InstallSKSE();
@@ -386,9 +390,9 @@ namespace UpdatesClient
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
-                FileName = $"{Properties.Settings.Default.PathToSkyrim}\\skse64_loader.exe",
+                FileName = $"{Settings.PathToSkyrim}\\skse64_loader.exe",
                 //Arguments = $"--UUID Launcher --Session TEST",
-                WorkingDirectory = $"{Properties.Settings.Default.PathToSkyrim}\\",
+                WorkingDirectory = $"{Settings.PathToSkyrim}\\",
                 Verb = "runas"
             };
 
