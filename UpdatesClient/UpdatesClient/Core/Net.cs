@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using UpdatesClient.Modules.Configs;
 
@@ -13,7 +9,7 @@ namespace UpdatesClient.Core
     {
         public const string URL_Version = "https://skymp.io/api/latest_version";
         public const string URL_SKSELink = "https://skymp.io/api/skse_link/{VERSION}";
-        public const string URL_Client = "https://github.com/skyrim-multiplayer/skymp5-binaries/releases/download/{VERSION}/client.zip";
+        public const string URL_ModLink = "https://skymp.io/api/skymp_link/{VERSION}";
 
         public const string URL_Lib = "https://skymp.skyrez.su/libs/7z.dll";
 
@@ -27,14 +23,14 @@ namespace UpdatesClient.Core
         public static async Task<(string, string)> GetUrlToClient()
         {
             string ver = await Request($"{URL_Version}", null);
-            return (URL_Client.Replace("{VERSION}", ver), ver);
+            string link = await Request(URL_ModLink.Replace("{VERSION}", ver), null);
+            return (link, ver);
         }
 
         public static async Task<string> GetUrlToSKSE()
         {
             string ver = await Request($"{URL_Version}", null);
             string link = await Request(URL_SKSELink.Replace("{VERSION}", ver), null);
-
             return link;
         }
 
