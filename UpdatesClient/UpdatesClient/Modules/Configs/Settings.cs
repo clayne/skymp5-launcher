@@ -18,6 +18,7 @@ namespace UpdatesClient.Modules.Configs
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
 
         public static string PathToSkyrim { get; set; }
+        public static string LastVersion { get; private set; }
 
         internal static bool Load()
         {
@@ -27,6 +28,7 @@ namespace UpdatesClient.Modules.Configs
                 {
                     SettingsFileModel model = JsonConvert.DeserializeObject<SettingsFileModel>(File.ReadAllText(PathToSettingsFile));
                     PathToSkyrim = model.PathToSkyrim;
+                    LastVersion = model.LastVersion;
 
                     return true;
                 }
@@ -47,7 +49,8 @@ namespace UpdatesClient.Modules.Configs
 
                 SettingsFileModel model = new SettingsFileModel()
                 {
-                    PathToSkyrim = PathToSkyrim
+                    PathToSkyrim = PathToSkyrim,
+                    LastVersion = VersionFile
                 };
 
                 File.WriteAllText(PathToSettingsFile, JsonConvert.SerializeObject(model));

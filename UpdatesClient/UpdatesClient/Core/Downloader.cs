@@ -46,7 +46,7 @@ namespace UpdatesClient.Core
             DownloadComplete?.Invoke(sDestinationPath, sVers);
         }
 
-        public async Task StartSync()
+        public async Task<bool> StartSync()
         {
             string path = Path.GetDirectoryName(sDestinationPath);
             if (path != null && path != "" && !Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -54,6 +54,7 @@ namespace UpdatesClient.Core
             await Task.Run(() => StartDown());
 
             DownloadComplete?.Invoke(sDestinationPath, sVers);
+            return sDestinationPath != null;
         }
 
         private void StartDown()

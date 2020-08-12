@@ -14,7 +14,7 @@ namespace UpdatesClient.Modules.Configs
     internal class ModVersion
     {
         public static string Version { get; set; } = "0.0.0.0";
-
+        public static bool? HasRuFixConsole { get; set; } = null;
 
         internal static bool Load()
         {
@@ -27,6 +27,7 @@ namespace UpdatesClient.Modules.Configs
                 {
                     ModVersionModel model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
                     Version = Security.FromAes256Base64(model.Version);
+                    HasRuFixConsole = model.HasRuFixConsole;
                     return true;
                 }
             }
@@ -47,7 +48,8 @@ namespace UpdatesClient.Modules.Configs
 
                 ModVersionModel model = new ModVersionModel()
                 {
-                    Version = Security.ToAes256Base64(Version)
+                    Version = Security.ToAes256Base64(Version),
+                    HasRuFixConsole = HasRuFixConsole
                 };
 
                 File.WriteAllText(path, JsonConvert.SerializeObject(model));

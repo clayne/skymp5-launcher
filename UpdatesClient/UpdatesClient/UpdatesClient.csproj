@@ -510,6 +510,7 @@
     <Compile Include="Modules\Configs\ModVersion.cs" />
     <Compile Include="Modules\Configs\Security.cs" />
     <Compile Include="Modules\Configs\Settings.cs" />
+    <Compile Include="Modules\GameManager\AntiCheat\FileWatcher.cs" />
     <Compile Include="Modules\GameManager\Enums\FileType.cs" />
     <Compile Include="Modules\GameManager\GameLauncher.cs" />
     <Compile Include="Modules\GameManager\GameVerification.cs" />
@@ -583,6 +584,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\Structs\" />
+    <Folder Include="Modules\News\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Exit.png" />

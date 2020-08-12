@@ -12,6 +12,7 @@ namespace UpdatesClient.Core
         public const string URL_ModLink = "https://skymp.io/api/skymp_link/{VERSION}";
 
         public const string URL_Lib = "https://skymp.skyrez.su/libs/7z.dll";
+        public const string URL_Mod_RuFix = "https://skymp.skyrez.su/mods/SSERuFixConsole.zip";
 
         public static async Task<bool> UpdateAvailable()
         {

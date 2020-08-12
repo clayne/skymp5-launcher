@@ -9,6 +9,7 @@ namespace UpdatesClient.Modules.GameManager.Model
         public bool IsGameFound { get; set; }
         public bool IsSKSEFound { get; set; }
         public bool IsModFound { get; set; }
+        public bool IsRuFixConsoleFound { get; set; }
 
         public bool IsGameSafe { get; set; }
         public bool IsSKSESafe { get; set; }

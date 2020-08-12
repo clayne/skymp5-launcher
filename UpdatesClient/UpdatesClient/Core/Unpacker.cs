@@ -53,6 +53,23 @@ namespace UpdatesClient.Core
             return true;
         }
 
+        public static bool UnpackZip(string file, string extractTo)
+        {
+            if (!File.Exists(file)) return false;
+
+            string tmpFiles = $"{Settings.PathToSkyrim}\\tmp\\files\\";
+            Delete(tmpFiles);
+            Create(tmpFiles);
+
+            ZipFile.ExtractToDirectory(file, tmpFiles);
+            CopyToDir(tmpFiles, extractTo);
+
+            Delete(tmpFiles);
+            File.Delete(file);
+
+            return true;
+        }
+
         private static bool CopyToDir(string fromDir, string toDir)
         {
             foreach (DirectoryInfo dir in new DirectoryInfo(fromDir).GetDirectories())
