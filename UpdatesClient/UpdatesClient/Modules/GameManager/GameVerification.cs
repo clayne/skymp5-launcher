@@ -29,6 +29,11 @@ namespace UpdatesClient.Modules.GameManager
                 result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0 ? true : false;
             }
 
+            if (Directory.Exists($"{pathToGameFolder}\\Data\\Interface"))
+            {
+                result.IsRuFixConsoleFound = true;
+            }
+
             result.IsModFound = FindMod();
 
             return result;

@@ -44,8 +44,7 @@ namespace UpdatesClient
             YandexMetricaFolder.SetCurrent(tmpPath);
 
             YandexMetrica.Config.CustomAppVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
-            YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
-
+            
             InitApp();
         }
 
@@ -131,6 +130,7 @@ namespace UpdatesClient
             }
             catch (Exception e) 
             {
+                YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
                 YandexMetrica.ReportError($"CriticalError_{Security.UID}", e);
                 MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Security.UID}", "Критическая ошибка"); 
             }
@@ -139,6 +139,7 @@ namespace UpdatesClient
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
             {
+                YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
                 MainWindow = new MainWindow();
                 MainWindow.Show();
             });

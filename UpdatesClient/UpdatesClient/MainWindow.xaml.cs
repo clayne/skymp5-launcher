@@ -1,28 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Permissions;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Enums;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
+using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Model;
 using Yandex.Metrica;
 using static UpdatesClient.UI.Controllers.ProgressBarBtn;
@@ -49,16 +35,72 @@ namespace UpdatesClient
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
 
             Settings.Load();
-            wind.Loaded += delegate {
+            wind.Loaded += delegate
+            {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim))
                 {
                     SetGameFolder();
                 }
 
                 ModVersion.Load();
+                FileWatcher.Init();
 
-                if (BtnAction != BtnAction.InstallSKSE) CheckClient();
+                if (ModVersion.HasRuFixConsole == null) CheckRuFixConsole();
+                else if (BtnAction != BtnAction.InstallSKSE) CheckClient();
             };
+        }
+
+        private void CheckRuFixConsole()
+        {
+            ResultGameVerification result = GameVerification.VerifyGame(Settings.PathToSkyrim, null);
+            if (!result.IsRuFixConsoleFound)
+            {
+                if (MessageBox.Show("SSE Rusian Fix Console не обнаружен, установить?", "Внимание", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    InstallRuFixConsole();
+                    return;
+                }
+                else
+                {
+                    ModVersion.HasRuFixConsole = false;
+                }
+            }
+            else
+            {
+                ModVersion.HasRuFixConsole = true;
+            }
+            ModVersion.Save();
+            CheckClient();
+        }
+
+        private async void InstallRuFixConsole()
+        {
+            MainBtn.SetAsProgressBar(ColorType.Warning, false);
+
+            string req = Net.URL_Mod_RuFix;
+            Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
+            downloader.DownloadChanged += Downloader_DownloadChanged;
+            if (await downloader.StartSync())
+            {
+                try
+                {
+                    MainBtn.SetAsProgressBar(ColorType.Normal, true, "Распаковка");
+
+                    ModVersion.HasRuFixConsole = await Task.Run(() => Unpacker.UnpackZip($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", Settings.PathToSkyrim + "\\Data"));
+                    ModVersion.Save();
+                }
+                catch (Exception e)
+                {
+                    YandexMetrica.ReportError("ExtractRuFix", e);
+                    await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
+                }
+                CheckClient();
+            }
+            else
+            {
+                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
+                InstallRuFixConsole();
+            }
         }
 
         private void SetGameFolder()
@@ -125,7 +167,7 @@ namespace UpdatesClient
 
         private void DownloadLib()
         {
-            if(!File.Exists(Settings.PathToSkyrim + "\\tmp\\7z.dll"))
+            if (!File.Exists(Settings.PathToSkyrim + "\\tmp\\7z.dll"))
             {
                 MainBtn.SetAsProgressBar(ColorType.Warning, false);
 
@@ -255,7 +297,7 @@ namespace UpdatesClient
             {
                 MainBtn.SetAsProgressBar(ColorType.Normal, true, "Распаковка");
 
-                if(await Task.Run(() => Unpacker.Unpack(file, Settings.PathToSkyrim)))
+                if (await Task.Run(() => Unpacker.Unpack(file, Settings.PathToSkyrim)))
                 {
                     ModVersion.Version = vers;
                     ModVersion.Save();
