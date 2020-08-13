@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager.Helpers;
 using Yandex.Metrica;
@@ -25,13 +26,23 @@ namespace UpdatesClient.Modules.GameManager
             GameProcess.Kill();
         }
 
-        public static async Task StartGame()
+        public static void EnableDebug()
         {
+            string path = $"{Settings.PathToSkyrim}\\Data\\SKSE\\SKSE.ini";
+            if (!File.Exists(path)) File.Create(path).Close();
+            
+            IniFile iniFile = new IniFile(path);
+            iniFile.WriteINI("DEBUG", "WriteMiniDumps", "1");
+        }
+
+        public static async Task<bool> StartGame()
+        {
+            EnableDebug();
+
             StartInfo.FileName = $"{Settings.PathToSkyrim}\\skse64_loader.exe";
             //StartInfo.Arguments = $"--UUID {UUID} --Session {session}";
             StartInfo.WorkingDirectory = $"{Settings.PathToSkyrim}\\";
             StartInfo.Verb = "runas";
-            //StartInfo.
 
             StartInfo.Domain = AppDomain.CurrentDomain.FriendlyName;
 
@@ -49,10 +60,14 @@ namespace UpdatesClient.Modules.GameManager
             {
                 GameProcess = p;
             }
+            Microsoft.Win32.SafeHandles.SafeProcessHandle sh = GameProcess.SafeHandle;
             if (!GameProcess.HasExited) await Task.Run(() => GameProcess.WaitForExit());
 
             YandexMetrica.ReportEvent("ExitedGame");
             Runing = false;
+
+            return GameProcess.ExitCode != 0;
         }
+
     }
 }

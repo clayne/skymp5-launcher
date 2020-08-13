@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Management;
 using System.Windows;
 using System.Windows.Threading;
+using UpdatesClient.Core.Helpers;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -12,6 +14,7 @@ namespace UpdatesClient.Modules.SelfUpdater
         public SplashScreen()
         {
             InitializeComponent();
+
             this.Loaded += new RoutedEventHandler(Splash_Loaded);
         }
 

@@ -4,11 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient.Modules.SelfUpdater"
+        xmlns:ef="clr-namespace:UpdatesClient.Core.Helpers"
         mc:Ignorable="d"
         Title="SkyMP Launcher" Height="120" Width="400" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-        WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="#FF4B4B4B">
+        WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/SplashBackground/back2.png" Stretch="UniformToFill"/>
+    </Window.Background>
     <Grid>
         <ProgressBar Name="progBar" Minimum="0" Maximum="1" Value="-1" IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Foreground="#FF06AC06"/>
-        <TextBlock x:Name="Status" Margin="10,0,10,15" TextWrapping="Wrap" Text="Проверка обновлений..." Foreground="White" Height="16" VerticalAlignment="Bottom" FontWeight="Bold" TextAlignment="Center"/>
+        <TextBlock x:Name="Status" Margin="10,0,10,15" TextWrapping="Wrap" Text="Проверка обновлений..." Foreground="White" Height="16" VerticalAlignment="Bottom" FontWeight="Bold" TextAlignment="Center">
+            
+
+        </TextBlock>
     </Grid>
 </Window>
