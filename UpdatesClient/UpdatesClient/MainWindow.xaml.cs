@@ -377,6 +377,7 @@ namespace UpdatesClient
                 {
                     await Net.ReportDmp(pathToDmps + fileName);
                     YandexMetrica.ReportEvent("CrashReported");
+                    File.Delete(pathToDmps + fileName);
                 }
             }
             catch (Exception e)
