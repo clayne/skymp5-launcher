@@ -16,7 +16,7 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             try
             {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
-                FileSystemWatcher watcher = new FileSystemWatcher(Settings.PathToSkyrim + "\\Data\\Platform");
+                FileSystemWatcher watcher = new FileSystemWatcher(Settings.PathToSkyrim + "\\Data\\Platform\\Plugins");
                 watcher.IncludeSubdirectories = true;
                 watcher.EnableRaisingEvents = true;
                 watcher.Created += Watcher_Created;

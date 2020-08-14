@@ -337,13 +337,52 @@ namespace UpdatesClient
             try
             {
                 Hide();
-                await GameLauncher.StartGame();
+                bool crash = await GameLauncher.StartGame();
                 Show();
+
+                if(crash)
+                {
+                    YandexMetrica.ReportEvent("CrashDetected");
+                    ReportDmp();
+                }
             }
             catch
             {
                 YandexMetrica.ReportEvent("HasNotAccess");
                 Close();
+            }
+        }
+
+        private async void ReportDmp()
+        {
+            string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
+
+            try
+            {
+                DateTime dt = new DateTime(1990, 1, 1);
+                string fileName = "";
+                foreach (FileSystemInfo fileSI in new DirectoryInfo(pathToDmps).GetFileSystemInfos())
+                {
+                    if (fileSI.Extension == ".dmp")
+                    {
+                        if (dt < Convert.ToDateTime(fileSI.CreationTime))
+                        {
+                            dt = Convert.ToDateTime(fileSI.CreationTime);
+
+                            fileName = fileSI.Name;
+                        }
+                    }
+                }
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    await Net.ReportDmp(pathToDmps + fileName);
+                    YandexMetrica.ReportEvent("CrashReported");
+                    File.Delete(pathToDmps + fileName);
+                }
+            }
+            catch (Exception e)
+            {
+                YandexMetrica.ReportError("ReportDmp", e);
             }
         }
     }

@@ -84,7 +84,9 @@
     </ApplicationDefinition>
     <Compile Include="Core\Downloader.cs" />
     <Compile Include="Core\Enums\BtnAction.cs" />
+    <None Include="Core\Helpers\OutlineEffect.cs" />
     <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
+    <Compile Include="Core\IniFile.cs" />
     <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2.cs" />
     <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Constants.cs" />
     <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Exception.cs" />
@@ -573,6 +575,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Assets\Effects\Outline.ps" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -593,6 +596,7 @@
     <Resource Include="Assets\Images\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Images\SplashBackground\back1.png" />
     <Resource Include="Core\Libraries\SevenZip\gpl.txt" />
     <Resource Include="Core\Libraries\SevenZip\lgpl.txt" />
   </ItemGroup>
@@ -607,6 +611,10 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Effects\Outline.fx" />
+    <Resource Include="Assets\Images\SplashBackground\back2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
