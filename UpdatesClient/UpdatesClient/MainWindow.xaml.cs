@@ -374,8 +374,9 @@ namespace UpdatesClient
                 }
                 if (!string.IsNullOrEmpty(fileName))
                 {
-                    await Net.ReportDmp(pathToDmps + fileName);
-                    YandexMetrica.ReportEvent("CrashReported");
+                    if (await Net.ReportDmp(pathToDmps + fileName))
+                        YandexMetrica.ReportEvent("CrashReported");
+                    else YandexMetrica.ReportEvent("CantReport");
                     ModVersion.LastDmpReported = dt;
                     ModVersion.Save();
 
