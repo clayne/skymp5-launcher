@@ -43,15 +43,18 @@ namespace UpdatesClient.Core
 
         public static async Task<bool> ReportDmp(string pathToFile)
         {
-            string req = await UploadRequest(URL_CrashDmp, null, new FileInfo(pathToFile).Name, new FileStream(pathToFile, FileMode.Open, FileAccess.Read), "crashdmp", "application/x-www-form-urlencoded");
-            if (req == "OK")
+            using(FileStream fs = new FileStream(pathToFile, FileMode.Open, FileAccess.Read))
             {
-                return true;
-            }
-            else
-            {
-                YandexMetrica.ReportError("ReportDmp_Net", new Exception(req));
-                return false;
+                string req = await UploadRequest(URL_CrashDmp, null, new FileInfo(pathToFile).Name, fs, "crashdmp", "application/x-www-form-urlencoded");
+                if (req == "OK")
+                {
+                    return true;
+                }
+                else
+                {
+                    YandexMetrica.ReportError("ReportDmp_Net", new Exception(req));
+                    return false;
+                }
             }
         }
 

@@ -359,7 +359,7 @@ namespace UpdatesClient
 
             try
             {
-                DateTime dt = new DateTime(1990, 1, 1);
+                DateTime dt = ModVersion.LastDmpReported;
                 string fileName = "";
                 foreach (FileSystemInfo fileSI in new DirectoryInfo(pathToDmps).GetFileSystemInfos())
                 {
@@ -368,7 +368,6 @@ namespace UpdatesClient
                         if (dt < Convert.ToDateTime(fileSI.CreationTime))
                         {
                             dt = Convert.ToDateTime(fileSI.CreationTime);
-
                             fileName = fileSI.Name;
                         }
                     }
@@ -377,7 +376,10 @@ namespace UpdatesClient
                 {
                     await Net.ReportDmp(pathToDmps + fileName);
                     YandexMetrica.ReportEvent("CrashReported");
-                    await Task.Delay(5000);
+                    ModVersion.LastDmpReported = dt;
+                    ModVersion.Save();
+
+                    await Task.Delay(3000);
                     File.Delete(pathToDmps + fileName);
                 }
             }
