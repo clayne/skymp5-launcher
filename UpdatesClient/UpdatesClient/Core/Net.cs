@@ -16,6 +16,7 @@ namespace UpdatesClient.Core
         public const string URL_ModLink = "https://skymp.io/api/skymp_link/{VERSION}";
 
         public const string URL_CrashDmp = "https://skymp.io/api/crashes";
+        public const string URL_CrashDmpSec = "https://skymp.skyrez.su/api/crashes.php";
 
         public const string URL_Lib = "https://skymp.skyrez.su/libs/7z.dll";
         public const string URL_Mod_RuFix = "https://skymp.skyrez.su/mods/SSERuFixConsole.zip";
@@ -43,15 +44,20 @@ namespace UpdatesClient.Core
 
         public static async Task<bool> ReportDmp(string pathToFile)
         {
-            string req = await UploadRequest(URL_CrashDmp, null, new FileInfo(pathToFile).Name, new FileStream(pathToFile, FileMode.Open, FileAccess.Read), "crashdmp", "application/x-www-form-urlencoded");
-            if (req == "OK")
+            using(FileStream fs = new FileStream(pathToFile, FileMode.Open, FileAccess.Read))
             {
-                return true;
-            }
-            else
-            {
-                YandexMetrica.ReportError("ReportDmp_Net", new Exception(req));
-                return false;
+                string req1 = await UploadRequest(URL_CrashDmp, null, new FileInfo(pathToFile).Name, fs, "crashdmp", "application/x-dmp");
+                string req2 = await UploadRequest(URL_CrashDmpSec, null, new FileInfo(pathToFile).Name, fs, "crashdmp", "application/x-dmp");
+                if (req1 != "OK")
+                {
+                    YandexMetrica.ReportError("ReportDmp_Net_S1", new Exception(req1));
+                }
+                if (req2 != "OK")
+                {
+                    YandexMetrica.ReportError("ReportDmp_Net_S2", new Exception(req1));
+                }
+
+                return req1 == "OK" || req2 == "OK";
             }
         }
 
