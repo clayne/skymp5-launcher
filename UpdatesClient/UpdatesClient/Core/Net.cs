@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -44,21 +45,12 @@ namespace UpdatesClient.Core
 
         public static async Task<bool> ReportDmp(string pathToFile)
         {
-            using(FileStream fs = new FileStream(pathToFile, FileMode.Open, FileAccess.Read))
-            {
-                string req1 = await UploadRequest(URL_CrashDmp, null, new FileInfo(pathToFile).Name, fs, "crashdmp", "application/x-dmp");
-                string req2 = await UploadRequest(URL_CrashDmpSec, null, new FileInfo(pathToFile).Name, fs, "crashdmp", "application/x-dmp");
-                if (req1 != "OK")
-                {
-                    YandexMetrica.ReportError("ReportDmp_Net_S1", new Exception(req1));
-                }
-                if (req2 != "OK")
-                {
-                    YandexMetrica.ReportError("ReportDmp_Net_S2", new Exception(req1));
-                }
+            string req1 = await UploadRequest(URL_CrashDmp, null, pathToFile, "crashdmp", "application/x-dmp");
+            string req2 = await UploadRequest(URL_CrashDmpSec, null, pathToFile, "crashdmp", "application/x-dmp");
+            if (req1 != "OK") YandexMetrica.ReportError("ReportDmp_Net_S1", new Exception(req1));
+            if (req2 != "OK") YandexMetrica.ReportError("ReportDmp_Net_S2", new Exception(req2));
 
-                return req1 == "OK" || req2 == "OK";
-            }
+            return req1 == "OK" || req2 == "OK";
         }
 
         private static async Task<string> Request(string url, string data)
@@ -73,11 +65,9 @@ namespace UpdatesClient.Core
 
             using (var sr = new StreamReader(req.GetResponse().GetResponseStream())) return await sr.ReadToEndAsync();
         }
-
-        private static async Task<string> UploadRequest(string url, string data, string fileName, Stream stream, string paramName, string contentType)
+        private static async Task<string> UploadRequest(string url, string data, string file, string paramName, string contentType)
         {
-            string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
-            byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "multipart/form-data; boundary=" + boundary;
@@ -85,32 +75,46 @@ namespace UpdatesClient.Core
             request.KeepAlive = true;
             request.Credentials = CredentialCache.DefaultCredentials;
 
+            byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            byte[] endBoundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--");
+
+            string formdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
+            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\n" +
+                "Content-Type: {2}\r\n\r\n";
+
+            Stream memStream = new MemoryStream();
+
+            if (data != null)
+            {
+                foreach (string d in data.Split('&'))
+                {
+                    (string, string) pair = (d.Split('=')[0], d.Split('=')[1]);
+
+                    string formitem = string.Format(formdataTemplate, pair.Item1, pair.Item2);
+                    byte[] formitembytes = Encoding.UTF8.GetBytes(formitem);
+                    memStream.Write(formitembytes, 0, formitembytes.Length);
+                }
+            }
+
+            memStream.Write(boundarybytes, 0, boundarybytes.Length);
+            var header = string.Format(headerTemplate, paramName, new FileInfo(file).Name, contentType);
+            var headerbytes = Encoding.UTF8.GetBytes(header);
+
+            memStream.Write(headerbytes, 0, headerbytes.Length);
+
+            using (FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read))
+            {
+                fileStream.CopyTo(memStream);
+            }
+
+            memStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
+            request.ContentLength = memStream.Length;
+
             using (Stream requestStream = request.GetRequestStream())
             {
-                if (data != null)
-                {
-                    foreach (string d in data.Split('&'))
-                    {
-                        (string, string) pair = (d.Split('=')[0], d.Split('=')[1]);
-                        requestStream.Write(boundarybytes, 0, boundarybytes.Length);
-                        string header1 = $"Content-Disposition: form-data; name=\"{pair.Item1}\" \r\n\r\n";
-                        byte[] headerbytes1 = Encoding.UTF8.GetBytes(header1);
-                        requestStream.Write(headerbytes1, 0, headerbytes1.Length);
-
-                        byte[] bdata = Encoding.UTF8.GetBytes(pair.Item2);
-                        requestStream.Write(bdata, 0, bdata.Length);
-                    }
-                }
-
-                requestStream.Write(boundarybytes, 0, boundarybytes.Length);
-                string header = $"Content-Disposition: form-data; name=\"{paramName}\"; filename=\"{fileName}.dmp\"\r\nContent-Type: {contentType}\r\n\r\n";
-                byte[] headerbytes = Encoding.UTF8.GetBytes(header);
-                requestStream.Write(headerbytes, 0, headerbytes.Length);
-
-                stream.CopyTo(requestStream);
-
-                byte[] trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
-                requestStream.Write(trailer, 0, trailer.Length);
+                memStream.Position = 0;
+                memStream.CopyTo(requestStream);
+                memStream.Close();
             }
 
             using (var sr = new StreamReader(request.GetResponse().GetResponseStream()))

@@ -37,6 +37,10 @@ namespace UpdatesClient.Modules.Configs
                     model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
                     return true;
                 }
+                else
+                {
+                    model = new ModVersionModel();
+                }
             }
             catch (Exception e)
             {
