@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 using UpdatesClient.Core;
+using UpdatesClient.Core.Effects;
 using UpdatesClient.Core.Enums;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
@@ -33,6 +34,11 @@ namespace UpdatesClient
         {
             InitializeComponent();
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
+            CloseBtn.Click += (s, e) =>
+            {
+                YandexMetrica.Config.CrashTracking = false;
+                Application.Current.Shutdown();
+            };
 
             Settings.Load();
             wind.Loaded += delegate
@@ -41,17 +47,17 @@ namespace UpdatesClient
                 || !Directory.Exists(Settings.PathToSkyrim) 
                 || !File.Exists($"{Settings.PathToSkyrim}\\SkyrimSE.exe"))
                 {
-                    SetGameFolder();
+                    //SetGameFolder();
                 }
 
                 ModVersion.Load();
                 FileWatcher.Init();
 
-                if (ModVersion.HasRuFixConsole == null) CheckRuFixConsole();
-                else if (BtnAction != BtnAction.InstallSKSE) CheckClient();
+                //if (ModVersion.HasRuFixConsole == null) CheckRuFixConsole();
+                //else if (BtnAction != BtnAction.InstallSKSE) CheckClient();
             };
         }
-
+        /*
         private void CheckRuFixConsole()
         {
             ResultGameVerification result = GameVerification.VerifyGame(Settings.PathToSkyrim, null);
@@ -391,6 +397,6 @@ namespace UpdatesClient
             {
                 YandexMetrica.ReportError("ReportDmp", e);
             }
-        }
+        }*/
     }
 }

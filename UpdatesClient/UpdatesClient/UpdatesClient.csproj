@@ -83,8 +83,58 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Downloader.cs" />
+    <Compile Include="Core\Effects\BandedSwirlEffect.cs" />
+    <Compile Include="Core\Effects\BloomEffect.cs" />
+    <Compile Include="Core\Effects\BrightExtractEffect.cs" />
+    <Compile Include="Core\Effects\ColorKeyAlphaEffect.cs" />
+    <Compile Include="Core\Effects\ColorToneEffect.cs" />
+    <Compile Include="Core\Effects\ContrastAdjustEffect.cs" />
+    <Compile Include="Core\Effects\DirectionalBlurEffect.cs" />
+    <Compile Include="Core\Effects\EffectLibrary.cs" />
+    <Compile Include="Core\Effects\EmbossedEffect.cs" />
+    <Compile Include="Core\Effects\GloomEffect.cs" />
+    <Compile Include="Core\Effects\GrowablePoissonDiskEffect.cs" />
+    <Compile Include="Core\Effects\InvertColorEffect.cs" />
+    <Compile Include="Core\Effects\LightStreakEffect.cs" />
+    <Compile Include="Core\Effects\MagnifyEffect.cs" />
+    <Compile Include="Core\Effects\MonochromeEffect.cs" />
+    <Compile Include="Core\Effects\PinchEffect.cs" />
+    <Compile Include="Core\Effects\PixelateEffect.cs" />
+    <Compile Include="Core\Effects\RippleEffect.cs" />
+    <Compile Include="Core\Effects\SharpenEffect.cs" />
+    <Compile Include="Core\Effects\SmoothMagnifyEffect.cs" />
+    <Compile Include="Core\Effects\SwirlEffect.cs" />
+    <Compile Include="Core\Effects\ToneMappingEffect.cs" />
+    <Compile Include="Core\Effects\ToonShaderEffect.cs" />
+    <Compile Include="Core\Effects\ZoomBlurEffect.cs" />
     <Compile Include="Core\Enums\BtnAction.cs" />
-    <None Include="Core\Helpers\OutlineEffect.cs" />
+    <Resource Include="Assets\Fonts\Forum-Regular.ttf" />
+    <Resource Include="Assets\Fonts\PERTIBD.TTF" />
+    <Resource Include="Assets\Fonts\PERTILI.TTF" />
+    <Resource Include="Assets\Fonts\VTMB_DLGBASE2.TTF" />
+    <Resource Include="Assets\Effects\BandedSwirl.ps" />
+    <Resource Include="Assets\Effects\Bloom.ps" />
+    <Resource Include="Assets\Effects\BrightExtract.ps" />
+    <Resource Include="Assets\Effects\ColorKeyAlpha.ps" />
+    <Resource Include="Assets\Effects\ColorTone.ps" />
+    <Resource Include="Assets\Effects\ContrastAdjust.ps" />
+    <Resource Include="Assets\Effects\DirectionalBlur.ps" />
+    <Resource Include="Assets\Effects\Embossed.ps" />
+    <Resource Include="Assets\Effects\Gloom.ps" />
+    <Resource Include="Assets\Effects\GrowablePoissonDisk.ps" />
+    <Resource Include="Assets\Effects\InvertColor.ps" />
+    <Resource Include="Assets\Effects\LightStreak.ps" />
+    <Resource Include="Assets\Effects\Magnify.ps" />
+    <Resource Include="Assets\Effects\Monochrome.ps" />
+    <Resource Include="Assets\Effects\Pinch.ps" />
+    <Resource Include="Assets\Effects\Pixelate.ps" />
+    <Resource Include="Assets\Effects\Ripple.ps" />
+    <Resource Include="Assets\Effects\Sharpen.ps" />
+    <Resource Include="Assets\Effects\SmoothMagnify.ps" />
+    <Resource Include="Assets\Effects\Swirl.ps" />
+    <Resource Include="Assets\Effects\ToneMapping.ps" />
+    <Resource Include="Assets\Effects\ToonShader.ps" />
+    <Resource Include="Assets\Effects\ZoomBlur.ps" />
     <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
     <Compile Include="Core\IniFile.cs" />
     <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2.cs" />
@@ -575,7 +625,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Assets\Effects\Outline.ps" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -613,8 +662,44 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Effects\Outline.fx" />
     <Resource Include="Assets\Images\SplashBackground\back2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Effects\BandedSwirl.fx" />
+    <Content Include="Assets\Effects\Bloom.fx" />
+    <Content Include="Assets\Effects\BrightExtract.fx" />
+    <Content Include="Assets\Effects\ColorKeyAlpha.fx" />
+    <Content Include="Assets\Effects\ColorTone.fx" />
+    <Content Include="Assets\Effects\ContrastAdjust.fx" />
+    <Content Include="Assets\Effects\DirectionalBlur.fx" />
+    <Content Include="Assets\Effects\Embossed.fx" />
+    <Content Include="Assets\Effects\Gloom.fx" />
+    <Content Include="Assets\Effects\GrowablePoissonDisk.fx" />
+    <Content Include="Assets\Effects\InvertColor.fx" />
+    <Content Include="Assets\Effects\LightStreak.fx" />
+    <Content Include="Assets\Effects\Magnify.fx" />
+    <Content Include="Assets\Effects\Monochrome.fx" />
+    <Content Include="Assets\Effects\Pinch.fx" />
+    <Content Include="Assets\Effects\Pixelate.fx" />
+    <Content Include="Assets\Effects\Ripple.fx" />
+    <Content Include="Assets\Effects\Sharpen.fx" />
+    <Content Include="Assets\Effects\SmoothMagnify.fx" />
+    <Content Include="Assets\Effects\Swirl.fx" />
+    <Content Include="Assets\Effects\ToneMapping.fx" />
+    <Content Include="Assets\Effects\ToonShader.fx" />
+    <Content Include="Assets\Effects\ZoomBlur.fx" />
+    <Resource Include="Assets\Images\Buttons\logo.png" />
+    <Resource Include="Assets\Images\Buttons\cross.png" />
+    <Resource Include="Assets\Images\Buttons\smile.png" />
+    <Resource Include="Assets\Images\Buttons\arrowDown.png" />
+    <Resource Include="Assets\Images\Buttons\close.png" />
+    <Resource Include="Assets\Images\Buttons\eye.png" />
+    <Resource Include="Assets\Images\Buttons\head.png" />
+    <Resource Include="Assets\Images\Buttons\minimize.png" />
+    <Resource Include="Assets\Images\Buttons\star.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,24 +5,267 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient"
         xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
+        xmlns:eff="clr-namespace:UpdatesClient.Core.Effects"
         mc:Ignorable="d"
-        Title="SkyMP Launcher" Height="300" Width="300" ResizeMode="NoResize" WindowStyle="None" Background="#FF232323" WindowStartupLocation="CenterScreen">
+        Title="SkyMP Launcher" Height="730" Width="1058" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <ImageBrush ImageSource="Assets/Images/MainWindowBackgrounds/back1.png" Stretch="UniformToFill"/>
+    </Window.Background>
+    <Window.Resources>
+        <!--Border colors-->
+        <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
+        <Color x:Key="BorderMediumColor">#FF888888</Color>
+        <Color x:Key="BorderDarkColor">#FF444444</Color>
+
+        <Color x:Key="PressedBorderLightColor">#FF888888</Color>
+        <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
+
+        <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
+        <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
+
+        <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
+
+        <!--Control-specific resources.-->
+        <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
+        <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
+        <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
+
+        <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
+
+        <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
+                     StartPoint="0,0"
+                     EndPoint="1,0">
+            <LinearGradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#000000FF"
+                    Offset="0" />
+                    <GradientStop Color="#600000FF"
+                    Offset="0.4" />
+                    <GradientStop Color="#600000FF"
+                    Offset="0.6" />
+                    <GradientStop Color="#000000FF"
+                    Offset="1" />
+                </GradientStopCollection>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+
+        <Style x:Key="{x:Type ProgressBar}"
+       TargetType="{x:Type ProgressBar}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid MinHeight="3" MinWidth="200" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate" />
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Duration="00:00:00"
+                                                 Storyboard.TargetName="PART_Indicator"
+                                                 Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <SolidColorBrush>Transparent</SolidColorBrush>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Duration="00:00:00"
+                                                 Storyboard.TargetName="PART_Indicator"
+                                                 Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <SolidColorBrush>Transparent</SolidColorBrush>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="PART_Track" CornerRadius="5" BorderThickness="2" BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <Border x:Name="PART_Indicator" CornerRadius="2" BorderThickness="1" HorizontalAlignment="Left"
+                  Background="{TemplateBinding Foreground}" Margin="0" BorderBrush="#FF6BC1F2">
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="0" Color="#FF6BC1F2" BlurRadius="29.5"/>
+                                </Border.Effect>
+                                <Grid ClipToBounds="True" x:Name="Animation">
+                                    <Rectangle x:Name="PART_GlowRect"
+                         Width="100"
+                         HorizontalAlignment="Left"
+                         Fill="{StaticResource ProgressBarIndicatorAnimatedFill}"
+                         Margin="-100,0,0,0" />
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0,1"
+                           StartPoint="0,0">
+                        <GradientStop Color="{DynamicResource ControlLightColor}"
+                      Offset="0" />
+                        <GradientStop Color="{DynamicResource ControlMediumColor}"
+                      Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1"
+                           StartPoint="0.5,0">
+                        <GradientStop Color="{DynamicResource ControlMediumColor}"
+                      Offset="0" />
+                        <GradientStop Color="{DynamicResource ControlDarkColor}"
+                      Offset="1" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="175"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="57"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="SkyMP - Launcher" Foreground="White" FontSize="16" Margin="5,0,0,0" />
-        <Rectangle x:Name="TitleWindow" Fill="#26000000"/>
-        
-        <local1:ImageButton HorizontalAlignment="Right" Width="25" NormalColor="White" SelectColor="Red" PressColor="#FF630000" Click="ImageButton_Click" >
+        <Rectangle Fill="#1EFFFFFF" Height="1" Margin="21,0,21,0" VerticalAlignment="Bottom" Grid.ColumnSpan="3">
+            <Rectangle.OpacityMask>
+                <LinearGradientBrush EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5">
+                    <GradientStop Color="#00000000" Offset="0"/>
+                    <GradientStop Offset="1"/>
+                    <GradientStop Color="White" Offset="0.98"/>
+                    <GradientStop Color="White" Offset="0.02"/>
+                </LinearGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="1">
+            <Rectangle.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#00000000" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.15"/>
+                </LinearGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <TextBlock HorizontalAlignment="Left" Margin="31,22,0,0" Text="ky" VerticalAlignment="Top" Foreground="White" FontSize="14" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="20,16,0,0" Text="S" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="50,16,0,0" Text="MP" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
+            </TextBlock.Effect>
+        </TextBlock>
+
+        <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="3"/>
+
+        <local1:ImageButton x:Name="CloseBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="20" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="1">
+            <local1:ImageButton.OpacityMask>
+                <ImageBrush ImageSource="Assets/Images/Buttons/close.png"/>
+            </local1:ImageButton.OpacityMask>
             <local1:ImageButton.Image>
-                <ImageBrush ImageSource="Assets/Images/Exit.png"/>
+                <ImageBrush ImageSource="Assets/Images/Buttons/close.png"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+        <local1:ImageButton Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="20" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="Assets/Images/Buttons/minimize.png"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="0,13,0,0" TextWrapping="Wrap" Text="POSPELOV" VerticalAlignment="Top" Foreground="White" FontFamily="Constantia" FontSize="16"/>
+        <Rectangle Grid.Column="2" Fill="#FF05C925" HorizontalAlignment="Left" Height="10" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="20">
+            <Rectangle.OpacityMask>
+                <ImageBrush ImageSource="Assets/Images/Buttons/eye.png"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="27,0,0,7" TextWrapping="Wrap" Text="В СЕТИ" VerticalAlignment="Bottom" Foreground="White" FontFamily="Constantia" FontSize="14" Height="16"/>
+        <local1:ImageButton Grid.Column="2" HorizontalAlignment="Left" Margin="81,36,0,0" VerticalAlignment="Top" Height="13" Width="13" ImageMargin="2" NormalColor="White" PressColor="#FF7A7A7A" SelectColor="#FFC9C9C9">
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="Assets/Images/Buttons/arrowDown.png"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+        <local1:ImageButton HorizontalAlignment="Right" Margin="0,15,28,15" ImageMargin="0" Width="25" NormalColor="#B2FFFFFF" SelectColor="#B2C1C1C1" PressColor="#B2858585">
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="Assets/Images/Buttons/head.png"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+        <local1:ImageButton HorizontalAlignment="Right" Margin="0,22,10,0" VerticalAlignment="Top" Height="13" Width="13" ImageMargin="2" NormalColor="White" PressColor="#FF7A7A7A" SelectColor="#FFC9C9C9">
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="Assets/Images/Buttons/arrowDown.png"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
 
-        <local1:ProgressBarBtn x:Name="MainBtn" Grid.Row="1" Value="100" IsDisabled="True" IsIndeterminate="False" StatusText="Ожидание" ProgressMargin="20" SelectColor="#26000000" PressColor="#3F000000" Margin="12.5,0,12.5,0" NormalColor="#00000000" ColorBar="#FFFF7604" Click="MainBtn_Click" WarningColor="#FFFF7604" ErrorColor="#FFFF0404" BaseColor="#FF04D9FF"/>
+        <local1:ImageButton HorizontalAlignment="Left" Margin="20,0,0,20" Grid.Row="1" ImageMargin="0" VerticalAlignment="Bottom" Height="27" Width="30" NormalColor="White" PressColor="#FF707070" SelectColor="#FFBFBFBF">
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="Assets/Images/Buttons/star.png"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+        <TextBlock HorizontalAlignment="Left" Margin="55,628,0,0" Grid.Row="1" TextWrapping="Wrap" Text="поддержка" VerticalAlignment="Top" Foreground="White" FontFamily="Constantia" FontSize="16"/>
+        <Rectangle Margin="185,0,11,0" Grid.Row="1" Height="66" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="687" Grid.ColumnSpan="2">
+            <Rectangle.Fill>
+                <RadialGradientBrush Center="0.5,1" RadiusY="0.9" GradientOrigin="0.5,1">
+                    <GradientStop Offset="1" Color="#005E5525"/>
+                    <GradientStop Color="#FF5E5525"/>
+                    <GradientStop Color="#B25E5525" Offset="0.5"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <TextBlock HorizontalAlignment="Center" Margin="279,0,80,10" Grid.Row="1" TextWrapping="Wrap" Text="15 АВГУСТА С 9.00 ДО 15.00 ПО МСК БУДУТ ПРОВОДИТЬСЯ ПЛАНОВЫЕ ТЕХ. РАБОТЫ" VerticalAlignment="Bottom" FontFamily="/UpdatesClient;component/Assets/Fonts/#VTMB_DlgBase2" FontSize="15" Foreground="#FFFCFF00"/>
+        <Ellipse Grid.ColumnSpan="3" HorizontalAlignment="Right" Height="155" Margin="0,0,60,40" Grid.Row="1" VerticalAlignment="Bottom" Width="155" StrokeThickness="3">
+            <Ellipse.Stroke>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="0.9625"/>
+                    <GradientStop Color="White" Offset="0.9625"/>
+                    <GradientStop Color="White" Offset="0.999"/>
+                    <GradientStop Color="#FF0F0F0F" Offset="0.999"/>
+                </RadialGradientBrush>
+            </Ellipse.Stroke>
+            <Ellipse.Effect>
+                <DropShadowEffect ShadowDepth="0" Color="#FF6BC1F2" BlurRadius="16" Direction="0"/>
+            </Ellipse.Effect>
+        </Ellipse>
+        <Image HorizontalAlignment="Left" Margin="849,478,0,0" Grid.Row="1" VerticalAlignment="Top" Source="Assets/Images/Buttons/logo.png" Grid.ColumnSpan="3" Height="140" Width="140"/>
+        <TextBlock HorizontalAlignment="Left" Margin="843,572,0,0" Grid.Row="1" TextWrapping="Wrap" Text="ИГРАТЬ" VerticalAlignment="Top" FontSize="31" FontFamily="/UpdatesClient;component/Assets/Fonts/#VTMB_DlgBase2" Foreground="White" Grid.ColumnSpan="3" TextAlignment="Center" Width="155">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#FF6BC1F2"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="75,583,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Идёт скачивание клиента" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17"/>
+        <Rectangle Fill="#FF5986F6" HorizontalAlignment="Left" Height="7" Margin="261,591,0,0" Grid.Row="1" Stroke="#FF6BC1F2" VerticalAlignment="Top" Width="7">
+            <Rectangle.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="16"/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <TextBlock HorizontalAlignment="Left" Margin="273,583,0,0" Grid.Row="1" TextWrapping="Wrap" Text="35 MB из 250 MB @ 2.13 MB/s" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17"/>
+        <Rectangle Fill="#FF5986F6" HorizontalAlignment="Left" Height="7" Margin="479,591,0,0" Grid.Row="1" Stroke="#FF6BC1F2" VerticalAlignment="Top" Width="7">
+            <Rectangle.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="16"/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <TextBlock HorizontalAlignment="Left" Margin="491,586,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Осталось" VerticalAlignment="Top" Foreground="#FF99DBEC" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="13" RenderTransformOrigin="0.032,0.627"/>
+        <TextBlock HorizontalAlignment="Left" Margin="547,583,0,0" Grid.Row="1" TextWrapping="Wrap" Text="20 секунд" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17"/>
+        <TextBlock HorizontalAlignment="Left" Margin="76,605,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Версия" VerticalAlignment="Top" Foreground="#FF99DBEC" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="13" RenderTransformOrigin="0.032,0.627"/>
+        <TextBlock HorizontalAlignment="Left" Margin="118,602,0,0" Grid.Row="1" TextWrapping="Wrap" Text="5.0.5.0" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17"/>
+
+
+        <Border BorderBrush="White" BorderThickness="2" Height="12" Margin="60,0,40,95" Grid.Row="1" VerticalAlignment="Bottom" CornerRadius="5">
+            <ProgressBar Margin="1" IsIndeterminate="False" Grid.Row="1" Value="14" BorderThickness="2" BorderBrush="{x:Null}" Background="#00E6E6E6" Foreground="#FF5986F6"/>
+        </Border>
+
+
 
     </Grid>
 </Window>

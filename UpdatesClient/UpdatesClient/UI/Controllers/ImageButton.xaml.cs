@@ -34,6 +34,8 @@ namespace UpdatesClient.UI.Controllers
             try
             {
                 InitializeComponent();
+
+                this.Loaded += (a, e) => image.Fill = NormalColor;
                 btn.MouseEnter += Btn_MouseEnter;
                 btn.MouseLeave += Btn_MouseLeave;
                 btn.MouseLeftButtonDown += Btn_MouseLeftButtonDown;
