@@ -3,7 +3,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 
 namespace UpdatesClient.Core.Effects
-{ 
+{
     /// <summary>
     /// This is the implementation of an extensible framework ShaderEffect which loads
     /// a shader model 2 pixel shader. Dependecy properties declared in this class are mapped
@@ -16,7 +16,7 @@ namespace UpdatesClient.Core.Effects
         // Brush-valued properties turn into sampler-property in the shader.
         // This helper sets "ImplicitInput" as the default, meaning the default
         // sampler is whatever the rendering of the element it's being applied to is.
-        
+
         /// <summary>
         /// The explict input for this pixel shader.
         /// </summary>

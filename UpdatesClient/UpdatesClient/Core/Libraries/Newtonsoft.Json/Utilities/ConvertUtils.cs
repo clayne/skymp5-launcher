@@ -26,18 +26,15 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.ComponentModel;
 #if HAVE_BIG_INTEGER
 using System.Numerics;
 #endif
 #if !HAVE_GUID_TRY_PARSE
-using System.Text;
 using System.Text.RegularExpressions;
 #endif
 using Newtonsoft.Json.System;
 using System.Reflection;
 #if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
 #endif
 #if HAVE_ADO_NET
 using System.Data.SqlTypes;
@@ -352,7 +349,7 @@ namespace Newtonsoft.Json.Utilities
         }
 #endif
 
-#region TryConvert
+        #region TryConvert
         internal enum ConvertResult
         {
             Success = 0,
@@ -553,9 +550,9 @@ namespace Newtonsoft.Json.Utilities
             value = null;
             return ConvertResult.NoValidConversion;
         }
-#endregion
+        #endregion
 
-#region ConvertOrCast
+        #region ConvertOrCast
         /// <summary>
         /// Converts the value to the specified type. If the value is unable to be converted, the
         /// value is checked whether it assignable to the specified type.
@@ -586,7 +583,7 @@ namespace Newtonsoft.Json.Utilities
 
             return EnsureTypeAssignable(initialValue, ReflectionUtils.GetObjectType(initialValue), targetType);
         }
-#endregion
+        #endregion
 
         private static object EnsureTypeAssignable(object value, Type initialType, Type targetType)
         {

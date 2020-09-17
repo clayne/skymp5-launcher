@@ -31,9 +31,6 @@ using System.Numerics;
 #endif
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
-using System.Xml;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.System;
 using System.Text;
 using System.Diagnostics;
 #if HAVE_XLINQ

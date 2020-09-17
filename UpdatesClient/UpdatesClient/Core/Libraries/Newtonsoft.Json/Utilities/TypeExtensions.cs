@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 #if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
 #else
 using System.Linq;
 #endif
@@ -566,7 +565,7 @@ namespace Newtonsoft.Json.Utilities
             return type.GetTypeInfo().IsValueType;
 #endif
         }
-        
+
         public static bool IsPrimitive(this Type type)
         {
 #if HAVE_FULL_REFLECTION

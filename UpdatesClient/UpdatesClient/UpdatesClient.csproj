@@ -107,7 +107,6 @@
     <Compile Include="Core\Effects\ToneMappingEffect.cs" />
     <Compile Include="Core\Effects\ToonShaderEffect.cs" />
     <Compile Include="Core\Effects\ZoomBlurEffect.cs" />
-    <Compile Include="Core\Enums\BtnAction.cs" />
     <Resource Include="Assets\Fonts\Forum-Regular.ttf" />
     <Resource Include="Assets\Fonts\PERTIBD.TTF" />
     <Resource Include="Assets\Fonts\PERTILI.TTF" />
@@ -568,8 +567,26 @@
     <Compile Include="Modules\GameManager\GameVerification.cs" />
     <Compile Include="Modules\GameManager\Helpers\ProcessExtensions.cs" />
     <Compile Include="Modules\GameManager\Model\ResultGameVerification.cs" />
+    <Compile Include="UI\Controllers\HeadButton.xaml.cs">
+      <DependentUpon>HeadButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\InfoBottomPanel.xaml.cs">
+      <DependentUpon>InfoBottomPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\MainButton.xaml.cs">
+      <DependentUpon>MainButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\OnlineButton.xaml.cs">
+      <DependentUpon>OnlineButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\SupportButton.xaml.cs">
+      <DependentUpon>SupportButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controllers\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\ProgressBar.xaml.cs">
+      <DependentUpon>ProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Controllers\ProgressBarBtn.xaml.cs">
       <DependentUpon>ProgressBarBtn.xaml</DependentUpon>
@@ -590,7 +607,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Controllers\HeadButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\InfoBottomPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\MainButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\OnlineButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\SupportButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Controllers\ImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -635,6 +676,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
   </ItemGroup>

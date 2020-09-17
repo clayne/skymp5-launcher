@@ -23,7 +23,7 @@ namespace UpdatesClient.Core.Effects
         /// Gets or sets the Amplitude variable within the shader.
         /// </summary>
         public static readonly DependencyProperty AmplitudeProperty = DependencyProperty.Register("Amplitude", typeof(double), typeof(RippleEffect), new UIPropertyMetadata(0.1, PixelShaderConstantCallback(1)));
-        
+
         /// <summary>
         /// Gets or sets the Frequency variable within the shader.
         /// </summary>

@@ -23,17 +23,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.Linq.JsonPath
 {
     internal class JPath
     {
-        private static readonly char[] FloatCharacters = new[] {'.', 'E', 'e'};
+        private static readonly char[] FloatCharacters = new[] { '.', 'E', 'e' };
 
         private readonly string _expression;
         public List<PathFilter> Filters { get; }
@@ -198,7 +198,7 @@ namespace Newtonsoft.Json.Linq.JsonPath
 
         private static PathFilter CreatePathFilter(string member, bool scan)
         {
-            PathFilter filter = (scan) ? (PathFilter)new ScanFilter {Name = member} : new FieldFilter {Name = member};
+            PathFilter filter = (scan) ? (PathFilter)new ScanFilter { Name = member } : new FieldFilter { Name = member };
             return filter;
         }
 

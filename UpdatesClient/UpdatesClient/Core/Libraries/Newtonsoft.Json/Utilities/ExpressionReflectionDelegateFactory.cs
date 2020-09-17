@@ -25,13 +25,11 @@
 
 #if !(NET20 || NET35)
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Newtonsoft.Json.System;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using Newtonsoft.Json.System;
 
 namespace Newtonsoft.Json.Utilities
 {
@@ -117,7 +115,7 @@ namespace Newtonsoft.Json.Utilities
                     if (isByRef)
                     {
                         ParameterExpression variable = Expression.Variable(parameterType);
-                        refParameterMap.Add(new ByRefParameter {Value = argExpression, Variable = variable, IsOut = parameter.IsOut});
+                        refParameterMap.Add(new ByRefParameter { Value = argExpression, Variable = variable, IsOut = parameter.IsOut });
 
                         argExpression = variable;
                     }
@@ -340,11 +338,11 @@ namespace Newtonsoft.Json.Utilities
             System.Action<T, object> compiled = (System.Action<T, object>)lambdaExpression.Compile();
             return compiled;
         }
-        
+
         private Expression EnsureCastExpression(Expression expression, Type targetType, bool allowWidening = false)
         {
             Type expressionType = expression.Type;
-            
+
             // check if a cast or conversion is required
             if (expressionType == targetType || (!expressionType.IsValueType() && targetType.IsAssignableFrom(expressionType)))
             {
@@ -368,10 +366,10 @@ namespace Newtonsoft.Json.Utilities
                             Expression.Call(toTargetTypeMethod, expression));
                     }
                 }
-                
+
                 return Expression.Condition(
                     Expression.Equal(expression, Expression.Constant(null, typeof(object))),
-                    Expression.Default(targetType), 
+                    Expression.Default(targetType),
                     convert);
             }
 

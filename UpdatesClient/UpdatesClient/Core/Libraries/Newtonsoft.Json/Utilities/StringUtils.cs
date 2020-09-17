@@ -33,7 +33,6 @@ using Newtonsoft.Json.Utilities.LinqBridge;
 #else
 using System.Linq;
 #endif
-using Newtonsoft.Json.System;
 
 namespace Newtonsoft.Json.Utilities
 {

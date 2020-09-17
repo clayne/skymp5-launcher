@@ -28,7 +28,7 @@
         #endregion
 
         #region BeginCompressFiles overloads
-        
+
         /// <summary>
         /// Packs files into the archive asynchronously.
         /// </summary>
@@ -87,7 +87,7 @@
         /// <param name="fileFullNames">Array of file names to pack.</param>
         /// <param name="archiveName">The archive file name</param>
         /// <param name="password">The archive password.</param>
-        public void BeginCompressFilesEncrypted(string archiveName, string password, params string[] fileFullNames  )
+        public void BeginCompressFilesEncrypted(string archiveName, string password, params string[] fileFullNames)
         {
             SaveContext();
             Task.Run(() => new CompressFilesEncrypted1Delegate(CompressFilesEncrypted).Invoke(archiveName, password, fileFullNames))
@@ -277,7 +277,7 @@
         /// <param name="password">The archive password.</param>
         /// <param name="searchPattern">Search string, such as "*.txt".</param>
         /// <param name="recursion">If true, files will be searched for recursively; otherwise, not.</param>
-        public void BeginCompressDirectory(string directory, Stream archiveStream, string password , string searchPattern = "*", bool recursion = true)
+        public void BeginCompressDirectory(string directory, Stream archiveStream, string password, string searchPattern = "*", bool recursion = true)
         {
             SaveContext();
             Task.Run(() => new CompressDirectory2Delegate(CompressDirectory).Invoke(directory, archiveStream, password, searchPattern, recursion))

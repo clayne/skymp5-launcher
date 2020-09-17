@@ -187,8 +187,8 @@ namespace UpdatesClient.Core.Effects
             {
                 Point tl, br;
                 Rect result;
-                bool ok1 = this.TryTransform( new Point ( rect.Left, rect.Top ) , out tl);
-                bool ok2 = this.TryTransform( new Point ( rect.Right, rect.Bottom ), out br);
+                bool ok1 = this.TryTransform(new Point(rect.Left, rect.Top), out tl);
+                bool ok2 = this.TryTransform(new Point(rect.Right, rect.Bottom), out br);
                 if (ok1 && ok2)
                 {
                     result = new Rect(tl, br);
@@ -240,7 +240,7 @@ namespace UpdatesClient.Core.Effects
             /// Creats a new instance.
             /// </summary>
             /// <returns>A new instance of this.</returns>
-#if !SILVERLIGHT 
+#if !SILVERLIGHT
             protected override Freezable CreateInstanceCore()
             {
                 return new MagnifyGeneralTransform(this.effect) { thisIsInverse = this.thisIsInverse };
@@ -256,7 +256,7 @@ namespace UpdatesClient.Core.Effects
             /// <returns>True if successful.</returns>
             private bool PointIsInEllipse(Point pt, Point center, Size radii)
             {
-                Point ray =  new Point ( pt.X - center.X , pt.Y - center.Y) ;
+                Point ray = new Point(pt.X - center.X, pt.Y - center.Y);
                 double rayPctX = ray.X / radii.Width;
                 double rayPctY = ray.Y / radii.Height;
 

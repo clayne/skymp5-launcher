@@ -32,9 +32,7 @@ using System.Threading;
 using Newtonsoft.Json.Utilities;
 using System.Collections;
 using System.Globalization;
-using System.ComponentModel;
 #if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
 #else
 using System.Linq;
 

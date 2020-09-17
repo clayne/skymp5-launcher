@@ -26,17 +26,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 #if HAVE_DYNAMIC
 using System.Dynamic;
 #endif
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Security;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Utilities;
-using System.Runtime.Serialization;
 #if !HAVE_LINQ
 using Newtonsoft.Json.Utilities.LinqBridge;
 #else
@@ -1112,14 +1108,14 @@ namespace Newtonsoft.Json.System
                 {
                     case PrimitiveTypeCode.DateTime:
                     case PrimitiveTypeCode.DateTimeNullable:
-                    {
-                        DateTime dt = DateTimeUtils.EnsureDateTime((DateTime)name, writer.DateTimeZoneHandling);
+                        {
+                            DateTime dt = DateTimeUtils.EnsureDateTime((DateTime)name, writer.DateTimeZoneHandling);
 
-                        escape = false;
-                        StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
-                        DateTimeUtils.WriteDateTimeString(sw, dt, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
-                        return sw.ToString();
-                    }
+                            escape = false;
+                            StringWriter sw = new StringWriter(CultureInfo.InvariantCulture);
+                            DateTimeUtils.WriteDateTimeString(sw, dt, writer.DateFormatHandling, writer.DateFormatString, writer.Culture);
+                            return sw.ToString();
+                        }
 #if HAVE_DATE_TIME_OFFSET
                     case PrimitiveTypeCode.DateTimeOffset:
                     case PrimitiveTypeCode.DateTimeOffsetNullable:
@@ -1132,31 +1128,31 @@ namespace Newtonsoft.Json.System
 #endif
                     case PrimitiveTypeCode.Double:
                     case PrimitiveTypeCode.DoubleNullable:
-                    {
-                        double d = (double)name;
+                        {
+                            double d = (double)name;
 
-                        escape = false;
-                        return d.ToString("R", CultureInfo.InvariantCulture);
-                    }
+                            escape = false;
+                            return d.ToString("R", CultureInfo.InvariantCulture);
+                        }
                     case PrimitiveTypeCode.Single:
                     case PrimitiveTypeCode.SingleNullable:
-                    {
-                        float f = (float)name;
-
-                        escape = false;
-                        return f.ToString("R", CultureInfo.InvariantCulture);
-                    }
-                    default:
-                    {
-                        escape = true;
-
-                        if (primitiveContract.IsEnum && EnumUtils.TryToString(primitiveContract.NonNullableUnderlyingType, name, null, out string enumName))
                         {
-                            return enumName;
-                        }
+                            float f = (float)name;
 
-                        return Convert.ToString(name, CultureInfo.InvariantCulture);
-                    }
+                            escape = false;
+                            return f.ToString("R", CultureInfo.InvariantCulture);
+                        }
+                    default:
+                        {
+                            escape = true;
+
+                            if (primitiveContract.IsEnum && EnumUtils.TryToString(primitiveContract.NonNullableUnderlyingType, name, null, out string enumName))
+                            {
+                                return enumName;
+                            }
+
+                            return Convert.ToString(name, CultureInfo.InvariantCulture);
+                        }
                 }
             }
             else if (TryConvertToString(name, name.GetType(), out string propertyName))

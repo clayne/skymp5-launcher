@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using UpdatesClient.Modules.Configs;
 using Yandex.Metrica;
 

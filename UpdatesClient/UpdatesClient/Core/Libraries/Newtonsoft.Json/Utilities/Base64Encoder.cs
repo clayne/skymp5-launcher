@@ -78,7 +78,7 @@ namespace Newtonsoft.Json.Utilities
 
             if (_leftOverBytesCount > 0)
             {
-                if(FulfillFromLeftover(buffer, index, ref count))
+                if (FulfillFromLeftover(buffer, index, ref count))
                 {
                     return;
                 }

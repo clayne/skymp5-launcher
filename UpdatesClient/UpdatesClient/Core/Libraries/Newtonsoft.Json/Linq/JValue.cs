@@ -23,10 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Newtonsoft.Json.Utilities;
 using System.Globalization;
 #if HAVE_DYNAMIC
 using System.Dynamic;
@@ -258,7 +258,7 @@ namespace Newtonsoft.Json.Linq
             switch (valueType)
             {
                 case JTokenType.Integer:
-                {
+                    {
 #if HAVE_BIG_INTEGER
                     if (objA is BigInteger integerA)
                     {
@@ -269,37 +269,37 @@ namespace Newtonsoft.Json.Linq
                         return -CompareBigInteger(integerB, objA);
                     }
 #endif
-                    if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
-                    {
-                        return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
+                        if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
+                        {
+                            return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
+                        }
+                        else if (objA is float || objB is float || objA is double || objB is double)
+                        {
+                            return CompareFloat(objA, objB);
+                        }
+                        else
+                        {
+                            return Convert.ToInt64(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToInt64(objB, CultureInfo.InvariantCulture));
+                        }
                     }
-                    else if (objA is float || objB is float || objA is double || objB is double)
+                case JTokenType.Float:
                     {
+#if HAVE_BIG_INTEGER
+                    if (objA is BigInteger integerA)
+                    {
+                        return CompareBigInteger(integerA, objB);
+                    }
+                    if (objB is BigInteger integerB)
+                    {
+                        return -CompareBigInteger(integerB, objA);
+                    }
+#endif
+                        if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
+                        {
+                            return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
+                        }
                         return CompareFloat(objA, objB);
                     }
-                    else
-                    {
-                        return Convert.ToInt64(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToInt64(objB, CultureInfo.InvariantCulture));
-                    }
-                }
-                case JTokenType.Float:
-                {
-#if HAVE_BIG_INTEGER
-                    if (objA is BigInteger integerA)
-                    {
-                        return CompareBigInteger(integerA, objB);
-                    }
-                    if (objB is BigInteger integerB)
-                    {
-                        return -CompareBigInteger(integerB, objA);
-                    }
-#endif
-                    if (objA is ulong || objB is ulong || objA is decimal || objB is decimal)
-                    {
-                        return Convert.ToDecimal(objA, CultureInfo.InvariantCulture).CompareTo(Convert.ToDecimal(objB, CultureInfo.InvariantCulture));
-                    }
-                    return CompareFloat(objA, objB);
-                }
                 case JTokenType.Comment:
                 case JTokenType.String:
                 case JTokenType.Raw:
@@ -317,9 +317,9 @@ namespace Newtonsoft.Json.Linq
                     if (objA is DateTime dateA)
                     {
 #else
-                        DateTime dateA = (DateTime)objA;
+                    DateTime dateA = (DateTime)objA;
 #endif
-                        DateTime dateB;
+                    DateTime dateB;
 
 #if HAVE_DATE_TIME_OFFSET
                         if (objB is DateTimeOffset offsetB)
@@ -328,11 +328,11 @@ namespace Newtonsoft.Json.Linq
                         }
                         else
 #endif
-                        {
-                            dateB = Convert.ToDateTime(objB, CultureInfo.InvariantCulture);
-                        }
+                    {
+                        dateB = Convert.ToDateTime(objB, CultureInfo.InvariantCulture);
+                    }
 
-                        return dateA.CompareTo(dateB);
+                    return dateA.CompareTo(dateB);
 #if HAVE_DATE_TIME_OFFSET
                     }
                     else

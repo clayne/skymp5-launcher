@@ -21,9 +21,9 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// This property is mapped to the CenterX variable within the pixel shader.
         /// </summary>
-        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(ZoomBlurEffect), new UIPropertyMetadata( new Point( 0.5,0.5) , PixelShaderConstantCallback(0)));
+        public static readonly DependencyProperty CenterProperty = DependencyProperty.Register("Center", typeof(Point), typeof(ZoomBlurEffect), new UIPropertyMetadata(new Point(0.5, 0.5), PixelShaderConstantCallback(0)));
 
-         
+
         /// <summary>
         /// This property is mapped to the BlurAmount variable within the pixel shader.
         /// </summary>
@@ -58,7 +58,7 @@ namespace UpdatesClient.Core.Effects
         {
             this.PixelShader = pixelShader;
             UpdateShaderValue(InputProperty);
-            UpdateShaderValue(CenterProperty);            
+            UpdateShaderValue(CenterProperty);
             UpdateShaderValue(BlurAmountProperty);
         }
 
@@ -83,7 +83,7 @@ namespace UpdatesClient.Core.Effects
             set { SetValue(CenterProperty, value); }
         }
 
- 
+
         /// <summary>
         /// Gets or sets the BlurAmount variable within the shader.
         /// </summary>

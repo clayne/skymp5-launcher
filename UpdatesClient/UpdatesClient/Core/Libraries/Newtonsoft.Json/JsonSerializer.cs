@@ -23,17 +23,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.System;
+using Newtonsoft.Json.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Runtime.Serialization.Formatters;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.System;
-using Newtonsoft.Json.Utilities;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 using ErrorEventArgs = Newtonsoft.Json.System.ErrorEventArgs;
 
 namespace Newtonsoft.Json

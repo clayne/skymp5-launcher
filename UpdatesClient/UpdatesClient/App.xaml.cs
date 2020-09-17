@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Management;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Modules.Configs;
@@ -41,11 +39,11 @@ namespace UpdatesClient
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
             string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
-            if(!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
+            if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
             YandexMetricaFolder.SetCurrent(tmpPath);
 
             YandexMetrica.Config.CustomAppVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
-            
+
             InitApp();
         }
 
@@ -140,11 +138,11 @@ namespace UpdatesClient
                 }
 #endif
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
                 YandexMetrica.ReportError($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
-                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка"); 
+                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка");
             }
         }
         private void StartLuancher()
@@ -164,7 +162,7 @@ namespace UpdatesClient
             if (File.Exists(pathToFile) && MasterHash.ToUpper() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper()) return true;
             else return false;
         }
-        private bool Update() 
+        private bool Update()
         {
             if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
 

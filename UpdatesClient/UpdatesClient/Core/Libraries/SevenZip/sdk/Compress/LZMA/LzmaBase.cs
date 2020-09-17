@@ -14,7 +14,7 @@ namespace SevenZip.Sdk.Compression.Lzma
 
         public const int kNumAlignBits = 4;
 
-        public const uint kNumFullDistances = 1 << ((int) kEndPosModelIndex/2);
+        public const uint kNumFullDistances = 1 << ((int)kEndPosModelIndex / 2);
         public const int kNumHighLenBits = 8;
 
         public const uint kNumLenSymbols = kNumLowLenSymbols + kNumMidLenSymbols +
@@ -68,17 +68,17 @@ namespace SevenZip.Sdk.Compression.Lzma
 
             public void UpdateMatch()
             {
-                Index = (uint) (Index < 7 ? 7 : 10);
+                Index = (uint)(Index < 7 ? 7 : 10);
             }
 
             public void UpdateRep()
             {
-                Index = (uint) (Index < 7 ? 8 : 11);
+                Index = (uint)(Index < 7 ? 8 : 11);
             }
 
             public void UpdateShortRep()
             {
-                Index = (uint) (Index < 7 ? 9 : 11);
+                Index = (uint)(Index < 7 ? 9 : 11);
             }
 
             public bool IsCharState()

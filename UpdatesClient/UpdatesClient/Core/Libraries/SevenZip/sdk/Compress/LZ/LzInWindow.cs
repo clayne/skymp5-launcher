@@ -70,10 +70,10 @@ namespace SevenZip.Sdk.Compression.LZ
                 return;
             while (true)
             {
-                var size = (int) ((0 - _bufferOffset) + _blockSize - _streamPos);
+                var size = (int)((0 - _bufferOffset) + _blockSize - _streamPos);
                 if (size == 0)
                     return;
-                int numReadBytes = _stream.Read(_bufferBase, (int) (_bufferOffset + _streamPos), size);
+                int numReadBytes = _stream.Read(_bufferBase, (int)(_bufferOffset + _streamPos), size);
                 if (numReadBytes == 0)
                 {
                     _posLimit = _streamPos;
@@ -84,7 +84,7 @@ namespace SevenZip.Sdk.Compression.LZ
                     _streamEndWasReached = true;
                     return;
                 }
-                _streamPos += (UInt32) numReadBytes;
+                _streamPos += (UInt32)numReadBytes;
                 if (_streamPos >= _pos + _keepSizeAfter)
                     _posLimit = _streamPos - _keepSizeAfter;
             }
@@ -156,10 +156,10 @@ namespace SevenZip.Sdk.Compression.LZ
         {
             if (_streamEndWasReached)
                 if ((_pos + index) + limit > _streamPos)
-                    limit = _streamPos - (UInt32) (_pos + index);
+                    limit = _streamPos - (UInt32)(_pos + index);
             distance++;
             // Byte *pby = _buffer + (size_t)_pos + index;
-            UInt32 pby = _bufferOffset + _pos + (UInt32) index;
+            UInt32 pby = _bufferOffset + _pos + (UInt32)index;
 
             UInt32 i;
             for (i = 0; i < limit && _bufferBase[pby + i] == _bufferBase[pby + i - distance]; i++) ;
@@ -173,10 +173,10 @@ namespace SevenZip.Sdk.Compression.LZ
 
         public void ReduceOffsets(Int32 subValue)
         {
-            _bufferOffset += (UInt32) subValue;
-            _posLimit -= (UInt32) subValue;
-            _pos -= (UInt32) subValue;
-            _streamPos -= (UInt32) subValue;
+            _bufferOffset += (UInt32)subValue;
+            _posLimit -= (UInt32)subValue;
+            _pos -= (UInt32)subValue;
+            _streamPos -= (UInt32)subValue;
         }
     }
 }

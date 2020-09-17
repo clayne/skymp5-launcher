@@ -57,7 +57,7 @@ namespace SevenZip.Sdk.Buffer
         {
             if (m_Pos == 0)
                 return;
-            m_Stream.Write(m_Buffer, 0, (int) m_Pos);
+            m_Stream.Write(m_Buffer, 0, (int)m_Pos);
             m_Pos = 0;
         }
 

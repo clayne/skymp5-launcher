@@ -23,13 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
+using Newtonsoft.Json.Utilities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities;
 
 namespace Newtonsoft.Json.System
 {
@@ -246,7 +244,7 @@ namespace Newtonsoft.Json.System
             underlyingType = ReflectionUtils.EnsureNotByRefType(underlyingType);
 
             IsNullable = ReflectionUtils.IsNullable(underlyingType);
-             
+
             NonNullableUnderlyingType = (IsNullable && ReflectionUtils.IsNullableType(underlyingType)) ? Nullable.GetUnderlyingType(underlyingType) : underlyingType;
 
             CreatedType = NonNullableUnderlyingType;

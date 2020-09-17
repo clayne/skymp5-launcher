@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Windows;
 using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.SelfUpdater

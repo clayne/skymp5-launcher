@@ -23,10 +23,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Newtonsoft.Json.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Newtonsoft.Json.Linq

@@ -325,7 +325,7 @@ namespace Newtonsoft.Json.Utilities
                 return w.ToString();
             }
         }
-        
+
         private static int FirstCharToEscape(string s, bool[] charEscapeFlags, StringEscapeHandling stringEscapeHandling)
         {
             for (int i = 0; i != s.Length; i++)

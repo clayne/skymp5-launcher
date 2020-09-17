@@ -198,7 +198,7 @@
                     using (XmlReader scr = XmlReader.Create(schm))
                     {
                         sc.Add(null, scr);
-                        var settings = new XmlReaderSettings {ValidationType = ValidationType.Schema, Schemas = sc};
+                        var settings = new XmlReaderSettings { ValidationType = ValidationType.Schema, Schemas = sc };
                         string validationErrors = "";
                         settings.ValidationEventHandler +=
                             ((s, t) =>
@@ -314,7 +314,7 @@
                 default:
                     return null;
                 case SfxModule.Installer:
-                    var settings = new Dictionary<string, string> {{"Title", "7-Zip self-extracting archive"}};
+                    var settings = new Dictionary<string, string> { { "Title", "7-Zip self-extracting archive" } };
                     return settings;
                 case SfxModule.Default:
                 case SfxModule.Extended:

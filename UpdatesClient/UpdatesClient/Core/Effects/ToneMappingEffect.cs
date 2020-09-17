@@ -16,7 +16,7 @@ namespace UpdatesClient.Core.Effects
         // Brush-valued properties turn into sampler-property in the shader.
         // This helper sets "ImplicitInput" as the default, meaning the default
         // sampler is whatever the rendering of the element it's being applied to is.
-        
+
         /// <summary>
         /// The explict input for this pixel shader.
         /// </summary>
@@ -50,9 +50,9 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// This property is mapped to the VignetteCenterX variable within the pixel shader. 
         /// </summary>
-        public static readonly DependencyProperty VignetteCenterProperty = DependencyProperty.Register("VignetteCenter", typeof(Point), typeof(ToneMappingEffect), new UIPropertyMetadata( new Point(0.5, 0.5), PixelShaderConstantCallback(5)));
+        public static readonly DependencyProperty VignetteCenterProperty = DependencyProperty.Register("VignetteCenter", typeof(Point), typeof(ToneMappingEffect), new UIPropertyMetadata(new Point(0.5, 0.5), PixelShaderConstantCallback(5)));
 
-        
+
         /// <summary>
         /// This property is mapped to the BlueShift variable within the pixel shader. 
         /// </summary>
@@ -94,7 +94,7 @@ namespace UpdatesClient.Core.Effects
             UpdateShaderValue(GammaProperty);
             UpdateShaderValue(FogColorProperty);
             UpdateShaderValue(VignetteRadiusProperty);
-            UpdateShaderValue(VignetteCenterProperty);            
+            UpdateShaderValue(VignetteCenterProperty);
             UpdateShaderValue(BlueShiftProperty);
         }
 
@@ -164,7 +164,7 @@ namespace UpdatesClient.Core.Effects
             set { SetValue(VignetteCenterProperty, value); }
         }
 
-        
+
 
         /// <summary>
         /// Gets or sets the BlueShift variable within the shader.

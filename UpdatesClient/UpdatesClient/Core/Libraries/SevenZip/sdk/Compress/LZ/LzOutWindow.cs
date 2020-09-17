@@ -38,7 +38,7 @@ namespace SevenZip.Sdk.Compression.LZ
         public bool Train(Stream stream)
         {
             long len = stream.Length;
-            uint size = (len < _windowSize) ? (uint) len : _windowSize;
+            uint size = (len < _windowSize) ? (uint)len : _windowSize;
             TrainSize = size;
             stream.Position = len - size;
             _streamPos = _pos = 0;
@@ -47,12 +47,12 @@ namespace SevenZip.Sdk.Compression.LZ
                 uint curSize = _windowSize - _pos;
                 if (size < curSize)
                     curSize = size;
-                int numReadBytes = stream.Read(_buffer, (int) _pos, (int) curSize);
+                int numReadBytes = stream.Read(_buffer, (int)_pos, (int)curSize);
                 if (numReadBytes == 0)
                     return false;
-                size -= (uint) numReadBytes;
-                _pos += (uint) numReadBytes;
-                _streamPos += (uint) numReadBytes;
+                size -= (uint)numReadBytes;
+                _pos += (uint)numReadBytes;
+                _streamPos += (uint)numReadBytes;
                 if (_pos == _windowSize)
                     _streamPos = _pos = 0;
             }
@@ -70,7 +70,7 @@ namespace SevenZip.Sdk.Compression.LZ
             uint size = _pos - _streamPos;
             if (size == 0)
                 return;
-            _stream.Write(_buffer, (int) _streamPos, (int) size);
+            _stream.Write(_buffer, (int)_streamPos, (int)size);
             if (_pos >= _windowSize)
                 _pos = 0;
             _streamPos = _pos;

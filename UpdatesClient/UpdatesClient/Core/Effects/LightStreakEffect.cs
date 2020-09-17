@@ -16,7 +16,7 @@ namespace UpdatesClient.Core.Effects
         // Brush-valued properties turn into sampler-property in the shader.
         // This helper sets "ImplicitInput" as the default, meaning the default
         // sampler is whatever the rendering of the element it's being applied to is.
-        
+
         /// <summary>
         /// The explict input for this pixel shader.
         /// </summary>

@@ -23,13 +23,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json.Bson;
-using System.Globalization;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json.System;
 using Newtonsoft.Json.Utilities;
+using System;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Newtonsoft.Json.Converters
 {

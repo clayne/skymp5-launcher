@@ -20,6 +20,7 @@ namespace UpdatesClient.Modules.Configs
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
 
         public static string PathToSkyrim { get { return model.PathToSkyrim; } set { model.PathToSkyrim = value; } }
+        public static string PathToSkyrimTmp => PathToSkyrim + "\\tmp\\";
         public static string LastVersion { get { return model.LastVersion; } private set { model.LastVersion = value; } }
 
         internal static bool Load()

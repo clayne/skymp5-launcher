@@ -1,9 +1,8 @@
 ﻿namespace SevenZip
 {
+    using SevenZip.Sdk.Compression.Lzma;
     using System;
     using System.IO;
-
-    using SevenZip.Sdk.Compression.Lzma;
 
     /// <summary>
     /// The stream which decompresses data with LZMA on the fly.
@@ -33,7 +32,7 @@
         /// <summary>
         /// Gets the chunk size.
         /// </summary>
-        public int ChunkSize => (int) _buffer.Length;
+        public int ChunkSize => (int)_buffer.Length;
 
         /// <summary>
         /// Gets a value indicating whether the current stream supports reading.
@@ -108,9 +107,9 @@
                 _error = true;
                 return;
             }
-            if (_buffer.Capacity < (int) size)
+            if (_buffer.Capacity < (int)size)
             {
-                _buffer.Capacity = (int) size;
+                _buffer.Capacity = (int)size;
             }
             _buffer.SetLength(size);
             _decoder.SetDecoderProperties(properties);
@@ -123,7 +122,7 @@
         /// <summary>
         /// Does nothing.
         /// </summary>
-        public override void Flush() {}
+        public override void Flush() { }
 
         /// <summary>
         /// Reads a sequence of bytes from the current stream and decompresses data if necessary.

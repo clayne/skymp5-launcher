@@ -24,11 +24,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
-using System.Security;
 #if HAVE_CAS
 using System.Security.Permissions;
 #endif
@@ -38,7 +35,6 @@ using Newtonsoft.Json.Utilities.LinqBridge;
 #else
 using System.Linq;
 #endif
-using System.Runtime.Serialization;
 
 namespace Newtonsoft.Json.System
 {
@@ -58,7 +54,7 @@ namespace Newtonsoft.Json.System
 
         public const string ConcurrentDictionaryTypeName = "System.Collections.Concurrent.ConcurrentDictionary`2";
 
-        private static readonly ThreadSafeStore<Type, Func<object[], object>> CreatorCache = 
+        private static readonly ThreadSafeStore<Type, Func<object[], object>> CreatorCache =
             new ThreadSafeStore<Type, Func<object[], object>>(GetCreator);
 
 #if !(NET20 || DOTNET)

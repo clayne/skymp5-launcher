@@ -23,7 +23,7 @@
         /// <summary>
         /// The library can extract 7z archives compressed with all known methods.
         /// </summary>
-        Extract7zAll = Extract7z|Extract7zLZMA2|0x4,
+        Extract7zAll = Extract7z | Extract7zLZMA2 | 0x4,
         /// <summary>
         /// The library can extract zip archives.
         /// </summary>
@@ -51,7 +51,7 @@
         /// <summary>
         /// The library can extract all types of archives supported.
         /// </summary>
-        ExtractAll = Extract7zAll|ExtractZip|ExtractRar|ExtractGzip|ExtractBzip2|ExtractTar|ExtractXz,
+        ExtractAll = Extract7zAll | ExtractZip | ExtractRar | ExtractGzip | ExtractBzip2 | ExtractTar | ExtractXz,
         /// <summary>
         /// The library can compress data to 7zip archives with LZMA method.
         /// </summary>
@@ -63,7 +63,7 @@
         /// <summary>
         /// The library can compress data to 7zip archives with all methods known.
         /// </summary>
-        Compress7zAll = Compress7z|Compress7zLZMA2|0x800,
+        Compress7zAll = Compress7z | Compress7zLZMA2 | 0x800,
         /// <summary>
         /// The library can compress data to tar archives.
         /// </summary>
@@ -87,7 +87,7 @@
         /// <summary>
         /// The library can compress data to all types of archives supported.
         /// </summary>
-        CompressAll = Compress7zAll|CompressTar|CompressGzip|CompressBzip2|CompressXz|CompressZip,
+        CompressAll = Compress7zAll | CompressTar | CompressGzip | CompressBzip2 | CompressXz | CompressZip,
         /// <summary>
         /// The library can modify archives.
         /// </summary>

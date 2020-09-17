@@ -23,11 +23,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
 using Newtonsoft.Json.System;
 using Newtonsoft.Json.Utilities;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
 
 namespace Newtonsoft.Json.Converters
 {

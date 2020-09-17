@@ -1478,9 +1478,9 @@ namespace Newtonsoft.Json.Linq
             return ConvertUtils.ToBigInteger(v.Value);
         }
 #endif
-#endregion
+        #endregion
 
-#region Cast to operators
+        #region Cast to operators
         /// <summary>
         /// Performs an implicit conversion from <see cref="Boolean"/> to <see cref="JToken"/>.
         /// </summary>
@@ -1834,7 +1834,7 @@ namespace Newtonsoft.Json.Linq
         {
             return new JValue(value);
         }
-#endregion
+        #endregion
 
         IEnumerator IEnumerable.GetEnumerator()
         {

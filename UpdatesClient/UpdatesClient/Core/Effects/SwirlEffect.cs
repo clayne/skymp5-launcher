@@ -12,14 +12,14 @@ namespace UpdatesClient.Core.Effects
     /// </summary>
     public class SwirlEffect : ShaderEffect
     {
-         
+
         #region Dependency Properties
 
         /// <summary>
         /// The explict input for this pixel shader.
         /// </summary>
         public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(SwirlEffect), 0);
-        
+
         /// <summary>
         /// This property is mapped to the Center variable within the pixel shader.
         /// </summary>
@@ -189,10 +189,10 @@ namespace UpdatesClient.Core.Effects
             {
                 Point tl, tr, bl, br;
 
-                if (this.TryTransform( new Point ( rect.Left, rect.Top ), out tl) &&
-                    this.TryTransform( new Point ( rect.Right, rect.Top ) , out tr) &&
-                    this.TryTransform( new Point ( rect.Left, rect.Bottom) , out bl) &&
-                    this.TryTransform( new Point ( rect.Right, rect.Bottom) , out br))
+                if (this.TryTransform(new Point(rect.Left, rect.Top), out tl) &&
+                    this.TryTransform(new Point(rect.Right, rect.Top), out tr) &&
+                    this.TryTransform(new Point(rect.Left, rect.Bottom), out bl) &&
+                    this.TryTransform(new Point(rect.Right, rect.Bottom), out br))
                 {
                     double maxX = Math.Max(tl.X, Math.Max(tr.X, Math.Max(bl.X, br.X)));
                     double minX = Math.Min(tl.X, Math.Min(tr.X, Math.Min(bl.X, br.X)));
@@ -228,11 +228,11 @@ namespace UpdatesClient.Core.Effects
                 double inverseFactor = this.thisIsInverse ? 1 : -1;
                 double newAngle = angle + inverseFactor * this.theEffect.SwirlStrength * l;
 
-                Point angleFrequency = new Point(this.theEffect.AngleFrequency.X, this.theEffect.AngleFrequency.Y); 
+                Point angleFrequency = new Point(this.theEffect.AngleFrequency.X, this.theEffect.AngleFrequency.Y);
                 double xamt = Math.Cos(angleFrequency.X * newAngle) * l;
                 double yamt = Math.Sin(angleFrequency.Y * newAngle) * l;
 
-                result = new Point ( this.theEffect.Center.X + xamt, 
+                result = new Point(this.theEffect.Center.X + xamt,
                                      this.theEffect.Center.Y + yamt);
 
                 return true;
@@ -242,7 +242,7 @@ namespace UpdatesClient.Core.Effects
             /// Returns a new instance of this.
             /// </summary>
             /// <returns>A new instance.</returns>
-#if !SILVERLIGHT             
+#if !SILVERLIGHT
             protected override Freezable CreateInstanceCore()
             {
                 return new SwirlGeneralTransform(this.theEffect) { thisIsInverse = this.thisIsInverse };

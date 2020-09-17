@@ -23,12 +23,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 #endregion
 
-using System;
 using Newtonsoft.Json.System;
+using System;
 using System.Reflection;
 
 #if !HAVE_LINQ
-using Newtonsoft.Json.Utilities.LinqBridge;
 #endif
 
 namespace Newtonsoft.Json.Utilities

@@ -25,9 +25,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Text;
 using System.Collections;
 using System.Diagnostics;
 #if !HAVE_LINQ
@@ -35,11 +33,9 @@ using Newtonsoft.Json.Utilities.LinqBridge;
 #else
 using System.Linq;
 #endif
-using System.Globalization;
 #if HAVE_METHOD_IMPL_ATTRIBUTE
 using System.Runtime.CompilerServices;
 #endif
-using Newtonsoft.Json.System;
 
 namespace Newtonsoft.Json.Utilities
 {

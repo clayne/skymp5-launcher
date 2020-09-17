@@ -24,7 +24,6 @@
 #endregion
 
 using System;
-using System.Runtime.CompilerServices;
 using System.IO;
 using System.Globalization;
 #if HAVE_BIG_INTEGER
@@ -161,7 +160,7 @@ namespace Newtonsoft.Json
         }
 
         private void ParseReadString(char quote, ReadType readType)
-        { 
+        {
             SetPostValueState(true);
 
             switch (readType)
@@ -1929,7 +1928,7 @@ namespace Newtonsoft.Json
         }
 
         private void ParseReadNumber(ReadType readType, char firstChar, int initialPosition)
-        { 
+        {
             // set state to PostValue now so that if there is an error parsing the number then the reader can continue
             SetPostValueState(true);
 

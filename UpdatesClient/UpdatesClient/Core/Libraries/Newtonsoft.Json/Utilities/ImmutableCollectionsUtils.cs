@@ -31,7 +31,6 @@ using Newtonsoft.Json.Utilities.LinqBridge;
 using System.Linq;
 #endif
 using System.Reflection;
-using System.Text;
 using Newtonsoft.Json.System;
 
 namespace Newtonsoft.Json.Utilities

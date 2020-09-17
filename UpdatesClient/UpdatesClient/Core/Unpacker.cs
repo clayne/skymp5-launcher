@@ -7,26 +7,50 @@ namespace UpdatesClient.Core
 {
     public class Unpacker
     {
-        public static bool SevenZUnpack(string file, string extractTo)
+        public static bool UnpackArchive(string file, string extractTo, string extractFromSub = "")
         {
-            string pathToLib = Settings.PathToSkyrim + "\\tmp\\7z.dll";
+            switch (Path.GetExtension(file))
+            {
+                case ".zip":
+                    return UnpackZip(file, extractTo);
+
+                default:
+                    return SevenZUnpack(file, extractTo, extractFromSub);
+            }
+        }
+        private static bool UnpackZip(string file, string extractTo, string extractFromSub = "")
+        {
+            if (!File.Exists(file)) return false;
+
+            string tmpFiles = $"{Settings.PathToSkyrimTmp}files\\";
+            Delete(tmpFiles);
+            Create(tmpFiles);
+
+            ZipFile.ExtractToDirectory(file, tmpFiles);
+            CopyToDir($"{tmpFiles}{extractFromSub}\\", extractTo);
+
+            Delete(tmpFiles);
+            File.Delete(file);
+
+            return true;
+        }
+        private static bool SevenZUnpack(string file, string extractTo, string extractFromSub = "")
+        {
+            string pathToLib = Settings.PathToLocalTmp + "7z.dll";
             if (File.Exists(pathToLib) && File.Exists(file))
             {
                 SevenZipLibraryManager.SetLibraryPath(pathToLib);
 
-                string tmpFiles = $"{Settings.PathToSkyrim}\\tmp\\files\\";
+                string tmpFiles = $"{Settings.PathToSkyrimTmp}files\\";
                 Delete(tmpFiles);
                 Create(tmpFiles);
 
-                using (var extractor = new SevenZipExtractor(file))
+                using (SevenZipExtractor extractor = new SevenZipExtractor(file))
                 {
                     for (var i = 0; i < extractor.ArchiveFileData.Count; i++)
-                    {
                         extractor.ExtractFiles(tmpFiles, extractor.ArchiveFileData[i].Index);
-                    }
-
                 }
-                CopyToDir(tmpFiles + $"\\{Path.GetFileNameWithoutExtension(file)}\\", extractTo);
+                CopyToDir($"{tmpFiles}{extractFromSub}\\", extractTo);
 
                 Delete(tmpFiles);
                 File.Delete(file);
@@ -34,40 +58,6 @@ namespace UpdatesClient.Core
                 return true;
             }
             return false;
-        }
-
-        public static bool Unpack(string file, string extractTo)
-        {
-            if (!File.Exists(file)) return false;
-
-            string tmpFiles = $"{Settings.PathToSkyrim}\\tmp\\files\\";
-            Delete(tmpFiles);
-            Create(tmpFiles);
-
-            ZipFile.ExtractToDirectory(file, tmpFiles);
-            CopyToDir(tmpFiles + "\\client\\", extractTo);
-
-            Delete(tmpFiles);
-            File.Delete(file);
-
-            return true;
-        }
-
-        public static bool UnpackZip(string file, string extractTo)
-        {
-            if (!File.Exists(file)) return false;
-
-            string tmpFiles = $"{Settings.PathToSkyrim}\\tmp\\files\\";
-            Delete(tmpFiles);
-            Create(tmpFiles);
-
-            ZipFile.ExtractToDirectory(file, tmpFiles);
-            CopyToDir(tmpFiles, extractTo);
-
-            Delete(tmpFiles);
-            File.Delete(file);
-
-            return true;
         }
 
         private static bool CopyToDir(string fromDir, string toDir)

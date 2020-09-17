@@ -1,9 +1,8 @@
 ﻿namespace SevenZip
 {
+    using SevenZip.Sdk.Compression.Lzma;
     using System;
     using System.IO;
-
-    using SevenZip.Sdk.Compression.Lzma;
 
     /// <summary>
     /// The stream which compresses data with LZMA on the fly.
@@ -168,7 +167,7 @@
             _buffer.Position = 0;
             for (int i = 0; i < 8; i++)
             {
-                _output.WriteByte((byte) (streamSize >> (8*i)));
+                _output.WriteByte((byte)(streamSize >> (8 * i)));
             }
             _lzmaEncoder.Code(_buffer, _output, -1, -1, null);
             _buffer.Position = 0;
@@ -262,7 +261,7 @@
             int dataLength = Math.Min(buffer.Length - offset, count);
             while (_buffer.Position + dataLength >= _bufferCapacity)
             {
-                int length = _bufferCapacity - (int) _buffer.Position;
+                int length = _bufferCapacity - (int)_buffer.Position;
                 _buffer.Write(buffer, offset, length);
                 offset = length + offset;
                 dataLength -= length;
