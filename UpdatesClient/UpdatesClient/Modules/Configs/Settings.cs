@@ -22,6 +22,7 @@ namespace UpdatesClient.Modules.Configs
         public static string PathToSkyrim { get { return model.PathToSkyrim; } set { model.PathToSkyrim = value; } }
         public static string PathToSkyrimTmp => PathToSkyrim + "\\tmp\\";
         public static string LastVersion { get { return model.LastVersion; } private set { model.LastVersion = value; } }
+        public static int LastIDServer { get { return model.LastIDServer; } set { model.LastIDServer = value; } }
 
         internal static bool Load()
         {

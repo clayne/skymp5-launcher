@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Threading;
 using UpdatesClient.Core;
+using UpdatesClient.Core.Models;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
@@ -40,7 +43,7 @@ namespace UpdatesClient
             progressBar.Hide();
 
             Settings.Load();
-            wind.Loaded += Wind_Loaded; ;
+            wind.Loaded += Wind_Loaded;
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
@@ -88,9 +91,19 @@ namespace UpdatesClient
                 ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
                 ModVersion.Save();
             }
-
+            FillComboBox();
             CheckClientUpdates();
         }
+        
+        private void FillComboBox()
+        {
+            //сделать ф-ию запроса списка серверов от сайта
+            List<ServerModel> list = new List<ServerModel>();
+            list.Add(new ServerModel(128, "V"));
+            list.Add(new ServerModel(129, "Vera"));
+            comboServerList.ItemsSource = list;
+        }
+
         private string GetGameFolder()
         {
             using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
@@ -313,3 +326,5 @@ namespace UpdatesClient
         }
     }
 }
+
+
