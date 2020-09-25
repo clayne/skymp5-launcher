@@ -10,7 +10,7 @@
         <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="В СЕТИ" VerticalAlignment="Bottom" Foreground="White" FontFamily="Constantia" FontSize="14" Height="16"/>
         <Rectangle Fill="White" HorizontalAlignment="Right" Margin="0,0,0,2" Width="11" Height="11" VerticalAlignment="Bottom">
             <Rectangle.OpacityMask>
-                <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Buttons/arrowDown.png"/>
+                <ImageBrush ImageSource="{StaticResource arrowDown}" Stretch="Uniform"/>
             </Rectangle.OpacityMask>
         </Rectangle>
     </Grid>

@@ -57,24 +57,21 @@
         </TextBlock>
         <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="3"/>
 
-        <local1:ImageButton x:Name="CloseBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="20" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="1">
-            <local1:ImageButton.OpacityMask>
-                <ImageBrush ImageSource="Assets/Images/Buttons/close.png"/>
-            </local1:ImageButton.OpacityMask>
+        <local1:ImageButton x:Name="CloseBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="5">
             <local1:ImageButton.Image>
-                <ImageBrush ImageSource="Assets/Images/Buttons/close.png"/>
+                <ImageBrush ImageSource="{StaticResource close}"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
-        <local1:ImageButton x:Name="MinBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="20" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
+        <local1:ImageButton x:Name="MinBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
             <local1:ImageButton.Image>
-                <ImageBrush ImageSource="Assets/Images/Buttons/minimize.png"/>
+                <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
 
-        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="0,13,0,0" TextWrapping="Wrap" Text="POSPELOV" VerticalAlignment="Top" Foreground="White" FontFamily="Constantia" FontSize="16"/>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="0,13,0,0" TextWrapping="Wrap" Text="ComingSoon" VerticalAlignment="Top" Foreground="White" FontFamily="Constantia" FontSize="16"/>
         <Rectangle Grid.Column="2" Fill="#FF05C925" HorizontalAlignment="Left" Height="10" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="20">
             <Rectangle.OpacityMask>
-                <ImageBrush ImageSource="Assets/Images/Buttons/eye.png"/>
+                <ImageBrush ImageSource="{StaticResource eye}"/>
             </Rectangle.OpacityMask>
         </Rectangle>
         <local1:OnlineButton Margin="27,0,0,7" Grid.Column="2" HorizontalAlignment="Left" Width="66" Height="16" VerticalAlignment="Bottom" />

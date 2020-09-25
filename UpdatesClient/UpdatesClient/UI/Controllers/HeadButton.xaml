@@ -9,12 +9,12 @@
     <Grid>
         <Rectangle Fill="#B2F4F4F5" HorizontalAlignment="Left" Margin="2,1,0,1" Width="24">
             <Rectangle.OpacityMask>
-                <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Buttons/head.png"/>
+                <ImageBrush ImageSource="{StaticResource head}"/>
             </Rectangle.OpacityMask>
         </Rectangle>
         <Rectangle HorizontalAlignment="Right" Margin="0,10,7,9" Width="11" Fill="#FFF4F4F5">
             <Rectangle.OpacityMask>
-                <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Buttons/arrowDown.png"/>
+                <ImageBrush ImageSource="{StaticResource arrowDown}" Stretch="Uniform"/>
             </Rectangle.OpacityMask>
         </Rectangle>
 

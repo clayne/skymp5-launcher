@@ -692,6 +692,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Images\Buttons\" />
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
@@ -749,15 +750,6 @@
     <Content Include="Assets\Effects\ToneMapping.fx" />
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
-    <Resource Include="Assets\Images\Buttons\logo.png" />
-    <Resource Include="Assets\Images\Buttons\cross.png" />
-    <Resource Include="Assets\Images\Buttons\smile.png" />
-    <Resource Include="Assets\Images\Buttons\arrowDown.png" />
-    <Resource Include="Assets\Images\Buttons\close.png" />
-    <Resource Include="Assets\Images\Buttons\eye.png" />
-    <Resource Include="Assets\Images\Buttons\head.png" />
-    <Resource Include="Assets\Images\Buttons\minimize.png" />
-    <Resource Include="Assets\Images\Buttons\star.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

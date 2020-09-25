@@ -20,7 +20,7 @@
                 <DropShadowEffect ShadowDepth="0" Color="#FF6BC1F2" BlurRadius="16" Direction="0"/>
             </Ellipse.Effect>
         </Ellipse>
-        <Image Margin="6,0,9,15" Grid.Row="0" Source="/UpdatesClient;component/Assets/Images/Buttons/logo.png" Grid.ColumnSpan="1"/>
+        <Image Margin="20,15,20,60" Grid.Row="0" Source="{StaticResource logo}" Grid.ColumnSpan="1"/>
         <TextBlock x:Name="textBlock" Margin="0,0,0,29" TextWrapping="Wrap" Text="ИГРАТЬ" VerticalAlignment="Bottom" FontSize="30" FontFamily="/UpdatesClient;component/Assets/Fonts/#VTMB_DlgBase2" Foreground="White" TextAlignment="Center">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="12" Color="#FF6BC1F2"/>
