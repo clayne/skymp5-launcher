@@ -555,6 +555,7 @@
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaActivator.cs" />
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaFolder.cs" />
     <Compile Include="Core\Net.cs" />
+    <Compile Include="Core\NotifyController.cs" />
     <Compile Include="Core\Unpacker.cs" />
     <Compile Include="Modules\Configs\Models\ModVersionModel.cs" />
     <Compile Include="Modules\Configs\Models\SettingsFileModel.cs" />
@@ -576,8 +577,14 @@
     <Compile Include="UI\Controllers\MainButton.xaml.cs">
       <DependentUpon>MainButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controllers\NotifyList.xaml.cs">
+      <DependentUpon>NotifyList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controllers\OnlineButton.xaml.cs">
       <DependentUpon>OnlineButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\PopupNotify.xaml.cs">
+      <DependentUpon>PopupNotify.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Controllers\SupportButton.xaml.cs">
       <DependentUpon>SupportButton.xaml</DependentUpon>
@@ -619,7 +626,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Controllers\NotifyList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Controllers\OnlineButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\PopupNotify.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -666,6 +681,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Assets\Fonts\Benguiat.ttf" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>

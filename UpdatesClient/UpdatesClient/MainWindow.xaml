@@ -81,6 +81,8 @@
 
         <local1:HeadButton Margin="799,13,5,14" />
 
+        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top" />
+
         <local1:ProgressBar x:Name="progressBar" Margin="60,541,35,71" Grid.Row="1" />
         <local1:MainButton x:Name="mainButton" Margin="843,478,60,39" Grid.Row="1" Width="155" Height="156" Grid.ColumnSpan="3" Click="MainBtn_Click" />
 

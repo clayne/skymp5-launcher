@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="UpdatesClient.UI.Controllers.PopupNotify"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
+             mc:Ignorable="d" 
+             d:DesignHeight="70" d:DesignWidth="414">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="38*"/>
+            <ColumnDefinition Width="169*"/>
+        </Grid.ColumnDefinitions>
+        <Border x:Name="border" BorderBrush="#F2FF0000" BorderThickness="3" Background="#FFBC0000" Opacity="0.4" CornerRadius="12" Grid.ColumnSpan="2"/>
+        <Image x:Name="smile" Margin="15,12" Source="{StaticResource SadSmile}"/>
+        <TextBlock x:Name="status" Grid.Column="1" Margin="0,12,10,0" TextWrapping="Wrap" Text="Статус" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Benguiat Rus" FontSize="16" TextDecorations="{x:Null}"/>
+        <TextBlock x:Name="description" Grid.Column="1" Margin="0,33,10,0" TextWrapping="Wrap" Text="Описание" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Benguiat Rus" FontSize="14"/>
+        <local1:ImageButton x:Name="closeBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,7,7,0" VerticalAlignment="Top" Height="13" Width="14" NormalColor="#FFC5C5C5" PressColor="#FF323232" SelectColor="#FF747474" ImageMargin="0">
+            <local1:ImageButton.OpacityMask>
+                <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Buttons/close.png"/>
+            </local1:ImageButton.OpacityMask>
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Buttons/close.png"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+    </Grid>
+</UserControl>

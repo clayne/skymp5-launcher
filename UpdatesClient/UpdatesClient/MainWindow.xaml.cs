@@ -124,7 +124,7 @@ namespace UpdatesClient
                     catch (Exception e)
                     {
                         YandexMetrica.ReportError("ExtractSKSE", e);
-                        //await mainButton.ShowMessage(ColorType.Error, "Ошибка");
+                        NotifyController.Show(e);
                         mainButton.ButtonStatus = MainButtonStatus.Retry;
                     }
                     progressBar.Hide();
@@ -156,7 +156,7 @@ namespace UpdatesClient
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("ExtractRuFix", e);
-                    //await mainButton.ShowMessage(ColorType.Error, "Ошибка");
+                    NotifyController.Show(e);
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace UpdatesClient
             catch (Exception e)
             {
                 YandexMetrica.ReportError("CheckClient", e);
-                //await mainButton.ShowMessage(ColorType.Error, "Ошибка");
+                NotifyController.Show(e);
                 mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
             progressBar.Hide();
@@ -271,12 +271,13 @@ namespace UpdatesClient
                     {
                         ModVersion.Version = url.Item2;
                         ModVersion.Save();
+                        NotifyController.Show(PopupNotify.Normal, "Установка завершена", "Приятной игры!");
                     }
                 }
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("Extract", e);
-                    //await mainButton.ShowMessage(ColorType.Error, "Ошибка");
+                    NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;
                     return;
                 }
