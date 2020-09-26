@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Threading;
 using UpdatesClient.Core;
@@ -97,11 +99,19 @@ namespace UpdatesClient
         
         private void FillComboBox()
         {
-            //сделать ф-ию запроса списка серверов от сайта
-            List<ServerModel> list = new List<ServerModel>();
-            list.Add(new ServerModel(128, "V"));
-            list.Add(new ServerModel(129, "Vera"));
+            List<ServerModel> list = GetServerList();
             comboServerList.ItemsSource = list;
+            comboServerList.SelectedIndex = list.FindIndex(x => x.ID == Settings.LastServerID);
+        }
+        //test
+        private List<ServerModel> GetServerList()
+        {
+            return new List<ServerModel>
+            {
+                new ServerModel("185.241.192.136", 7777, "Alpha", 100, 23),
+                new ServerModel("185.241.192.158", 7777, "Betta", 80, 40),
+                new ServerModel("185.241.192.192", 7777, "Gamma", 30, 30)
+            };
         }
 
         private string GetGameFolder()
@@ -324,7 +334,20 @@ namespace UpdatesClient
             if (!ok && c < 3) return await DownloadFile(destinationPath, url, status, vers, ++c);
             return ok;
         }
+
+        private void ComboServerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboServerList.SelectedIndex != -1)
+            {
+                ServerModel selected = ((ServerModel)comboServerList.SelectedItem);
+                Settings.LastServerID = selected.ID;
+            }
+            
+        }
+
+        private void RefreshServerList(object sender, RoutedEventArgs e)
+        {
+            FillComboBox();
+        }
     }
 }
-
-

@@ -4,6 +4,6 @@
     {
         public string PathToSkyrim { get; set; }
         public string LastVersion { get; set; }
-        public int LastIDServer { get; set; }
+        public int LastServerID { get; set; }
     }
 }

@@ -85,6 +85,7 @@
 
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
         <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="185,616,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="685" />
-        <ComboBox x:Name="comboServerList" Grid.Column="2" Margin="10,5,10,646" Grid.Row="1"/>
+        <ComboBox x:Name="comboServerList" Grid.Column="2" Margin="10,37,10,614" Grid.Row="1" SelectionChanged="ComboServerList_SelectionChanged"/>
+        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" Grid.Column="2" HorizontalAlignment="Left" Height="22" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="155" Click="RefreshServerList"/>
     </Grid>
 </Window>

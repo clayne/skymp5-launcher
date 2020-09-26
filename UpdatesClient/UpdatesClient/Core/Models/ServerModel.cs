@@ -8,18 +8,26 @@ namespace UpdatesClient.Core.Models
 {
     public struct ServerModel
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        public string IP { get; private set; }
+        public int Port { get; set; }
+        public string Name { get; private set; }        
+        public int MaxPlayers { get; private set; }
+        public int Online { get; set; }
+        public int ID => IP.GetHashCode();
+        public List<string> Info => new List<string> { "Online: " + Online, "Max Players: " + MaxPlayers };
 
-        public ServerModel(int iD, string name)
+        public ServerModel(string iP, int port, string name, int maxPlayers, int online) : this()
         {
-            ID = iD;
+            IP = iP;
+            Port = port;
             Name = name;
+            MaxPlayers = maxPlayers;
+            Online = online;
         }
 
         public override string ToString()
         {
-            return Name;
+            return Name + " (" + Online + " / " + MaxPlayers + ")";
         }
     }
 }
