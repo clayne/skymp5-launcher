@@ -107,6 +107,28 @@
     <Compile Include="Core\Effects\ToneMappingEffect.cs" />
     <Compile Include="Core\Effects\ToonShaderEffect.cs" />
     <Compile Include="Core\Effects\ZoomBlurEffect.cs" />
+    <Compile Include="Core\Helpers\PasswordBoxMonitor.cs" />
+    <Compile Include="UI\Controllers\PasswordBoxWithIcon.xaml.cs">
+      <DependentUpon>PasswordBoxWithIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\TextBoxWithIcon.xaml.cs">
+      <DependentUpon>TextBoxWithIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\Authorization.xaml.cs">
+      <DependentUpon>Authorization.xaml</DependentUpon>
+    </Compile>
+    <Page Include="UI\Controllers\PasswordBoxWithIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\TextBoxWithIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\Authorization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Resource Include="Assets\Fonts\Forum-Regular.ttf" />
     <Resource Include="Assets\Fonts\PERTIBD.TTF" />
     <Resource Include="Assets\Fonts\PERTILI.TTF" />
@@ -681,7 +703,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Assets\Fonts\Benguiat.ttf" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -692,7 +713,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Images\Buttons\" />
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
@@ -750,6 +770,7 @@
     <Content Include="Assets\Effects\ToneMapping.fx" />
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
+    <Resource Include="Assets\Images\MainWindowBackgrounds\back2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

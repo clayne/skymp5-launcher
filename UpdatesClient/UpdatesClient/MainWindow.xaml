@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient"
         xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
+        xmlns:local2="clr-namespace:UpdatesClient.UI.Pages"
         xmlns:eff="clr-namespace:UpdatesClient.Core.Effects"
         mc:Ignorable="d"
         Title="SkyMP Launcher" Height="730" Width="1058" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen">
@@ -78,12 +79,14 @@
 
         <local1:HeadButton Margin="799,13,5,14" />
 
-        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top" />
-
         <local1:ProgressBar x:Name="progressBar" Margin="60,541,35,71" Grid.Row="1" />
         <local1:MainButton x:Name="mainButton" Margin="843,478,60,39" Grid.Row="1" Width="155" Height="156" Grid.ColumnSpan="3" Click="MainBtn_Click" />
 
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
         <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="185,616,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="685" />
+
+        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top" />
+
+        <local2:Authorization Grid.RowSpan="2" Grid.ColumnSpan="3" />
     </Grid>
 </Window>

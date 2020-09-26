@@ -27,13 +27,15 @@ namespace UpdatesClient.UI.Controllers
         public const Type Normal = Type.Normal;
         public const Type Error = Type.Error;
 
+        public int DelayMs { get; }
+
         public enum Type
         {
             Normal,
             Error
         }
 
-        public PopupNotify(Type type, string status, string text)
+        public PopupNotify(Type type, string status, string text, int delayMs)
         {
             InitializeComponent();
             switch (type)
@@ -52,9 +54,10 @@ namespace UpdatesClient.UI.Controllers
             this.status.Text = status;
             description.Text = text;
             closeBtn.Click += (s, e) => ClickClose?.Invoke(this, e);
+            DelayMs = delayMs;
         }
 
-        public PopupNotify(Exception exception) : this(Error, "Ошибка", exception.Message)
+        public PopupNotify(Exception exception, int delayMs) : this(Error, "Ошибка", exception.Message, delayMs)
         {
 
         }

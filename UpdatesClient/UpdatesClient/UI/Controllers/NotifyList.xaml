@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
              mc:Ignorable="d" 
              d:DesignWidth="414">
-    <StackPanel x:Name="panelList" >
+    <StackPanel x:Name="panelList" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
             
     </StackPanel>
 </UserControl>
