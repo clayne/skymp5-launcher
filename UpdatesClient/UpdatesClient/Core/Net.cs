@@ -16,6 +16,7 @@ namespace UpdatesClient.Core
 
         public const string URL_CrashDmp = "https://skymp.io/api/crashes";
         public const string URL_CrashDmpSec = "https://skymp.skyrez.su/api/crashes.php";
+        public const string URL_SERVERS = "https://skymp.io/api/servers";
 
         public const string URL_Lib = "https://skymp.skyrez.su/libs/7z.dll";
         public const string URL_Mod_RuFix = "https://skymp.skyrez.su/mods/SSERuFixConsole.zip";
@@ -51,7 +52,7 @@ namespace UpdatesClient.Core
             return req1 == "OK" || req2 == "OK";
         }
 
-        private static async Task<string> Request(string url, string data)
+        public static async Task<string> Request(string url, string data)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = "GET";
