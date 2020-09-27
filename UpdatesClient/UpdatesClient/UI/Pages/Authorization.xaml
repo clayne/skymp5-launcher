@@ -191,6 +191,42 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ButtonStyleText" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true" BorderBrush="{x:Null}">
+                            <TextBlock x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                       Margin="{TemplateBinding Padding}"  FontSize="{TemplateBinding FontSize}" 
+                                       FontFamily="{TemplateBinding FontFamily}" Text="{TemplateBinding Content}"
+                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Foreground="{TemplateBinding Foreground}" 
+                                       FontStretch="{TemplateBinding FontStretch}" FontStyle="{TemplateBinding FontStyle}" 
+                                       FontWeight="{TemplateBinding FontWeight}" Cursor="{TemplateBinding Cursor}" Background="{x:Null}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="TextDecorations" TargetName="contentPresenter" Value="Underline" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="#FFA2A2A2" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="#99BFBFBF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </UserControl.Resources>
     <Grid>
@@ -201,13 +237,13 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="265"/>
+            <RowDefinition Height="220"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/MainWindowBackgrounds/back2.png" Stretch="UniformToFill"/>
         </Grid.Background>
-        <Border BorderThickness="0" Grid.RowSpan="2" Grid.ColumnSpan="4">
+        <Border BorderThickness="0" Grid.RowSpan="3" Grid.ColumnSpan="4">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#BF08182C" Offset="1"/>
@@ -215,7 +251,7 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Right" Height="730" Margin="0,0,-265,0" VerticalAlignment="Top" Width="398" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2" Grid.Column="3">
+        <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Right" Margin="0,0,-265,0" Width="398" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="3" Grid.Column="3">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -225,7 +261,7 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Left" Height="730" Margin="-265,0,0,0" VerticalAlignment="Top" Width="398" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">
+        <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Left" Margin="-265,0,0,0" Width="398" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="3">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -235,10 +271,8 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Image HorizontalAlignment="Center" Height="106" Margin="147.667,65,148,0" VerticalAlignment="Top" Width="160" Source="{DynamicResource logo}" Grid.ColumnSpan="2" Grid.Column="1"/>
-        <TextBlock HorizontalAlignment="Center" Margin="120,230,120,0" TextWrapping="Wrap" Text="Добро пожаловать" VerticalAlignment="Top" FontSize="26" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Grid.ColumnSpan="2" Grid.Column="1" Width="216" TextAlignment="Center"/>
-        <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Left" Height="3" Margin="113,0,0,17" VerticalAlignment="Bottom" Width="115" Grid.Column="2"/>
-        <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Right" Height="3" Margin="0,0,113,17" VerticalAlignment="Bottom" Width="115" Grid.ColumnSpan="2"/>
+        <Image HorizontalAlignment="Center" Height="106" Margin="148,65,148,0" VerticalAlignment="Top" Width="160" Source="{DynamicResource logo}" Grid.ColumnSpan="2" Grid.Column="1"/>
+
         <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="4" Height="57" VerticalAlignment="Top"/>
         <local1:ImageButton x:Name="CloseBtn" Grid.Column="3" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="5">
             <local1:ImageButton.Image>
@@ -251,13 +285,67 @@
             </local1:ImageButton.Image>
         </local1:ImageButton>
 
-        <local1:TextBoxWithIcon Grid.ColumnSpan="2" Margin="51,20,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Grid.Column="1" Icon="{StaticResource people}" PlaceHolder="Почта или логин" />
-        <local1:PasswordBoxWithIcon Grid.ColumnSpan="2" Margin="51,85,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Grid.Column="1" Icon="{StaticResource lock}"  PlaceHolder="Пароль"/>
-        <CheckBox Content="Запомнить меня" Height="20" Grid.Column="1" HorizontalAlignment="Left" Margin="58,149,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" BorderBrush="White" Background="#FF212026" Padding="4,-1,0,0"/>
-        <Button Content="Войти" Grid.Column="1" BorderThickness="2" Margin="51,189,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26"/>
-        <Button Content="Регистрация" Grid.Column="1" BorderThickness="2" Margin="51,258,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleTransparent}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Foreground="White"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Margin="160,327,160,0" Grid.Row="1" TextWrapping="Wrap" Text="Забыли пароль?" VerticalAlignment="Top" Grid.ColumnSpan="2" Foreground="White" TextAlignment="Center" FontSize="20" FontFamily="Forum" Width="136" Cursor="Hand" Style="{DynamicResource TextBlockLink}"/>
+        <Grid x:Name="authPanel" Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center" Margin="120,10,120,0" TextWrapping="Wrap" Text="Добро пожаловать" VerticalAlignment="Top" FontSize="26" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Grid.ColumnSpan="2" Width="216" TextAlignment="Center" Grid.Row="0"/>
+            <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Left" Height="3" Margin="0,0,0,17" VerticalAlignment="Bottom" Width="115" Grid.Row="0"/>
+            <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Right" Height="3" Margin="0,0,0,17" VerticalAlignment="Bottom" Width="115" Grid.Row="0" Grid.Column="1"/>
 
+            <local1:TextBoxWithIcon Grid.ColumnSpan="2" Margin="51,20,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource people}" PlaceHolder="Почта или логин" />
+            <local1:PasswordBoxWithIcon Grid.ColumnSpan="2" Margin="51,85,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource lock}"  PlaceHolder="Пароль"/>
+            <CheckBox Content="Запомнить меня" Height="20" HorizontalAlignment="Left" Margin="58,149,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" BorderBrush="White" Background="#FF212026" Padding="4,-1,0,0"/>
+            <Button Content="Войти" BorderThickness="2" Margin="51,189,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26"/>
+            <Button Content="Регистрация" BorderThickness="2" Margin="51,258,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleTransparent}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Foreground="White" Click="open_RegisterPanel"/>
+            <Button Content="Забыли пароль?" BorderThickness="2" Margin="153,323,153,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="30" HorizontalAlignment="Center" Width="150" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Foreground="White" Click="open_ForgotPassPanel"/>
+        </Grid>
+        <Grid x:Name="registerPanel" Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center" Margin="120,10,120,0" TextWrapping="Wrap" Text="Регистрация" VerticalAlignment="Top" FontSize="26" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Grid.ColumnSpan="2" Width="132" TextAlignment="Center" Grid.Row="0"/>
+            <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Left" Height="3" Margin="0,0,0,17" VerticalAlignment="Bottom" Width="152" Grid.Row="0"/>
+            <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Right" Height="3" Margin="0,0,0,17" VerticalAlignment="Bottom" Width="152" Grid.Row="0" Grid.Column="1"/>
 
+            <local1:TextBoxWithIcon Grid.ColumnSpan="2" Margin="51,20,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource people}" PlaceHolder="Почта" />
+            <local1:PasswordBoxWithIcon Grid.ColumnSpan="2" Margin="51,85,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource lock}"  PlaceHolder="Пароль"/>
+            <local1:PasswordBoxWithIcon Grid.ColumnSpan="2" Margin="51,150,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource lock}"  PlaceHolder="Подтвердите пароль"/>
+
+            <Button Content="Зарегистрироваться" BorderThickness="2" Margin="51,215,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26"/>
+            <Border BorderBrush="White" BorderThickness="2" HorizontalAlignment="Left" Height="100" Margin="0,287,0,0" Grid.Row="1" VerticalAlignment="Top" Width="456" CornerRadius="10" Grid.ColumnSpan="2">
+                <TextBlock TextWrapping="Wrap" Text="Прежде чем вы сможете исследовать Skyrim, нам нужно, чтобы вы подтвердили свой адрес электронной почты. Электронное письмо с инструкциями по подтверждению будет отправлено на ваш адрес." Foreground="White" Margin="10" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="18" TextAlignment="Center"/>
+            </Border>
+        </Grid>
+        <Grid x:Name="forgotPassPanel" Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center" Margin="100,10,100,0" Text="Восстановление пароля" VerticalAlignment="Top" FontSize="26" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Grid.ColumnSpan="2" TextAlignment="Center" Grid.Row="0"/>
+            <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Left" Height="3" Margin="0,0,0,17" VerticalAlignment="Bottom" Width="89" Grid.Row="0"/>
+            <Rectangle Fill="#7FF4F4F5" HorizontalAlignment="Right" Height="3" Margin="0,0,0,17" VerticalAlignment="Bottom" Width="89" Grid.Row="0" Grid.Column="1"/>
+
+            <local1:TextBoxWithIcon Grid.ColumnSpan="2" Margin="51,20,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource people}" PlaceHolder="Почта" />
+
+            <Button Content="Отправить" BorderThickness="2" Margin="51,85,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26"/>
+            <Border BorderBrush="White" BorderThickness="2" HorizontalAlignment="Left" Margin="0,158,0,0" Grid.Row="1" VerticalAlignment="Top" Width="456" CornerRadius="10" Grid.ColumnSpan="2">
+                <TextBlock TextWrapping="Wrap" Text="После нажатия на кнопку «отправить», вам на почту будет отправлено письмо с дальнейшей инструкцией." Foreground="White" Margin="5" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="18" TextAlignment="Center"/>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

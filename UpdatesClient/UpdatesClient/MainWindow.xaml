@@ -87,6 +87,6 @@
 
         <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top" />
 
-        <local2:Authorization Grid.RowSpan="2" Grid.ColumnSpan="3" />
+        <local2:Authorization x:Name="authorization" Grid.RowSpan="2" Grid.ColumnSpan="3" />
     </Grid>
 </Window>

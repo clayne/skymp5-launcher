@@ -23,6 +23,19 @@ namespace UpdatesClient.UI.Pages
         public Authorization()
         {
             InitializeComponent();
+            authPanel.Visibility = Visibility.Visible;
+        }
+
+        private void open_RegisterPanel(object sender, RoutedEventArgs e)
+        {
+            authPanel.Visibility = Visibility.Collapsed;
+            registerPanel.Visibility = Visibility.Visible;
+        }
+
+        private void open_ForgotPassPanel(object sender, RoutedEventArgs e)
+        {
+            authPanel.Visibility = Visibility.Collapsed;
+            forgotPassPanel.Visibility = Visibility.Visible;
         }
     }
 }

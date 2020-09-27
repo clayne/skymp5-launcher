@@ -28,12 +28,22 @@ namespace UpdatesClient
         {
             InitializeComponent();
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
+            authorization.TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
             CloseBtn.Click += (s, e) =>
             {
                 YandexMetrica.Config.CrashTracking = false;
                 Application.Current.Shutdown();
             };
+            authorization.CloseBtn.Click += (s, e) =>
+            {
+                YandexMetrica.Config.CrashTracking = false;
+                Application.Current.Shutdown();
+            };
             MinBtn.Click += (s, e) =>
+            {
+                WindowState = WindowState.Minimized;
+            };
+            authorization.MinBtn.Click += (s, e) =>
             {
                 WindowState = WindowState.Minimized;
             };
