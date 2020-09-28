@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -94,30 +95,16 @@ namespace UpdatesClient
                 ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
                 ModVersion.Save();
             }
-            FillComboBox();
+            FillServerList();
             CheckClientUpdates();
         }
         
-        private async void FillComboBox()
+        private async void FillServerList()
         {
-            //List<ServerModel> list = 
-            //comboServerList.ItemsSource = await ServerModel.GetServerList();
-            //var x = await ServerModel.GetServerList(); 
-            serverList.ItemsSource = await ServerModel.GetServerList();
-            //dataGrid.ItemsSource = x;
-            //comboServerList.ItemsSource = list;
-            //comboServerList.SelectedIndex = list.FindIndex(x => x.ID == Settings.LastServerID);
+            var list = await ServerModel.GetServerList();
+            serverList.ItemsSource = list;
+            serverList.SelectedIndex = list.FindIndex(x => x.ID == Settings.LastServerID);
         }
-        //test
-        //private List<ServerModel> GetServerList()
-        //{
-        //    return new List<ServerModel>
-        //    {
-        //        new ServerModel("185.241.192.136", 7777, "Alpha", 100, 23),
-        //        new ServerModel("185.241.192.158", 7777, "Betta", 80, 40),
-        //        new ServerModel("185.241.192.192", 7777, "Gamma", 30, 30)
-        //    };
-        //}
 
         private string GetGameFolder()
         {
@@ -228,6 +215,8 @@ namespace UpdatesClient
                 return;
             }
 
+            SetServer();
+
             try
             {
                 Hide();
@@ -247,6 +236,18 @@ namespace UpdatesClient
                 Close();
             }
         }
+
+        private void SetServer()
+        {
+            if (serverList.SelectedItem == null) return;
+            string path = Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
+
+            SkympClientSettings oldServer = JsonConvert.DeserializeObject<SkympClientSettings>(File.ReadAllText(path));
+            ServerModel newServer = (ServerModel)serverList.SelectedItem;
+            if (newServer.isSameServer(oldServer)) return;
+            File.WriteAllText(path, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
+        }
+
         private async Task ReportDmp()
         {
             string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
@@ -342,12 +343,15 @@ namespace UpdatesClient
 
         private void RefreshServerList(object sender, RoutedEventArgs e)
         {
-            FillComboBox();
+            FillServerList();
         }
 
-        private void serverList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ServerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if(serverList.SelectedIndex != -1)
+            {
+                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;
+            }
         }
     }
 }

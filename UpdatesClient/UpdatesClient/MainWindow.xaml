@@ -85,7 +85,14 @@
 
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
         <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="185,616,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="685" />
-        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="22" Margin="623,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="425" Click="RefreshServerList" Grid.ColumnSpan="3"/>
-        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="163" Margin="623,37,0,0" Grid.Row="1" VerticalAlignment="Top" Width="425" Grid.ColumnSpan="3"/>
+        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="22" Margin="623,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="375" Click="RefreshServerList" Grid.ColumnSpan="3"/>
+
+        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="163" Margin="623,37,0,0" Grid.Row="1" VerticalAlignment="Top" Width="375" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="120" RowBackground="White" AlternatingRowBackground="LightGray" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=name}"/>
+                <DataGridTextColumn Header="Онлайн" Binding="{Binding Path=online}"/>
+                <DataGridTextColumn Header="Максимум игроков" Binding="{Binding Path=maxPlayers}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
