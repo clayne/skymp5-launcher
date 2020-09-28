@@ -103,7 +103,7 @@ namespace UpdatesClient
         {
             var list = await ServerModel.GetServerList();
             serverList.ItemsSource = list;
-            serverList.SelectedIndex = list.FindIndex(x => x.ID == Settings.LastServerID);
+            serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
         }
 
         private string GetGameFolder()
@@ -246,6 +246,7 @@ namespace UpdatesClient
             ServerModel newServer = (ServerModel)serverList.SelectedItem;
             if (newServer.isSameServer(oldServer)) return;
             File.WriteAllText(path, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
+            Settings.Save();           
         }
 
         private async Task ReportDmp()
@@ -350,7 +351,7 @@ namespace UpdatesClient
         {
             if(serverList.SelectedIndex != -1)
             {
-                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;
+                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;                
             }
         }
     }

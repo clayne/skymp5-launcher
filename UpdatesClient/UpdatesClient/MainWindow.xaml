@@ -88,6 +88,17 @@
         <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="22" Margin="623,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="375" Click="RefreshServerList" Grid.ColumnSpan="3"/>
 
         <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="163" Margin="623,37,0,0" Grid.Row="1" VerticalAlignment="Top" Width="375" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="120" RowBackground="White" AlternatingRowBackground="LightGray" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Background" Value="LightGreen"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Path=name}"/>
                 <DataGridTextColumn Header="Онлайн" Binding="{Binding Path=online}"/>
@@ -96,3 +107,4 @@
         </DataGrid>
     </Grid>
 </Window>
+    
