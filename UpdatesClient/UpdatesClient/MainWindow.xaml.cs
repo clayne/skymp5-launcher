@@ -242,9 +242,9 @@ namespace UpdatesClient
             if (serverList.SelectedItem == null) return;
             string path = Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
 
-            SkympClientSettings oldServer = JsonConvert.DeserializeObject<SkympClientSettings>(File.ReadAllText(path));
+            SkympClientSettingsModel oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(path));
             ServerModel newServer = (ServerModel)serverList.SelectedItem;
-            if (newServer.isSameServer(oldServer)) return;
+            if (newServer.IsSameServer(oldServer)) return;
             File.WriteAllText(path, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
             Settings.Save();           
         }

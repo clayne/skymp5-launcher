@@ -12,31 +12,41 @@ namespace UpdatesClient.Core.Models
 {
     public struct ServerModel
     {
-        public string ip { get; set; }
-        public int port { get; set; }
-        public string name { get; set; }        
-        public int maxPlayers { get; set; }
-        public int online { get; set; }
-        public int ID => (ip + port.ToString()).GetHashCode();
+        [JsonProperty("ip")]
+        public string IP { get; set; }
+
+        [JsonProperty("port")]
+        public int Port { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("maxPlayers")]
+        public int MaxPlayers { get; set; }
+
+        [JsonProperty("online")]
+        public int Online { get; set; }
+
+        public int ID => (IP + Port.ToString()).GetHashCode();
 
         public override string ToString()
         {
-            return name + " (" + online + " / " + maxPlayers + ")";
+            return Name + " (" + Online + " / " + MaxPlayers + ")";
         }
 
-        public bool isSameServer(SkympClientSettings settings)
+        public bool IsSameServer(SkympClientSettingsModel settings)
         {
-            return (settings.ip + settings.port.ToString()).GetHashCode() == ID;
+            return (settings.IP + settings.Port.ToString()).GetHashCode() == ID;
         }
 
-        public SkympClientSettings ToSkympClientSettings(SkympClientSettings oldServer)
+        public SkympClientSettingsModel ToSkympClientSettings(SkympClientSettingsModel oldServer)
         {
-            return new SkympClientSettings
+            return new SkympClientSettingsModel
             {
-                ip = this.ip,
-                isEnableConsole = oldServer.isEnableConsole,
-                isShowMe = oldServer.isShowMe,
-                port = this.port
+                IP = this.IP,
+                IsEnableConsole = oldServer.IsEnableConsole,
+                IsShowMe = oldServer.IsShowMe,
+                Port = this.Port
             };
         }
 

@@ -100,9 +100,9 @@
                 </Style>
             </DataGrid.CellStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Path=name}"/>
-                <DataGridTextColumn Header="Онлайн" Binding="{Binding Path=online}"/>
-                <DataGridTextColumn Header="Максимум игроков" Binding="{Binding Path=maxPlayers}"/>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=Name}"/>
+                <DataGridTextColumn Header="Онлайн" Binding="{Binding Path=Online}"/>
+                <DataGridTextColumn Header="Максимум игроков" Binding="{Binding Path=MaxPlayers}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace UpdatesClient.Core.Models
 {
-    public struct SkympClientSettings
+    public struct SkympClientSettingsModel
     {
         [JsonProperty("server-ip")]
-        public string ip { get; set; }
+        public string IP { get; set; }
 
         [JsonProperty("server-port")]
-        public int port { get; set; }
+        public int Port { get; set; }
         
         [JsonProperty("show-me")]
-        public bool isShowMe { get; set; }
+        public bool IsShowMe { get; set; }
         
         [JsonProperty("enable-console")]
-        public bool isEnableConsole { get; set; }
+        public bool IsEnableConsole { get; set; }
     }
 }

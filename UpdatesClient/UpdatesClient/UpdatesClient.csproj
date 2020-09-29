@@ -554,7 +554,7 @@
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetrica.cs" />
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaActivator.cs" />
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaFolder.cs" />
-    <Compile Include="Core\Models\SkympClientSettings.cs" />
+    <Compile Include="Core\Models\SkympClientSettingsModel.cs" />
     <Compile Include="Core\Models\ServerModel.cs" />
     <Compile Include="Core\Net.cs" />
     <Compile Include="Core\NotifyController.cs" />
