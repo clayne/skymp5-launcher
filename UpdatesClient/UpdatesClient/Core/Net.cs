@@ -51,7 +51,7 @@ namespace UpdatesClient.Core
             return req1 == "OK" || req2 == "OK";
         }
 
-        private static async Task<string> Request(string url, string data)
+        public static async Task<string> Request(string url, string data)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = "GET";
@@ -61,9 +61,16 @@ namespace UpdatesClient.Core
             if (data != null)
                 using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data}");
 
-            using (var sr = new StreamReader(req.GetResponse().GetResponseStream())) return await sr.ReadToEndAsync();
+            using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+            {
+                if (res.StatusCode != HttpStatusCode.OK) throw new HttpListenerException((int)res.StatusCode);
+                using (StreamReader sr = new StreamReader(res.GetResponseStream()))
+                {
+                    return await sr.ReadToEndAsync();
+                }
+            }
         }
-        private static async Task<string> UploadRequest(string url, string data, string file, string paramName, string contentType)
+        public static async Task<string> UploadRequest(string url, string data, string file, string paramName, string contentType)
         {
             string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 

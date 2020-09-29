@@ -191,5 +191,41 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
+
+        <DrawingImage x:Key="mail">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V485.211 H485.211 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M485.211,485.211z M0,0z M485.211,363.906C485.211,374.543,482.219,384.404,477.426,393.08L324.225,221.67 475.765,89.086C481.66,98.441,485.211,109.43,485.211,121.305L485.211,363.906z M242.606,252.793L453.469,68.293C444.816,63.556,435.072,60.651,424.561,60.651L60.651,60.651C50.127,60.651,40.38,63.556,31.762,68.293L242.606,252.793z M301.393,241.631L252.584,284.365C249.729,286.852 246.174,288.094 242.606,288.094 239.036,288.094 235.481,286.852 232.626,284.365L183.806,241.629 28.667,415.23C37.966,421.064,48.864,424.559,60.65,424.559L424.561,424.559C436.345,424.559,447.248,421.064,456.544,415.23L301.393,241.631z M9.448,89.085C3.554,98.44,0,109.429,0,121.305L0,363.907C0,374.544,2.978,384.405,7.789,393.081L160.972,221.641 9.448,89.085z" />
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="rightarrowcircular">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V66.137 H66.137 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <DrawingGroup Opacity="1">
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M66.137,66.137z M0,0z M33.067,66.136C14.834,66.136 0,51.302 0,33.069 0,14.835 14.834,0.001 33.067,0.001 51.301,0.001 66.137,14.835 66.137,33.069 66.137,51.302 51.302,66.136 33.067,66.136z M33.067,4.001C17.04,4.001 4,17.041 4,33.069 4,49.097 17.04,62.136 33.067,62.136 49.096,62.136 62.137,49.096 62.137,33.069 62.137,17.042 49.098,4.001 33.067,4.001z" />
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M66.137,66.137z M0,0z M30.479,45.575L30.479,45.575 27.393,43.03 35.609,33.068 27.393,23.106 30.479,20.562 40.795,33.068z" />
+                        </DrawingGroup>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="rightarrowcircularblack">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V66.137 H66.137 V0 H0 Z">
+                    <DrawingGroup Opacity="1">
+                        <DrawingGroup Opacity="1">
+                            <GeometryDrawing Brush="#FF000000" Geometry="F1 M66.137,66.137z M0,0z M33.067,66.136C14.834,66.136 0,51.302 0,33.069 0,14.835 14.834,0.001 33.067,0.001 51.301,0.001 66.137,14.835 66.137,33.069 66.137,51.302 51.302,66.136 33.067,66.136z M33.067,4.001C17.04,4.001 4,17.041 4,33.069 4,49.097 17.04,62.136 33.067,62.136 49.096,62.136 62.137,49.096 62.137,33.069 62.137,17.042 49.098,4.001 33.067,4.001z" />
+                            <GeometryDrawing Brush="#FF000000" Geometry="F1 M66.137,66.137z M0,0z M30.479,45.575L30.479,45.575 27.393,43.03 35.609,33.068 27.393,23.106 30.479,20.562 40.795,33.068z" />
+                        </DrawingGroup>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
     </Application.Resources>
 </Application>

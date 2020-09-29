@@ -24,18 +24,29 @@ namespace UpdatesClient.UI.Pages
         {
             InitializeComponent();
             authPanel.Visibility = Visibility.Visible;
+            backButton.Visibility = Visibility.Hidden;
         }
 
         private void open_RegisterPanel(object sender, RoutedEventArgs e)
         {
             authPanel.Visibility = Visibility.Collapsed;
             registerPanel.Visibility = Visibility.Visible;
+            backButton.Visibility = Visibility.Visible;
         }
 
         private void open_ForgotPassPanel(object sender, RoutedEventArgs e)
         {
             authPanel.Visibility = Visibility.Collapsed;
             forgotPassPanel.Visibility = Visibility.Visible;
+            backButton.Visibility = Visibility.Visible;
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            authPanel.Visibility = Visibility.Visible;
+            forgotPassPanel.Visibility = Visibility.Collapsed;
+            registerPanel.Visibility = Visibility.Collapsed;
+            backButton.Visibility = Visibility.Hidden;
         }
     }
 }
