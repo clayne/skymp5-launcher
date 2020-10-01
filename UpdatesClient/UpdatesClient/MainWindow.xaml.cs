@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using BlendModeEffectLibrary;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Utilities.LinqBridge;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,8 +10,12 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using UpdatesClient.Core;
+using UpdatesClient.Core.Effects;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
@@ -48,6 +54,17 @@ namespace UpdatesClient
 
             Settings.Load();
             wind.Loaded += Wind_Loaded;
+
+        }
+
+        private ImageBrush GetGridBackGround(FrameworkElement element)
+        {
+            Point relativePoint = element.TranslatePoint(new Point(0, 0), mainGrid);
+            var image = (BitmapSource)((ImageBrush)wind.Background).ImageSource;
+            double w = wind.Width / image.Width;
+            double h = wind.Height / image.Height;
+            var im = new CroppedBitmap(image, new Int32Rect((int)(relativePoint.X * w), (int)(relativePoint.Y * h), (int)(element.Width * w), (int)(element.Height * h)));
+            return new ImageBrush(im);
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
@@ -95,13 +112,26 @@ namespace UpdatesClient
                 ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
                 ModVersion.Save();
             }
+
             FillServerList();
+
+            serverList.Effect = new OverlayEffect()
+            {
+                BInput = GetGridBackGround(serverList)
+            };
+
+            refreshServerListButton.Effect = new OverlayEffect()
+            {
+                BInput = GetGridBackGround(refreshServerListButton)
+            };
+
             CheckClientUpdates();
         }
         
         private async void FillServerList()
         {
             var list = await ServerModel.GetServerList();
+            serverList.ItemsSource = null;
             serverList.ItemsSource = list;
             serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
         }
@@ -354,5 +384,19 @@ namespace UpdatesClient
                 Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;                
             }
         }
+
+        private void ServerList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject source = (DependencyObject)e.OriginalSource;
+
+            if(source is TextBlock)
+            {
+                if (((TextBlock)source).DataContext is ServerModel)
+                {
+                    MainBtn_Click(sender, e);
+                }
+            }
+        }
+
     }
 }

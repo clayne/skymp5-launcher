@@ -8,10 +8,71 @@
         xmlns:eff="clr-namespace:UpdatesClient.Core.Effects"
         mc:Ignorable="d"
         Title="SkyMP Launcher" Height="730" Width="1058" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="ServerListDataGrid" TargetType="{x:Type DataGrid}">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="#7FFFFFFF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false" Foreground="White" Opacity="1" Background="Transparent" BorderBrush="White" SnapsToDevicePixels="True" FontSize="16">
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
+                                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+                                            <Grid Grid.Column="1" Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
+                                            </Grid>
+                                            <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Left" Margin="159,0,0,0" Grid.RowSpan="2" Height="Auto" Grid.Row="0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                                            <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Left" Margin="319,0,0,0" Grid.RowSpan="2" Height="Auto" Grid.Row="0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsGrouping" Value="true"/>
+                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="Assets/Images/MainWindowBackgrounds/back1.png" Stretch="UniformToFill"/>
     </Window.Background>
-    <Grid>
+    <Grid x:Name="mainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="27"/>
@@ -85,26 +146,50 @@
 
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
         <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="185,616,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="685" />
-        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="22" Margin="623,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="375" Click="RefreshServerList" Grid.ColumnSpan="3"/>
 
-        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="163" Margin="623,37,0,0" Grid.Row="1" VerticalAlignment="Top" Width="375" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="120" RowBackground="White" AlternatingRowBackground="LightGray" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged">
+        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="302" Margin="535,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#F232324B" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="20" HorizontalScrollBarVisibility="Disabled" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick">
+
             <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell">
+                <Style>
                     <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" Value="LightGreen"/>
-                            <Setter Property="Foreground" Value="Black"/>
-                            <Setter Property="BorderThickness" Value="0"/>
+                        <Trigger Property="DataGridCell.IsSelected" Value="true">
+                            <Setter Property="DataGridCell.Foreground" Value="Gold"/>
+                            <Setter Property="DataGridCell.Background" Value="#7FB3DDF5"/>
                         </Trigger>
                     </Style.Triggers>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    <Setter Property="DataGridCell.BorderThickness" Value="0"/>
+                    <Setter Property="DataGridCell.BorderBrush" Value="White"/>
+                    <Setter Property="DataGridCell.Background" Value="Transparent"/>
                 </Style>
             </DataGrid.CellStyle>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Path=Name}"/>
                 <DataGridTextColumn Header="Онлайн" Binding="{Binding Path=Online}"/>
                 <DataGridTextColumn Header="Максимум игроков" Binding="{Binding Path=MaxPlayers}"/>
             </DataGrid.Columns>
+
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="{x:Type DataGridRowHeader}">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="BorderBrush" Value="White"/>
+                </Style>
+            </DataGrid.RowHeaderStyle>
         </DataGrid>
+        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="25" Margin="535,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Grid.ColumnSpan="3" Foreground="White" Background="#F232324B" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" BorderBrush="White" BorderThickness="1,1,1,1"/>
     </Grid>
 </Window>
     
