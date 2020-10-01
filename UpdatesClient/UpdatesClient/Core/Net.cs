@@ -16,11 +16,11 @@ namespace UpdatesClient.Core
         public const string URL_SKSELink = "https://skymp.io/api/skse_link/{VERSION}";
         public const string URL_ModLink = "https://skymp.io/api/skymp_link/{VERSION}";
 
-        public const string URL_CrashDmp = "https://skymp.io/api/crashes";
+        public const string URL_CrashDmp = "https://skymp.io/updates/api/crashes.php";
         public const string URL_CrashDmpSec = "https://skymp.skyrez.su/api/crashes.php";
 
-        public const string URL_Lib = "https://skymp.skyrez.su/libs/7z.dll";
-        public const string URL_Mod_RuFix = "https://skymp.skyrez.su/mods/SSERuFixConsole.zip";
+        public const string URL_Lib = "https://skymp.io/updates/libs/7z.dll";
+        public const string URL_Mod_RuFix = "https://skymp.io/updates/mods/SSERuFixConsole.zip";
 
         public static async Task<bool> UpdateAvailable()
         {

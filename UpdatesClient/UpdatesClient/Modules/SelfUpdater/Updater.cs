@@ -21,15 +21,15 @@ namespace UpdatesClient.Modules.SelfUpdater
 #elif (BETA)
         internal static string PROTOCOL = "https://";
 
-        private static readonly string OwnDomain = $@"skyrez.su";
-        private static readonly string SubDomainS001 = $@"skymp.{OwnDomain}";
+        private static readonly string OwnDomain = $@"skymp.io";
+        private static readonly string SubDomainS001 = $@"{OwnDomain}/updates";
 
         private static readonly string FolderLauncher = $@"launcherBeta";
 #else
         internal static string PROTOCOL = "https://";
 
-        private static readonly string OwnDomain = $@"skyrez.su";
-        private static readonly string SubDomainS001 = $@"skymp.{OwnDomain}";
+        private static readonly string OwnDomain = $@"skymp.io";
+        private static readonly string SubDomainS001 = $@"{OwnDomain}/updates";
 
         private static readonly string FolderLauncher = $@"launcher";
 #endif
