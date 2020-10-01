@@ -148,14 +148,14 @@
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
         <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="185,616,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="685" />
 
-        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="302" Margin="535,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#F232324B" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="20" HorizontalScrollBarVisibility="Disabled" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick">
+        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="302" Margin="535,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#E5282828" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="20" HorizontalScrollBarVisibility="Disabled" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick">
 
             <DataGrid.CellStyle>
                 <Style>
                     <Style.Triggers>
                         <Trigger Property="DataGridCell.IsSelected" Value="true">
-                            <Setter Property="DataGridCell.Foreground" Value="Gold"/>
-                            <Setter Property="DataGridCell.Background" Value="#7FB3DDF5"/>
+                            <Setter Property="DataGridCell.Foreground" Value="Black"/>
+                            <Setter Property="DataGridCell.Background" Value="White"/>
                         </Trigger>
                     </Style.Triggers>
                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -190,7 +190,7 @@
                 </Style>
             </DataGrid.RowHeaderStyle>
         </DataGrid>
-        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="25" Margin="535,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Grid.ColumnSpan="3" Foreground="White" Background="#F232324B" BorderBrush="#7FFFFFFF" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" BorderThickness="1,1,1,1"/>
+        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="25" Margin="535,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Grid.ColumnSpan="3" Foreground="White" Background="#E5282828" BorderBrush="#7FFFFFFF" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" BorderThickness="1,1,1,1"/>
     </Grid>
 </Window>
     

@@ -5,6 +5,7 @@ using Newtonsoft.Json.Utilities.LinqBridge;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -130,7 +131,14 @@ namespace UpdatesClient
         
         private async void FillServerList()
         {
-            var list = await ServerModel.GetServerList();
+            List<ServerModel> list = null;
+            try
+            {
+                list = await ServerModel.GetServerList();
+            } catch (Exception e)
+            {
+                return;
+            }
             serverList.ItemsSource = null;
             serverList.ItemsSource = list;
             serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
