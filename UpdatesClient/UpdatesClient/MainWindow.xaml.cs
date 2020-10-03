@@ -132,13 +132,17 @@ namespace UpdatesClient
         private async void FillServerList()
         {
             List<ServerModel> list = null;
+            string servers;
             try
             {
-                list = await ServerModel.GetServerList();
+                servers = await ServerModel.GetServers();
+                ServerModel.Save(servers);
             } catch (Exception e)
             {
-                return;
+                servers = ServerModel.Load();
             }
+            list = ServerModel.ParseServersToList(servers);
+            list.RemoveAll(x => x.IsEmpty());
             serverList.ItemsSource = null;
             serverList.ItemsSource = list;
             serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
@@ -278,12 +282,10 @@ namespace UpdatesClient
         private void SetServer()
         {
             if (serverList.SelectedItem == null) return;
-            string path = Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
-
-            SkympClientSettingsModel oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(path));
+            SkympClientSettingsModel oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
             ServerModel newServer = (ServerModel)serverList.SelectedItem;
             if (newServer.IsSameServer(oldServer)) return;
-            File.WriteAllText(path, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
+            File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
             Settings.Save();           
         }
 

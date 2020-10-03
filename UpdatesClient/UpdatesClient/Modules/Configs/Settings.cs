@@ -18,11 +18,14 @@ namespace UpdatesClient.Modules.Configs
         public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
         public static readonly string PathToLocalTmp = $"{PathToLocal}tmp\\";
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
+        public static readonly string PathToSavedServerList = $"{PathToLocalTmp}\\Servers.json";       
 
         public static string PathToSkyrim { get { return model.PathToSkyrim; } set { model.PathToSkyrim = value; } }
         public static string PathToSkyrimTmp => PathToSkyrim + "\\tmp\\";
         public static string LastVersion { get { return model.LastVersion; } private set { model.LastVersion = value; } }
         public static int LastServerID { get { return model.LastServerID; } set { model.LastServerID = value; } }
+
+        public static string PathToSkympClientSettings => $"{PathToSkyrim}\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
 
         internal static bool Load()
         {
