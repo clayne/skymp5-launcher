@@ -23,10 +23,10 @@ jobs:
   build:
     needs: [build-win]
     runs-on: ubuntu-latest
-    steps: 
-    - uses: dawidd6/action-download-artifact@v2
-      with:
-        workflow: deploy.yaml
+    steps:
+    - uses: actions/download-artifact@v2
+    - name: Display structure of downloaded files
+      run: ls -R .
     - run: mv ./executable/UpdatesClient.exe ./backend/launcher/SkyMPLauncher.exe
     - run: docker build --tag updates-client ./backend
     - name: Push to ECR
@@ -37,4 +37,4 @@ jobs:
         secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         region: eu-west-3
         local-image: updates-client
-        image: updates-client:dev-${{ github.sha }}
+        image: updates-client:latest
