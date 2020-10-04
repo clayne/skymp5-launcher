@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Core;
+using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
@@ -49,7 +50,15 @@ namespace UpdatesClient
             };
             progressBar.Hide();
 
-            authorization.Visibility = Visibility.Collapsed;
+            try
+            {
+                Account.VerifyToken();
+                authorization.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                authorization.Visibility = Visibility.Visible;
+            }
             authorization.Visibility = Visibility.Visible;
             authorization.SignIn += Authorization_SignIn;
 

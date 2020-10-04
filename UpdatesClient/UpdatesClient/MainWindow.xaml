@@ -85,8 +85,7 @@
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
         <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="185,616,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="685" />
 
-        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top" />
-
         <local2:Authorization x:Name="authorization" Visibility="Visible" Grid.RowSpan="2" Grid.ColumnSpan="3" />
+        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top" />
     </Grid>
 </Window>

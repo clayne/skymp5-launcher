@@ -64,10 +64,12 @@ namespace UpdatesClient.Core
 
             using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
             {
-                if (res.StatusCode != HttpStatusCode.OK) throw new HttpListenerException((int)res.StatusCode);
+                
                 using (StreamReader sr = new StreamReader(res.GetResponseStream()))
                 {
-                    return await sr.ReadToEndAsync();
+                    string raw = await sr.ReadToEndAsync();
+                    if (res.StatusCode != HttpStatusCode.OK) throw new HttpListenerException((int)res.StatusCode, raw);
+                    return raw;
                 }
             }
         }

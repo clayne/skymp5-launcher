@@ -1,11 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -13,10 +17,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UpdatesClient.Core;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.UI.Controllers;
 using Yandex.Metrica;
 
 namespace UpdatesClient.UI.Pages
@@ -101,6 +107,27 @@ namespace UpdatesClient.UI.Pages
                 Settings.Save();
                 SignIn?.Invoke();
             }
+            catch (WebException we)
+            {
+                var s = we.Response;
+                using (var reader = new StreamReader(s.GetResponseStream()))
+                {
+                    string raw = reader.ReadToEnd();
+                    try
+                    {
+                        JArray jObject = JArray.Parse(raw);
+                        foreach (JToken par in jObject.Children())
+                        {
+                            NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                        }
+                    }
+                    catch
+                    {
+                        NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
+                    }
+
+                }
+            }
             catch (Exception err)
             {
                 YandexMetrica.ReportError("Auth_Login", err);
@@ -135,9 +162,30 @@ namespace UpdatesClient.UI.Pages
                 SignIn?.Invoke();
                 Clear();
             }
+            catch (WebException we)
+            {
+                var s = we.Response;
+                using (var reader = new StreamReader(s.GetResponseStream()))
+                {
+                    string raw = reader.ReadToEnd();
+                    try
+                    {
+                        JArray jObject = JArray.Parse(raw);
+                        foreach (JToken par in jObject.Children())
+                        {
+                            NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                        }
+                    }
+                    catch
+                    {
+                        NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
+                    }
+                    
+                }
+            }
             catch (Exception err)
             {
-                YandexMetrica.ReportError("Auth_Register", err);
+               YandexMetrica.ReportError("Auth_Register", err);
             }
 
             registerPanel.IsEnabled = true;
@@ -157,6 +205,26 @@ namespace UpdatesClient.UI.Pages
                 await Account.ResetPassword(model);
                 await Task.Delay(200);
                 Clear();
+            }
+            catch (WebException we)
+            {
+                var s = we.Response;
+                using (var reader = new StreamReader(s.GetResponseStream()))
+                {
+                    string raw = reader.ReadToEnd();
+                    try
+                    {
+                        JArray jObject = JArray.Parse(raw);
+                        foreach (JToken par in jObject.Children())
+                        {
+                            NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                        }
+                    }
+                    catch
+                    {
+                        NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
+                    }
+                }
             }
             catch (Exception err)
             {

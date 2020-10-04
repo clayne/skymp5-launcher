@@ -17,7 +17,7 @@ namespace UpdatesClient.Core.Network
 
         public static async Task<ResLoginModel> Login(ReqLoginModel model)
         {
-            string raw = await Net.Request($"{URL_Api}login", "POST", false, JsonConvert.SerializeObject(model));
+            string raw = await Net.Request($"{URL_Api}users/login", "POST", false, JsonConvert.SerializeObject(model));
             return JsonConvert.DeserializeObject<ResLoginModel>(raw);
         }
 
@@ -29,7 +29,12 @@ namespace UpdatesClient.Core.Network
 
         public static Task ResetPassword(ReqResetPassword model)
         {
-            return Net.Request($"{URL_Api}/users/reset-password", "POST", false, JsonConvert.SerializeObject(model));
+            return Net.Request($"{URL_Api}users/reset-password", "POST", false, JsonConvert.SerializeObject(model));
+        }
+
+        public static Task VerifyToken()
+        {
+            return Net.Request($"{URL_Api}secure", "GET", true, null);
         }
     }
 }
