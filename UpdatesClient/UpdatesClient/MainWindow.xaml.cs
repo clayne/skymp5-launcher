@@ -49,8 +49,18 @@ namespace UpdatesClient
             };
             progressBar.Hide();
 
+            authorization.Visibility = Visibility.Collapsed;
+            authorization.Visibility = Visibility.Visible;
+            authorization.SignIn += Authorization_SignIn;
+
             Settings.Load();
             wind.Loaded += Wind_Loaded; ;
+        }
+
+        private void Authorization_SignIn()
+        {
+            authorization.Visibility = Visibility.Collapsed;
+            MessageBox.Show("Worked!");
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)

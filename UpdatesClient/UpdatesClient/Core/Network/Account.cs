@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Newtonsoft.Json;
 using System.Threading.Tasks;
+using UpdatesClient.Core.Network.Models.Request;
+using UpdatesClient.Core.Network.Models.Response;
 
 namespace UpdatesClient.Core.Network
 {
@@ -10,26 +9,27 @@ namespace UpdatesClient.Core.Network
     {
         public const string URL_Api = "https://skymp.io/api/";
 
-        public static async Task<string> Register(string email, string name, string password)
+        public static async Task<ResRegisterModel> Register(ReqRegisterModel model)
         {
-            string ver = await Net.Request($"{URL_Api}users", null);
-            throw new NotImplementedException();
-            return null;
+            string raw = await Net.Request($"{URL_Api}users", "POST", false, JsonConvert.SerializeObject(model));
+            return JsonConvert.DeserializeObject<ResRegisterModel>(raw);
         }
 
-        public static async Task<string> Login(string email, string password)
+        public static async Task<ResLoginModel> Login(ReqLoginModel model)
         {
-            string ver = await Net.Request($"{URL_Api}login", null);
-            throw new NotImplementedException();
-            return null;
+            string raw = await Net.Request($"{URL_Api}login", "POST", false, JsonConvert.SerializeObject(model));
+            return JsonConvert.DeserializeObject<ResLoginModel>(raw);
         }
 
-        public static async Task<string> Verify(int id, string email, string password, string pin)
+        public static async Task<ResVerifyRegisterModel> Verify(ReqVerifyRegisterModel model)
         {
-            string ver = await Net.Request($"{URL_Api}{id}/users", null);
-            throw new NotImplementedException();
-            return null;
+            string raw = await Net.Request($"{URL_Api}{model.Id}/users", "POST", true, JsonConvert.SerializeObject(model));
+            return JsonConvert.DeserializeObject<ResVerifyRegisterModel>(raw);
         }
 
+        public static Task ResetPassword(ReqResetPassword model)
+        {
+            return Net.Request($"{URL_Api}/users/reset-password", "POST", false, JsonConvert.SerializeObject(model));
+        }
     }
 }

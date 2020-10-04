@@ -22,6 +22,13 @@ namespace UpdatesClient.Modules.Configs
         public static string PathToSkyrim { get { return model.PathToSkyrim; } set { model.PathToSkyrim = value; } }
         public static string PathToSkyrimTmp => PathToSkyrim + "\\tmp\\";
         public static string LastVersion { get { return model.LastVersion; } private set { model.LastVersion = value; } }
+        public static int UserId { get { return model.UserId; } set { model.UserId = value; } }
+        public static bool RememberMe { get; set; } = true;
+        private static string userToken;
+        public static string UserToken { 
+            get { return Security.FromAes256Base64(RememberMe ? model.UserToken : userToken); } 
+            set { if (RememberMe) model.UserToken = Security.ToAes256Base64(value); else userToken = Security.ToAes256Base64(value); } 
+        }
 
         internal static bool Load()
         {

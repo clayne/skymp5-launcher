@@ -110,6 +110,13 @@
     <Compile Include="Core\Effects\ZoomBlurEffect.cs" />
     <Compile Include="Core\Helpers\PasswordBoxMonitor.cs" />
     <Compile Include="Core\Network\Account.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqLoginModel.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqRegisterModel.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqResetPassword.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqVerifyRegisterModel.cs" />
+    <Compile Include="Core\Network\Models\Response\ResLoginModel.cs" />
+    <Compile Include="Core\Network\Models\Response\ResRegisterModel.cs" />
+    <Compile Include="Core\Network\Models\Response\ResVerifyRegisterModel.cs" />
     <Compile Include="UI\Controllers\PasswordBoxWithIcon.xaml.cs">
       <DependentUpon>PasswordBoxWithIcon.xaml</DependentUpon>
     </Compile>
@@ -716,8 +723,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\Enums\" />
-    <Folder Include="Core\Network\Models\Request\" />
-    <Folder Include="Core\Network\Models\Response\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
   </ItemGroup>

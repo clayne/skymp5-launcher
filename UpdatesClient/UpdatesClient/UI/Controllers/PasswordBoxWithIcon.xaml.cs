@@ -21,7 +21,7 @@ namespace UpdatesClient.UI.Controllers
     public partial class PasswordBoxWithIcon : UserControl
     {
         public ImageSource Icon { get => icon.Source; set => icon.Source = value; }
-        public string Text { get => passwordBox.Password; set => passwordBox.Password = value; }
+        public string Password { get => passwordBox.Password; set => passwordBox.Password = value; }
         public string PlaceHolder { get => (string)passwordBox.Tag; set => passwordBox.Tag = value; }
 
         public PasswordBoxWithIcon()
