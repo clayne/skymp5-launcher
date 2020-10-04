@@ -31,6 +31,10 @@ namespace UpdatesClient.Modules.Configs
                     model = JsonConvert.DeserializeObject<SettingsFileModel>(File.ReadAllText(PathToSettingsFile));
                     return true;
                 }
+                else
+                {
+                    model = new SettingsFileModel();
+                }
             }
             catch (Exception e)
             {

@@ -18,7 +18,7 @@ namespace UpdatesClient.Modules.GameManager
                 result.IsGameFound = true;
                 result.GameVersion = new Version(FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\SkyrimSE.exe").FileVersion);
                 result.UnSafeGameFilesDictionary = VerifyGameFiles();
-                result.IsGameSafe = result.UnSafeGameFilesDictionary.Count == 0 ? true : false;
+                result.IsGameSafe = result.UnSafeGameFilesDictionary.Count == 0;
             }
 
             if (File.Exists($"{pathToGameFolder}\\skse64_loader.exe"))
@@ -26,7 +26,7 @@ namespace UpdatesClient.Modules.GameManager
                 result.IsSKSEFound = true;
                 result.SKSEVersion = new Version(FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\skse64_loader.exe").FileVersion.Replace(", ", "."));
                 result.UnSafeSKSEFilesDictionary = VerifySKSEFiles();
-                result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0 ? true : false;
+                result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0;
             }
 
             if (Directory.Exists($"{pathToGameFolder}\\Data\\Interface"))

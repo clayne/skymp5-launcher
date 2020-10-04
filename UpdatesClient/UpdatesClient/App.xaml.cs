@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.SelfUpdater;
 using Yandex.Metrica;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
@@ -36,7 +37,7 @@ namespace UpdatesClient
 
         public App()
         {
-            if (!Security.CheckEnvironment()) { ExitApp(); return; }
+            if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
             string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
@@ -62,9 +63,20 @@ namespace UpdatesClient
                             break;
                         case BeginUpdate:
                             File.Copy(FullPathToSelfExe, $"{args[2]}.exe", true);
+                            try
+                            {
+                                File.SetAttributes($"{args[2]}.exe", FileAttributes.Normal);
+                            }
+                            catch (Exception e)
+                            {
+                                YandexMetrica.ReportError("HandleCmdArgs_Normal", e);
+                            }
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
                             ExitApp();
                             return false;
+                        case "repair":
+                            Settings.Reset();
+                            break;
                         default:
                             ExitApp();
                             return false;
@@ -131,12 +143,14 @@ namespace UpdatesClient
             catch (Exception e) 
             {
                 YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
-                YandexMetrica.ReportError($"CriticalError_{Security.UID}", e);
-                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Security.UID}", "Критическая ошибка"); 
+                YandexMetrica.ReportError($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
+                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка"); 
             }
         }
         private void StartLuancher()
         {
+            if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
+
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
             {
                 YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
@@ -147,14 +161,17 @@ namespace UpdatesClient
         //****************************************************************//
         private bool CheckFile(string pathToFile)
         {
-            if (File.Exists(pathToFile) && MasterHash.ToUpper() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper()) return true;
-            else return false;
+            return File.Exists(pathToFile) 
+                && MasterHash.ToUpper().Trim() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper().Trim();
         }
         private bool Update() 
         {
             if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
 
-            Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, $"{NameExeFile}.update.exe");
+            Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, $"{NameExeFile}.update.exe")
+            {
+                IsHidden = true
+            };
             downloader.DownloadChanged += SplashWindow.SetProgress;
             return downloader.Download();
         }

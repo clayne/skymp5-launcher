@@ -43,7 +43,16 @@ namespace UpdatesClient.Modules.Configs
 
         internal static string FromAes256Base64(string src)
         {
-            return FromAes256(Convert.FromBase64String(src));
+            try
+            {
+                return FromAes256(Convert.FromBase64String(src));
+            }
+            catch
+            {
+                return "";
+            }
+
+            
         }
 
         /// <summary>

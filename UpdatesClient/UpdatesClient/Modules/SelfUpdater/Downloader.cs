@@ -11,6 +11,8 @@ namespace UpdatesClient.Modules.SelfUpdater
         public delegate void DownloaderStateHandler(double Value, double LenFile, double prDown);
         public event DownloaderStateHandler DownloadChanged;
 
+        public bool IsHidden = false;
+
         private long iFileSize = 0;
         private double DownValue = 0;
         private double DownMax = 0;
@@ -53,6 +55,14 @@ namespace UpdatesClient.Modules.SelfUpdater
             if (File.Exists(sPath)) iExistLen = new FileInfo(sPath).Length;
             using (FileStream saveFileStream = iExistLen > 0 ? new FileStream(sPath, FileMode.Append, FileAccess.Write) : new FileStream(sPath, FileMode.Create, FileAccess.Write))
             {
+                try
+                {
+                    if (IsHidden) File.SetAttributes(sPath, FileAttributes.Hidden);
+                }
+                catch (Exception e)
+                {
+                    YandexMetrica.ReportError("Down_Hidden", e);
+                }
                 hwRq.AddRange(iExistLen);
 
                 using (HttpWebResponse hwRes = (HttpWebResponse)hwRq.GetResponse())

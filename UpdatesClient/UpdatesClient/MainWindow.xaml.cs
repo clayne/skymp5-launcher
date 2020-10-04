@@ -37,7 +37,9 @@ namespace UpdatesClient
             Settings.Load();
             wind.Loaded += delegate
             {
-                if (string.IsNullOrEmpty(Settings.PathToSkyrim))
+                if (string.IsNullOrEmpty(Settings.PathToSkyrim) 
+                || !Directory.Exists(Settings.PathToSkyrim) 
+                || !File.Exists($"{Settings.PathToSkyrim}\\SkyrimSE.exe"))
                 {
                     SetGameFolder();
                 }
@@ -137,7 +139,7 @@ namespace UpdatesClient
                         Settings.Save();
                     }
                 }
-                else { Application.Current.Shutdown(); }
+                else { Application.Current.Shutdown(); Close(); }
             }
         }
 
@@ -340,10 +342,11 @@ namespace UpdatesClient
                 bool crash = await GameLauncher.StartGame();
                 Show();
 
-                if(crash)
+                if (crash)
                 {
                     YandexMetrica.ReportEvent("CrashDetected");
-                    ReportDmp();
+                    await Task.Delay(500);
+                    await ReportDmp();
                 }
             }
             catch
@@ -353,7 +356,7 @@ namespace UpdatesClient
             }
         }
 
-        private async void ReportDmp()
+        private async Task ReportDmp()
         {
             string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
 
