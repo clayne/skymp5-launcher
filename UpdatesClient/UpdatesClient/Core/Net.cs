@@ -57,7 +57,7 @@ namespace UpdatesClient.Core
             req.Method = method;
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
-            req.ContentType = "application/x-www-form-urlencoded;";
+            req.ContentType = "application/json";
             if (auth) req.Headers.Add(HttpRequestHeader.Authorization, Settings.UserToken);
             if (data != null)
                 using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data}");
