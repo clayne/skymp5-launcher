@@ -161,8 +161,8 @@ namespace UpdatesClient
         //****************************************************************//
         private bool CheckFile(string pathToFile)
         {
-            if (File.Exists(pathToFile) && MasterHash.ToUpper() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper()) return true;
-            else return false;
+            return File.Exists(pathToFile) 
+                && MasterHash.ToUpper().Trim() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper().Trim();
         }
         private bool Update() 
         {

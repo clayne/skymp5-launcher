@@ -40,7 +40,7 @@ namespace UpdatesClient.Modules.SelfUpdater
         private static Task<string> Request(string url, string data)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            req.Method = "POST";
+            req.Method = "GET";
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
             req.ContentType = "application/x-www-form-urlencoded;";
