@@ -41,7 +41,9 @@ namespace ICSharpCode.SharpZipLib
         {
         }
 
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private ValueOutOfRangeException(string message, Exception innerException) : base(message, innerException)
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
         {
         }
     }

@@ -239,7 +239,9 @@ namespace Newtonsoft.Json.Utilities
             BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public;
             if (nonPublic)
             {
+#pragma warning disable IDE0054 // »спользовать составной оператор назначени€
                 bindingFlags = bindingFlags | BindingFlags.NonPublic;
+#pragma warning restore IDE0054 // »спользовать составной оператор назначени€
             }
 
             return t.GetConstructors(bindingFlags).SingleOrDefault(c => !c.GetParameters().Any());

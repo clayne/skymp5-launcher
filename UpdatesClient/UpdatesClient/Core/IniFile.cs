@@ -8,7 +8,7 @@ namespace UpdatesClient.Core
 {
     public class IniFile
     {
-        string Path;
+        private readonly string Path;
 
         [DllImport("kernel32")]
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);

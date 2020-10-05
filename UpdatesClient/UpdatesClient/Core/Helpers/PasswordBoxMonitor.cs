@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace UpdatesClient.Core.Helpers
@@ -40,25 +35,23 @@ namespace UpdatesClient.Core.Helpers
 
         private static void OnIsMonitoringChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var pb = d as PasswordBox;
-            if (pb == null)
+            if (d as PasswordBox == null)
             {
                 return;
             }
             if ((bool)e.NewValue)
             {
-                pb.PasswordChanged += PasswordChanged;
+                (d as PasswordBox).PasswordChanged += PasswordChanged;
             }
             else
             {
-                pb.PasswordChanged -= PasswordChanged;
+                (d as PasswordBox).PasswordChanged -= PasswordChanged;
             }
         }
 
         static void PasswordChanged(object sender, RoutedEventArgs e)
         {
-            var pb = sender as PasswordBox;
-            if (pb == null)
+            if (!(sender is PasswordBox pb))
             {
                 return;
             }

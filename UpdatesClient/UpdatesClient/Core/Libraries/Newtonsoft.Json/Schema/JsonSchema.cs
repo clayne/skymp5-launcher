@@ -344,8 +344,10 @@ namespace Newtonsoft.Json.Schema
         public override string ToString()
         {
             StringWriter writer = new StringWriter(CultureInfo.InvariantCulture);
-            JsonTextWriter jsonWriter = new JsonTextWriter(writer);
-            jsonWriter.Formatting = Formatting.Indented;
+            JsonTextWriter jsonWriter = new JsonTextWriter(writer)
+            {
+                Formatting = Formatting.Indented
+            };
 
             WriteTo(jsonWriter);
 

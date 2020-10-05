@@ -71,8 +71,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         {
             CheckNotNull(source, "source");
 
-            var servesItself = source as IEnumerable<TResult>;
-            if (servesItself != null
+            if (source is IEnumerable<TResult> servesItself
                 && (!(servesItself is TResult[]) || servesItself.GetType().GetElementType() == typeof(TResult)))
             {
                 return servesItself;
@@ -104,8 +103,8 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
           IEnumerable source)
         {
             foreach (var item in source)
-                if (item is TResult)
-                    yield return (TResult)item;
+                if (item is TResult result)
+                    yield return result;
         }
 
         /// <summary>
@@ -361,7 +360,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
 
         private static class Futures<T>
         {
-            public static readonly System.Func<T> Default = () => default(T);
+            public static readonly System.Func<T> Default = () => default;
             public static readonly System.Func<T> Undefined = () => { throw new InvalidOperationException(); };
         }
 
@@ -376,8 +375,8 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
             CheckNotNull(source, "source");
             Debug.Assert(empty != null);
 
-            var list = source as IList<TSource>; // optimized case for lists
-            if (list != null)
+            // optimized case for lists
+            if (source is IList<TSource> list)
                 return list.Count > 0 ? list[0] : empty();
 
             using (var e = source.GetEnumerator()) // fallback for enumeration
@@ -438,8 +437,8 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         {
             CheckNotNull(source, "source");
 
-            var list = source as IList<TSource>; // optimized case for lists
-            if (list != null)
+            // optimized case for lists
+            if (source is IList<TSource> list)
                 return list.Count > 0 ? list[list.Count - 1] : empty();
 
             using (var e = source.GetEnumerator())
@@ -587,8 +586,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
             if (index < 0)
                 throw new ArgumentOutOfRangeException("index", index, null);
 
-            var list = source as IList<TSource>;
-            if (list != null)
+            if (source is IList<TSource> list)
                 return list[index];
 
             try
@@ -613,11 +611,10 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
             CheckNotNull(source, "source");
 
             if (index < 0)
-                return default(TSource);
+                return default;
 
-            var list = source as IList<TSource>;
-            if (list != null)
-                return index < list.Count ? list[index] : default(TSource);
+            if (source is IList<TSource> list)
+                return index < list.Count ? list[index] : default;
 
             return source.SkipWhile((item, i) => i < index).FirstOrDefault();
         }
@@ -727,8 +724,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         {
             CheckNotNull(source, "source");
 
-            var collection = source as ICollection;
-            if (collection != null)
+            if (source is ICollection collection)
             {
                 return collection.Count;
             }
@@ -767,8 +763,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         {
             CheckNotNull(source, "source");
 
-            var array = source as Array;
-            return array != null
+            return source is Array array
                      ? array.LongLength
                      : source.Aggregate(0L, (count, item) => count + 1);
         }
@@ -829,8 +824,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         public static TSource[] ToArray<TSource>(
           this IEnumerable<TSource> source)
         {
-            IList<TSource> ilist = source as IList<TSource>;
-            if (ilist != null)
+            if (source is IList<TSource> ilist)
             {
                 TSource[] array = new TSource[ilist.Count];
                 ilist.CopyTo(array, 0);
@@ -1190,7 +1184,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         public static IEnumerable<TSource> DefaultIfEmpty<TSource>(
           this IEnumerable<TSource> source)
         {
-            return source.DefaultIfEmpty(default(TSource));
+            return source.DefaultIfEmpty(default);
         }
 
         /// <summary>
@@ -1300,8 +1294,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
 
             if (comparer == null)
             {
-                var collection = source as ICollection<TSource>;
-                if (collection != null)
+                if (source is ICollection<TSource> collection)
                     return collection.Contains(value);
             }
 
@@ -1660,7 +1653,9 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(
           this IEnumerable<TSource> source,
           System.Func<TSource, TKey> keySelector,
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
           IEqualityComparer<TKey> comparer)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             return source.ToDictionary(keySelector, e => e);
         }
@@ -2823,8 +2818,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
 
         internal IEnumerable<TElement> Find(TKey key)
         {
-            IGrouping<TKey, TElement> grouping;
-            return _map.TryGetValue(key, out grouping) ? grouping : null;
+            return _map.TryGetValue(key, out IGrouping<TKey, TElement> grouping) ? grouping : null;
         }
 
         /// <summary>
@@ -2841,8 +2835,7 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         {
             get
             {
-                IGrouping<TKey, TElement> result;
-                return _map.TryGetValue(key, out result) ? result : Enumerable.Empty<TElement>();
+                return _map.TryGetValue(key, out IGrouping<TKey, TElement> result) ? result : Enumerable.Empty<TElement>();
             }
         }
 
@@ -2899,10 +2892,9 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         private OrderedEnumerable(IEnumerable<T> source, List<Comparison<T>> comparisons,
                                   System.Func<T, K> keySelector, IComparer<K> comparer, bool descending)
         {
-            if (source == null) throw new ArgumentNullException("source");
             if (keySelector == null) throw new ArgumentNullException("keySelector");
 
-            _source = source;
+            _source = source ?? throw new ArgumentNullException("source");
 
             comparer = comparer ?? Comparer<K>.Default;
 
@@ -2937,11 +2929,11 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
 
             list.Sort((x, y) =>
               {
-            //
-            // Compare keys from left to right.
-            //
+                  //
+                  // Compare keys from left to right.
+                  //
 
-            var comparisons = _comparisons;
+                  var comparisons = _comparisons;
                   for (var i = 0; i < comparisons.Count; i++)
                   {
                       var result = comparisons[i](x.First, y.First);
@@ -2949,12 +2941,12 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
                           return result;
                   }
 
-            //
-            // All keys compared equal so now break the tie by their
-            // position in the original sequence, making the sort stable.
-            //
+                  //
+                  // All keys compared equal so now break the tie by their
+                  // position in the original sequence, making the sort stable.
+                  //
 
-            return x.Second.CompareTo(y.Second);
+                  return x.Second.CompareTo(y.Second);
               });
 
             return list.Select(new System.Func<Tuple<T, int>, T>(GetFirst)).GetEnumerator();
@@ -3005,8 +2997,8 @@ namespace Newtonsoft.Json.Utilities.LinqBridge
         public override bool Equals(object obj)
         {
             return obj != null
-                   && obj is Tuple<TFirst, TSecond>
-                   && base.Equals((Tuple<TFirst, TSecond>)obj);
+                   && obj is Tuple<TFirst, TSecond> tuple
+                   && base.Equals(tuple);
         }
 
         public bool Equals(Tuple<TFirst, TSecond> other)

@@ -122,9 +122,9 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 
             if (cryptoTransform_ != null)
             {
-                if (cryptoTransform_ is ZipAESTransform)
+                if (cryptoTransform_ is ZipAESTransform transform)
                 {
-                    AESAuthCode = ((ZipAESTransform)cryptoTransform_).GetAuthCode();
+                    AESAuthCode = transform.GetAuthCode();
                 }
                 cryptoTransform_.Dispose();
                 cryptoTransform_ = null;
@@ -197,7 +197,9 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// <param name="length">
         /// Number of bytes in buffer to encrypt
         /// </param>
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         protected void EncryptBlock(byte[] buffer, int offset, int length)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             cryptoTransform_.TransformBlock(buffer, 0, length, buffer, 0);
         }
@@ -424,9 +426,9 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// </summary>
         protected void GetAuthCodeIfAES()
         {
-            if (cryptoTransform_ is ZipAESTransform)
+            if (cryptoTransform_ is ZipAESTransform transform)
             {
-                AESAuthCode = ((ZipAESTransform)cryptoTransform_).GetAuthCode();
+                AESAuthCode = transform.GetAuthCode();
             }
         }
 
@@ -469,7 +471,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// This buffer is used temporarily to retrieve the bytes from the
         /// deflater and write them to the underlying output stream.
         /// </summary>
-        private byte[] buffer_;
+        private readonly byte[] buffer_;
 
         /// <summary>
         /// The deflater which is used to deflate the stream.

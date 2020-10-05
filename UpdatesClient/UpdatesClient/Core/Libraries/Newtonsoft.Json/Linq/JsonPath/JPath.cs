@@ -439,8 +439,10 @@ namespace Newtonsoft.Json.Linq.JsonPath
         {
             if (_expression[_currentIndex] == '$')
             {
-                expressionPath = new List<PathFilter>();
-                expressionPath.Add(RootFilter.Instance);
+                expressionPath = new List<PathFilter>
+                {
+                    RootFilter.Instance
+                };
             }
             else if (_expression[_currentIndex] == '@')
             {

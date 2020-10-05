@@ -297,8 +297,10 @@ namespace Newtonsoft.Json.Schema
                         Type collectionItemType = ReflectionUtils.GetCollectionItemType(type);
                         if (collectionItemType != null)
                         {
-                            CurrentSchema.Items = new List<JsonSchema>();
-                            CurrentSchema.Items.Add(GenerateInternal(collectionItemType, (!allowNullItem) ? Required.Always : Required.Default, false));
+                            CurrentSchema.Items = new List<JsonSchema>
+                            {
+                                GenerateInternal(collectionItemType, (!allowNullItem) ? Required.Always : Required.Default, false)
+                            };
                         }
                         break;
                     case JsonContractType.Primitive:

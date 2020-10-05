@@ -190,7 +190,9 @@ namespace Newtonsoft.Json.Linq
             AddValue(new JValue(value), token);
         }
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         internal void AddValue(JValue value, JsonToken token)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             if (_parent != null)
             {

@@ -164,42 +164,27 @@ namespace SevenZip
 
         private void OnFileExists(FileOverwriteEventArgs e)
         {
-            if (FileExists != null)
-            {
-                FileExists(this, e);
-            }
+            FileExists?.Invoke(this, e);
         }
 
         private void OnOpen(OpenEventArgs e)
         {
-            if (Open != null)
-            {
-                Open(this, e);
-            }
+            Open?.Invoke(this, e);
         }
 
         private void OnFileExtractionStarted(FileInfoEventArgs e)
         {
-            if (FileExtractionStarted != null)
-            {
-                FileExtractionStarted(this, e);
-            }
+            FileExtractionStarted?.Invoke(this, e);
         }
 
         private void OnFileExtractionFinished(FileInfoEventArgs e)
         {
-            if (FileExtractionFinished != null)
-            {
-                FileExtractionFinished(this, e);
-            }
+            FileExtractionFinished?.Invoke(this, e);
         }
 
         private void OnExtracting(ProgressEventArgs e)
         {
-            if (Extracting != null)
-            {
-                Extracting(this, e);
-            }
+            Extracting?.Invoke(this, e);
         }
 
         private void IntEventArgsHandler(object sender, IntEventArgs e)

@@ -32,7 +32,9 @@ namespace SevenZip.Sdk.Compression.Lzma
 
         private uint m_DictionarySize;
         private uint m_DictionarySizeCheck;
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private BitTreeDecoder m_PosAlignDecoder = new BitTreeDecoder(Base.kNumAlignBits);
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
 
         private uint m_PosStateMask;
 
@@ -290,7 +292,9 @@ namespace SevenZip.Sdk.Compression.Lzma
             private readonly BitTreeDecoder[] m_MidCoder = new BitTreeDecoder[Base.kNumPosStatesMax];
             private BitDecoder m_Choice;
             private BitDecoder m_Choice2;
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
             private BitTreeDecoder m_HighCoder = new BitTreeDecoder(Base.kNumHighLenBits);
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
             private uint m_NumPosStates;
 
             internal void Create(uint numPosStates)

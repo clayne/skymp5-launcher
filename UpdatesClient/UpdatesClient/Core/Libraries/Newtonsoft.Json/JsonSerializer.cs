@@ -88,12 +88,7 @@ namespace Newtonsoft.Json
             get => GetReferenceResolver();
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value), "Reference resolver cannot be null.");
-                }
-
-                _referenceResolver = value;
+                _referenceResolver = value ?? throw new ArgumentNullException(nameof(value), "Reference resolver cannot be null.");
             }
         }
 
@@ -141,12 +136,7 @@ namespace Newtonsoft.Json
             get => _serializationBinder;
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value), "Serialization binder cannot be null.");
-                }
-
-                _serializationBinder = value;
+                _serializationBinder = value ?? throw new ArgumentNullException(nameof(value), "Serialization binder cannot be null.");
             }
         }
 

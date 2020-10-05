@@ -186,7 +186,9 @@ namespace SevenZip
             return true;
         }*/
 
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private static bool CompressionBenchmark(Stream inStream, Stream outStream,
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
             OutArchiveFormat format, CompressionMethod method,
             ref LibraryFeature? features, LibraryFeature testedFeature)
         {

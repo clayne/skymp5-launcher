@@ -116,7 +116,9 @@ namespace Newtonsoft.Json.Utilities
         }
 
         // Used by Newtonsoft.Json.Schema
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private static CamelCaseNamingStrategy _camelCaseNamingStrategy = new CamelCaseNamingStrategy();
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
         public static bool TryToString(Type enumType, object value, bool camelCase, out string name)
         {
             return TryToString(enumType, value, camelCase ? _camelCaseNamingStrategy : null, out name);

@@ -44,16 +44,16 @@ namespace ICSharpCode.SharpZipLib.BZip2
 
         private int bsBuff;
         private int bsLive;
-        private IChecksum mCrc = new BZip2Crc();
+        private readonly IChecksum mCrc = new BZip2Crc();
 
-        private bool[] inUse = new bool[256];
+        private readonly bool[] inUse = new bool[256];
         private int nInUse;
 
-        private byte[] seqToUnseq = new byte[256];
-        private byte[] unseqToSeq = new byte[256];
+        private readonly byte[] seqToUnseq = new byte[256];
+        private readonly byte[] unseqToSeq = new byte[256];
 
-        private byte[] selector = new byte[BZip2Constants.MaximumSelectors];
-        private byte[] selectorMtf = new byte[BZip2Constants.MaximumSelectors];
+        private readonly byte[] selector = new byte[BZip2Constants.MaximumSelectors];
+        private readonly byte[] selectorMtf = new byte[BZip2Constants.MaximumSelectors];
 
         private int[] tt;
         private byte[] ll8;
@@ -62,12 +62,12 @@ namespace ICSharpCode.SharpZipLib.BZip2
 		freq table collected to save a pass over the data
 		during decompression.
 		--*/
-        private int[] unzftab = new int[256];
+        private readonly int[] unzftab = new int[256];
 
-        private int[][] limit = new int[BZip2Constants.GroupCount][];
-        private int[][] baseArray = new int[BZip2Constants.GroupCount][];
-        private int[][] perm = new int[BZip2Constants.GroupCount][];
-        private int[] minLens = new int[BZip2Constants.GroupCount];
+        private readonly int[][] limit = new int[BZip2Constants.GroupCount][];
+        private readonly int[][] baseArray = new int[BZip2Constants.GroupCount][];
+        private readonly int[][] perm = new int[BZip2Constants.GroupCount][];
+        private readonly int[] minLens = new int[BZip2Constants.GroupCount];
 
         private readonly Stream baseStream;
         private bool streamEnd;
@@ -95,8 +95,6 @@ namespace ICSharpCode.SharpZipLib.BZip2
         /// <param name="stream">Data source</param>
         public BZip2InputStream(Stream stream)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
             // init arrays
             for (int i = 0; i < BZip2Constants.GroupCount; ++i)
             {
@@ -105,7 +103,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 perm[i] = new int[BZip2Constants.MaximumAlphaSize];
             }
 
-            baseStream = stream;
+            baseStream = stream ?? throw new ArgumentNullException(nameof(stream));
             bsLive = 0;
             bsBuff = 0;
             Initialize();
@@ -394,7 +392,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
 
             // 1528150659
             computedCombinedCRC = ((computedCombinedCRC << 1) & 0xFFFFFFFF) | (computedCombinedCRC >> 31);
-            computedCombinedCRC = computedCombinedCRC ^ (uint)computedBlockCRC;
+            computedCombinedCRC ^= (uint)computedBlockCRC;
         }
 
         private void Complete()
@@ -763,7 +761,9 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 cftab[ch]++;
             }
 
+#pragma warning disable IDE0059 // Ненужное присваивание значения
             cftab = null;
+#pragma warning restore IDE0059 // Ненужное присваивание значения
 
             tPos = tt[origPtr];
 

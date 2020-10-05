@@ -34,10 +34,8 @@ namespace UpdatesClient.UI.Controllers
             set
             {
                 buttonStatus = value;
-                DropShadowEffect efC = cycle.Effect as DropShadowEffect;
-                DropShadowEffect efT = textBlock.Effect as DropShadowEffect;
 
-                if (efC != null && efT != null)
+                if (cycle.Effect is DropShadowEffect efC && textBlock.Effect is DropShadowEffect efT)
                 {
                     switch (buttonStatus)
                     {
@@ -64,15 +62,14 @@ namespace UpdatesClient.UI.Controllers
             }
         }
 
-        DropShadowEffect efC;
-        DropShadowEffect efT;
-
-        DoubleAnimation buttonUpAnimation = new DoubleAnimation
+        readonly DropShadowEffect efC;
+        readonly DropShadowEffect efT;
+        readonly DoubleAnimation buttonUpAnimation = new DoubleAnimation
         {
             To = 16,
             Duration = TimeSpan.FromMilliseconds(200)
         };
-        DoubleAnimation buttonDownAnimation = new DoubleAnimation
+        readonly DoubleAnimation buttonDownAnimation = new DoubleAnimation
         {
             To = 0,
             Duration = TimeSpan.FromMilliseconds(200)

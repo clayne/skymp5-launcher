@@ -2,6 +2,7 @@ using ICSharpCode.SharpZipLib.Checksum;
 using System;
 using System.IO;
 
+#pragma warning disable IDE0059 // Ненужное присваивание значения
 namespace ICSharpCode.SharpZipLib.BZip2
 {
     /// <summary>
@@ -61,23 +62,23 @@ namespace ICSharpCode.SharpZipLib.BZip2
 		always: in the range 0 .. 9.
 		The current block size is 100000 * this number.
 		--*/
-        private int blockSize100k;
+        private readonly int blockSize100k;
 
         private bool blockRandomised;
 
         private int bytesOut;
         private int bsBuff;
         private int bsLive;
-        private IChecksum mCrc = new BZip2Crc();
+        private readonly IChecksum mCrc = new BZip2Crc();
 
-        private bool[] inUse = new bool[256];
+        private readonly bool[] inUse = new bool[256];
         private int nInUse;
 
-        private char[] seqToUnseq = new char[256];
-        private char[] unseqToSeq = new char[256];
+        private readonly char[] seqToUnseq = new char[256];
+        private readonly char[] unseqToSeq = new char[256];
 
-        private char[] selector = new char[BZip2Constants.MaximumSelectors];
-        private char[] selectorMtf = new char[BZip2Constants.MaximumSelectors];
+        private readonly char[] selector = new char[BZip2Constants.MaximumSelectors];
+        private readonly char[] selectorMtf = new char[BZip2Constants.MaximumSelectors];
 
         private byte[] block;
         private int[] quadrant;
@@ -87,18 +88,20 @@ namespace ICSharpCode.SharpZipLib.BZip2
 
         private int nMTF;
 
-        private int[] mtfFreq = new int[BZip2Constants.MaximumAlphaSize];
+        private readonly int[] mtfFreq = new int[BZip2Constants.MaximumAlphaSize];
 
         /*
 		* Used when sorting.  If too many long comparisons
 		* happen, we stop sorting, randomise the block
 		* slightly, and try again.
 		*/
-        private int workFactor;
+        private readonly int workFactor;
         private int workDone;
         private int workLimit;
         private bool firstAttempt;
+#pragma warning disable IDE0052 // Удалить непрочитанные закрытые члены
         private int nBlocksRandomised;
+#pragma warning restore IDE0052 // Удалить непрочитанные закрытые члены
 
         private int currentChar = -1;
         private int runLength;
@@ -129,10 +132,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
         /// </remarks>
         public BZip2OutputStream(Stream stream, int blockSize)
         {
-            if (stream == null)
-                throw new ArgumentNullException(nameof(stream));
-
-            baseStream = stream;
+            baseStream = stream ?? throw new ArgumentNullException(nameof(stream));
             bsLive = 0;
             bsBuff = 0;
             bytesOut = 0;
@@ -1052,7 +1052,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                     while (FullGtU(zptr[j - h] + d, v + d))
                     {
                         zptr[j] = zptr[j - h];
-                        j = j - h;
+                        j -= h;
                         if (j <= (lo + h - 1))
                             break;
                     }
@@ -1069,7 +1069,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                     while (FullGtU(zptr[j - h] + d, v + d))
                     {
                         zptr[j] = zptr[j - h];
-                        j = j - h;
+                        j -= h;
                         if (j <= (lo + h - 1))
                         {
                             break;
@@ -1088,7 +1088,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                     while (FullGtU(zptr[j - h] + d, v + d))
                     {
                         zptr[j] = zptr[j - h];
-                        j = j - h;
+                        j -= h;
                         if (j <= (lo + h - 1))
                         {
                             break;
@@ -1357,7 +1357,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                 } while (h <= 256);
                 do
                 {
-                    h = h / 3;
+                    h /= 3;
                     for (i = h; i <= 255; i++)
                     {
                         vv = runningOrder[i];
@@ -1365,7 +1365,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                         while ((ftab[((runningOrder[j - h]) + 1) << 8] - ftab[(runningOrder[j - h]) << 8]) > (ftab[((vv) + 1) << 8] - ftab[(vv) << 8]))
                         {
                             runningOrder[j] = runningOrder[j - h];
-                            j = j - h;
+                            j -= h;
                             if (j <= (h - 1))
                             {
                                 break;
@@ -1885,6 +1885,7 @@ namespace ICSharpCode.SharpZipLib.BZip2
                     nHeap--;
                     int zz = 1;
                     int yy = 0;
+
                     int tmp = heap[zz];
                     while (true)
                     {
@@ -2031,3 +2032,4 @@ namespace ICSharpCode.SharpZipLib.BZip2
         }
     }
 }
+#pragma warning restore IDE0059 // Ненужное присваивание значения

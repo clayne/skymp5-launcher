@@ -19,7 +19,9 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
 
         #region Instance Fields
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private byte[] window = new byte[WindowSize]; //The window is 2^15 bytes
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
         private int windowEnd;
         private int windowFilled;
 
@@ -42,7 +44,9 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
             windowEnd &= WindowMask;
         }
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         private void SlowRepeat(int repStart, int length, int distance)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             while (length-- > 0)
             {

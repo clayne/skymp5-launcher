@@ -29,12 +29,7 @@ namespace ICSharpCode.SharpZipLib.Tar
         /// <param name="blockFactor">blocking factor</param>
         public TarOutputStream(Stream outputStream, int blockFactor)
         {
-            if (outputStream == null)
-            {
-                throw new ArgumentNullException(nameof(outputStream));
-            }
-
-            this.outputStream = outputStream;
+            this.outputStream = outputStream ?? throw new ArgumentNullException(nameof(outputStream));
             buffer = TarBuffer.CreateOutputTarBuffer(outputStream, blockFactor);
 
             assemblyBuffer = new byte[TarBuffer.BlockSize];
@@ -243,9 +238,11 @@ namespace ICSharpCode.SharpZipLib.Tar
 
             if (entry.TarHeader.Name.Length > TarHeader.NAMELEN)
             {
-                var longHeader = new TarHeader();
-                longHeader.TypeFlag = TarHeader.LF_GNU_LONGNAME;
-                longHeader.Name = longHeader.Name + "././@LongLink";
+                var longHeader = new TarHeader
+                {
+                    TypeFlag = TarHeader.LF_GNU_LONGNAME
+                };
+                longHeader.Name += "././@LongLink";
                 longHeader.Mode = 420;//644 by default
                 longHeader.UserId = entry.UserId;
                 longHeader.GroupId = entry.GroupId;

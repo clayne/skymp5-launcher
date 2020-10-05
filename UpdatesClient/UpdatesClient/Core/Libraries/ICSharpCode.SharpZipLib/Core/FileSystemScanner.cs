@@ -1,5 +1,6 @@
 using System;
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
 namespace ICSharpCode.SharpZipLib.Core
 {
     #region EventArgs
@@ -403,7 +404,9 @@ namespace ICSharpCode.SharpZipLib.Core
         /// Raise the complete file event
         /// </summary>
         /// <param name="file">The file name</param>
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private void OnCompleteFile(string file)
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
         {
             CompletedFileHandler handler = CompletedFile;
 
@@ -543,3 +546,4 @@ namespace ICSharpCode.SharpZipLib.Core
         #endregion Instance Fields
     }
 }
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения

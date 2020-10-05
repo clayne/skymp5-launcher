@@ -553,7 +553,7 @@ namespace Newtonsoft.Json.System
                         }
                         else
                         {
-                            targetDictionary = PopulateDictionary(dictionaryContract.ShouldCreateWrapper || !(existingValue is IDictionary) ? dictionaryContract.CreateWrapper(existingValue) : (IDictionary)existingValue, reader, dictionaryContract, member, id);
+                            targetDictionary = PopulateDictionary(dictionaryContract.ShouldCreateWrapper || !(existingValue is IDictionary dictionary) ? dictionaryContract.CreateWrapper(existingValue) : dictionary, reader, dictionaryContract, member, id);
                         }
 
                         return targetDictionary;
@@ -2252,7 +2252,9 @@ namespace Newtonsoft.Json.System
             return propertyValues;
         }
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         public object CreateNewObject(JsonReader reader, JsonObjectContract objectContract, JsonProperty containerMember, JsonProperty containerProperty, string id, out bool createdFromNonDefaultCreator)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             object newObject = null;
 

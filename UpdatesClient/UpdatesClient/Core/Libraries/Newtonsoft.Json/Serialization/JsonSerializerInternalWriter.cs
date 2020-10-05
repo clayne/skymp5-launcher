@@ -957,7 +957,9 @@ namespace Newtonsoft.Json.System
         }
 #endif
 
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private bool ShouldWriteDynamicProperty(object memberValue)
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
         {
             if (Serializer._nullValueHandling == NullValueHandling.Ignore && memberValue == null)
             {

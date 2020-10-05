@@ -275,10 +275,12 @@ namespace ICSharpCode.SharpZipLib.Core
 
         #region Instance Fields
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private string filter_;
         private List<Regex> inclusions_;
         private List<Regex> exclusions_;
 
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
         #endregion Instance Fields
     }
 }

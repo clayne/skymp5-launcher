@@ -14,7 +14,7 @@ namespace UpdatesClient.Modules.GameManager
         public static bool Runing { get; private set; }
 
         private static Process GameProcess = new Process();
-        private static ProcessStartInfo StartInfo = new ProcessStartInfo();
+        private static readonly ProcessStartInfo StartInfo = new ProcessStartInfo();
 
         public static void StopGame()
         {

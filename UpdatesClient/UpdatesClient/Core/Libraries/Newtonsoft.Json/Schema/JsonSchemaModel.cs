@@ -81,7 +81,9 @@ namespace Newtonsoft.Json.Schema
         {
             // Version 3 of the Draft JSON Schema has the default value of Not Required
             model.Required = model.Required || (schema.Required ?? false);
+#pragma warning disable IDE0054 // Использовать составной оператор назначения
             model.Type = model.Type & (schema.Type ?? JsonSchemaType.Any);
+#pragma warning restore IDE0054 // Использовать составной оператор назначения
 
             model.MinimumLength = MathUtils.Max(model.MinimumLength, schema.MinimumLength);
             model.MaximumLength = MathUtils.Min(model.MaximumLength, schema.MaximumLength);
@@ -109,7 +111,7 @@ namespace Newtonsoft.Json.Schema
 
                 model.Enum.AddRangeDistinct(schema.Enum, JToken.EqualityComparer);
             }
-            model.Disallow = model.Disallow | (schema.Disallow ?? JsonSchemaType.None);
+            model.Disallow |= (schema.Disallow ?? JsonSchemaType.None);
 
             if (schema.Pattern != null)
             {

@@ -331,7 +331,7 @@
             </local1:ImageButton.Image>
         </local1:ImageButton>
 
-        <Button x:Name="backButton" Content="Назад" HorizontalAlignment="Left" Style="{DynamicResource ButtonStyleBack}" Margin="12,15,0,0" VerticalAlignment="Top" Foreground="White" Background="{x:Null}" BorderBrush="#FF707070" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Width="93" Click="backButton_Click"/>
+        <Button x:Name="backButton" Content="Назад" HorizontalAlignment="Left" Style="{DynamicResource ButtonStyleBack}" Margin="12,15,0,0" VerticalAlignment="Top" Foreground="White" Background="{x:Null}" BorderBrush="#FF707070" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Width="93" Click="BackButton_Click"/>
 
         <Grid x:Name="authPanel" Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -349,9 +349,9 @@
             <local1:TextBoxWithIcon x:Name="emailAuth" Grid.ColumnSpan="2" Margin="51,20,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource people}" PlaceHolder="Почта или логин" />
             <local1:PasswordBoxWithIcon x:Name="passAuth" Grid.ColumnSpan="2" Margin="51,85,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource lock}"  PlaceHolder="Пароль"/>
             <CheckBox x:Name="rmAuth" Content="Запомнить меня" Height="20" HorizontalAlignment="Left" Margin="58,149,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" BorderBrush="White" Background="#FF212026" Padding="4,-1,0,0"/>
-            <Button Content="Войти" BorderThickness="2" Margin="51,189,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Click="signin_Click"/>
-            <Button Content="Регистрация" BorderThickness="2" Margin="51,258,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleTransparent}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Foreground="White" Click="open_RegisterPanel"/>
-            <Button Content="Забыли пароль?" BorderThickness="2" Margin="153,323,153,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="30" HorizontalAlignment="Center" Width="150" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Foreground="White" Click="open_ForgotPassPanel"/>
+            <Button Content="Войти" BorderThickness="2" Margin="51,189,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Click="Signin_Click"/>
+            <Button Content="Регистрация" BorderThickness="2" Margin="51,258,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleTransparent}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Foreground="White" Click="Open_RegisterPanel"/>
+            <Button Content="Забыли пароль?" BorderThickness="2" Margin="153,323,153,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="30" HorizontalAlignment="Center" Width="150" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Foreground="White" Click="Open_ForgotPassPanel"/>
         </Grid>
         <Grid x:Name="registerPanel" Visibility="Visible" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
@@ -371,7 +371,7 @@
             <local1:PasswordBoxWithIcon x:Name="passReg" Grid.ColumnSpan="2" Margin="51,150,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource lock}"  PlaceHolder="Пароль"/>
             <local1:PasswordBoxWithIcon x:Name="passCheckReg" Grid.ColumnSpan="2" Margin="51,215,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource lock}"  PlaceHolder="Подтвердите пароль"/>
 
-            <Button Content="Зарегистрироваться" BorderThickness="2" Margin="51,280,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Click="signup_Click"/>
+            <Button Content="Зарегистрироваться" BorderThickness="2" Margin="51,280,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Click="Signup_Click"/>
             <Border BorderBrush="White" BorderThickness="2" HorizontalAlignment="Left" Height="100" Margin="0,347,0,0" Grid.Row="1" VerticalAlignment="Top" Width="456" CornerRadius="10" Grid.ColumnSpan="2">
                 <TextBlock TextWrapping="Wrap" Text="Прежде чем вы сможете исследовать Skyrim, нам нужно, чтобы вы подтвердили свой адрес электронной почты. Электронное письмо с инструкциями по подтверждению будет отправлено на ваш адрес." Foreground="White" Margin="10" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="18" TextAlignment="Center"/>
             </Border>
@@ -391,7 +391,7 @@
 
             <local1:TextBoxWithIcon x:Name="emailForgot" Grid.ColumnSpan="2" Margin="51,20,51,0" Height="45" VerticalAlignment="Top" HorizontalAlignment="Center" Width="354" Grid.Row="1" Icon="{StaticResource people}" PlaceHolder="Почта" />
 
-            <Button Content="Отправить" BorderThickness="2" Margin="51,85,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Click="forgot_Click"/>
+            <Button Content="Отправить" BorderThickness="2" Margin="51,85,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Click="Forgot_Click"/>
             <Border BorderBrush="White" BorderThickness="2" HorizontalAlignment="Left" Margin="0,158,0,0" Grid.Row="1" VerticalAlignment="Top" Width="456" CornerRadius="10" Grid.ColumnSpan="2">
                 <TextBlock TextWrapping="Wrap" Text="После нажатия на кнопку «отправить», вам на почту будет отправлено письмо с дальнейшей инструкцией." Foreground="White" Margin="5" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="18" TextAlignment="Center"/>
             </Border>

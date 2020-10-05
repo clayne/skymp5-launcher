@@ -42,12 +42,12 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// A refernce to the pixel shader used.
         /// </summary>
-        private static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
         /// <summary>
         /// The transform used when this Effect is applied.
         /// </summary>
-        private SwirlGeneralTransform generalTransform;
+        private readonly SwirlGeneralTransform generalTransform;
 
         #endregion
 
@@ -58,8 +58,10 @@ namespace UpdatesClient.Core.Effects
         /// </summary>
         static SwirlEffect()
         {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("Assets/Effects/Swirl.ps");
+            pixelShader = new PixelShader
+            {
+                UriSource = Global.MakePackUri("Assets/Effects/Swirl.ps")
+            };
         }
 
         /// <summary>
@@ -187,12 +189,11 @@ namespace UpdatesClient.Core.Effects
             /// <returns>The transformed rect.</returns>
             public override Rect TransformBounds(Rect rect)
             {
-                Point tl, tr, bl, br;
 
-                if (this.TryTransform(new Point(rect.Left, rect.Top), out tl) &&
-                    this.TryTransform(new Point(rect.Right, rect.Top), out tr) &&
-                    this.TryTransform(new Point(rect.Left, rect.Bottom), out bl) &&
-                    this.TryTransform(new Point(rect.Right, rect.Bottom), out br))
+                if (this.TryTransform(new Point(rect.Left, rect.Top), out Point tl) &&
+                    this.TryTransform(new Point(rect.Right, rect.Top), out Point tr) &&
+                    this.TryTransform(new Point(rect.Left, rect.Bottom), out Point bl) &&
+                    this.TryTransform(new Point(rect.Right, rect.Bottom), out Point br))
                 {
                     double maxX = Math.Max(tl.X, Math.Max(tr.X, Math.Max(bl.X, br.X)));
                     double minX = Math.Min(tl.X, Math.Min(tr.X, Math.Min(bl.X, br.X)));
@@ -219,8 +220,8 @@ namespace UpdatesClient.Core.Effects
                 // Exactly follows what the HLSL shader itself does.
                 Point dir = new Point(targetPoint.X - this.theEffect.Center.X, targetPoint.Y - this.theEffect.Center.Y);
                 double l = Math.Sqrt(dir.X * dir.X + dir.Y * dir.Y);
-                dir.X = dir.X / l;
-                dir.Y = dir.Y / l;
+                dir.X /= l;
+                dir.Y /= l;
 
 
                 double angle = Math.Atan2(dir.Y, dir.X);

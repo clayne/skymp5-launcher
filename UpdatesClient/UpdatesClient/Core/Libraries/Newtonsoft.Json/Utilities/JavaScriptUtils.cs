@@ -568,7 +568,9 @@ namespace Newtonsoft.Json.Utilities
         public static bool TryGetDateFromConstructorJson(JsonReader reader, out DateTime dateTime, out string errorMessage)
         {
             dateTime = default;
+#pragma warning disable IDE0059 // Ненужное присваивание значения
             errorMessage = null;
+#pragma warning restore IDE0059 // Ненужное присваивание значения
 
             if (!TryGetDateConstructorValue(reader, out long? t1, out errorMessage) || t1 == null)
             {

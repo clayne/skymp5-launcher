@@ -45,7 +45,7 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// The pixel shader instance.
         /// </summary>
-        private static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
         #endregion
 
@@ -56,8 +56,10 @@ namespace UpdatesClient.Core.Effects
         /// </summary>
         static SmoothMagnifyEffect()
         {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("Assets/Effects/SmoothMagnify.ps");
+            pixelShader = new PixelShader
+            {
+                UriSource = Global.MakePackUri("Assets/Effects/SmoothMagnify.ps")
+            };
         }
 
         /// <summary>

@@ -81,12 +81,7 @@ namespace Newtonsoft.Json
         /// <param name="reader">The <see cref="TextReader"/> containing the JSON data to read.</param>
         public JsonTextReader(TextReader reader)
         {
-            if (reader == null)
-            {
-                throw new ArgumentNullException(nameof(reader));
-            }
-
-            _reader = reader;
+            _reader = reader ?? throw new ArgumentNullException(nameof(reader));
             _lineNumber = 1;
 
 #if HAVE_ASYNC
@@ -117,12 +112,7 @@ namespace Newtonsoft.Json
             get => _arrayPool;
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                _arrayPool = value;
+                _arrayPool = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 

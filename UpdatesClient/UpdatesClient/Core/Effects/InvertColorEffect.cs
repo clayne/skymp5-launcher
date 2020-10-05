@@ -25,7 +25,7 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// The shader instance.
         /// </summary>
-        private static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
         #endregion
 
@@ -36,8 +36,10 @@ namespace UpdatesClient.Core.Effects
         /// </summary>
         static InvertColorEffect()
         {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("Assets/Effects/InvertColor.ps");
+            pixelShader = new PixelShader
+            {
+                UriSource = Global.MakePackUri("Assets/Effects/InvertColor.ps")
+            };
         }
 
         /// <summary>

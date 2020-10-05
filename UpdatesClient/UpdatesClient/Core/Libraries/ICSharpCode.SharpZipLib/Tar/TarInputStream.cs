@@ -386,16 +386,6 @@ namespace ICSharpCode.SharpZipLib.Tar
         /// <summary>
         /// Since we do not support marking just yet, we do nothing.
         /// </summary>
-        /// <param name ="markLimit">
-        /// The limit to mark.
-        /// </param>
-        public void Mark(int markLimit)
-        {
-        }
-
-        /// <summary>
-        /// Since we do not support marking just yet, we do nothing.
-        /// </summary>
         public void Reset()
         {
         }

@@ -742,7 +742,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Assets\Fonts\Benguiat.ttf" />
     <Resource Include="Assets\ShaderSource\AverageEffect.ps" />
     <Resource Include="Assets\ShaderSource\ColorBurnEffect.ps" />
     <Resource Include="Assets\ShaderSource\ColorDodgeEffect.ps" />

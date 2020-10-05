@@ -77,8 +77,10 @@ namespace Newtonsoft.Json.Utilities
             {
                 if (_store == null)
                 {
-                    _store = new Dictionary<TKey, TValue>();
-                    _store[key] = value;
+                    _store = new Dictionary<TKey, TValue>
+                    {
+                        [key] = value
+                    };
                 }
                 else
                 {
@@ -88,8 +90,10 @@ namespace Newtonsoft.Json.Utilities
                         return checkValue;
                     }
 
-                    Dictionary<TKey, TValue> newStore = new Dictionary<TKey, TValue>(_store);
-                    newStore[key] = value;
+                    Dictionary<TKey, TValue> newStore = new Dictionary<TKey, TValue>(_store)
+                    {
+                        [key] = value
+                    };
 
 #if HAVE_MEMORY_BARRIER
                     Thread.MemoryBarrier();

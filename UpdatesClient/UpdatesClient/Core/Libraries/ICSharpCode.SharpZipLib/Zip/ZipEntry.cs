@@ -1140,7 +1140,9 @@ namespace ICSharpCode.SharpZipLib.Zip
                 if (length < 7)
                     throw new ZipException("AES Extra Data Length " + length + " invalid.");
                 int ver = extraData.ReadShort();            // Version number (1=AE-1 2=AE-2)
+#pragma warning disable IDE0059 // Ненужное присваивание значения
                 int vendorId = extraData.ReadShort();       // 2-character vendor ID 0x4541 = "AE"
+#pragma warning restore IDE0059 // Ненужное присваивание значения
                 int encrStrength = extraData.ReadByte();    // encryption strength 1 = 128 2 = 192 3 = 256
                 int actualCompress = extraData.ReadShort(); // The actual compression method used to compress the file
                 _aesVer = ver;
@@ -1323,7 +1325,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         private ushort versionMadeBy;                   // Contains host system and version information
                                                         // only relevant for central header entries
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private string name;
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
         private ulong size;
         private ulong compressedSize;
         private ushort versionToExtract;                // Version required to extract (library handles <= 2.0)
@@ -1341,7 +1345,9 @@ namespace ICSharpCode.SharpZipLib.Zip
 
         private bool forceZip64_;
         private byte cryptoCheckValue_;
+#pragma warning disable IDE0052 // Удалить непрочитанные закрытые члены
         private int _aesVer;                            // Version number (2 = AE-2 ?). Assigned but not used.
+#pragma warning restore IDE0052 // Удалить непрочитанные закрытые члены
         private int _aesEncryptionStrength;             // Encryption strength 1 = 128 2 = 192 3 = 256
 
         #endregion Instance Fields

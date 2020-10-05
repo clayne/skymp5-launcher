@@ -314,26 +314,17 @@ namespace SevenZip
 
         private void OnFileCompression(FileNameEventArgs e)
         {
-            if (FileCompressionStarted != null)
-            {
-                FileCompressionStarted(this, e);
-            }
+            FileCompressionStarted?.Invoke(this, e);
         }
 
         private void OnCompressing(ProgressEventArgs e)
         {
-            if (Compressing != null)
-            {
-                Compressing(this, e);
-            }
+            Compressing?.Invoke(this, e);
         }
 
         private void OnFileCompressionFinished(EventArgs e)
         {
-            if (FileCompressionFinished != null)
-            {
-                FileCompressionFinished(this, e);
-            }
+            FileCompressionFinished?.Invoke(this, e);
         }
 
         #endregion

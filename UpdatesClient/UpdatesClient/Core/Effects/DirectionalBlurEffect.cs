@@ -35,7 +35,7 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// A refernce to the pixel shader used.
         /// </summary>
-        private static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
         #endregion
 
@@ -46,8 +46,10 @@ namespace UpdatesClient.Core.Effects
         /// </summary>
         static DirectionalBlurEffect()
         {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("Assets/Effects/DirectionalBlur.ps");
+            pixelShader = new PixelShader
+            {
+                UriSource = Global.MakePackUri("Assets/Effects/DirectionalBlur.ps")
+            };
         }
 
         /// <summary>

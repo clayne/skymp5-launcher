@@ -1,6 +1,7 @@
 using ICSharpCode.SharpZipLib.Checksum;
 using System;
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
 namespace ICSharpCode.SharpZipLib.Zip.Compression
 {
     /// <summary>
@@ -944,3 +945,5 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         #endregion Instance Fields
     }
 }
+
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения

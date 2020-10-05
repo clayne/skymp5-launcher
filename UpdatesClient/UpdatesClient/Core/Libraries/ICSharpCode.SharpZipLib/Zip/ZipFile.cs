@@ -9,7 +9,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены3
+#pragma warning disable IDE0059 // Ненужное присваивание значения
 namespace ICSharpCode.SharpZipLib.Zip
 {
     #region Keys Required Event Args
@@ -2010,7 +2011,9 @@ namespace ICSharpCode.SharpZipLib.Zip
             WriteLEInt((int)(value >> 32));
         }
 
+
         private void WriteLEUlong(ulong value)
+
         {
             WriteLEUint((uint)(value & 0xffffffff));
             WriteLEUint((uint)(value >> 32));
@@ -3124,7 +3127,7 @@ namespace ICSharpCode.SharpZipLib.Zip
                 dataSource_ = dataSource;
             }
 
-            public ZipUpdate(ZipEntry original, ZipEntry updated)
+            public ZipUpdate()
             {
                 throw new ZipException("Modify not currently supported");
                 /*
@@ -3234,10 +3237,10 @@ namespace ICSharpCode.SharpZipLib.Zip
 
             #region Instance Fields
 
-            private ZipEntry entry_;
+            private readonly ZipEntry entry_;
             private ZipEntry outEntry_;
             private readonly UpdateCommand command_;
-            private IStaticDataSource dataSource_;
+            private readonly IStaticDataSource dataSource_;
             private readonly string filename_;
             private long sizePatchOffset_ = -1;
             private long crcPatchOffset_ = -1;
@@ -3261,7 +3264,9 @@ namespace ICSharpCode.SharpZipLib.Zip
 
         #endregion IDisposable Members
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         private void DisposeInternal(bool disposing)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             if (!isDisposed_)
             {
@@ -3863,7 +3868,7 @@ namespace ICSharpCode.SharpZipLib.Zip
 
             #region Instance Fields
 
-            private ZipEntry[] array;
+            private readonly ZipEntry[] array;
             private int index = -1;
 
             #endregion Instance Fields
@@ -4285,8 +4290,8 @@ namespace ICSharpCode.SharpZipLib.Zip
 
             #region Instance Fields
 
-            private ZipFile zipFile_;
-            private Stream baseStream_;
+            private readonly ZipFile zipFile_;
+            private readonly Stream baseStream_;
             private readonly long start_;
             private readonly long length_;
             private long readPos_;
@@ -4870,3 +4875,5 @@ namespace ICSharpCode.SharpZipLib.Zip
 
     #endregion Archive Storage
 }
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
+#pragma warning restore IDE0059 // Ненужное присваивание значения

@@ -627,9 +627,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         //
         private void WriteAESHeader(ZipEntry entry)
         {
-            byte[] salt;
-            byte[] pwdVerifier;
-            InitializeAESPassword(entry, Password, out salt, out pwdVerifier);
+            InitializeAESPassword(entry, Password, out byte[] salt, out byte[] pwdVerifier);
             // File format for AES:
             // Size (bytes)   Content
             // ------------   -------
@@ -897,7 +895,7 @@ namespace ICSharpCode.SharpZipLib.Zip
         /// <summary>
         /// Used to track the crc of data added to entries.
         /// </summary>
-        private Crc32 crc = new Crc32();
+        private readonly Crc32 crc = new Crc32();
 
         /// <summary>
         /// The current entry being added.

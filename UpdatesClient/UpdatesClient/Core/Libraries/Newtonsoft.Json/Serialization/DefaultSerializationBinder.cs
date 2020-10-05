@@ -201,7 +201,9 @@ namespace Newtonsoft.Json.System
 #if HAVE_SERIALIZATION_BINDER_BIND_TO_NAME
         override
 #endif
+#pragma warning disable CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
         void BindToName(Type serializedType, out string assemblyName, out string typeName)
+#pragma warning restore CS0114 // Член скрывает унаследованный член: отсутствует ключевое слово переопределения
         {
 #if !HAVE_FULL_REFLECTION
             assemblyName = serializedType.GetTypeInfo().Assembly.FullName;

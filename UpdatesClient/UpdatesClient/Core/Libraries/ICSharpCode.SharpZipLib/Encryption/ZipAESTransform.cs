@@ -1,6 +1,7 @@
 using System;
 using System.Security.Cryptography;
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
 namespace ICSharpCode.SharpZipLib.Encryption
 {
     /// <summary>
@@ -221,3 +222,4 @@ namespace ICSharpCode.SharpZipLib.Encryption
         #endregion ICryptoTransform Members
     }
 }
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения

@@ -160,7 +160,9 @@ namespace Newtonsoft.Json.Linq
                 }
             }
 
+#pragma warning disable IDE0059 // Ненужное присваивание значения
             if (_properties.TryGetValue(newProperty.Name, out existing))
+#pragma warning restore IDE0059 // Ненужное присваивание значения
             {
                 throw new ArgumentException("Can not add property {0} to {1}. Property with the same name already exists on object.".FormatWith(CultureInfo.InvariantCulture, newProperty.Name, GetType()));
             }

@@ -2,6 +2,7 @@ using ICSharpCode.SharpZipLib.Checksum;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using System;
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
 namespace ICSharpCode.SharpZipLib.Zip.Compression
 {
     /// <summary>
@@ -885,3 +886,4 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression
         }
     }
 }
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения

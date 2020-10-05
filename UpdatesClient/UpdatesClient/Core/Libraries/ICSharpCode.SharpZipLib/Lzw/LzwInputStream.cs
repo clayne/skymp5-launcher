@@ -525,7 +525,9 @@ namespace ICSharpCode.SharpZipLib.Lzw
 
         #region Instance Fields
 
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private Stream baseInputStream;
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
 
         /// <summary>
         /// Flag indicating wether this instance has been closed or not.

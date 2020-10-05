@@ -71,7 +71,9 @@ namespace ICSharpCode.SharpZipLib.Tar
 
         private void Flush()
         {
+#pragma warning disable IDE0059 // Ненужное присваивание значения
             decoder.Convert(byteBuffer, 0, bbIndex, charBuffer, 0, 4, false, out int bytesUsed, out int charsUsed, out bool completed);
+#pragma warning restore IDE0059 // Ненужное присваивание значения
 
             sb.Append(charBuffer, 0, charsUsed);
             ResetBuffers();

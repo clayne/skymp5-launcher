@@ -39,7 +39,7 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// A refernce to the pixel shader used.
         /// </summary>
-        private static PixelShader pixelShader = new PixelShader();
+        private static readonly PixelShader pixelShader = new PixelShader();
 
         #endregion
 

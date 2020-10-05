@@ -66,7 +66,7 @@ namespace UpdatesClient.Core
 
             using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
             {
-                
+
                 using (StreamReader sr = new StreamReader(res.GetResponseStream()))
                 {
                     string raw = await sr.ReadToEndAsync();

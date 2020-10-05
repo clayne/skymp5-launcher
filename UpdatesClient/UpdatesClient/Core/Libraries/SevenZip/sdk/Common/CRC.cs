@@ -1,3 +1,4 @@
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
 namespace SevenZip.Sdk
 {
     internal class CRC
@@ -51,9 +52,12 @@ namespace SevenZip.Sdk
             return crc.GetDigest();
         }
 
+
         private static bool VerifyDigest(uint digest, byte[] data, uint offset, uint size)
+
         {
             return (CalculateDigest(data, offset, size) == digest);
         }
     }
 }
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены

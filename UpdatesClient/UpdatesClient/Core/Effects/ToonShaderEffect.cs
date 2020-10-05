@@ -26,7 +26,7 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// The pixel shader instance.
         /// </summary>
-        private static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
         #endregion
 

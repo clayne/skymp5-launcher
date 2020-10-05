@@ -233,7 +233,7 @@ namespace Newtonsoft.Json.System
             // Exclude index properties
             // Do not filter ByRef types here because accessing FieldType/PropertyType can trigger additonal assembly loads
             IEnumerable<MemberInfo> allMembers = ReflectionUtils.GetFieldsAndProperties(objectType, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
-                .Where(m => m is PropertyInfo p ? !ReflectionUtils.IsIndexedProperty(p) : true);
+                .Where(m => !(m is PropertyInfo p) || !ReflectionUtils.IsIndexedProperty(p));
 
             List<MemberInfo> serializableMembers = new List<MemberInfo>();
 
@@ -530,7 +530,7 @@ namespace Newtonsoft.Json.System
 
                 MethodCall<object, object> setExtensionDataDictionaryValue = JsonTypeReflector.ReflectionDelegateFactory.CreateMethodCall<object>(setMethod);
 
-                ExtensionDataSetter extensionDataSetter = (o, key, value) =>
+                void extensionDataSetter(object o, string key, object value)
                 {
                     object dictionary = getExtensionDataDictionary(o);
                     if (dictionary == null)
@@ -545,7 +545,7 @@ namespace Newtonsoft.Json.System
                     }
 
                     setExtensionDataDictionaryValue(dictionary, key, value);
-                };
+                }
 
                 contract.ExtensionDataSetter = extensionDataSetter;
             }
@@ -556,7 +556,8 @@ namespace Newtonsoft.Json.System
                 ConstructorInfo constructors = enumerableWrapper.GetConstructors().First();
                 ObjectConstructor<object> createEnumerableWrapper = JsonTypeReflector.ReflectionDelegateFactory.CreateParameterizedConstructor(constructors);
 
-                ExtensionDataGetter extensionDataGetter = o =>
+
+                contract.ExtensionDataGetter = o =>
                 {
                     object dictionary = getExtensionDataDictionary(o);
                     if (dictionary == null)
@@ -566,8 +567,6 @@ namespace Newtonsoft.Json.System
 
                     return (IEnumerable<KeyValuePair<object, object>>)createEnumerableWrapper(dictionary);
                 };
-
-                contract.ExtensionDataGetter = extensionDataGetter;
             }
 
             contract.ExtensionDataValueType = valueType;
@@ -734,9 +733,11 @@ namespace Newtonsoft.Json.System
         /// <returns>A created <see cref="JsonProperty"/> for the given <see cref="ParameterInfo"/>.</returns>
         protected virtual JsonProperty CreatePropertyFromConstructorParameter(JsonProperty matchingMemberProperty, ParameterInfo parameterInfo)
         {
-            JsonProperty property = new JsonProperty();
-            property.PropertyType = parameterInfo.ParameterType;
-            property.AttributeProvider = new ReflectionAttributeProvider(parameterInfo);
+            JsonProperty property = new JsonProperty
+            {
+                PropertyType = parameterInfo.ParameterType,
+                AttributeProvider = new ReflectionAttributeProvider(parameterInfo)
+            };
 
             SetPropertySettingsFromAttributes(property, parameterInfo, parameterInfo.Name, parameterInfo.Member.DeclaringType, MemberSerialization.OptOut, out _);
 
@@ -1416,11 +1417,13 @@ namespace Newtonsoft.Json.System
         /// <returns>A created <see cref="JsonProperty"/> for the given <see cref="MemberInfo"/>.</returns>
         protected virtual JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
-            JsonProperty property = new JsonProperty();
-            property.PropertyType = ReflectionUtils.GetMemberUnderlyingType(member);
-            property.DeclaringType = member.DeclaringType;
-            property.ValueProvider = CreateMemberValueProvider(member);
-            property.AttributeProvider = new ReflectionAttributeProvider(member);
+            JsonProperty property = new JsonProperty
+            {
+                PropertyType = ReflectionUtils.GetMemberUnderlyingType(member),
+                DeclaringType = member.DeclaringType,
+                ValueProvider = CreateMemberValueProvider(member),
+                AttributeProvider = new ReflectionAttributeProvider(member)
+            };
 
             SetPropertySettingsFromAttributes(property, member, member.Name, member.DeclaringType, memberSerialization, out bool allowNonPublicAccess);
 

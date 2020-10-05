@@ -1,22 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Configuration;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Core.Network.Models.Request;
@@ -68,26 +57,26 @@ namespace UpdatesClient.UI.Pages
             emailForgot.Text = "";
         }
 
-        private void open_RegisterPanel(object sender, RoutedEventArgs e)
+        private void Open_RegisterPanel(object sender, RoutedEventArgs e)
         {
             authPanel.Visibility = Visibility.Collapsed;
             registerPanel.Visibility = Visibility.Visible;
             backButton.Visibility = Visibility.Visible;
         }
 
-        private void open_ForgotPassPanel(object sender, RoutedEventArgs e)
+        private void Open_ForgotPassPanel(object sender, RoutedEventArgs e)
         {
             authPanel.Visibility = Visibility.Collapsed;
             forgotPassPanel.Visibility = Visibility.Visible;
             backButton.Visibility = Visibility.Visible;
         }
 
-        private void backButton_Click(object sender, RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             Clear();
         }
 
-        private async void signin_Click(object sender, RoutedEventArgs e)
+        private async void Signin_Click(object sender, RoutedEventArgs e)
         {
             authPanel.IsEnabled = false;
             backButton.IsEnabled = false;
@@ -132,11 +121,11 @@ namespace UpdatesClient.UI.Pages
             {
                 YandexMetrica.ReportError("Auth_Login", err);
             }
-            
+
             authPanel.IsEnabled = true;
             backButton.IsEnabled = true;
         }
-        private async void signup_Click(object sender, RoutedEventArgs e)
+        private async void Signup_Click(object sender, RoutedEventArgs e)
         {
             if (passReg.Password != passCheckReg.Password)
             {
@@ -180,18 +169,18 @@ namespace UpdatesClient.UI.Pages
                     {
                         NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
                     }
-                    
+
                 }
             }
             catch (Exception err)
             {
-               YandexMetrica.ReportError("Auth_Register", err);
+                YandexMetrica.ReportError("Auth_Register", err);
             }
 
             registerPanel.IsEnabled = true;
             backButton.IsEnabled = true;
         }
-        private async void forgot_Click(object sender, RoutedEventArgs e)
+        private async void Forgot_Click(object sender, RoutedEventArgs e)
         {
             forgotPassPanel.IsEnabled = false;
             backButton.IsEnabled = false;
@@ -230,7 +219,7 @@ namespace UpdatesClient.UI.Pages
             {
                 YandexMetrica.ReportError("Auth_ResetPassword", err);
             }
-            
+
             forgotPassPanel.IsEnabled = true;
             backButton.IsEnabled = true;
         }

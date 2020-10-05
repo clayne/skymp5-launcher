@@ -273,11 +273,7 @@ namespace ICSharpCode.SharpZipLib.Tar
             get { return name; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-                name = value;
+                name = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -397,11 +393,7 @@ namespace ICSharpCode.SharpZipLib.Tar
             get { return linkName; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-                linkName = value;
+                linkName = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -414,11 +406,7 @@ namespace ICSharpCode.SharpZipLib.Tar
             get { return magic; }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-                magic = value;
+                magic = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -435,11 +423,7 @@ namespace ICSharpCode.SharpZipLib.Tar
 
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-                version = value;
+                version = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -658,10 +642,8 @@ namespace ICSharpCode.SharpZipLib.Tar
         /// <returns>true if the objects are equal, false otherwise.</returns>
         public override bool Equals(object obj)
         {
-            var localHeader = obj as TarHeader;
-
             bool result;
-            if (localHeader != null)
+            if (obj is TarHeader localHeader)
             {
                 result = (name == localHeader.name)
                     && (mode == localHeader.mode)
@@ -1035,7 +1017,7 @@ namespace ICSharpCode.SharpZipLib.Tar
                 for (int pos = length - 1; pos > 0; pos--)
                 {
                     buffer[offset + pos] = (byte)value;
-                    value = value >> 8;
+                    value >>= 8;
                 }
                 buffer[offset] = 0x80;
                 return offset + length;

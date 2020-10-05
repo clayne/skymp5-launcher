@@ -151,8 +151,8 @@ namespace ICSharpCode.SharpZipLib.Checksum
                 count -= n;
                 while (--n >= 0)
                 {
-                    s1 = s1 + (uint)(segment.Array[offset++] & 0xff);
-                    s2 = s2 + s1;
+                    s1 += (uint)(segment.Array[offset++] & 0xff);
+                    s2 += s1;
                 }
                 s1 %= BASE;
                 s2 %= BASE;

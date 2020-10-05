@@ -53,12 +53,7 @@ namespace Newtonsoft.Json
         /// <param name="converterType">Type of the <see cref="JsonConverter"/>.</param>
         public JsonConverterAttribute(Type converterType)
         {
-            if (converterType == null)
-            {
-                throw new ArgumentNullException(nameof(converterType));
-            }
-
-            _converterType = converterType;
+            _converterType = converterType ?? throw new ArgumentNullException(nameof(converterType));
         }
 
         /// <summary>

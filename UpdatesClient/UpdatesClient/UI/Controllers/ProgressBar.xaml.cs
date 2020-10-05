@@ -31,13 +31,11 @@ namespace UpdatesClient.UI.Controllers
         private Stopwatch stopwatch;
         //MS
         private long LastTime;
-
-
-        MovingAverage movingAverage = new MovingAverage()
+        readonly MovingAverage movingAverage = new MovingAverage()
         {
             windowSize = 40
         };
-        MovingAverage movingAverageTime = new MovingAverage()
+        readonly MovingAverage movingAverageTime = new MovingAverage()
         {
             windowSize = 500
         };
@@ -145,7 +143,7 @@ namespace UpdatesClient.UI.Controllers
 
     public class MovingAverage
     {
-        private Queue<Decimal> samples = new Queue<Decimal>();
+        private readonly Queue<Decimal> samples = new Queue<Decimal>();
         public int windowSize = 32;
         private Decimal sampleAccumulator;
         public Decimal Average { get; private set; }

@@ -46,7 +46,7 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// The pixel shader instance.
         /// </summary>
-        private static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
         #endregion
 
@@ -57,8 +57,10 @@ namespace UpdatesClient.Core.Effects
         /// </summary>
         static RippleEffect()
         {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("Assets/Effects/Ripple.ps");
+            pixelShader = new PixelShader
+            {
+                UriSource = Global.MakePackUri("Assets/Effects/Ripple.ps")
+            };
         }
 
         /// <summary>

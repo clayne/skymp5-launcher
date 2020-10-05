@@ -48,7 +48,7 @@ namespace Yandex.Metrica.Aides
                     label_9:
                     return true;
                 default:
-                    if ((object)(value as Uri) == null)
+                    if ((value as Uri) is null)
                     {
                         switch (value)
                         {
@@ -80,7 +80,7 @@ namespace Yandex.Metrica.Aides
         {
             if (value == null)
                 return profile.NullLiteral;
-            if (value is string || value is Guid || (object)(value as Uri) != null)
+            if (value is string || value is Guid || (value as Uri) is object)
                 return "\"" + JsonSerializer.Escape(value.ToString()) + "\"";
             switch (value)
             {

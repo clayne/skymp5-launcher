@@ -1,22 +1,15 @@
 ﻿using BlendModeEffectLibrary;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Utilities.LinqBridge;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Sockets;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using UpdatesClient.Core;
-using UpdatesClient.Core.Effects;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
@@ -65,7 +58,7 @@ namespace UpdatesClient
             progressBar.Hide();
 
             Settings.Load();
-            
+
             try
             {
                 Account.VerifyToken();
@@ -157,7 +150,7 @@ namespace UpdatesClient
 
             CheckClientUpdates();
         }
-        
+
         private async void FillServerList()
         {
             List<ServerModel> list = null;
@@ -166,7 +159,8 @@ namespace UpdatesClient
             {
                 servers = await ServerModel.GetServers();
                 ServerModel.Save(servers);
-            } catch (Exception e)
+            }
+            catch
             {
                 servers = ServerModel.Load();
             }
@@ -315,7 +309,7 @@ namespace UpdatesClient
             ServerModel newServer = (ServerModel)serverList.SelectedItem;
             if (newServer.IsSameServer(oldServer)) return;
             File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
-            Settings.Save();           
+            Settings.Save();
         }
 
         private async Task ReportDmp()
@@ -418,9 +412,9 @@ namespace UpdatesClient
 
         private void ServerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(serverList.SelectedIndex != -1)
+            if (serverList.SelectedIndex != -1)
             {
-                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;                
+                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;
             }
         }
 
@@ -428,9 +422,9 @@ namespace UpdatesClient
         {
             DependencyObject source = (DependencyObject)e.OriginalSource;
 
-            if(source is TextBlock)
+            if (source is TextBlock block)
             {
-                if (((TextBlock)source).DataContext is ServerModel)
+                if (block.DataContext is ServerModel)
                 {
                     MainBtn_Click(sender, e);
                 }

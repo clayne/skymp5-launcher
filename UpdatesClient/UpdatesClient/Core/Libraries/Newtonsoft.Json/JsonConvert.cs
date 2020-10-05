@@ -38,6 +38,7 @@ using System.Xml.Linq;
 
 #endif
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
 namespace Newtonsoft.Json
 {
     /// <summary>
@@ -1075,3 +1076,4 @@ namespace Newtonsoft.Json
         #endregion
     }
 }
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр

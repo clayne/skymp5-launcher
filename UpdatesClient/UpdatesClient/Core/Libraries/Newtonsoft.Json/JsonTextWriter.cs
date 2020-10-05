@@ -362,7 +362,9 @@ namespace Newtonsoft.Json
             _writer.Write(' ');
         }
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         private void WriteValueInternal(string value, JsonToken token)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             _writer.Write(value);
         }

@@ -37,9 +37,9 @@ namespace SevenZip
             {
                 return def;
             }
-            if (obj != null && obj is T)
+            if (obj != null && obj is T t)
             {
-                return (T)obj;
+                return t;
             }
             return def;
         }

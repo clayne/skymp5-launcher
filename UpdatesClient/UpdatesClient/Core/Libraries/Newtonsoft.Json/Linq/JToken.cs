@@ -432,8 +432,10 @@ namespace Newtonsoft.Json.Linq
         {
             using (StringWriter sw = new StringWriter(CultureInfo.InvariantCulture))
             {
-                JsonTextWriter jw = new JsonTextWriter(sw);
-                jw.Formatting = formatting;
+                JsonTextWriter jw = new JsonTextWriter(sw)
+                {
+                    Formatting = formatting
+                };
 
                 WriteTo(jw, converters);
 

@@ -3,18 +3,18 @@ using UpdatesClient.Core.Effects;
 
 namespace BlendModeEffectLibrary
 {
-	public class ScreenEffect : BlendModeEffect
-	{
-		static ScreenEffect()
-		{
-			_pixelShader.UriSource = Global.MakePackUri("Assets/ShaderSource/ScreenEffect.ps");
-		}
+    public class ScreenEffect : BlendModeEffect
+    {
+        static ScreenEffect()
+        {
+            _pixelShader.UriSource = Global.MakePackUri("Assets/ShaderSource/ScreenEffect.ps");
+        }
 
-		public ScreenEffect()
-		{
-			this.PixelShader = _pixelShader;
-		}
+        public ScreenEffect()
+        {
+            this.PixelShader = _pixelShader;
+        }
 
-		private static PixelShader _pixelShader = new PixelShader();
-	}
+        private static readonly PixelShader _pixelShader = new PixelShader();
+    }
 }

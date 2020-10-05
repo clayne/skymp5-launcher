@@ -259,7 +259,9 @@ namespace Newtonsoft.Json
             }
         }
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         private void RaiseError(string message, JsonSchemaModel schema)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             IJsonLineInfo lineInfo = this;
 

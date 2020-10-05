@@ -6,6 +6,7 @@ namespace SevenZip.Sdk.Compression.Lzma
     using System.Globalization;
     using System.IO;
 
+#pragma warning disable IDE0059 // Ненужное присваивание значения
     /// <summary>
     /// The LZMA encoder class
     /// </summary>
@@ -15,7 +16,9 @@ namespace SevenZip.Sdk.Compression.Lzma
         private const UInt32 kIfinityPrice = 0xFFFFFFF;
         private const UInt32 kNumFastBytesDefault = 0x20;
 
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private const UInt32 kNumLenSpecSymbols = Base.kNumLowLenSymbols + Base.kNumMidLenSymbols;
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
 
         private const UInt32 kNumOpts = 1 << 12;
         private const int kPropSize = 5;
@@ -77,7 +80,7 @@ namespace SevenZip.Sdk.Compression.Lzma
         private int _numLiteralPosStateBits;
         private UInt32 _optimumCurrentIndex;
         private UInt32 _optimumEndIndex;
-        private BitTreeEncoder _posAlignEncoder = new BitTreeEncoder(Base.kNumAlignBits);
+        private readonly BitTreeEncoder _posAlignEncoder = new BitTreeEncoder(Base.kNumAlignBits);
         private int _posStateBits = 2;
         private UInt32 _posStateMask = (4 - 1);
         private Byte _previousByte;
@@ -130,10 +133,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                 SetStreams(inStream, outStream /*, inSize, outSize*/);
                 while (true)
                 {
-                    Int64 processedInSize;
-                    Int64 processedOutSize;
-                    bool finished;
-                    CodeOneBlock(out processedInSize, out processedOutSize, out finished);
+                    CodeOneBlock(out long processedInSize, out long processedOutSize, out bool finished);
                     if (finished)
                         return;
                     if (progress != null)
@@ -635,8 +635,7 @@ namespace SevenZip.Sdk.Compression.Lzma
                 cur++;
                 if (cur == lenEnd)
                     return Backward(out backRes, cur);
-                UInt32 newLen;
-                ReadMatchDistances(out newLen, out numDistancePairs);
+                ReadMatchDistances(out uint newLen, out numDistancePairs);
                 if (newLen >= _numFastBytes)
                 {
                     _numDistancePairs = numDistancePairs;
@@ -1039,8 +1038,8 @@ namespace SevenZip.Sdk.Compression.Lzma
                     Flush((UInt32)nowPos64);
                     return;
                 }
-                UInt32 len, numDistancePairs; // it's not used
-                ReadMatchDistances(out len, out numDistancePairs);
+                // it's not used
+                ReadMatchDistances(out uint len, out uint numDistancePairs);
                 UInt32 posState = (UInt32)(nowPos64) & _posStateMask;
                 _isMatch[(_state.Index << Base.kNumPosStatesBitsMax) + posState].Encode(_rangeEncoder, 0);
                 _state.UpdateChar();
@@ -1057,8 +1056,7 @@ namespace SevenZip.Sdk.Compression.Lzma
             }
             while (true)
             {
-                UInt32 pos;
-                UInt32 len = GetOptimum((UInt32)nowPos64, out pos);
+                UInt32 len = GetOptimum((UInt32)nowPos64, out uint pos);
 
                 UInt32 posState = ((UInt32)nowPos64) & _posStateMask;
                 UInt32 complexState = (_state.Index << Base.kNumPosStatesBitsMax) + posState;
@@ -1296,7 +1294,7 @@ namespace SevenZip.Sdk.Compression.Lzma
             private readonly BitTreeEncoder[] _midCoder = new BitTreeEncoder[Base.kNumPosStatesEncodingMax];
             private BitEncoder _choice;
             private BitEncoder _choice2;
-            private BitTreeEncoder _highCoder = new BitTreeEncoder(Base.kNumHighLenBits);
+            private readonly BitTreeEncoder _highCoder = new BitTreeEncoder(Base.kNumHighLenBits);
 
             public LenEncoder()
             {
@@ -1569,3 +1567,4 @@ namespace SevenZip.Sdk.Compression.Lzma
         }
     }
 }
+#pragma warning restore IDE0059 // Ненужное присваивание значения

@@ -1,5 +1,6 @@
 namespace SevenZip.Sdk.Buffer
 {
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
     using System.IO;
 
     /// <summary>
@@ -101,3 +102,4 @@ namespace SevenZip.Sdk.Buffer
         }
     }
 }
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены

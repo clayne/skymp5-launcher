@@ -738,12 +738,16 @@ namespace ICSharpCode.SharpZipLib.Zip
             }
         }
 
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private static int MakeExternalAttributes(FileInfo info)
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
         {
             return (int)info.Attributes;
         }
 
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private static bool NameIsValid(string name)
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
         {
             return !string.IsNullOrEmpty(name) &&
                 (name.IndexOfAny(Path.GetInvalidPathChars()) < 0);
@@ -766,7 +770,9 @@ namespace ICSharpCode.SharpZipLib.Zip
         private bool restoreDateTimeOnExtract_;
         private bool restoreAttributesOnExtract_;
         private bool createEmptyDirectories_;
+#pragma warning disable IDE0044 // Добавить модификатор только для чтения
         private FastZipEvents events_;
+#pragma warning restore IDE0044 // Добавить модификатор только для чтения
         private IEntryFactory entryFactory_ = new ZipEntryFactory();
         private INameTransform extractNameTransform_;
         private UseZip64 useZip64_ = UseZip64.Dynamic;

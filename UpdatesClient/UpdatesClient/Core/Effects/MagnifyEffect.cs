@@ -40,12 +40,12 @@ namespace UpdatesClient.Core.Effects
         /// <summary>
         /// The pixel shader instance.
         /// </summary>
-        private static PixelShader pixelShader;
+        private static readonly PixelShader pixelShader;
 
         /// <summary>
         /// The transform used for this shader.
         /// </summary>
-        private MagnifyGeneralTransform generalTransform;
+        private readonly MagnifyGeneralTransform generalTransform;
 
         #endregion
 
@@ -56,8 +56,10 @@ namespace UpdatesClient.Core.Effects
         /// </summary>
         static MagnifyEffect()
         {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("Assets/Effects/Magnify.ps");
+            pixelShader = new PixelShader
+            {
+                UriSource = Global.MakePackUri("Assets/Effects/Magnify.ps")
+            };
         }
 
         /// <summary>
@@ -185,10 +187,9 @@ namespace UpdatesClient.Core.Effects
             /// <returns>The output rect.</returns>
             public override Rect TransformBounds(Rect rect)
             {
-                Point tl, br;
                 Rect result;
-                bool ok1 = this.TryTransform(new Point(rect.Left, rect.Top), out tl);
-                bool ok2 = this.TryTransform(new Point(rect.Right, rect.Bottom), out br);
+                bool ok1 = this.TryTransform(new Point(rect.Left, rect.Top), out Point tl);
+                bool ok2 = this.TryTransform(new Point(rect.Right, rect.Bottom), out Point br);
                 if (ok1 && ok2)
                 {
                     result = new Rect(tl, br);

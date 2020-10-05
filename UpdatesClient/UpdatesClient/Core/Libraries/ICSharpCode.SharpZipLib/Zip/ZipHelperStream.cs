@@ -183,7 +183,9 @@ namespace ICSharpCode.SharpZipLib.Zip
 
         // Write the local file header
         // TODO: ZipHelperStream.WriteLocalHeader is not yet used and needs checking for ZipFile and ZipOuptutStream usage
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private void WriteLocalHeader(ZipEntry entry, EntryPatchData patchData)
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
         {
             CompressionMethod method = entry.CompressionMethod;
             bool headerInfoAvailable = true; // How to get this?

@@ -304,7 +304,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
         #region Instance Fields
 
         private int rawLength;
-        private byte[] rawData;
+        private readonly byte[] rawData;
 
         private int clearTextLength;
         private byte[] clearText;
@@ -313,7 +313,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
         private int available;
 
         private ICryptoTransform cryptoTransform;
-        private Stream inputStream;
+        private readonly Stream inputStream;
 
         #endregion Instance Fields
     }
@@ -373,23 +373,13 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// </param>
         public InflaterInputStream(Stream baseInputStream, Inflater inflater, int bufferSize)
         {
-            if (baseInputStream == null)
-            {
-                throw new ArgumentNullException(nameof(baseInputStream));
-            }
-
-            if (inflater == null)
-            {
-                throw new ArgumentNullException(nameof(inflater));
-            }
-
             if (bufferSize <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(bufferSize));
             }
 
-            this.baseInputStream = baseInputStream;
-            this.inf = inflater;
+            this.baseInputStream = baseInputStream ?? throw new ArgumentNullException(nameof(baseInputStream));
+            this.inf = inflater ?? throw new ArgumentNullException(nameof(inflater));
 
             inputBuffer = new InflaterInputBuffer(baseInputStream, bufferSize);
         }
@@ -696,7 +686,7 @@ namespace ICSharpCode.SharpZipLib.Zip.Compression.Streams
         /// <summary>
         /// Base stream the inflater reads from.
         /// </summary>
-        private Stream baseInputStream;
+        private readonly Stream baseInputStream;
 
         /// <summary>
         /// The compressed size

@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using UpdatesClient.Modules.Configs;
 
@@ -65,7 +61,7 @@ namespace UpdatesClient.Core.Models
 
         public static async Task<string> GetServers()
         {
-            return await Net.Request(Net.URL_SERVERS, null);
+            return await Net.Request(Net.URL_SERVERS, "GET", false, null);
         }
 
         public static string Load()

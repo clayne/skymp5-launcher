@@ -44,11 +44,7 @@ namespace ICSharpCode.SharpZipLib.Tar
         /// <param name="message">message for this event.  Null is no message</param>
         protected virtual void OnProgressMessageEvent(TarEntry entry, string message)
         {
-            ProgressMessageHandler handler = ProgressMessageEvent;
-            if (handler != null)
-            {
-                handler(this, entry, message);
-            }
+            ProgressMessageEvent?.Invoke(this, entry, message);
         }
 
         #region Constructors
@@ -66,12 +62,7 @@ namespace ICSharpCode.SharpZipLib.Tar
         /// <param name="stream">The <see cref="TarInputStream"/> to use for input.</param>
         protected TarArchive(TarInputStream stream)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            tarIn = stream;
+            tarIn = stream ?? throw new ArgumentNullException(nameof(stream));
         }
 
         /// <summary>
@@ -80,12 +71,7 @@ namespace ICSharpCode.SharpZipLib.Tar
         /// <param name="stream">The <see cref="TarOutputStream"/> to use for output.</param>
         protected TarArchive(TarOutputStream stream)
         {
-            if (stream == null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            tarOut = stream;
+            tarOut = stream ?? throw new ArgumentNullException(nameof(stream));
         }
 
         #endregion Constructors
@@ -107,10 +93,8 @@ namespace ICSharpCode.SharpZipLib.Tar
                 throw new ArgumentNullException(nameof(inputStream));
             }
 
-            var tarStream = inputStream as TarInputStream;
-
             TarArchive result;
-            if (tarStream != null)
+            if (inputStream is TarInputStream tarStream)
             {
                 result = new TarArchive(tarStream);
             }
@@ -154,10 +138,8 @@ namespace ICSharpCode.SharpZipLib.Tar
                 throw new ArgumentNullException(nameof(outputStream));
             }
 
-            var tarStream = outputStream as TarOutputStream;
-
             TarArchive result;
-            if (tarStream != null)
+            if (outputStream is TarOutputStream tarStream)
             {
                 result = new TarArchive(tarStream);
             }
@@ -950,8 +932,8 @@ namespace ICSharpCode.SharpZipLib.Tar
 
         private bool applyUserInfoOverrides;
 
-        private TarInputStream tarIn;
-        private TarOutputStream tarOut;
+        private readonly TarInputStream tarIn;
+        private readonly TarOutputStream tarOut;
         private bool isDisposed;
 
         #endregion Instance Fields
