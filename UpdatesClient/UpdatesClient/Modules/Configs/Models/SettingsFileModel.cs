@@ -6,5 +6,6 @@
         public string LastVersion { get; set; }
         public int UserId { get; set; }
         public string UserToken { get; set; }
+        public int LastServerID { get; set; }
     }
 }

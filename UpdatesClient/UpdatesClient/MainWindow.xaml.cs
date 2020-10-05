@@ -1,9 +1,23 @@
-﻿using System;
+﻿using BlendModeEffectLibrary;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Utilities.LinqBridge;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using UpdatesClient.Core;
+using UpdatesClient.Core.Effects;
+using UpdatesClient.Core.Models;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
@@ -51,7 +65,7 @@ namespace UpdatesClient
             progressBar.Hide();
 
             Settings.Load();
-
+            
             try
             {
                 Account.VerifyToken();
@@ -65,12 +79,22 @@ namespace UpdatesClient
             authorization.SignIn += Authorization_SignIn;
 
             wind.Loaded += Wind_Loaded;
+
+        }
+
+        private ImageBrush GetGridBackGround(FrameworkElement element)
+        {
+            Point relativePoint = element.TranslatePoint(new Point(0, 0), mainGrid);
+            var image = (BitmapSource)((ImageBrush)wind.Background).ImageSource;
+            double w = wind.Width / image.Width;
+            double h = wind.Height / image.Height;
+            var im = new CroppedBitmap(image, new Int32Rect((int)(relativePoint.X * w), (int)(relativePoint.Y * h), (int)(element.Width * w), (int)(element.Height * h)));
+            return new ImageBrush(im);
         }
 
         private void Authorization_SignIn()
         {
             authorization.Visibility = Visibility.Collapsed;
-            MessageBox.Show("Worked!");
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
@@ -119,8 +143,40 @@ namespace UpdatesClient
                 ModVersion.Save();
             }
 
+            FillServerList();
+
+            serverList.Effect = new OverlayEffect()
+            {
+                BInput = GetGridBackGround(serverList)
+            };
+
+            refreshServerListButton.Effect = new OverlayEffect()
+            {
+                BInput = GetGridBackGround(refreshServerListButton)
+            };
+
             CheckClientUpdates();
         }
+        
+        private async void FillServerList()
+        {
+            List<ServerModel> list = null;
+            string servers;
+            try
+            {
+                servers = await ServerModel.GetServers();
+                ServerModel.Save(servers);
+            } catch (Exception e)
+            {
+                servers = ServerModel.Load();
+            }
+            list = ServerModel.ParseServersToList(servers);
+            list.RemoveAll(x => x.IsEmpty());
+            serverList.ItemsSource = null;
+            serverList.ItemsSource = list;
+            serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
+        }
+
         private string GetGameFolder()
         {
             using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
@@ -230,6 +286,8 @@ namespace UpdatesClient
                 return;
             }
 
+            SetServer();
+
             try
             {
                 Hide();
@@ -249,6 +307,17 @@ namespace UpdatesClient
                 Close();
             }
         }
+
+        private void SetServer()
+        {
+            if (serverList.SelectedItem == null) return;
+            SkympClientSettingsModel oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+            ServerModel newServer = (ServerModel)serverList.SelectedItem;
+            if (newServer.IsSameServer(oldServer)) return;
+            File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
+            Settings.Save();           
+        }
+
         private async Task ReportDmp()
         {
             string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
@@ -341,5 +410,32 @@ namespace UpdatesClient
             if (!ok && c < 3) return await DownloadFile(destinationPath, url, status, vers, ++c);
             return ok;
         }
+
+        private void RefreshServerList(object sender, RoutedEventArgs e)
+        {
+            FillServerList();
+        }
+
+        private void ServerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(serverList.SelectedIndex != -1)
+            {
+                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;                
+            }
+        }
+
+        private void ServerList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject source = (DependencyObject)e.OriginalSource;
+
+            if(source is TextBlock)
+            {
+                if (((TextBlock)source).DataContext is ServerModel)
+                {
+                    MainBtn_Click(sender, e);
+                }
+            }
+        }
+
     }
 }
