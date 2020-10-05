@@ -11,8 +11,8 @@ namespace UpdatesClient.Core
 {
     public static class NotifyController
     {
-        private static Queue<PopupNotify> popupNotifies = new Queue<PopupNotify>();
-        private static DoubleAnimation Hide = new DoubleAnimation
+        private static readonly Queue<PopupNotify> popupNotifies = new Queue<PopupNotify>();
+        private static readonly DoubleAnimation Hide = new DoubleAnimation
         {
             From = 1,
             To = 0,
@@ -59,6 +59,7 @@ namespace UpdatesClient.Core
 
         private async static void Close(PopupNotify popup)
         {
+            popup.ClickClose -= Popup_ClickClose;
             popup.BeginAnimation(UserControl.OpacityProperty, Hide);
             await Task.Delay(Hide.Duration.TimeSpan);
             if ((PopupNotify)NotifyList.NotifyPanel?.panelList.Children[0] == popup) run = false;
