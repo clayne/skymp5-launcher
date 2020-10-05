@@ -50,6 +50,8 @@ namespace UpdatesClient
             };
             progressBar.Hide();
 
+            Settings.Load();
+
             try
             {
                 Account.VerifyToken();
@@ -59,11 +61,10 @@ namespace UpdatesClient
             {
                 authorization.Visibility = Visibility.Visible;
             }
-            authorization.Visibility = Visibility.Visible;
+            //authorization.Visibility = Visibility.Visible;
             authorization.SignIn += Authorization_SignIn;
 
-            Settings.Load();
-            wind.Loaded += Wind_Loaded; ;
+            wind.Loaded += Wind_Loaded;
         }
 
         private void Authorization_SignIn()
