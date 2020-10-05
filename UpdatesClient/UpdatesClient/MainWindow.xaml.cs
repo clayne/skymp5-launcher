@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Effects;
 using UpdatesClient.Core.Models;
+using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
@@ -42,7 +43,13 @@ namespace UpdatesClient
         {
             InitializeComponent();
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
+            authorization.TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
             CloseBtn.Click += (s, e) =>
+            {
+                YandexMetrica.Config.CrashTracking = false;
+                Application.Current.Shutdown();
+            };
+            authorization.CloseBtn.Click += (s, e) =>
             {
                 YandexMetrica.Config.CrashTracking = false;
                 Application.Current.Shutdown();
@@ -51,9 +58,26 @@ namespace UpdatesClient
             {
                 WindowState = WindowState.Minimized;
             };
+            authorization.MinBtn.Click += (s, e) =>
+            {
+                WindowState = WindowState.Minimized;
+            };
             progressBar.Hide();
 
             Settings.Load();
+            
+            try
+            {
+                Account.VerifyToken();
+                authorization.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                authorization.Visibility = Visibility.Visible;
+            }
+            //authorization.Visibility = Visibility.Visible;
+            authorization.SignIn += Authorization_SignIn;
+
             wind.Loaded += Wind_Loaded;
 
         }
@@ -66,6 +90,11 @@ namespace UpdatesClient
             double h = wind.Height / image.Height;
             var im = new CroppedBitmap(image, new Int32Rect((int)(relativePoint.X * w), (int)(relativePoint.Y * h), (int)(element.Width * w), (int)(element.Height * h)));
             return new ImageBrush(im);
+        }
+
+        private void Authorization_SignIn()
+        {
+            authorization.Visibility = Visibility.Collapsed;
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)

@@ -40,6 +40,7 @@
     <DefineConstants>TRACE;DEBUG;UNMANAGED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -135,6 +136,36 @@
     <Compile Include="Core\Effects\ToneMappingEffect.cs" />
     <Compile Include="Core\Effects\ToonShaderEffect.cs" />
     <Compile Include="Core\Effects\ZoomBlurEffect.cs" />
+    <Compile Include="Core\Helpers\PasswordBoxMonitor.cs" />
+    <Compile Include="Core\Network\Account.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqLoginModel.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqRegisterModel.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqResetPassword.cs" />
+    <Compile Include="Core\Network\Models\Request\ReqVerifyRegisterModel.cs" />
+    <Compile Include="Core\Network\Models\Response\ResLoginModel.cs" />
+    <Compile Include="Core\Network\Models\Response\ResRegisterModel.cs" />
+    <Compile Include="Core\Network\Models\Response\ResVerifyRegisterModel.cs" />
+    <Compile Include="UI\Controllers\PasswordBoxWithIcon.xaml.cs">
+      <DependentUpon>PasswordBoxWithIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\TextBoxWithIcon.xaml.cs">
+      <DependentUpon>TextBoxWithIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\Authorization.xaml.cs">
+      <DependentUpon>Authorization.xaml</DependentUpon>
+    </Compile>
+    <Page Include="UI\Controllers\PasswordBoxWithIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\TextBoxWithIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\Authorization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Resource Include="Assets\Fonts\Forum-Regular.ttf" />
     <Resource Include="Assets\Fonts\PERTIBD.TTF" />
     <Resource Include="Assets\Fonts\PERTILI.TTF" />
@@ -749,7 +780,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Images\Buttons\" />
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
@@ -834,6 +864,7 @@
     <Content Include="Assets\ShaderSource\ScreenEffect.fx" />
     <Content Include="Assets\ShaderSource\SoftLightEffect.fx" />
     <Content Include="Assets\ShaderSource\VividLightEffect.fx" />
+    <Resource Include="Assets\Images\MainWindowBackgrounds\back2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

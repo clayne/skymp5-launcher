@@ -5,10 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
              mc:Ignorable="d" 
-             d:DesignHeight="16" d:DesignWidth="65">
+             d:DesignHeight="16">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="В СЕТИ" VerticalAlignment="Bottom" Foreground="White" FontFamily="Constantia" FontSize="14" Height="16"/>
-        <Rectangle Fill="White" HorizontalAlignment="Right" Margin="0,0,0,2" Width="11" Height="11" VerticalAlignment="Bottom">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="16"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="POSPELOV" VerticalAlignment="Bottom" Foreground="White" FontFamily="Constantia" FontSize="14" Height="16" TextAlignment="Right"/>
+        <Rectangle Fill="White" HorizontalAlignment="Right" Margin="0,0,0,2" Width="11" Height="11" VerticalAlignment="Bottom" Grid.Column="1">
             <Rectangle.OpacityMask>
                 <ImageBrush ImageSource="{StaticResource arrowDown}" Stretch="Uniform"/>
             </Rectangle.OpacityMask>

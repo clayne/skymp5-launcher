@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient"
         xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
+        xmlns:local2="clr-namespace:UpdatesClient.UI.Pages"
         xmlns:eff="clr-namespace:UpdatesClient.Core.Effects"
         mc:Ignorable="d"
         Title="SkyMP Launcher" Height="730" Width="1058" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen">
@@ -76,20 +77,54 @@
     <Grid x:Name="mainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="27"/>
-            <ColumnDefinition Width="175"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="70"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="57"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="#1EFFFFFF" Height="1" Margin="21,0,21,0" VerticalAlignment="Bottom" Grid.ColumnSpan="3">
+        <Rectangle Fill="#1EFFFFFF" Height="1" Margin="21,0,21,0" VerticalAlignment="Bottom" Grid.ColumnSpan="4">
             <Rectangle.OpacityMask>
                 <LinearGradientBrush EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5">
                     <GradientStop Color="#00000000" Offset="0"/>
                     <GradientStop Offset="1"/>
                     <GradientStop Color="White" Offset="0.98"/>
                     <GradientStop Color="White" Offset="0.02"/>
+                </LinearGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <TextBlock HorizontalAlignment="Left" Margin="31,22,0,0" Text="ky" VerticalAlignment="Top" Foreground="White" FontSize="14" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT" Height="17" Width="19">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="20,16,0,0" Text="S" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT" Height="24" Width="9">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="50,16,0,0" Text="MP" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT" Height="24" Width="28">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="3">
+            <Rectangle.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#00000000" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.15"/>
+                </LinearGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="2">
+            <Rectangle.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#00000000" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.15"/>
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
@@ -102,52 +137,37 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <TextBlock HorizontalAlignment="Left" Margin="31,22,0,0" Text="ky" VerticalAlignment="Top" Foreground="White" FontSize="14" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="20,16,0,0" Text="S" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="50,16,0,0" Text="MP" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="3"/>
+        <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="4"/>
 
-        <local1:ImageButton x:Name="CloseBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="5">
+        <local1:ImageButton x:Name="CloseBtn" Grid.Column="3" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="5">
             <local1:ImageButton.Image>
                 <ImageBrush ImageSource="{StaticResource close}"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
-        <local1:ImageButton x:Name="MinBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
+        <local1:ImageButton x:Name="MinBtn" Grid.Column="3" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
             <local1:ImageButton.Image>
                 <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
+        <local1:OnlineButton Margin="0,0,10,14" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="86" />
+        
+        <local1:ImageButton Grid.Column="2" Margin="10,15,10,10" ImageMargin="3,7" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30">
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="{StaticResource users_team}"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
+        <local1:ImageButton Grid.Column="1" Margin="10,17,10,10" ImageMargin="5" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30" Height="30">
+            <local1:ImageButton.Image>
+                <ImageBrush ImageSource="{StaticResource bell}"/>
+            </local1:ImageButton.Image>
+        </local1:ImageButton>
 
-        <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="0,13,0,0" TextWrapping="Wrap" Text="ComingSoon" VerticalAlignment="Top" Foreground="White" FontFamily="Constantia" FontSize="16"/>
-        <Rectangle Grid.Column="2" Fill="#FF05C925" HorizontalAlignment="Left" Height="10" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="20">
-            <Rectangle.OpacityMask>
-                <ImageBrush ImageSource="{StaticResource eye}"/>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-        <local1:OnlineButton Margin="27,0,0,7" Grid.Column="2" HorizontalAlignment="Left" Width="66" Height="16" VerticalAlignment="Bottom" />
 
-        <local1:HeadButton Margin="799,13,5,14" />
-
-        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top" />
-
-        <local1:ProgressBar x:Name="progressBar" Margin="60,541,35,71" Grid.Row="1" />
-        <local1:MainButton x:Name="mainButton" Margin="843,478,60,39" Grid.Row="1" Width="155" Height="156" Grid.ColumnSpan="3" Click="MainBtn_Click" />
+        <local1:ProgressBar x:Name="progressBar" Margin="60,541,78,71" Grid.Row="1" />
+        <local1:MainButton x:Name="mainButton" Margin="842,478,61,39" Grid.Row="1" Grid.ColumnSpan="4" Click="MainBtn_Click" />
 
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
-        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="185,616,10,0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="685" />
-
+      
         <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="302" Margin="535,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#E5282828" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="20" HorizontalScrollBarVisibility="Disabled" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick">
 
             <DataGrid.CellStyle>
@@ -191,6 +211,11 @@
             </DataGrid.RowHeaderStyle>
         </DataGrid>
         <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="25" Margin="535,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Grid.ColumnSpan="3" Foreground="White" Background="#E5282828" BorderBrush="#7FFFFFFF" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" BorderThickness="1,1,1,1"/>
+
+        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="182,616,25,0" Grid.Row="1" HorizontalAlignment="Center" Width="686" />
+
+        <local2:Authorization x:Name="authorization" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="4" />
+        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Top" Height="0" />
     </Grid>
 </Window>
     

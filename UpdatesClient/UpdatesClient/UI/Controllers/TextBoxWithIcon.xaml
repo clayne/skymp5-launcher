@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="UpdatesClient.UI.Controllers.TextBoxWithIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             mc:Ignorable="d" 
+             d:DesignHeight="45" d:DesignWidth="350">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{x:Null}"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{x:Null}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="placeHolder" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <TextBox Text="{Binding Path=Text,
+                                                RelativeSource={RelativeSource TemplatedParent}, 
+                                                Mode=TwoWay,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="textSource" 
+                                 Background="{TemplateBinding Background}"
+                                 Panel.ZIndex="2" Foreground="{TemplateBinding Foreground}" BorderBrush="{TemplateBinding BorderBrush}" CaretBrush="{TemplateBinding CaretBrush}" SelectionBrush="{TemplateBinding SelectionBrush}" />
+                            <TextBox Text="{TemplateBinding Tag}" IsHitTestVisible="False"  IsReadOnly="True" Background="{TemplateBinding Background}" Panel.ZIndex="1" BorderBrush="{TemplateBinding BorderBrush}" SelectionBrush="{TemplateBinding SelectionBrush}" Margin="-45,0,0,0">
+                                <TextBox.Style>
+                                    <Style TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=Text, Source={x:Reference textSource}}" Value="">
+                                                <Setter Property="Foreground" Value="#FF646464"/>
+                                                <Setter Property="TextAlignment" Value="Center" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Border BorderBrush="#3FFFFFFF" BorderThickness="1" CornerRadius="10" Background="#FF212026" >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="textBox" Margin="5,10,5,10" CaretBrush="White" TextWrapping="Wrap" Style="{StaticResource placeHolder}" Tag="Логин или пароль" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Column="1" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum"/>
+            <Image x:Name="icon" Margin="10,10,0,10" HorizontalAlignment="Left" Width="23"/>
+        </Grid>
+    </Border>
+</UserControl>
