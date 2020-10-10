@@ -57,6 +57,7 @@ namespace UpdatesClient.Core
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = method;
+            req.Timeout = 10000;
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
             req.ContentType = "application/json";

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace UpdatesClient.UI.Controllers
 {
@@ -7,9 +8,18 @@ namespace UpdatesClient.UI.Controllers
     /// </summary>
     public partial class OnlineButton : UserControl
     {
+        public event EventHandler Click;
+
+        public string Text { get => (string)Username.Header; set => Username.Header = value; }
+
         public OnlineButton()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Click?.Invoke(sender, e);
         }
     }
 }

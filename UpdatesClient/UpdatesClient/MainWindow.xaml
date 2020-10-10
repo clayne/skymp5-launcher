@@ -70,12 +70,174 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="MainButton" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Width="Auto">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="15"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="Stretch" Margin="0" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch"/>
+                                <Image HorizontalAlignment="Left" Height="6" Margin="5,10,0,10" VerticalAlignment="Center" Width="10" Source="{DynamicResource arrowDown}" Grid.Column="1"/>
+
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MenuButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="UserMenuButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <Border.Effect>
+                                <DropShadowEffect x:Name="effect" Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="10" Direction="0" Opacity="0"/>
+                            </Border.Effect>
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Opacity" 
+                                                             To="1" Duration="0:0:0.15" AccelerationRatio="0.8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Opacity" 
+                                                             To="0" Duration="0:0:0.15" DecelerationRatio="0.8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Color" 
+                                                             To="#FFFBC1F2" Duration="0:0:0.15" AccelerationRatio="0.8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Color" 
+                                                             To="#FF6BC1F2" Duration="0:0:0.15" DecelerationRatio="0.8" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <!--<Setter Property="Effect" TargetName="border" Value="{DynamicResource MousePressed}"/>-->
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="Assets/Images/MainWindowBackgrounds/back1.png" Stretch="UniformToFill"/>
     </Window.Background>
-    <Grid x:Name="mainGrid">
+    <Grid x:Name="mainGrid" Background="#33000000">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="50"/>
@@ -85,7 +247,7 @@
             <RowDefinition Height="57"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="#1EFFFFFF" Height="1" Margin="21,0,21,0" VerticalAlignment="Bottom" Grid.ColumnSpan="4">
+        <Rectangle Fill="#1EFFFFFF" Height="1" Margin="21,0,21,0" VerticalAlignment="Bottom" Grid.ColumnSpan="5">
             <Rectangle.OpacityMask>
                 <LinearGradientBrush EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5">
                     <GradientStop Color="#00000000" Offset="0"/>
@@ -95,21 +257,15 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <TextBlock HorizontalAlignment="Left" Margin="31,22,0,0" Text="ky" VerticalAlignment="Top" Foreground="White" FontSize="14" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT" Height="17" Width="19">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="20,16,0,0" Text="S" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT" Height="24" Width="9">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
-            </TextBlock.Effect>
-        </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="50,16,0,0" Text="MP" VerticalAlignment="Top" Foreground="White" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Perpetua Titling MT" Height="24" Width="28">
-            <TextBlock.Effect>
-                <DropShadowEffect Color="#FF6BC1F2" Direction="0" ShadowDepth="0" BlurRadius="16"/>
-            </TextBlock.Effect>
-        </TextBlock>
+        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="4">
+            <Rectangle.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#00000000" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="White" Offset="0.15"/>
+                </LinearGradientBrush>
+            </Rectangle.OpacityMask>
+        </Rectangle>
         <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="3">
             <Rectangle.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -137,39 +293,91 @@
                 </LinearGradientBrush>
             </Rectangle.OpacityMask>
         </Rectangle>
-        <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="4"/>
+        <Rectangle x:Name="space" Grid.ColumnSpan="5" Grid.RowSpan="2" Fill="#00000000" />
+        <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="5"/>
 
-        <local1:ImageButton x:Name="CloseBtn" Grid.Column="3" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="5">
+        <StackPanel Grid.Column="1" Margin="1,10,127,1" Orientation="Horizontal">
+            <Button Content="ГЛАВНАЯ" Width="110" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" >
+                <Button.Effect>
+                    <DropShadowEffect Color="#FF6bc1f2" ShadowDepth="0" BlurRadius="7"/>
+                </Button.Effect>
+            </Button>
+            <!--<Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
+                <Separator.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#00000000" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.15"/>
+                    </LinearGradientBrush>
+                </Separator.OpacityMask>
+            </Separator>
+            <Button Content="МОДЫ" Width="90" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />
+            <Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
+                <Separator.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#00000000" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.15"/>
+                    </LinearGradientBrush>
+                </Separator.OpacityMask>
+            </Separator>
+            <Button Content="СЕРВЕРА" Width="100" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />
+            <Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
+                <Separator.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#00000000" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.15"/>
+                    </LinearGradientBrush>
+                </Separator.OpacityMask>
+            </Separator>
+            <Button Content="ОБЩЕНИЕ" Width="120" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />
+            <Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
+                <Separator.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#00000000" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="White" Offset="0.15"/>
+                    </LinearGradientBrush>
+                </Separator.OpacityMask>
+            </Separator>
+            <Button Content="МАГАЗИН" Width="115" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />-->
+        </StackPanel>
+        <Button Content="SkyMP" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" Background="#05DDDDDD" BorderBrush="{x:Null}" FontSize="24" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Style="{DynamicResource MainButton}">
+            <Button.Effect>
+                <DropShadowEffect Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="8"/>
+            </Button.Effect>
+        </Button>
+
+        <local1:ImageButton x:Name="CloseBtn" Grid.Column="4" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="5">
             <local1:ImageButton.Image>
                 <ImageBrush ImageSource="{StaticResource close}"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
-        <local1:ImageButton x:Name="MinBtn" Grid.Column="3" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
+        <local1:ImageButton x:Name="MinBtn" Grid.Column="4" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
             <local1:ImageButton.Image>
                 <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
-        <local1:OnlineButton Margin="0,0,10,14" Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="86" />
-        
-        <local1:ImageButton Grid.Column="2" Margin="10,15,10,10" ImageMargin="3,7" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30">
+        <local1:OnlineButton x:Name="userButton" Margin="0,0,10,14" Text="POSPELOV" Height="18.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1" />
+
+        <local1:ImageButton Grid.Column="3" Margin="10,15,10,10" ImageMargin="3,7" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30">
             <local1:ImageButton.Image>
                 <ImageBrush ImageSource="{StaticResource users_team}"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
-        <local1:ImageButton Grid.Column="1" Margin="10,17,10,10" ImageMargin="5" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30" Height="30">
+        <local1:ImageButton Grid.Column="2" Margin="10,17,10,10" ImageMargin="5" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30" Height="30">
             <local1:ImageButton.Image>
                 <ImageBrush ImageSource="{StaticResource bell}"/>
             </local1:ImageButton.Image>
         </local1:ImageButton>
 
+        <local1:ProgressBar x:Name="progressBar" Margin="60,541,78,71" Grid.Row="1" Grid.ColumnSpan="2" />
+        <local1:MainButton x:Name="mainButton" Margin="739.333,478,61,39" Grid.Row="1" Grid.ColumnSpan="4" Click="MainBtn_Click" Grid.Column="1" />
 
-        <local1:ProgressBar x:Name="progressBar" Margin="60,541,78,71" Grid.Row="1" />
-        <local1:MainButton x:Name="mainButton" Margin="842,478,61,39" Grid.Row="1" Grid.ColumnSpan="4" Click="MainBtn_Click" />
+        <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" Grid.ColumnSpan="2" />
 
-        <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Width="125" />
-      
-        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="302" Margin="535,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="3" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#E5282828" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="20" HorizontalScrollBarVisibility="Disabled" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick">
-
+        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="302" Margin="432.333,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="4" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#E5282828" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="20" HorizontalScrollBarVisibility="Disabled" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick" Grid.Column="1">
             <DataGrid.CellStyle>
                 <Style>
                     <Style.Triggers>
@@ -210,12 +418,32 @@
                 </Style>
             </DataGrid.RowHeaderStyle>
         </DataGrid>
-        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="25" Margin="535,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Grid.ColumnSpan="3" Foreground="White" Background="#E5282828" BorderBrush="#7FFFFFFF" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" BorderThickness="1,1,1,1"/>
+        <Button x:Name="refreshServerListButton" Content="Обновить список серверов" HorizontalAlignment="Left" Height="25" Margin="432.333,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Grid.ColumnSpan="4" Foreground="White" Background="#E5282828" BorderBrush="#7FFFFFFF" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" BorderThickness="1,1,1,1" Grid.Column="1"/>
 
-        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="182,616,25,0" Grid.Row="1" HorizontalAlignment="Center" Width="686" />
+        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="77.333,616,22,0" Grid.Row="1" HorizontalAlignment="Center" Width="686" Grid.Column="1" />
 
-        <local2:Authorization x:Name="authorization" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="4" />
-        <local1:NotifyList Margin="635,10,20,0" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Top" Height="0" />
+
+
+
+        <local2:Authorization x:Name="authorization" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="5" />
+        <local1:NotifyList Margin="532.333,10,20,0" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Top" Height="0" Grid.Column="1" />
+        <Grid x:Name="UserMenuPanel" Visibility="Collapsed" Grid.Column="1" HorizontalAlignment="Left" Margin="689,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="166" Background="#FF03182B" Grid.ColumnSpan="3" Height="25" Focusable="True">
+            <Border BorderBrush="White" BorderThickness="1" />
+            <Border Margin="73,-10,73,15" RenderTransformOrigin="0.5,0.5" BorderBrush="White" Background="#FF03182B" BorderThickness="1,1,0,0" Width="20" Height="20" >
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+            </Border>
+            <StackPanel Margin="1">
+                <Button Content="Сменить пользователя" BorderBrush="{x:Null}" Margin="5,1" Background="#00000000" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" Style="{DynamicResource UserMenuButtonStyle1}" Click="LogOut_Click"/>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Window>
     

@@ -810,9 +810,6 @@
     <Resource Include="Assets\Images\SplashBackground\back2.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Assets\Effects\BandedSwirl.fx" />
     <Content Include="Assets\Effects\Bloom.fx" />
     <Content Include="Assets\Effects\BrightExtract.fx" />
@@ -836,6 +833,7 @@
     <Content Include="Assets\Effects\ToneMapping.fx" />
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
+    <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
     <Content Include="Assets\ShaderSource\AverageEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorBurnEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorDodgeEffect.fx" />

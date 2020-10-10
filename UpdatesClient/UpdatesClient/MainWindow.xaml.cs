@@ -59,16 +59,17 @@ namespace UpdatesClient
 
             Settings.Load();
 
+            userButton.LogoutBtn.Click += LogOut_Click;
+
             try
             {
-                Account.VerifyToken();
+                var a = Account.VerifyToken();
                 authorization.Visibility = Visibility.Collapsed;
             }
             catch
             {
                 authorization.Visibility = Visibility.Visible;
             }
-            //authorization.Visibility = Visibility.Visible;
             authorization.SignIn += Authorization_SignIn;
 
             wind.Loaded += Wind_Loaded;
@@ -431,5 +432,22 @@ namespace UpdatesClient
             }
         }
 
+        private void LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: аннулирование токена
+
+            Settings.UserToken = "";
+            Settings.Save();
+
+            try
+            {
+                var a = Account.VerifyToken();
+                authorization.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                authorization.Visibility = Visibility.Visible;
+            }
+        }
     }
 }
