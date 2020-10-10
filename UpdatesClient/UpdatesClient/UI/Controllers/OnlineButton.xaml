@@ -166,16 +166,6 @@
                     <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Left" Margin="0" RenderTransformOrigin="0.5,0.5" VerticalOffset="32" HorizontalOffset="-85" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="2">
                         <Grid VerticalAlignment="Stretch" Margin="0">
                             <Border BorderBrush="White" BorderThickness="1" Margin="0" Padding="0" />
-                            <Border Margin="0,-10,0,0" RenderTransformOrigin="0.5,0.5" BorderBrush="White" Background="#FF03182B" BorderThickness="1,1,0,0" Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Center" >
-                                <Border.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform Angle="45"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Border.RenderTransform>
-                            </Border>
                             <Border x:Name="SubMenuBorder" BorderBrush="{x:Null}" BorderThickness="1" Background="#FF03182B" Padding="2" Margin="0">
                                 <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}" Background="{x:Null}">
                                     <Grid x:Name="Grid1" RenderOptions.ClearTypeHint="Enabled" Background="{x:Null}">

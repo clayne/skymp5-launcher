@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
+using UpdatesClient.Modules.Configs;
 
 namespace UpdatesClient.Core.Network
 {
@@ -35,6 +36,11 @@ namespace UpdatesClient.Core.Network
         public static Task VerifyToken()
         {
             return Net.Request($"{URL_Api}secure", "GET", true, null);
+        }
+
+        public static Task<string> GetLogin()
+        {
+            return Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
         }
     }
 }

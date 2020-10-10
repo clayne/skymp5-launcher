@@ -60,20 +60,9 @@ namespace UpdatesClient
             Settings.Load();
 
             userButton.LogoutBtn.Click += LogOut_Click;
-
-            try
-            {
-                var a = Account.VerifyToken();
-                authorization.Visibility = Visibility.Collapsed;
-            }
-            catch
-            {
-                authorization.Visibility = Visibility.Visible;
-            }
             authorization.SignIn += Authorization_SignIn;
 
             wind.Loaded += Wind_Loaded;
-
         }
 
         private ImageBrush GetGridBackGround(FrameworkElement element)
@@ -89,6 +78,7 @@ namespace UpdatesClient
         private void Authorization_SignIn()
         {
             authorization.Visibility = Visibility.Collapsed;
+            CheckClientUpdates();
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
@@ -148,6 +138,22 @@ namespace UpdatesClient
             {
                 BInput = GetGridBackGround(refreshServerListButton)
             };
+
+            try
+            {
+                await Account.VerifyToken();
+                var username = await Account.GetLogin();
+                userButton.Text = username;
+
+                authorization.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                authorization.Visibility = Visibility.Visible;
+                return;
+            }
+
+            
 
             CheckClientUpdates();
         }

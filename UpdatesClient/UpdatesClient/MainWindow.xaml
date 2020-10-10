@@ -426,24 +426,7 @@
 
 
         <local2:Authorization x:Name="authorization" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="5" />
-        <local1:NotifyList Margin="532.333,10,20,0" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Top" Height="0" Grid.Column="1" />
-        <Grid x:Name="UserMenuPanel" Visibility="Collapsed" Grid.Column="1" HorizontalAlignment="Left" Margin="689,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="166" Background="#FF03182B" Grid.ColumnSpan="3" Height="25" Focusable="True">
-            <Border BorderBrush="White" BorderThickness="1" />
-            <Border Margin="73,-10,73,15" RenderTransformOrigin="0.5,0.5" BorderBrush="White" Background="#FF03182B" BorderThickness="1,1,0,0" Width="20" Height="20" >
-                <Border.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="45"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Border.RenderTransform>
-            </Border>
-            <StackPanel Margin="1">
-                <Button Content="Сменить пользователя" BorderBrush="{x:Null}" Margin="5,1" Background="#00000000" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" Style="{DynamicResource UserMenuButtonStyle1}" Click="LogOut_Click"/>
-            </StackPanel>
-        </Grid>
-
+        <local1:NotifyList Margin="532,10,20,0" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Top" Grid.Column="1" />
     </Grid>
 </Window>
     
