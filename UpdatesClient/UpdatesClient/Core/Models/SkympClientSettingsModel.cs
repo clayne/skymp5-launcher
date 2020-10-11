@@ -15,5 +15,8 @@ namespace UpdatesClient.Core.Models
 
         [JsonProperty("enable-console")]
         public bool IsEnableConsole { get; set; }
+
+        [JsonProperty("gameData")]
+        public object GameData { get; set; }
     }
 }

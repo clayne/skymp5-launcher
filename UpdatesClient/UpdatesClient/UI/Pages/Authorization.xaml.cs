@@ -145,10 +145,9 @@ namespace UpdatesClient.UI.Pages
                     Password = passReg.Password
                 };
                 ResRegisterModel ds = await Account.Register(model);
-
-                Settings.UserId = ds.Id;
-                Settings.Save();
-                SignIn?.Invoke();
+                NotifyController.Show(PopupNotify.Normal, "Успешно", "Вы зарегистрировались! Подтвердите аккаунт.");
+                //Settings.UserId = ds.Id;
+                //Settings.Save();
                 Clear();
             }
             catch (WebException we)

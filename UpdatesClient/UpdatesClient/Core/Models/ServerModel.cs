@@ -25,6 +25,7 @@ namespace UpdatesClient.Core.Models
         public int Online { get; set; }
 
         public int ID => (IP + Port.ToString()).GetHashCode();
+        public string Address => $"{IP}:{Port}";
 
         public static int NullID => new ServerModel().ID;
 

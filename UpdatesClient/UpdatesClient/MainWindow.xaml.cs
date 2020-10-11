@@ -1,5 +1,6 @@
 ﻿using BlendModeEffectLibrary;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,10 +76,27 @@ namespace UpdatesClient
             return new ImageBrush(im);
         }
 
-        private void Authorization_SignIn()
+        private async void Authorization_SignIn()
         {
             authorization.Visibility = Visibility.Collapsed;
+            try
+            {
+                await GetLogin();
+                authorization.Visibility = Visibility.Collapsed;
+            }
+            catch
+            {
+                authorization.Visibility = Visibility.Visible;
+                return;
+            }
             CheckClientUpdates();
+        }
+
+        private async Task GetLogin()
+        {
+            var username = await Account.GetLogin();
+            JObject jObject = JObject.Parse(username);
+            userButton.Text = jObject["name"].ToString();
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
@@ -141,10 +159,7 @@ namespace UpdatesClient
 
             try
             {
-                await Account.VerifyToken();
-                var username = await Account.GetLogin();
-                userButton.Text = username;
-
+                await GetLogin();
                 authorization.Visibility = Visibility.Collapsed;
             }
             catch
@@ -152,8 +167,6 @@ namespace UpdatesClient
                 authorization.Visibility = Visibility.Visible;
                 return;
             }
-
-            
 
             CheckClientUpdates();
         }
@@ -287,7 +300,10 @@ namespace UpdatesClient
                 return;
             }
 
+            if (serverList.SelectedItem == null) return;
             SetServer();
+            ServerModel server = (ServerModel)serverList.SelectedItem;
+            SetSession(await Account.GetSession(server.Address));
 
             try
             {
@@ -317,6 +333,12 @@ namespace UpdatesClient
             if (newServer.IsSameServer(oldServer)) return;
             File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
             Settings.Save();
+        }
+        private void SetSession(object gameData)
+        {
+            SkympClientSettingsModel settingsModel = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+            settingsModel.GameData = gameData;
+            File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
         }
 
         private async Task ReportDmp()
@@ -442,18 +464,11 @@ namespace UpdatesClient
         {
             //TODO: аннулирование токена
 
+            Settings.UserId = 0;
             Settings.UserToken = "";
             Settings.Save();
 
-            try
-            {
-                var a = Account.VerifyToken();
-                authorization.Visibility = Visibility.Collapsed;
-            }
-            catch
-            {
-                authorization.Visibility = Visibility.Visible;
-            }
+            authorization.Visibility = Visibility.Visible;
         }
     }
 }

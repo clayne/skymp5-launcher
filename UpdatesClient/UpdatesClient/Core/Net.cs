@@ -71,7 +71,6 @@ namespace UpdatesClient.Core
                 using (StreamReader sr = new StreamReader(res.GetResponseStream()))
                 {
                     string raw = await sr.ReadToEndAsync();
-                    if (res.StatusCode != HttpStatusCode.OK) throw new HttpListenerException((int)res.StatusCode, raw);
                     return raw;
                 }
             }

@@ -42,5 +42,11 @@ namespace UpdatesClient.Core.Network
         {
             return Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
         }
+
+        public static async Task<object> GetSession(string address)
+        {
+            string raw = await Net.Request($"{URL_Api}users/{Settings.UserId}/play/{address}", "POST", true, null);
+            return JsonConvert.DeserializeObject(raw);
+        }
     }
 }
