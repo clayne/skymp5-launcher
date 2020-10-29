@@ -3,7 +3,6 @@ using SharpCompress.Archives.SevenZip;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using UpdatesClient.Modules.Configs;
 
@@ -51,28 +50,30 @@ namespace UpdatesClient.Core
         }
         private static bool SevenZUnpack(string file, string extractTo, string extractFromSub = "")
         {
-            string pathToLib = Settings.PathToLocalTmp + "7z.dll";
-            if (File.Exists(pathToLib) && File.Exists(file))
+            if (!File.Exists(file)) return false;
+            
+            string tmpFiles = $"{Settings.PathToSkyrimTmp}files\\";
+            Delete(tmpFiles);
+            Create(tmpFiles);
+
+            using (var archive = SevenZipArchive.Open(file))
             {
-                SevenZipLibraryManager.SetLibraryPath(pathToLib);
-
-                string tmpFiles = $"{Settings.PathToSkyrimTmp}files\\";
-                Delete(tmpFiles);
-                Create(tmpFiles);
-
-                using (SevenZipExtractor extractor = new SevenZipExtractor(file))
+                foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
                 {
-                    for (var i = 0; i < extractor.ArchiveFileData.Count; i++)
-                        extractor.ExtractFiles(tmpFiles, extractor.ArchiveFileData[i].Index);
+                    entry.WriteToDirectory(extractTo, new ExtractionOptions()
+                    {
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
                 }
-                CopyToDir($"{tmpFiles}{extractFromSub}\\", extractTo);
-
-                Delete(tmpFiles);
-                File.Delete(file);
-
-                return true;
             }
-            return false;
+
+            CopyToDir($"{tmpFiles}{extractFromSub}\\", extractTo);
+
+            Delete(tmpFiles);
+            File.Delete(file);
+
+            return true;
         }
 
         private static bool CopyToDir(string fromDir, string toDir)
