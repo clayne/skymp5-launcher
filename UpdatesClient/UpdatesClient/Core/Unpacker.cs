@@ -15,10 +15,12 @@ namespace UpdatesClient.Core
             switch (Path.GetExtension(file))
             {
                 case ".zip":
-                    return UnpackZip(file, extractTo);
+                    return UnpackZip(file, extractTo, extractFromSub);
+                case ".7z":
+                    return SevenZUnpack(file, extractTo, extractFromSub);
 
                 default:
-                    return SevenZUnpack(file, extractTo, extractFromSub);
+                    return false;
             }
         }
         private static bool UnpackZip(string file, string extractTo, string extractFromSub = "")
@@ -76,6 +78,33 @@ namespace UpdatesClient.Core
             return true;
         }
 
+        private static bool ArchiveUnpack(string file, string extractTo, string extractFromSub = "")
+        {
+            if (!File.Exists(file)) return false;
+
+            string tmpFiles = $"{Settings.PathToSkyrimTmp}files\\";
+            Delete(tmpFiles);
+            Create(tmpFiles);
+
+            using (var archive = ArchiveFactory.Open(file))
+            {
+                foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
+                {
+                    entry.WriteToDirectory(extractTo, new ExtractionOptions()
+                    {
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
+                }
+            }
+
+            CopyToDir($"{tmpFiles}{extractFromSub}\\", extractTo);
+
+            Delete(tmpFiles);
+            File.Delete(file);
+
+            return true;
+        }
         private static bool CopyToDir(string fromDir, string toDir)
         {
             foreach (DirectoryInfo dir in new DirectoryInfo(fromDir).GetDirectories())
