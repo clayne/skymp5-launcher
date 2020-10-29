@@ -375,6 +375,7 @@ namespace UpdatesClient
             catch (Exception e)
             {
                 YandexMetrica.ReportError("ReportDmp", e);
+                Logger.Error(e);
             }
         }
         private async void UpdateClient()

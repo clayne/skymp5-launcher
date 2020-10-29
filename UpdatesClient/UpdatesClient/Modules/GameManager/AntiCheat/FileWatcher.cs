@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using Yandex.Metrica;
 
@@ -30,12 +31,14 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             catch (Exception e)
             {
                 YandexMetrica.ReportError("AntiCheat_Init", e);
+                Logger.Error(e);
             }
         }
 
         private static void Watcher_Error(object sender, ErrorEventArgs e)
         {
             YandexMetrica.ReportError("WatcherError", e?.GetException());
+            Logger.Error(e?.GetException());
         }
 
         private static void Watcher_Renamed(object sender, RenamedEventArgs e)

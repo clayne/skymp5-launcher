@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Management;
 using System.Reflection;
+using System.Resources;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.SelfUpdater;
 using Yandex.Metrica;
+using Downloader = UpdatesClient.Modules.SelfUpdater.Downloader;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 
 namespace UpdatesClient
@@ -35,16 +40,34 @@ namespace UpdatesClient
 
         public App()
         {
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
+            Logger.Init(version);
+
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
             string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
-            if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
+            if(!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
             YandexMetricaFolder.SetCurrent(tmpPath);
 
-            YandexMetrica.Config.CustomAppVersion = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
-
+            YandexMetrica.Config.CustomAppVersion = version;
+            
             InitApp();
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            string[] par = args.Name.Replace(" ", "").Split(',');
+            string newName = par[0].Replace(".", "_");
+            if (newName.EndsWith("_resources")) return null;
+            try
+            {
+                byte[] bytes = (byte[])UpdatesClient.Properties.Resources.ResourceManager.GetObject(newName);
+                return Assembly.Load(bytes);
+            }
+            catch { }
+            return null;
         }
 
         private bool HandleCmdArgs()
@@ -68,6 +91,7 @@ namespace UpdatesClient
                             catch (Exception e)
                             {
                                 YandexMetrica.ReportError("HandleCmdArgs_Normal", e);
+                                Logger.Error(e);
                             }
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
                             ExitApp();
@@ -138,11 +162,12 @@ namespace UpdatesClient
                 }
 #endif
             }
-            catch (Exception e)
+            catch (Exception e) 
             {
                 YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
                 YandexMetrica.ReportError($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
-                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка");
+                Logger.Error(e);
+                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка"); 
             }
         }
         private void StartLuancher()
@@ -159,10 +184,10 @@ namespace UpdatesClient
         //****************************************************************//
         private bool CheckFile(string pathToFile)
         {
-            if (File.Exists(pathToFile) && MasterHash.ToUpper() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper()) return true;
-            else return false;
+            return File.Exists(pathToFile) 
+                && MasterHash.ToUpper().Trim() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper().Trim();
         }
-        private bool Update()
+        private bool Update() 
         {
             if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
 

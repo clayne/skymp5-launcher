@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
 using Yandex.Metrica;
 
@@ -45,6 +46,7 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 YandexMetrica.ReportError("Version_Load", e);
+                Logger.Error(e);
             }
             return false;
         }
@@ -59,6 +61,7 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 YandexMetrica.ReportError("Version_Save", e);
+                Logger.Error(e);
             }
         }
         internal static void Reset()
@@ -73,6 +76,7 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 YandexMetrica.ReportError("Version_Reset", e);
+                Logger.Error(e);
             }
         }
     }

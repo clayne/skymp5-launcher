@@ -32,6 +32,7 @@ namespace UpdatesClient.Core
             catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_Read", Ex);
+                Logger.Error(Ex);
                 return "0";
             }
 
@@ -47,6 +48,7 @@ namespace UpdatesClient.Core
             catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_Write", Ex);
+                Logger.Error(Ex);
             }
 
         }
@@ -61,6 +63,7 @@ namespace UpdatesClient.Core
             catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_DeleteKey", Ex);
+                Logger.Error(Ex);
             }
 
         }
@@ -74,6 +77,7 @@ namespace UpdatesClient.Core
             catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_DeleteSection", Ex);
+                Logger.Error(Ex);
             }
 
         }
@@ -87,7 +91,8 @@ namespace UpdatesClient.Core
             catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_KeyExists", Ex);
-                return false;
+                Logger.Error(Ex);
+                return false; 
             }
         }
     }

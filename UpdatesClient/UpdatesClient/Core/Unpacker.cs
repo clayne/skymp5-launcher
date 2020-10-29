@@ -1,6 +1,10 @@
-﻿using SevenZip;
+﻿using SharpCompress.Archives;
+using SharpCompress.Archives.SevenZip;
+using SharpCompress.Archives.Zip;
+using SharpCompress.Common;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using UpdatesClient.Modules.Configs;
 
 namespace UpdatesClient.Core
@@ -26,7 +30,18 @@ namespace UpdatesClient.Core
             Delete(tmpFiles);
             Create(tmpFiles);
 
-            ZipFile.ExtractToDirectory(file, tmpFiles);
+            using (var archive = ZipArchive.Open(file))
+            {
+                foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
+                {
+                    entry.WriteToDirectory(extractTo, new ExtractionOptions()
+                    {
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
+                }
+            }
+
             CopyToDir($"{tmpFiles}{extractFromSub}\\", extractTo);
 
             Delete(tmpFiles);

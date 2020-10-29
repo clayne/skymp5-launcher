@@ -47,9 +47,13 @@ namespace UpdatesClient.Core
             //string req1 = await UploadRequest(URL_CrashDmp, null, pathToFile, "crashdmp", "application/x-dmp");
             string req2 = await UploadRequest(URL_CrashDmpSec, null, pathToFile, "crashdmp", "application/x-dmp");
             //if (req1 != "OK") YandexMetrica.ReportError("ReportDmp_Net_S1", new Exception(req1));
-            if (req2 != "OK") YandexMetrica.ReportError("ReportDmp_Net_S2", new Exception(req2));
+            if (req2 != "OK")
+            {
+                YandexMetrica.ReportError("ReportDmp_Net_S2", new Exception(req2));
+                Logger.Error(new Exception(req2));
+            }
 
-            return /*req1 == "OK" || */req2 == "OK";
+            return /*req1 == "OK" ||*/ req2 == "OK";
         }
 
 

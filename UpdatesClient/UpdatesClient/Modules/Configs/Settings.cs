@@ -17,6 +17,7 @@ namespace UpdatesClient.Modules.Configs
 
         public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
         public static readonly string PathToLocalTmp = $"{PathToLocal}tmp\\";
+        public static readonly string PathToLocalDlls = $"{PathToLocal}dlls\\";
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
         public static readonly string PathToSavedServerList = $"{PathToLocalTmp}\\Servers.json";
         public static string PathToSkympClientSettings => $"{PathToSkyrim}\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";

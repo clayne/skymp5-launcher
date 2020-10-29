@@ -59,11 +59,58 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry, Version=2.1.6.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sentry.2.1.6\lib\net461\Sentry.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.PlatformAbstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sentry.PlatformAbstractions.1.1.1\lib\net471\Sentry.PlatformAbstractions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sentry.Protocol, Version=2.1.6.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sentry.Protocol.2.1.6\lib\net46\Sentry.Protocol.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpCompress, Version=0.26.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.26.0\lib\net46\SharpCompress.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -195,365 +242,6 @@
     <Resource Include="Assets\Effects\ZoomBlur.ps" />
     <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
     <Compile Include="Core\IniFile.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Constants.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2Exception.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2InputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\BZip2\BZip2OutputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\Adler32.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\BZip2Crc.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\Crc32.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Checksum\IChecksum.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\SharpZipBaseException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\StreamDecodingException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\StreamUnsupportedException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\UnexpectedEndOfStreamException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\Exceptions\ValueOutOfRangeException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\FileSystemScanner.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\INameTransform.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\InvalidNameException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\IScanFilter.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\NameFilter.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\PathFilter.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\StreamUtils.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Core\WindowsPathUtils.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\PkzipClassic.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\ZipAESStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Encryption\ZipAESTransform.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZip.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZipConstants.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GZipException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GzipInputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\GZip\GzipOutputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwConstants.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Lzw\LzwInputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\InvalidHeaderException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarArchive.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarBuffer.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarEntry.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarExtendedHeaderReader.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarHeader.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarInputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Tar\TarOutputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Deflater.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterConstants.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterEngine.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterHuffman.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\DeflaterPending.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Inflater.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\InflaterDynHeader.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\InflaterHuffmanTree.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\PendingBuffer.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\DeflaterOutputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\InflaterInputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\OutputWindow.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\Compression\Streams\StreamManipulator.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\FastZip.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\IEntryFactory.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\WindowsNameTransform.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipConstants.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipEntry.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipEntryFactory.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipException.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipExtraData.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipFile.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipHelperStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipInputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipNameTransform.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipOutputStream.cs" />
-    <Compile Include="Core\Libraries\ICSharpCode.SharpZipLib\Zip\ZipStrings.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Bson\BsonBinaryType.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Bson\BsonBinaryWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Bson\BsonObjectId.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Bson\BsonReader.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Bson\BsonToken.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Bson\BsonType.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Bson\BsonWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\ConstructorHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\BinaryConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\BsonObjectIdConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\CustomCreationConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\DataSetConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\DataTableConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\DateTimeConverterBase.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\DiscriminatedUnionConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\EntityKeyMemberConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\ExpandoObjectConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\IsoDateTimeConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\JavaScriptDateTimeConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\KeyValuePairConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\RegexConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\StringEnumConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\UnixDateTimeConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\VersionConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Converters\XmlNodeConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\DateFormatHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\DateParseHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\DateTimeZoneHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\DefaultJsonNameTable.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\DefaultValueHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\FloatFormatHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\FloatParseHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\FormatterAssemblyStyle.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Formatting.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\IArrayPool.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\IJsonLineInfo.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonArrayAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonConstructorAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonContainerAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonConvert.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonConverterAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonConverterCollection.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonDictionaryAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonException.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonExtensionDataAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonIgnoreAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonNameTable.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonObjectAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonPosition.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonPropertyAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonReader.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonReader.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonReaderException.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonRequiredAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonSerializationException.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonSerializer.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonSerializerSettings.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonTextReader.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonTextReader.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonTextWriter.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonTextWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonToken.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonValidatingReader.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonWriter.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\JsonWriterException.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\CommentHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\DuplicatePropertyNameHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\Extensions.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\IJEnumerable.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JArray.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JArray.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JConstructor.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JConstructor.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JContainer.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JContainer.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JEnumerable.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JObject.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JObject.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JProperty.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JProperty.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JPropertyDescriptor.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JPropertyKeyedCollection.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JRaw.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JRaw.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonLoadSettings.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonMergeSettings.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\ArrayIndexFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\ArrayMultipleIndexFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\ArraySliceFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\FieldFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\FieldMultipleFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\JPath.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\PathFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\QueryExpression.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\QueryFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\QueryScanFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\RootFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\ScanFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JsonPath\ScanMultipleFilter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JToken.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JToken.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JTokenEqualityComparer.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JTokenReader.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JTokenType.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JTokenWriter.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JTokenWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JValue.Async.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\JValue.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\LineInfoHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\MergeArrayHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Linq\MergeNullValueHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\MemberSerialization.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\MetadataPropertyHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\MissingMemberHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\NullValueHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\ObjectCreationHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\PreserveReferencesHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\ReferenceLoopHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Required.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\Extensions.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchema.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaBuilder.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaConstants.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaException.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaGenerator.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaModel.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaModelBuilder.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaNode.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaNodeCollection.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaResolver.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaType.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\JsonSchemaWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\UndefinedSchemaIdHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\ValidationEventArgs.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Schema\ValidationEventHandler.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\SerializationBinder.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\CachedAttributeGetter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\CamelCaseNamingStrategy.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\CamelCasePropertyNamesContractResolver.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\DefaultContractResolver.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\DefaultNamingStrategy.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\DefaultReferenceResolver.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\DefaultSerializationBinder.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\DiagnosticsTraceWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\DynamicValueProvider.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ErrorContext.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ErrorEventArgs.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ExpressionValueProvider.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\FormatterConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\IAttributeProvider.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\IContractResolver.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\IReferenceResolver.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ISerializationBinder.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ITraceWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\IValueProvider.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonArrayContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonContainerContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonDictionaryContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonDynamicContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonFormatterConverter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonISerializableContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonLinqContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonObjectContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonPrimitiveContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonProperty.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonPropertyCollection.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonSerializerInternalBase.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonSerializerInternalReader.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonSerializerInternalWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonSerializerProxy.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonStringContract.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\JsonTypeReflector.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\MemoryTraceWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\NamingStrategy.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ObjectConstructor.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\OnErrorAttribute.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ReflectionAttributeProvider.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\ReflectionValueProvider.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\SerializationBinderAdapter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\SnakeCaseNamingStrategy.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\TraceJsonReader.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Serialization\TraceJsonWriter.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\StringEscapeHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\TraceLevel.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\TypeNameAssemblyFormatHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\TypeNameHandling.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\AsyncUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\Base64Encoder.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\BidirectionalDictionary.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\CollectionUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\CollectionWrapper.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ConvertUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\DateTimeParser.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\DateTimeUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\DictionaryWrapper.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\DynamicProxy.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\DynamicProxyMetaObject.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\DynamicReflectionDelegateFactory.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\DynamicUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\EnumInfo.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\EnumUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ExpressionReflectionDelegateFactory.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\FSharpUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ILGeneratorExtensions.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ImmutableCollectionsUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\JavaScriptUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\JsonTokenUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\LateBoundReflectionDelegateFactory.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\LinqBridge.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\MathUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\MethodBinder.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\MethodCall.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\MiscellaneousUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ReflectionDelegateFactory.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ReflectionObject.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ReflectionUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\StringBuffer.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\StringReference.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\StringUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\StructMultiKey.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ThreadSafeStore.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\TypeExtensions.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\Utilities\ValidationUtils.cs" />
-    <Compile Include="Core\Libraries\Newtonsoft.Json\WriteState.cs" />
-    <Compile Include="Core\Libraries\SevenZip\ArchiveEmulationStreamProxy.cs" />
-    <Compile Include="Core\Libraries\SevenZip\ArchiveExtractCallback.cs" />
-    <Compile Include="Core\Libraries\SevenZip\ArchiveFileInfo.cs" />
-    <Compile Include="Core\Libraries\SevenZip\ArchiveOpenCallback.cs" />
-    <Compile Include="Core\Libraries\SevenZip\ArchiveProperty.cs" />
-    <Compile Include="Core\Libraries\SevenZip\ArchiveUpdateCallback.cs" />
-    <Compile Include="Core\Libraries\SevenZip\CallbackBase.cs" />
-    <Compile Include="Core\Libraries\SevenZip\COM.cs" />
-    <Compile Include="Core\Libraries\SevenZip\CompressionMode.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\ExtractFileCallback.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\ExtractFileCallbackArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\ExtractFileCallbackReason.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\FileInfoEventArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\FileNameEventArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\FileOverwriteEventArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\ICancellable.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\IntEventArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\OpenEventArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\PercentDoneEventArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventArguments\ProgressEventArgs.cs" />
-    <Compile Include="Core\Libraries\SevenZip\EventSynchronizationStrategy.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\CompressionFailedException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\ExtractionFailedException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\LzmaException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipArchiveException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipCompressionFailedException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipExtractionFailedException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipInvalidFileNamesException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipLibraryException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Exceptions\SevenZipSfxValidationException.cs" />
-    <Compile Include="Core\Libraries\SevenZip\FileChecker.cs" />
-    <Compile Include="Core\Libraries\SevenZip\Formats.cs" />
-    <Compile Include="Core\Libraries\SevenZip\InternalCompressionMode.cs" />
-    <Compile Include="Core\Libraries\SevenZip\LibraryFeature.cs" />
-    <Compile Include="Core\Libraries\SevenZip\LibraryManager.cs" />
-    <Compile Include="Core\Libraries\SevenZip\LZMA\LzmaDecodeStream.cs" />
-    <Compile Include="Core\Libraries\SevenZip\LZMA\LzmaEncodeStream.cs" />
-    <Compile Include="Core\Libraries\SevenZip\LZMA\LzmaProgressCallback.cs" />
-    <Compile Include="Core\Libraries\SevenZip\NativeMethods.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Common\CRC.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Common\InBuffer.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Common\OutBuffer.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZMA\LzmaBase.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZMA\LzmaDecoder.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZMA\LzmaEncoder.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\IMatchFinder.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\LzBinTree.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\LzInWindow.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\LZ\LzOutWindow.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\RangeCoder\RangeCoder.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\RangeCoder\RangeCoderBit.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\Compress\RangeCoder\RangeCoderBitTree.cs" />
-    <Compile Include="Core\Libraries\SevenZip\sdk\ICoder.cs" />
-    <Compile Include="Core\Libraries\SevenZip\SevenZipBase.cs" />
-    <Compile Include="Core\Libraries\SevenZip\SevenZipCompressor.cs" />
-    <Compile Include="Core\Libraries\SevenZip\SevenZipCompressorAsynchronous.cs" />
-    <Compile Include="Core\Libraries\SevenZip\SevenZipExtractor.cs" />
-    <Compile Include="Core\Libraries\SevenZip\SevenZipExtractorAsynchronous.cs" />
-    <Compile Include="Core\Libraries\SevenZip\SevenZipSfx.cs" />
-    <Compile Include="Core\Libraries\SevenZip\StreamWrappers.cs" />
-    <Compile Include="Core\Libraries\SevenZip\UpdateData.cs" />
-    <Compile Include="Core\Libraries\SevenZip\ZipEncryptionMethod.cs" />
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\AllocationStack.cs" />
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\Key.cs" />
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\KeyValue.cs" />
@@ -615,6 +303,7 @@
     <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaFolder.cs" />
     <Compile Include="Core\Models\SkympClientSettingsModel.cs" />
     <Compile Include="Core\Models\ServerModel.cs" />
+    <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\Net.cs" />
     <Compile Include="Core\NotifyController.cs" />
     <Compile Include="Core\Unpacker.cs" />
@@ -739,7 +428,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Assets\ShaderSource\AverageEffect.ps" />
@@ -791,8 +480,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\SplashBackground\back1.png" />
-    <Resource Include="Core\Libraries\SevenZip\gpl.txt" />
-    <Resource Include="Core\Libraries\SevenZip\lgpl.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

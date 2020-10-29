@@ -65,6 +65,7 @@ namespace UpdatesClient.Core
             {
                 Downloading = false;
                 YandexMetrica.ReportError("Downloader", e);
+                Logger.Error(e);
                 sDestinationPath = null;
             }
         }
