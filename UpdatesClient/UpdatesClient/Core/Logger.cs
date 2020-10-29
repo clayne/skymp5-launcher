@@ -18,13 +18,13 @@ namespace UpdatesClient.Core
             });
         }
 
-        public static void SetUser(string email, string userName)
+        public static void SetUser(int id, string userName)
         {
             SentrySdk.ConfigureScope(scope =>
             {
                 scope.User = new Sentry.Protocol.User()
                 {
-                    Email = email,
+                    Id = id.ToString(),
                     Username = userName
                 };
             });

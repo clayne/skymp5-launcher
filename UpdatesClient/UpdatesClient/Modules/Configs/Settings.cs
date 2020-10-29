@@ -26,6 +26,7 @@ namespace UpdatesClient.Modules.Configs
         public static string PathToSkyrimTmp => PathToSkyrim + "\\tmp\\";
         public static string LastVersion { get { return model.LastVersion; } private set { model.LastVersion = value; } }
         public static int UserId { get { return model.UserId; } set { model.UserId = value; } }
+        public static string UserName { get; set; }
         public static bool RememberMe { get; set; } = true;
         private static string userToken;
         public static string UserToken

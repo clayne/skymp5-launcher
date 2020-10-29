@@ -44,6 +44,8 @@ namespace UpdatesClient
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             Logger.Init(version);
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
@@ -54,6 +56,11 @@ namespace UpdatesClient
             YandexMetrica.Config.CustomAppVersion = version;
             
             InitApp();
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.Error((Exception)e?.ExceptionObject);
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)

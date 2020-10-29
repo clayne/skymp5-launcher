@@ -82,6 +82,7 @@ namespace UpdatesClient
             try
             {
                 await GetLogin();
+                Logger.SetUser(Settings.UserId, Settings.UserName);
                 authorization.Visibility = Visibility.Collapsed;
             }
             catch
@@ -96,13 +97,13 @@ namespace UpdatesClient
         {
             var username = await Account.GetLogin();
             JObject jObject = JObject.Parse(username);
-            userButton.Text = jObject["name"].ToString();
+            string name = jObject["name"].ToString();
+            Settings.UserName = name;
+            userButton.Text = name;
         }
 
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(Settings.PathToLocalTmp + "7z.dll")) await Download7zLib();
-
             string pathToSkyrim = Settings.PathToSkyrim;
             ResultGameVerification result;
             do
@@ -160,6 +161,7 @@ namespace UpdatesClient
             try
             {
                 await GetLogin();
+                Logger.SetUser(Settings.UserId, Settings.UserName);
                 authorization.Visibility = Visibility.Collapsed;
             }
             catch
@@ -206,38 +208,30 @@ namespace UpdatesClient
         }
         private async Task InstallSKSE()
         {
-            if (File.Exists(Settings.PathToLocalTmp + "7z.dll") || await Download7zLib())
+            string url = await Net.GetUrlToSKSE();
+            string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
+
+            bool ok = await DownloadFile(destinationPath, url, "Загрузка SKSE");
+
+            if (ok)
             {
-                string url = await Net.GetUrlToSKSE();
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                bool ok = await DownloadFile(destinationPath, url, "Загрузка SKSE");
-
-                if (ok)
+                progressBar.Show(true, "Распаковка SKSE");
+                try
                 {
-                    progressBar.Show(true, "Распаковка SKSE");
-                    try
-                    {
-                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath,
-                            Settings.PathToSkyrim, Path.GetFileNameWithoutExtension(destinationPath)));
-                    }
-                    catch (Exception e)
-                    {
-                        YandexMetrica.ReportError("ExtractSKSE", e);
-                        NotifyController.Show(e);
-                        mainButton.ButtonStatus = MainButtonStatus.Retry;
-                    }
-                    progressBar.Hide();
+                    await Task.Run(() => Unpacker.UnpackArchive(destinationPath,
+                        Settings.PathToSkyrim, Path.GetFileNameWithoutExtension(destinationPath)));
                 }
+                catch (Exception e)
+                {
+                    YandexMetrica.ReportError("ExtractSKSE", e);
+                    Logger.Error(e);
+                    NotifyController.Show(e);
+                    mainButton.ButtonStatus = MainButtonStatus.Retry;
+                }
+                progressBar.Hide();
             }
         }
-        private Task<bool> Download7zLib()
-        {
-            string url = Net.URL_Lib;
-            string destinationPath = $"{Settings.PathToLocalTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-            return DownloadFile(destinationPath, url, "Загрузка библиотеки");
-        }
+        
         private async Task InstallRuFixConsole()
         {
             string url = Net.URL_Mod_RuFix;
@@ -256,6 +250,7 @@ namespace UpdatesClient
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("ExtractRuFix", e);
+                    Logger.Error(e);
                     NotifyController.Show(e);
                 }
             }
@@ -271,6 +266,7 @@ namespace UpdatesClient
             catch (Exception e)
             {
                 YandexMetrica.ReportError("CheckClient", e);
+                Logger.Error(e);
                 NotifyController.Show(e);
                 mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
@@ -400,6 +396,7 @@ namespace UpdatesClient
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("Extract", e);
+                    Logger.Error(e);
                     NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;
                     return;
