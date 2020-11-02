@@ -53,7 +53,7 @@ namespace UpdatesClient.Core
         private static bool SevenZUnpack(string file, string extractTo, string extractFromSub = "")
         {
             if (!File.Exists(file)) return false;
-            
+
             string tmpFiles = $"{Settings.PathToSkyrimTmp}files\\";
             Delete(tmpFiles);
             Create(tmpFiles);
@@ -62,7 +62,7 @@ namespace UpdatesClient.Core
             {
                 foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
                 {
-                    entry.WriteToDirectory(extractTo, new ExtractionOptions()
+                    entry.WriteToDirectory(tmpFiles, new ExtractionOptions()
                     {
                         ExtractFullPath = true,
                         Overwrite = true
