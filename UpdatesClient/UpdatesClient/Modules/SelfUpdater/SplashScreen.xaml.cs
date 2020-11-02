@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Management;
 using System.Windows;
 using System.Windows.Threading;
-using UpdatesClient.Core.Helpers;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {

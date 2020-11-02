@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 
+#pragma warning disable IDE1006 // Стили именования
 namespace Yandex.Metrica.Models
 {
     [DataContract]
@@ -5549,3 +5550,4 @@ namespace Yandex.Metrica.Models
         }
     }
 }
+#pragma warning restore IDE1006 // Стили именования

@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager.Helpers;
@@ -19,7 +14,7 @@ namespace UpdatesClient.Modules.GameManager
         public static bool Runing { get; private set; }
 
         private static Process GameProcess = new Process();
-        private static ProcessStartInfo StartInfo = new ProcessStartInfo();
+        private static readonly ProcessStartInfo StartInfo = new ProcessStartInfo();
 
         public static void StopGame()
         {
@@ -30,7 +25,7 @@ namespace UpdatesClient.Modules.GameManager
         {
             string path = $"{Settings.PathToSkyrim}\\Data\\SKSE\\SKSE.ini";
             if (!File.Exists(path)) File.Create(path).Close();
-            
+
             IniFile iniFile = new IniFile(path);
             iniFile.WriteINI("DEBUG", "WriteMiniDumps", "1");
         }

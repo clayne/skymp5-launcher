@@ -2,14 +2,13 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Windows;
 using Yandex.Metrica;
 
 namespace UpdatesClient.Core
 {
     public class IniFile
     {
-        string Path;
+        private readonly string Path;
 
         [DllImport("kernel32")]
         static extern long WritePrivateProfileString(string Section, string Key, string Value, string FilePath);
@@ -33,6 +32,7 @@ namespace UpdatesClient.Core
             catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_Read", Ex);
+                Logger.Error(Ex);
                 return "0";
             }
 
@@ -41,13 +41,14 @@ namespace UpdatesClient.Core
         //Записываем в ini-файл. Запись происходит в выбранную секцию в выбранный ключ.
         public void WriteINI(string Section, string Key, string Value)
         {
-            try 
-            { 
-                WritePrivateProfileString(Section, Key, Value, Path); 
-            } 
-            catch (Exception Ex) 
+            try
+            {
+                WritePrivateProfileString(Section, Key, Value, Path);
+            }
+            catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_Write", Ex);
+                Logger.Error(Ex);
             }
 
         }
@@ -55,39 +56,42 @@ namespace UpdatesClient.Core
         //Удаляем ключ из выбранной секции.
         public void DeleteKey(string Key, string Section = null)
         {
-            try 
-            { 
-                WriteINI(Section, Key, null); 
-            } 
-            catch (Exception Ex) 
+            try
+            {
+                WriteINI(Section, Key, null);
+            }
+            catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_DeleteKey", Ex);
+                Logger.Error(Ex);
             }
 
         }
         //Удаляем выбранную секцию
         public void DeleteSection(string Section = null)
         {
-            try 
-            { 
-                WriteINI(Section, null, null); 
+            try
+            {
+                WriteINI(Section, null, null);
             }
-            catch (Exception Ex) 
+            catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_DeleteSection", Ex);
+                Logger.Error(Ex);
             }
 
         }
         //Проверяем, есть ли такой ключ, в этой секции
         public bool KeyExists(string Section, string Key)
         {
-            try 
-            { 
-                return ReadINI(Section, Key).Length > 0; 
-            } 
-            catch (Exception Ex) 
+            try
+            {
+                return ReadINI(Section, Key).Length > 0;
+            }
+            catch (Exception Ex)
             {
                 YandexMetrica.ReportError("IniFile_KeyExists", Ex);
+                Logger.Error(Ex);
                 return false; 
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using Yandex.Metrica;
 
@@ -16,9 +17,11 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             try
             {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
-                FileSystemWatcher watcher = new FileSystemWatcher(Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\");
-                watcher.IncludeSubdirectories = true;
-                watcher.EnableRaisingEvents = true;
+                FileSystemWatcher watcher = new FileSystemWatcher(Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\")
+                {
+                    IncludeSubdirectories = true,
+                    EnableRaisingEvents = true
+                };
                 watcher.Created += Watcher_Created;
                 watcher.Changed += Watcher_Changed;
                 watcher.Deleted += Watcher_Deleted;
@@ -28,12 +31,14 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             catch (Exception e)
             {
                 YandexMetrica.ReportError("AntiCheat_Init", e);
+                Logger.Error(e);
             }
         }
 
         private static void Watcher_Error(object sender, ErrorEventArgs e)
         {
             YandexMetrica.ReportError("WatcherError", e?.GetException());
+            Logger.Error(e?.GetException());
         }
 
         private static void Watcher_Renamed(object sender, RenamedEventArgs e)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Management;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {

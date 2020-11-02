@@ -17,10 +17,24 @@ namespace UpdatesClient.Modules.Configs
 
         public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
         public static readonly string PathToLocalTmp = $"{PathToLocal}tmp\\";
+        public static readonly string PathToLocalDlls = $"{PathToLocal}dlls\\";
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
+        public static readonly string PathToSavedServerList = $"{PathToLocalTmp}\\Servers.json";
+        public static string PathToSkympClientSettings => $"{PathToSkyrim}\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
 
         public static string PathToSkyrim { get { return model.PathToSkyrim; } set { model.PathToSkyrim = value; } }
+        public static string PathToSkyrimTmp => PathToSkyrim + "\\tmp\\";
         public static string LastVersion { get { return model.LastVersion; } private set { model.LastVersion = value; } }
+        public static int UserId { get { return model.UserId; } set { model.UserId = value; } }
+        public static string UserName { get; set; }
+        public static bool RememberMe { get; set; } = true;
+        private static string userToken;
+        public static string UserToken
+        {
+            get { return Security.FromAes256Base64(RememberMe ? model.UserToken : userToken); }
+            set { if (RememberMe) model.UserToken = Security.ToAes256Base64(value); else userToken = Security.ToAes256Base64(value); }
+        }
+        public static int LastServerID { get { return model.LastServerID; } set { model.LastServerID = value; } }
 
         internal static bool Load()
         {

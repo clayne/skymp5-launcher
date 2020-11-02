@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Utilities;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -52,7 +51,7 @@ namespace UpdatesClient.Modules.Configs
                 return "";
             }
 
-            
+
         }
 
         /// <summary>

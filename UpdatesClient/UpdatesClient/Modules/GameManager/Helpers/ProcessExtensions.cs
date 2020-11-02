@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Management;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UpdatesClient.Modules.GameManager.Helpers
 {
@@ -50,7 +47,7 @@ namespace UpdatesClient.Modules.GameManager.Helpers
             List<Process> proc = new List<Process>();
             if (collection.Count > 0)
             {
-                
+
                 foreach (var item in collection)
                 {
                     UInt32 childProcessId = (UInt32)item["ProcessId"];
