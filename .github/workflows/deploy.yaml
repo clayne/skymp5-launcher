@@ -9,6 +9,13 @@ jobs:
     - uses: actions/checkout@master
     - name: Setup MSBuild.exe
       uses: warrenbuckley/Setup-MSBuild@v1
+    - name: Setup VSWhere.exe
+      uses: warrenbuckley/Setup-VSWhere@v1
+    - name: Setup Nuget.exe
+      uses: warrenbuckley/Setup-Nuget@v1
+    - name: Nuget Restore
+      working-directory: UpdatesClient
+      run: nuget restore .\UpdatesClient.sln
     - name: MSBuild
       working-directory: UpdatesClient/UpdatesClient
       run: msbuild UpdatesClient.csproj /property:Configuration=Release
