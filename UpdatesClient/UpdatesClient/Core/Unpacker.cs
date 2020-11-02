@@ -1,4 +1,4 @@
-﻿using SharpCompress.Archives;
+using SharpCompress.Archives;
 using SharpCompress.Archives.SevenZip;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
@@ -35,7 +35,7 @@ namespace UpdatesClient.Core
             {
                 foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
                 {
-                    entry.WriteToDirectory(extractTo, new ExtractionOptions()
+                    entry.WriteToDirectory(tmpFiles, new ExtractionOptions()
                     {
                         ExtractFullPath = true,
                         Overwrite = true
