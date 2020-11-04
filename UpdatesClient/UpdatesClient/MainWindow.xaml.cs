@@ -329,6 +329,7 @@ namespace UpdatesClient
 # Please do not modify this file.
 *FarmSystem.esp";
 
+            if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
             File.WriteAllText(path, content);
         }
 
