@@ -46,7 +46,7 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 YandexMetrica.ReportError("Version_Load", e);
-                Logger.Error(e);
+                Logger.Error("Version_Load", e);
             }
             return false;
         }
@@ -61,7 +61,7 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 YandexMetrica.ReportError("Version_Save", e);
-                Logger.Error(e);
+                Logger.Error("Version_Save", e);
             }
         }
         internal static void Reset()
@@ -76,7 +76,7 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 YandexMetrica.ReportError("Version_Reset", e);
-                Logger.Error(e);
+                Logger.Error("Version_Reset", e);
             }
         }
     }

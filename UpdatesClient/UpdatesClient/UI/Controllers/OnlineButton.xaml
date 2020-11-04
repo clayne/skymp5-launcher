@@ -95,7 +95,7 @@
                 <Border.Effect>
                     <DropShadowEffect x:Name="effect" Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="10" Direction="0" Opacity="0"/>
                 </Border.Effect>
-                <ContentPresenter x:Name="menuHeaderContainer" Focusable="False" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="2" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                <ContentPresenter x:Name="menuHeaderContainer" Focusable="False" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="2" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" HorizontalAlignment="Right" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Top"/>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsHighlighted" Value="True">
@@ -163,7 +163,7 @@
                             <ImageBrush ImageSource="{DynamicResource arrowDown}" Stretch="Uniform"/>
                         </Border.OpacityMask>
                     </Border>
-                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Left" Margin="0" RenderTransformOrigin="0.5,0.5" VerticalOffset="32" HorizontalOffset="-85" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="2">
+                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Right" Margin="0" VerticalOffset="32" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="2" HorizontalOffset="-174">
                         <Grid VerticalAlignment="Stretch" Margin="0">
                             <Border BorderBrush="White" BorderThickness="1" Margin="0" Padding="0" />
                             <Border x:Name="SubMenuBorder" BorderBrush="{x:Null}" BorderThickness="1" Background="#FF03182B" Padding="2" Margin="0">

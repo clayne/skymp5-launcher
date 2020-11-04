@@ -224,7 +224,7 @@ namespace UpdatesClient
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("ExtractSKSE", e);
-                    Logger.Error(e);
+                    Logger.Error("ExtractSKSE", e);
                     NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;
                 }
@@ -250,7 +250,7 @@ namespace UpdatesClient
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("ExtractRuFix", e);
-                    Logger.Error(e);
+                    Logger.Error("ExtractRuFix", e);
                     NotifyController.Show(e);
                 }
             }
@@ -266,7 +266,7 @@ namespace UpdatesClient
             catch (Exception e)
             {
                 YandexMetrica.ReportError("CheckClient", e);
-                Logger.Error(e);
+                Logger.Error("CheckClient", e);
                 NotifyController.Show(e);
                 mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
@@ -300,6 +300,7 @@ namespace UpdatesClient
             SetServer();
             ServerModel server = (ServerModel)serverList.SelectedItem;
             SetSession(await Account.GetSession(server.Address));
+            SetMods();
 
             try
             {
@@ -319,6 +320,16 @@ namespace UpdatesClient
                 YandexMetrica.ReportEvent("HasNotAccess");
                 Close();
             }
+        }
+
+        private void SetMods()
+        {
+            string path = Settings.PathToLocalSkyrim + "Plugins.txt";
+            string content = @"# This file is used by Skyrim to keep track of your downloaded content.
+# Please do not modify this file.
+*FarmSystem.esp";
+
+            File.WriteAllText(path, content);
         }
 
         private void SetServer()
@@ -371,7 +382,7 @@ namespace UpdatesClient
             catch (Exception e)
             {
                 YandexMetrica.ReportError("ReportDmp", e);
-                Logger.Error(e);
+                Logger.Error("ReportDmp", e);
             }
         }
         private async void UpdateClient()
@@ -396,7 +407,7 @@ namespace UpdatesClient
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("Extract", e);
-                    Logger.Error(e);
+                    Logger.Error("Extract", e);
                     NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;
                     return;

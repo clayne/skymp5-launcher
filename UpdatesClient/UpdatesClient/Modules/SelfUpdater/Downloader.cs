@@ -37,7 +37,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                 DownloadFile();
                 return true;
             }
-            catch (Exception e) { YandexMetrica.ReportError("SelfUpdate_Downloader", e); Logger.Error(e); }
+            catch (Exception e) { YandexMetrica.ReportError("SelfUpdate_Downloader", e); Logger.Error("SelfUpdate_Downloader", e); }
             return false;
         }
 
@@ -63,7 +63,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                 catch (Exception e)
                 {
                     YandexMetrica.ReportError("Down_Hidden", e);
-                    Logger.Error(e);
+                    Logger.Error("Down_Hidden", e);
                 }
                 hwRq.AddRange(iExistLen);
 

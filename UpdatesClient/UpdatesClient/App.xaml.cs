@@ -49,18 +49,12 @@ namespace UpdatesClient
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
-            string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
-            if(!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
-            YandexMetricaFolder.SetCurrent(tmpPath);
-
-            YandexMetrica.Config.CustomAppVersion = version;
-            
             InitApp();
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Logger.Error((Exception)e?.ExceptionObject);
+            Logger.FatalError("UnhandledException", (Exception)e?.ExceptionObject);
         }
 
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -98,7 +92,7 @@ namespace UpdatesClient
                             catch (Exception e)
                             {
                                 YandexMetrica.ReportError("HandleCmdArgs_Normal", e);
-                                Logger.Error(e);
+                                Logger.Error("HandleCmdArgs_Normal", e);
                             }
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
                             ExitApp();
@@ -173,7 +167,7 @@ namespace UpdatesClient
             {
                 YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
                 YandexMetrica.ReportError($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
-                Logger.Error(e);
+                Logger.Error($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
                 MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка"); 
             }
         }

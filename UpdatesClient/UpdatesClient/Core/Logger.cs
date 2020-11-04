@@ -1,9 +1,11 @@
 ﻿using Sentry;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yandex.Metrica;
 
 namespace UpdatesClient.Core
 {
@@ -16,6 +18,12 @@ namespace UpdatesClient.Core
                 options.Dsn = new Dsn("https://13d9192e33aa4e86a8f9a55d89d5ffc5:2def384d727d457482cf641f234a2fc8@sentry.skyrez.su/4");
                 options.Release = version.ToString();
             });
+
+            string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
+            if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
+
+            YandexMetricaFolder.SetCurrent(tmpPath);
+            YandexMetrica.Config.CustomAppVersion = version;
         }
 
         public static void SetUser(int id, string userName)
@@ -30,10 +38,27 @@ namespace UpdatesClient.Core
             });
         }
 
-        public static void Error(Exception exception)
+        public static void Error(string message, Exception exception)
         {
-            SentrySdk.CaptureException(exception);
+            SentryEvent sentryEvent = new SentryEvent(exception)
+            {
+                Message = message,
+                Level = Sentry.Protocol.SentryLevel.Error
+            };
+
+            SentrySdk.CaptureEvent(sentryEvent);
         }
+        public static void FatalError(string message, Exception exception)
+        {
+            SentryEvent sentryEvent = new SentryEvent(exception)
+            {
+                Message = message,
+                Level = Sentry.Protocol.SentryLevel.Fatal
+            };
+
+            SentrySdk.CaptureEvent(sentryEvent);
+        }
+
 
         public static void Event(string Message)
         {

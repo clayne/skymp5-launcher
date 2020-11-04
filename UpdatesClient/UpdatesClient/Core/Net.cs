@@ -50,7 +50,7 @@ namespace UpdatesClient.Core
             if (req2 != "OK")
             {
                 YandexMetrica.ReportError("ReportDmp_Net_S2", new Exception(req2));
-                Logger.Error(new Exception(req2));
+                Logger.Error("ReportDmp_Net_S2", new Exception(req2));
             }
 
             return /*req1 == "OK" ||*/ req2 == "OK";

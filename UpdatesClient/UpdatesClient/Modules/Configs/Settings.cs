@@ -16,6 +16,7 @@ namespace UpdatesClient.Modules.Configs
         public static readonly string VersionAssembly = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
+        public static readonly string PathToLocalSkyrim = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Skyrim Special Edition\\";
         public static readonly string PathToLocalTmp = $"{PathToLocal}tmp\\";
         public static readonly string PathToLocalDlls = $"{PathToLocal}dlls\\";
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";

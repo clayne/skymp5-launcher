@@ -343,7 +343,7 @@
             </Separator>
             <Button Content="МАГАЗИН" Width="115" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />-->
         </StackPanel>
-        <Button Content="SkyMP" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" Background="#05DDDDDD" BorderBrush="{x:Null}" FontSize="24" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Style="{DynamicResource MainButton}">
+        <Button Content="SkyMP" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" Background="#00DDDDDD" BorderBrush="{x:Null}" FontSize="24" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Style="{DynamicResource MainButton}">
             <Button.Effect>
                 <DropShadowEffect Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="8"/>
             </Button.Effect>

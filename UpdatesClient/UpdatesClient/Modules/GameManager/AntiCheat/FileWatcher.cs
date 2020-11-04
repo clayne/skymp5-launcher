@@ -31,14 +31,14 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             catch (Exception e)
             {
                 YandexMetrica.ReportError("AntiCheat_Init", e);
-                Logger.Error(e);
+                Logger.Error("AntiCheat_Init", e);
             }
         }
 
         private static void Watcher_Error(object sender, ErrorEventArgs e)
         {
             YandexMetrica.ReportError("WatcherError", e?.GetException());
-            Logger.Error(e?.GetException());
+            Logger.Error("WatcherError", e?.GetException());
         }
 
         private static void Watcher_Renamed(object sender, RenamedEventArgs e)
@@ -66,7 +66,7 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
         {
             if (EnableAntiCheat)
             {
-                //Провести валидацию изменений
+                //TODO: Провести валидацию изменений
 
                 MessageBox.Show($"Файл {file} был изменен", "Внимание");
                 GameLauncher.StopGame();

@@ -84,7 +84,7 @@ namespace UpdatesClient.UI.Controllers
                 if (timeChange != 0)
                 {
                     movingAverage.ComputeAverage(sizeChange / timeChange);
-                    Speed = (long)movingAverage.Average * 1000; // b/s
+                    Speed = (long)movingAverage.Average * 100; // kb/ms
 
                     movingAverageTime.ComputeAverage((Size - Downloaded) / Speed);
                     NeedTime = (long)movingAverageTime.Average; //Sec

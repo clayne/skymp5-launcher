@@ -36,7 +36,7 @@ namespace UpdatesClient.UI.Controllers
                 btn.MouseLeftButtonDown += Btn_MouseLeftButtonDown;
                 btn.MouseLeftButtonUp += Btn_MouseLeftButtonUp;
             }
-            catch (Exception e) { YandexMetrica.ReportError("ImageButton", e); Logger.Error(e); }
+            catch (Exception e) { YandexMetrica.ReportError("ImageButton", e); Logger.Error("ImageButton", e); }
             
         }
 
