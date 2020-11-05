@@ -9,6 +9,7 @@ namespace UpdatesClient.Modules.Configs
 {
     internal class ModVersion
     {
+        private static object sync = new object();
         private static ModVersionModel model;
 
         public static string Version
@@ -35,7 +36,8 @@ namespace UpdatesClient.Modules.Configs
                 string path = $"{Settings.PathToSkyrim}\\version.json";
                 if (File.Exists(path))
                 {
-                    model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
+                    lock (sync)
+                        model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
                     return true;
                 }
                 else
@@ -56,7 +58,8 @@ namespace UpdatesClient.Modules.Configs
             {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
                 string path = $"{Settings.PathToSkyrim}\\version.json";
-                File.WriteAllText(path, JsonConvert.SerializeObject(model));
+                lock (sync)
+                    File.WriteAllText(path, JsonConvert.SerializeObject(model));
             }
             catch (Exception e)
             {
@@ -70,7 +73,8 @@ namespace UpdatesClient.Modules.Configs
             {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
                 string path = $"{Settings.PathToSkyrim}\\version.json";
-                if (File.Exists(path)) File.Delete(path);
+                lock (sync)
+                    if (File.Exists(path)) File.Delete(path);
                 model = new ModVersionModel();
             }
             catch (Exception e)

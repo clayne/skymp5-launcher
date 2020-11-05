@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Yandex.Metrica;
 
@@ -58,15 +59,21 @@ namespace UpdatesClient.Core
                 if (Directory.Exists(Path.GetDirectoryName(sDestinationPath))) Directory.CreateDirectory(Path.GetDirectoryName(sDestinationPath));
 
                 DownloadFile();
-
-                Downloading = false;
+            }
+            catch (WebException se)
+            {
+                sDestinationPath = null;
+                NotifyController.Show(se);
             }
             catch (Exception e)
             {
-                Downloading = false;
+                sDestinationPath = null;
                 YandexMetrica.ReportError("Downloader", e);
                 Logger.Error("Downloader", e);
-                sDestinationPath = null;
+            }
+            finally
+            {
+                Downloading = false;
             }
         }
 

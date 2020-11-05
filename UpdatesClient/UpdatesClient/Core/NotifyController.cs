@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -60,7 +61,10 @@ namespace UpdatesClient.Core
             popup.ClickClose -= Popup_ClickClose;
             popup.BeginAnimation(UserControl.OpacityProperty, Hide);
             await Task.Delay(Hide.Duration.TimeSpan);
-            if ((PopupNotify)NotifyList.NotifyPanel?.panelList.Children[0] == popup) run = false;
+
+            UIElementCollection collection = NotifyList.NotifyPanel?.panelList.Children;
+            if (collection.Count > 0 && (PopupNotify)collection[0] == popup) run = false;
+
             NotifyList.NotifyPanel?.panelList.Children.Remove(popup);
             Show();
         }

@@ -100,8 +100,8 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="130*"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="110*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <Border BorderBrush="White" BorderThickness="2" CornerRadius="5" Height="12" VerticalAlignment="Top" Grid.ColumnSpan="3">
@@ -119,9 +119,9 @@
                 <DropShadowEffect Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="16"/>
             </Rectangle.Effect>
         </Rectangle>
-        <TextBlock HorizontalAlignment="Left" Margin="27,20,0,0" TextWrapping="Wrap" Text="Осталось" VerticalAlignment="Top" Foreground="#FF99DBEC" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="13" RenderTransformOrigin="0.032,0.627" Grid.Column="2"/>
-        <TextBlock x:Name="timeText" HorizontalAlignment="Left" Margin="83,17,0,0" TextWrapping="Wrap" Text="0 секунд" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17" Grid.Column="2"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,44,0,0" TextWrapping="Wrap" Text="Версия" VerticalAlignment="Top" Foreground="#FF99DBEC" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="13" RenderTransformOrigin="0.032,0.627"/>
-        <TextBlock x:Name="versionText" HorizontalAlignment="Left" Margin="52,41,0,0" TextWrapping="Wrap" Text="0.0.0.0" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17"/>
+        <TextBlock HorizontalAlignment="Left" Margin="26,17,0,0" TextWrapping="Wrap" Text="Осталось" VerticalAlignment="Top" Foreground="#FF99DBEC" FontSize="13" RenderTransformOrigin="0.032,0.627" Grid.Column="2"/>
+        <TextBlock x:Name="timeText" HorizontalAlignment="Left" Margin="86,17,0,0" TextWrapping="Wrap" Text="0 секунд" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17" Grid.Column="2"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,42,0,0" TextWrapping="Wrap" Text="Версия" VerticalAlignment="Top" Foreground="#FF99DBEC" FontSize="13" RenderTransformOrigin="0.032,0.627"/>
+        <TextBlock x:Name="versionText" HorizontalAlignment="Left" Margin="57,41,0,0" TextWrapping="Wrap" Text="0.0.0.0" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17"/>
     </Grid>
 </UserControl>

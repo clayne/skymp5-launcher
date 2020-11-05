@@ -148,14 +148,9 @@ namespace UpdatesClient
 
             FillServerList();
 
-            serverList.Effect = new OverlayEffect()
+            serverListBg.Effect = new OverlayEffect()
             {
                 BInput = GetGridBackGround(serverList)
-            };
-
-            refreshServerListButton.Effect = new OverlayEffect()
-            {
-                BInput = GetGridBackGround(refreshServerListButton)
             };
 
             try
@@ -352,7 +347,7 @@ namespace UpdatesClient
         private async Task ReportDmp()
         {
             string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
-
+            if (!Directory.Exists(pathToDmps)) return;
             try
             {
                 DateTime dt = ModVersion.LastDmpReported;

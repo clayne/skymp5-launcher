@@ -18,6 +18,16 @@ namespace UpdatesClient.Core.Models
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonIgnore]
+        public string ViewName
+        {
+            get
+            {
+                if (Name.Length > 18) return Name.Substring(0, 18) + "...";
+                else return Name;
+            }
+        }
+
         [JsonProperty("maxPlayers")]
         public int MaxPlayers { get; set; }
 

@@ -11,6 +11,7 @@ namespace UpdatesClient.UI.Controllers
     public partial class ProgressBar : UserControl
     {
         private readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+        private readonly string[] TimeSuffixes = { "сек.", "мин.", "ч." };
 
         public double Value { get => progressBar.Value; set => progressBar.Value = value; }
         public bool IsIndeterminate { get => progressBar.IsIndeterminate; set => progressBar.IsIndeterminate = value; }
@@ -29,15 +30,13 @@ namespace UpdatesClient.UI.Controllers
         private long NeedTime;
 
         private Stopwatch stopwatch;
-        //MS
-        private long LastTime;
         readonly MovingAverage movingAverage = new MovingAverage()
         {
-            windowSize = 40
+            windowSize = 16
         };
         readonly MovingAverage movingAverageTime = new MovingAverage()
         {
-            windowSize = 500
+            windowSize = 16
         };
 
         public ProgressBar()
@@ -75,28 +74,28 @@ namespace UpdatesClient.UI.Controllers
         {
             if (Started && Size != 0)
             {
+                long timeChange = stopwatch.ElapsedMilliseconds; //ms
+                Value = downloaded / (Size / 100.0);
+                if (timeChange < 50) return;
+                stopwatch.Restart();
                 long sizeChange = (downloaded - Downloaded); //KB
-                long timeChange = stopwatch.ElapsedMilliseconds - LastTime; //ms
                 Downloaded = downloaded;
-                LastTime = stopwatch.ElapsedMilliseconds;
 
-                Value = Downloaded / (Size / 100.0);
                 if (timeChange != 0)
                 {
                     movingAverage.ComputeAverage(sizeChange / timeChange);
-                    Speed = (long)movingAverage.Average * 100; // kb/ms
+                    Speed = (long)movingAverage.Average * 1000; // kb/ms
 
                     movingAverageTime.ComputeAverage((Size - Downloaded) / Speed);
                     NeedTime = (long)movingAverageTime.Average; //Sec
                 }
 
                 progressText.Text = $"{SizeSuffix(Downloaded, 0)} из {SizeSuffix(Size, 0)} @ {SizeSuffix(Speed, 0)}/s";
-                timeText.Text = $"{NeedTime:0} сек";
+                timeText.Text = $"{TimeSuffix(NeedTime, 0)}";
             }
         }
         public void Stop()
         {
-            stopwatch.Stop();
             stopwatch.Reset();
             Started = false;
             Value = 100;
@@ -138,6 +137,36 @@ namespace UpdatesClient.UI.Controllers
             return string.Format("{0:n" + decimalPlaces + "} {1}",
                 adjustedSize,
                 SizeSuffixes[mag]);
+        }
+
+        private string TimeSuffix(long value, int decimalPlaces = 1)
+        {
+            if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException("decimalPlaces"); }
+            if (value < 0) { return "-" + SizeSuffix(-value); }
+            if (value == 0) { return string.Format("{0:n" + decimalPlaces + "} сек", 0); }
+
+            // mag is 0 for sec, 1 for min, 2, for hours.
+            int mag = (int)Math.Log(value, 60);
+
+            // [i.e. the number of bytes in the unit corresponding to mag]
+            decimal adjustedSize = (decimal)value / (decimal)Math.Pow(60, mag);
+
+            if (mag >= TimeSuffixes.Length)
+            {
+                adjustedSize = (decimal)value / (decimal)Math.Pow(60, 2);
+                return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, TimeSuffixes[2]);
+            }
+            // make adjustment when the value is large enough that
+            // it would round up to 60 or more
+            if (Math.Round(adjustedSize, decimalPlaces) >= 60)
+            {
+                mag += 1;
+                adjustedSize /= 60;
+            }
+
+            return string.Format("{0:n" + decimalPlaces + "} {1}",
+                adjustedSize,
+                TimeSuffixes[mag]);
         }
     }
 

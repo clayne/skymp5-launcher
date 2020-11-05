@@ -16,8 +16,11 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
         {
             try
             {
+                //! Когда потребуется полноценная поддержка, нужно реализовать это как сервис
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
-                FileSystemWatcher watcher = new FileSystemWatcher(Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\")
+                string path = Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\";
+                if (!Directory.Exists(path)) return;
+                FileSystemWatcher watcher = new FileSystemWatcher(path)
                 {
                     IncludeSubdirectories = true,
                     EnableRaisingEvents = true
