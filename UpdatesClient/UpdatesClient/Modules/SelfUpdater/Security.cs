@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Management;
+using UpdatesClient.Core;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -25,7 +26,6 @@ namespace UpdatesClient.Modules.SelfUpdater
         private static bool CheckInjection()
         {
             if (WinFunctions.GetModuleHandle("SbieDll.dll") != IntPtr.Zero) return false;
-
             return true;
         }
         private static bool CheckHWID()
@@ -42,8 +42,9 @@ namespace UpdatesClient.Modules.SelfUpdater
                 }
                 return id != "";
             }
-            catch
+            catch (Exception e)
             {
+                Logger.Error("CheckHWID", e);
                 return false;
             }
         }

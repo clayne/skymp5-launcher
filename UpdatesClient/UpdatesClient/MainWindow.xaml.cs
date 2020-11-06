@@ -325,7 +325,20 @@ namespace UpdatesClient
 *FarmSystem.esp";
 
             if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
-            File.WriteAllText(path, content);
+
+            try
+            {
+                File.WriteAllText(path, content);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                FileAttributes attr = new FileInfo(path).Attributes;
+                Logger.Error("Write_Plugin_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr})"));
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Write_Plugin_txt", e);
+            }
         }
 
         private void SetServer()

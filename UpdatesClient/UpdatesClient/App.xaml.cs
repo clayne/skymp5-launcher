@@ -43,7 +43,6 @@ namespace UpdatesClient
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             Logger.Init(version);
-
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
@@ -56,7 +55,6 @@ namespace UpdatesClient
         {
             Logger.FatalError("UnhandledException", (Exception)e?.ExceptionObject);
         }
-
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             string[] par = args.Name.Replace(" ", "").Split(',');
@@ -85,15 +83,7 @@ namespace UpdatesClient
                             break;
                         case BeginUpdate:
                             File.Copy(FullPathToSelfExe, $"{args[2]}.exe", true);
-                            try
-                            {
-                                File.SetAttributes($"{args[2]}.exe", FileAttributes.Normal);
-                            }
-                            catch (Exception e)
-                            {
-                                YandexMetrica.ReportError("HandleCmdArgs_Normal", e);
-                                Logger.Error("HandleCmdArgs_Normal", e);
-                            }
+                            File.SetAttributes($"{args[2]}.exe", FileAttributes.Normal);
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
                             ExitApp();
                             return false;
@@ -105,7 +95,7 @@ namespace UpdatesClient
                             return false;
                     }
                 }
-                catch { }
+                catch (Exception e) { Logger.Error("HandleCmdArgs", e); }
             }
             return true;
         }
@@ -165,8 +155,6 @@ namespace UpdatesClient
             }
             catch (Exception e) 
             {
-                YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
-                YandexMetrica.ReportError($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
                 Logger.Error($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
                 MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка"); 
             }
