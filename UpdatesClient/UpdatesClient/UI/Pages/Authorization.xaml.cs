@@ -12,7 +12,6 @@ using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.UI.Controllers;
-using Yandex.Metrica;
 
 namespace UpdatesClient.UI.Pages
 {
@@ -119,7 +118,7 @@ namespace UpdatesClient.UI.Pages
             }
             catch (Exception err)
             {
-                YandexMetrica.ReportError("Auth_Login", err);
+                Logger.Error("Auth_Login", err);
             }
 
             authPanel.IsEnabled = true;
@@ -146,8 +145,6 @@ namespace UpdatesClient.UI.Pages
                 };
                 ResRegisterModel ds = await Account.Register(model);
                 NotifyController.Show(PopupNotify.Normal, "Успешно", "Вы зарегистрировались! Подтвердите аккаунт.");
-                //Settings.UserId = ds.Id;
-                //Settings.Save();
                 Clear();
             }
             catch (WebException we)
@@ -168,12 +165,11 @@ namespace UpdatesClient.UI.Pages
                     {
                         NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
                     }
-
                 }
             }
             catch (Exception err)
             {
-                YandexMetrica.ReportError("Auth_Register", err);
+                Logger.Error("Auth_Register", err);
             }
 
             registerPanel.IsEnabled = true;
@@ -216,7 +212,7 @@ namespace UpdatesClient.UI.Pages
             }
             catch (Exception err)
             {
-                YandexMetrica.ReportError("Auth_ResetPassword", err);
+                Logger.Error("Auth_ResetPassword", err);
             }
 
             forgotPassPanel.IsEnabled = true;

@@ -183,6 +183,8 @@
     <Compile Include="Core\Effects\ToneMappingEffect.cs" />
     <Compile Include="Core\Effects\ToonShaderEffect.cs" />
     <Compile Include="Core\Effects\ZoomBlurEffect.cs" />
+    <Compile Include="Modules\Security\AesEncoder.cs" />
+    <Compile Include="Modules\Security\Extensions\SecureString.cs" />
     <Compile Include="Core\Helpers\PasswordBoxMonitor.cs" />
     <Compile Include="Core\Network\Account.cs" />
     <Compile Include="Core\Network\Models\Request\ReqLoginModel.cs" />
@@ -192,6 +194,8 @@
     <Compile Include="Core\Network\Models\Response\ResLoginModel.cs" />
     <Compile Include="Core\Network\Models\Response\ResRegisterModel.cs" />
     <Compile Include="Core\Network\Models\Response\ResVerifyRegisterModel.cs" />
+    <Compile Include="Modules\Security\SHA256Hashing.cs" />
+    <Compile Include="Modules\Security\SystemFunctions.cs" />
     <Compile Include="UI\Controllers\PasswordBoxWithIcon.xaml.cs">
       <DependentUpon>PasswordBoxWithIcon.xaml</DependentUpon>
     </Compile>
@@ -310,7 +314,6 @@
     <Compile Include="Modules\Configs\Models\ModVersionModel.cs" />
     <Compile Include="Modules\Configs\Models\SettingsFileModel.cs" />
     <Compile Include="Modules\Configs\ModVersion.cs" />
-    <Compile Include="Modules\Configs\Security.cs" />
     <Compile Include="Modules\Configs\Settings.cs" />
     <Compile Include="Modules\GameManager\AntiCheat\FileWatcher.cs" />
     <Compile Include="Modules\GameManager\Enums\FileType.cs" />

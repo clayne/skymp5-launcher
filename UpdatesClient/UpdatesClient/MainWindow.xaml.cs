@@ -218,7 +218,6 @@ namespace UpdatesClient
                 }
                 catch (Exception e)
                 {
-                    YandexMetrica.ReportError("ExtractSKSE", e);
                     Logger.Error("ExtractSKSE", e);
                     NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;
@@ -226,7 +225,7 @@ namespace UpdatesClient
                 progressBar.Hide();
             }
         }
-        
+
         private async Task InstallRuFixConsole()
         {
             string url = Net.URL_Mod_RuFix;
@@ -244,7 +243,6 @@ namespace UpdatesClient
                 }
                 catch (Exception e)
                 {
-                    YandexMetrica.ReportError("ExtractRuFix", e);
                     Logger.Error("ExtractRuFix", e);
                     NotifyController.Show(e);
                 }
@@ -260,7 +258,6 @@ namespace UpdatesClient
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("CheckClient", e);
                 Logger.Error("CheckClient", e);
                 NotifyController.Show(e);
                 mainButton.ButtonStatus = MainButtonStatus.Retry;
@@ -325,6 +322,7 @@ namespace UpdatesClient
 *FarmSystem.esp";
 
             if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
+            if (File.Exists(path)) File.SetAttributes(path, FileAttributes.Normal);
 
             try
             {
@@ -333,7 +331,7 @@ namespace UpdatesClient
             catch (UnauthorizedAccessException)
             {
                 FileAttributes attr = new FileInfo(path).Attributes;
-                Logger.Error("Write_Plugin_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr})"));
+                Logger.Error("Write_Plugin_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
             }
             catch (Exception e)
             {
@@ -390,7 +388,6 @@ namespace UpdatesClient
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("ReportDmp", e);
                 Logger.Error("ReportDmp", e);
             }
         }
@@ -415,7 +412,6 @@ namespace UpdatesClient
                 }
                 catch (Exception e)
                 {
-                    YandexMetrica.ReportError("Extract", e);
                     Logger.Error("Extract", e);
                     NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;

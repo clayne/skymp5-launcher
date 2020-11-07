@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading.Tasks;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Core
 {
@@ -68,7 +66,6 @@ namespace UpdatesClient.Core
             catch (Exception e)
             {
                 sDestinationPath = null;
-                YandexMetrica.ReportError("Downloader", e);
                 Logger.Error("Downloader", e);
             }
             finally

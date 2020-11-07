@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Security.Extensions;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.Configs
 {
@@ -15,6 +16,7 @@ namespace UpdatesClient.Modules.Configs
         public static readonly string VersionFile = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
         public static readonly string VersionAssembly = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+        #region Paths
         public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
         public static readonly string PathToLocalSkyrim = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Skyrim Special Edition\\";
         public static readonly string PathToLocalTmp = $"{PathToLocal}tmp\\";
@@ -22,21 +24,31 @@ namespace UpdatesClient.Modules.Configs
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
         public static readonly string PathToSavedServerList = $"{PathToLocalTmp}\\Servers.json";
         public static string PathToSkympClientSettings => $"{PathToSkyrim}\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
+        #endregion
 
-        public static string PathToSkyrim { get { return model.PathToSkyrim; } set { model.PathToSkyrim = value; } }
-        public static string PathToSkyrimTmp => PathToSkyrim + "\\tmp\\";
-        public static string LastVersion { get { return model.LastVersion; } private set { model.LastVersion = value; } }
-        public static int UserId { get { return model.UserId; } set { model.UserId = value; } }
+        #region Skyrim
+        public static string PathToSkyrim { get => model.PathToSkyrim; set => model.PathToSkyrim = value; }
+        public static string PathToSkyrimTmp { get => PathToSkyrim + "\\tmp\\"; }
+        #endregion
+
+        #region Launcher
+        public static string LastVersion { get => model.LastVersion; private set => model.LastVersion = value; }
+        public static int LastServerID { get => model.LastServerID; set => model.LastServerID = value; }
+        #endregion
+
+        #region User
+        public static int UserId { get => model.UserId; set => model.UserId = value; }
         public static string UserName { get; set; }
         public static bool RememberMe { get; set; } = true;
-        private static string userToken;
+        private static SecureString userToken;
         public static string UserToken
         {
-            get { return Security.FromAes256Base64(RememberMe ? model.UserToken : userToken); }
-            set { if (RememberMe) model.UserToken = Security.ToAes256Base64(value); else userToken = Security.ToAes256Base64(value); }
+            get => RememberMe ? model.UserToken : userToken;
+            set { if (RememberMe) model.UserToken = value; else userToken = value; }
         }
-        public static int LastServerID { get { return model.LastServerID; } set { model.LastServerID = value; } }
+        #endregion
 
+        
         internal static bool Load()
         {
             try
@@ -53,7 +65,7 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Settings_Load", e);
+                Logger.Error("Settings_Load", e);
             }
             return false;
         }
@@ -66,7 +78,7 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Settings_Save", e);
+                Logger.Error("Settings_Save", e);
             }
         }
         internal static void Reset()
@@ -78,7 +90,7 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Settings_Reset", e);
+                Logger.Error("Settings_Reset", e);
             }
         }
     }

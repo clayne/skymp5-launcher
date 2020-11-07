@@ -3,11 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UpdatesClient.Core;
-using Yandex.Metrica;
 
 namespace UpdatesClient.UI.Controllers
 {
@@ -36,8 +32,8 @@ namespace UpdatesClient.UI.Controllers
                 btn.MouseLeftButtonDown += Btn_MouseLeftButtonDown;
                 btn.MouseLeftButtonUp += Btn_MouseLeftButtonUp;
             }
-            catch (Exception e) { YandexMetrica.ReportError("ImageButton", e); Logger.Error("ImageButton", e); }
-            
+            catch (Exception e) { Logger.Error("ImageButton", e); }
+
         }
 
         private void Btn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

@@ -3,23 +3,25 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace UpdatesClient.Modules.Configs
+namespace Security
 {
-    internal class Security
+    public static class AesEncoder
     {
-        private static readonly byte[] key = { 30, 8, 143, 102, 38, 188, 120, 162, 106, 49, 202, 46, 91, 234, 120, 241, 41, 39, 31, 105, 8, 25, 148, 58, 146, 77, 140, 156, 65, 63, 59, 146 };
+        private static byte[] key = { 30, 8, 143, 102, 38, 188, 120, 162, 106, 49, 202, 46, 91, 234, 120, 241, 41, 39, 31, 105, 8, 25, 148, 58, 146, 77, 140, 156, 65, 63, 59, 146 };
 
-        internal static string ToAes256Base64(string src)
+        public static bool Init()
         {
-            return Convert.ToBase64String(ToAes256(src));
+            string pid = SystemFunctions.GetHWID();
+            key = pid.GetSHA256();
+            return pid != "UnsafeEnvironment";
         }
 
-        /// <summary>
-        /// Шифрует исходное сообщение AES ключом (добавляет соль)
-        /// </summary>
-        /// <param name="src"></param>
-        /// <returns></returns>
-        internal static byte[] ToAes256(string src)
+        public static string ToAes256Base64(this string src)
+        {
+            return Convert.ToBase64String(src.ToAes256());
+        }
+
+        public static byte[] ToAes256(this string src)
         {
             Aes aes = Aes.Create();
             aes.GenerateIV();
@@ -40,26 +42,19 @@ namespace UpdatesClient.Modules.Configs
             return encrypted.Concat(aes.IV).ToArray();
         }
 
-        internal static string FromAes256Base64(string src)
+        public static string FromAes256Base64(this string src)
         {
             try
             {
-                return FromAes256(Convert.FromBase64String(src));
+                return Convert.FromBase64String(src).FromAes256();
             }
             catch
             {
                 return "";
             }
-
-
         }
 
-        /// <summary>
-        /// Расшифровывает криптованного сообщения
-        /// </summary>
-        /// <param name="shifr">Шифротекст в байтах</param>
-        /// <returns>Возвращает исходную строку</returns>
-        internal static string FromAes256(byte[] shifr)
+        public static string FromAes256(this byte[] shifr)
         {
             byte[] bytesIv = new byte[16];
             byte[] mess = new byte[shifr.Length - 16];

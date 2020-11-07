@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Management;
 using System.Reflection;
-using System.Resources;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Core;
@@ -74,19 +71,22 @@ namespace UpdatesClient
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1)
             {
+                bool eUpdate = false;
                 try
                 {
                     switch (args[1])
                     {
                         case EndUpdate:
+                            eUpdate = true;
+                            Thread.Sleep(250);
                             File.Delete($"{args[2]}.update.exe");
                             break;
                         case BeginUpdate:
+                            Thread.Sleep(250);
                             File.Copy(FullPathToSelfExe, $"{args[2]}.exe", true);
                             File.SetAttributes($"{args[2]}.exe", FileAttributes.Normal);
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
-                            ExitApp();
-                            return false;
+                            goto default;
                         case "repair":
                             Settings.Reset();
                             break;
@@ -95,7 +95,19 @@ namespace UpdatesClient
                             return false;
                     }
                 }
-                catch (Exception e) { Logger.Error("HandleCmdArgs", e); }
+                catch (UnauthorizedAccessException e)
+                {
+                    if (!eUpdate)
+                    {
+                        MessageBox.Show($"Не удалось завершить обновление\n{e.Message}", "Ошибка");
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("HandleCmdArgs", e);
+                    return false;
+                }
             }
             return true;
         }
@@ -153,10 +165,10 @@ namespace UpdatesClient
                 }
 #endif
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 Logger.Error($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
-                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка"); 
+                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка");
             }
         }
         private void StartLuancher()
@@ -173,10 +185,10 @@ namespace UpdatesClient
         //****************************************************************//
         private bool CheckFile(string pathToFile)
         {
-            return File.Exists(pathToFile) 
+            return File.Exists(pathToFile)
                 && MasterHash.ToUpper().Trim() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper().Trim();
         }
-        private bool Update() 
+        private bool Update()
         {
             if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
 

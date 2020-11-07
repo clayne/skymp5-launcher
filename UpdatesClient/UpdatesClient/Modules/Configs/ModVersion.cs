@@ -3,19 +3,18 @@ using System;
 using System.IO;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.Configs
 {
     internal class ModVersion
     {
-        private static object sync = new object();
+        private static readonly object sync = new object();
         private static ModVersionModel model;
 
         public static string Version
         {
-            get { return Security.FromAes256Base64(model.Version); }
-            set { model.Version = Security.ToAes256Base64(value); }
+            get { return model.Version; }
+            set { model.Version = value; }
         }
         public static bool? HasRuFixConsole
         {
@@ -47,7 +46,6 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Version_Load", e);
                 Logger.Error("Version_Load", e);
             }
             return false;
@@ -63,7 +61,7 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Version_Save", e);
+                NotifyController.Show(UI.Controllers.PopupNotify.Error, "Ошибка", "Не удалось сохранить сведения, файл занят");
                 Logger.Error("Version_Save", e);
             }
         }
@@ -79,7 +77,6 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Version_Reset", e);
                 Logger.Error("Version_Reset", e);
             }
         }

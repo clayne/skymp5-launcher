@@ -33,14 +33,12 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("AntiCheat_Init", e);
                 Logger.Error("AntiCheat_Init", e);
             }
         }
 
         private static void Watcher_Error(object sender, ErrorEventArgs e)
         {
-            YandexMetrica.ReportError("WatcherError", e?.GetException());
             Logger.Error("WatcherError", e?.GetException());
         }
 
