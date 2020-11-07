@@ -23,7 +23,7 @@ namespace UpdatesClient.Modules.Configs
         }
         public static DateTime LastDmpReported
         {
-            get { return model.LastDmpReported; }
+            get { return model.LastDmpReported ?? default; }
             set { model.LastDmpReported = value; }
         }
 

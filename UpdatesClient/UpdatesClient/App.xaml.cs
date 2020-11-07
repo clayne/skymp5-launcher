@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SingleInstanceApp;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -18,8 +20,9 @@ namespace UpdatesClient
     /// Логика взаимодействия для App.xaml
     /// </summary>
     internal delegate void Invoker();
-    public partial class App : Application
+    public partial class App : Application, ISingleInstance
     {
+        private const string Unique = "{F627FE18-0573-4F39-A2BF-8A564F10FC30}";
         private const string BeginUpdate = "begin";
         private const string EndUpdate = "end";
 
@@ -35,6 +38,8 @@ namespace UpdatesClient
 
         public static new App Current { get { return Application.Current as App; } }
 
+        private readonly bool mainInstance = false;
+
         public App()
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -45,7 +50,43 @@ namespace UpdatesClient
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
-            InitApp();
+            try
+            {
+                if (SingleInstance<App>.InitializeAsFirstInstance(Unique))
+                {
+                    mainInstance = true;
+                    InitApp();
+                }
+                else
+                {
+                    ExitApp();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.FatalError("App", e);
+            }
+        }
+
+        public bool SignalExternalCommandLineArgs(IList<string> args)
+        {
+            try
+            {
+                if (Current.MainWindow.WindowState == WindowState.Minimized) Current.MainWindow.WindowState = WindowState.Normal;
+                Current.MainWindow.Show();
+                Current.MainWindow.Activate();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SignalExternal", e);
+            }
+            return true;
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (mainInstance) SingleInstance<App>.Cleanup();
+            base.OnExit(e);
         }
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -190,9 +231,10 @@ namespace UpdatesClient
         }
         private bool Update()
         {
-            if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
+            string pathToUpdateFile = $"{Path.GetDirectoryName(FullPathToSelfExe + "\\")}\\{NameExeFile}.update.exe";
+            if (File.Exists(pathToUpdateFile)) File.Delete(pathToUpdateFile);
 
-            Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, $"{NameExeFile}.update.exe")
+            Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, pathToUpdateFile)
             {
                 IsHidden = true
             };

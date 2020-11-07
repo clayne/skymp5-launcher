@@ -33,11 +33,11 @@ namespace UpdatesClient.Modules.Configs
 
         #region Launcher
         public static string LastVersion { get => model.LastVersion; private set => model.LastVersion = value; }
-        public static int LastServerID { get => model.LastServerID; set => model.LastServerID = value; }
+        public static int LastServerID { get => model.LastServerID ?? -1; set => model.LastServerID = value; }
         #endregion
 
         #region User
-        public static int UserId { get => model.UserId; set => model.UserId = value; }
+        public static int UserId { get => model.UserId ?? -1; set => model.UserId = value; }
         public static string UserName { get; set; }
         public static bool RememberMe { get; set; } = true;
         private static SecureString userToken;
@@ -48,7 +48,7 @@ namespace UpdatesClient.Modules.Configs
         }
         #endregion
 
-        
+
         internal static bool Load()
         {
             try

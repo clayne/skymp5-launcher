@@ -6,17 +6,20 @@
 
         public SecureString(string text)
         {
-            Value = text;
+            this = text;
         }
 
         public static implicit operator SecureString(string v)
         {
-            return new SecureString(v.ToAes256Base64());
+            return new SecureString()
+            {
+                Value = v.ToAes256Base64()
+            };
         }
 
         public static implicit operator string(SecureString v)
         {
-            return v.Value.FromAes256Base64();
+            return v.Value?.FromAes256Base64();
         }
     }
 }

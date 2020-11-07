@@ -61,6 +61,20 @@ namespace UpdatesClient.Modules.GameManager
             YandexMetrica.ReportEvent("ExitedGame");
             Runing = false;
 
+            Process[] SkyrimPlatformCEFs = Process.GetProcessesByName("SkyrimPlatformCEF");
+            for (int i = 0; i < SkyrimPlatformCEFs.Length; i++)
+            {
+                try
+                {
+                    if (!SkyrimPlatformCEFs[i].HasExited) SkyrimPlatformCEFs[i].Kill();
+                    SkyrimPlatformCEFs[i].Dispose();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
+                }
+            }
+
             return GameProcess.ExitCode != 0;
         }
 

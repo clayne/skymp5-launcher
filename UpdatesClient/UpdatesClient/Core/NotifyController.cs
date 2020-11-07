@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using UpdatesClient.UI.Controllers;
 
 namespace UpdatesClient.Core
@@ -39,15 +41,22 @@ namespace UpdatesClient.Core
             }
         }
 
+        [STAThread]
         public static void Show(PopupNotify.Type type, string status, string text, int delayMs = 6000)
         {
             popupNotifies.Enqueue(new PopupNotify(type, status, text, delayMs));
-            Show();
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+            {
+                Show();
+            });
         }
         public static void Show(Exception exception, int delayMs = 8000)
         {
             popupNotifies.Enqueue(new PopupNotify(exception, delayMs));
-            Show();
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+            {
+                Show();
+            });
         }
 
         private static void Popup_ClickClose(object sender, EventArgs e)

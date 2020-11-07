@@ -1,7 +1,5 @@
 ﻿using Security;
 using System;
-using System.Management;
-using UpdatesClient.Core;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -9,10 +7,9 @@ namespace UpdatesClient.Modules.SelfUpdater
     {
         internal static string UID;
 
-
         internal static bool CheckEnvironment()
         {
-
+            UID = Hashing.GetMD5FromText(SystemFunctions.GetHWID());
 #if (DEBUG)
 
 #elif (BETA)
