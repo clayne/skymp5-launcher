@@ -9,6 +9,7 @@ namespace UpdatesClient.Modules.Configs.Models
         public int? LastServerID { get; set; }
         public int? UserId { get; set; }
         public SecureString? UserToken { get; set; }
+        public string Locale { get; set; }
 
         public SettingsFileModel()
         {

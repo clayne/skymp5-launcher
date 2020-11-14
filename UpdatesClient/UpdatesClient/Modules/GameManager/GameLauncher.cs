@@ -35,7 +35,6 @@ namespace UpdatesClient.Modules.GameManager
             EnableDebug();
 
             StartInfo.FileName = $"{Settings.PathToSkyrim}\\skse64_loader.exe";
-            //StartInfo.Arguments = $"--UUID {UUID} --Session {session}";
             StartInfo.WorkingDirectory = $"{Settings.PathToSkyrim}\\";
             StartInfo.Verb = "runas";
 

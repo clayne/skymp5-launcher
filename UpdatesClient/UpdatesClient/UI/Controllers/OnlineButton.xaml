@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             xmlns:res="clr-namespace:UpdatesClient.Properties"
              mc:Ignorable="d" Height="18">
     <UserControl.Resources>
         <Style x:Key="FocusVisual">
@@ -163,7 +164,7 @@
                             <ImageBrush ImageSource="{DynamicResource arrowDown}" Stretch="Uniform"/>
                         </Border.OpacityMask>
                     </Border>
-                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Right" Margin="0" VerticalOffset="32" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="2" HorizontalOffset="-174">
+                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Center" Margin="0" VerticalOffset="38" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="2" HorizontalOffset="0">
                         <Grid VerticalAlignment="Stretch" Margin="0">
                             <Border BorderBrush="White" BorderThickness="1" Margin="0" Padding="0" />
                             <Border x:Name="SubMenuBorder" BorderBrush="{x:Null}" BorderThickness="1" Background="#FF03182B" Padding="2" Margin="0">
@@ -207,10 +208,9 @@
         </ControlTemplate>
     </UserControl.Resources>
     <Grid>
-        <!--<Button x:Name="btn" Content="POSPELOV" Foreground="White" Background="#00DDDDDD" BorderBrush="{x:Null}" FontSize="14" FontFamily="Constantia" Click="Button_Click"/>-->
         <Menu x:Name="menu" Margin="0,0,0,0" VerticalAlignment="Top" Background="{x:Null}">
             <MenuItem x:Name="Username" Header="POSPELOV" BorderBrush="{x:Null}" Background="#00000000" Foreground="White" FontSize="14" FontFamily="Constantia" Template="{DynamicResource MenuItemControlTemplate1}" >
-                <MenuItem x:Name="LogoutBtn" Header="Сменить пользователя" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16"/>
+                <MenuItem x:Name="LogoutBtn" Header="{x:Static res:Resources.LogOut}" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16"/>
             </MenuItem>
         </Menu>
     </Grid>

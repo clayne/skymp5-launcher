@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Controllers
 {
@@ -47,7 +48,7 @@ namespace UpdatesClient.UI.Controllers
             DelayMs = delayMs;
         }
 
-        public PopupNotify(Exception exception, int delayMs) : this(Error, "Ошибка", exception.Message, delayMs)
+        public PopupNotify(Exception exception, int delayMs) : this(Error, Res.Error, exception.Message, delayMs)
         {
 
         }

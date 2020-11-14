@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             xmlns:res="clr-namespace:UpdatesClient.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="70" d:DesignWidth="600">
     <UserControl.Resources>
@@ -119,9 +120,9 @@
                 <DropShadowEffect Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="16"/>
             </Rectangle.Effect>
         </Rectangle>
-        <TextBlock HorizontalAlignment="Left" Margin="26,17,0,0" TextWrapping="Wrap" Text="Осталось" VerticalAlignment="Top" Foreground="#FF99DBEC" FontSize="13" RenderTransformOrigin="0.032,0.627" Grid.Column="2"/>
+        <TextBlock HorizontalAlignment="Left" Margin="26,17,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.Left}" VerticalAlignment="Top" Foreground="#FF99DBEC" FontSize="13" RenderTransformOrigin="0.032,0.627" Grid.Column="2"/>
         <TextBlock x:Name="timeText" HorizontalAlignment="Left" Margin="86,17,0,0" TextWrapping="Wrap" Text="0 секунд" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17" Grid.Column="2"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,42,0,0" TextWrapping="Wrap" Text="Версия" VerticalAlignment="Top" Foreground="#FF99DBEC" FontSize="13" RenderTransformOrigin="0.032,0.627"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,42,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.Version}" VerticalAlignment="Top" Foreground="#FF99DBEC" FontSize="13" RenderTransformOrigin="0.032,0.627"/>
         <TextBlock x:Name="versionText" HorizontalAlignment="Left" Margin="57,41,0,0" TextWrapping="Wrap" Text="0.0.0.0" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17"/>
     </Grid>
 </UserControl>

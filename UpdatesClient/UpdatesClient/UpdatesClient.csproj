@@ -135,6 +135,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Properties\Resources.ru-RU.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.ru-RU.resx</DependentUpon>
+    </Compile>
     <Compile Include="Core\Downloader.cs" />
     <Compile Include="Core\Effects\BandedSwirlEffect.cs" />
     <Compile Include="Core\Effects\BloomEffect.cs" />
@@ -205,6 +210,9 @@
     <Compile Include="Core\Network\Models\Response\ResVerifyRegisterModel.cs" />
     <Compile Include="Modules\Security\SHA256Hashing.cs" />
     <Compile Include="Modules\Security\SystemFunctions.cs" />
+    <Compile Include="Modules\SelfUpdater\SelectLanguage.xaml.cs">
+      <DependentUpon>SelectLanguage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controllers\PasswordBoxWithIcon.xaml.cs">
       <DependentUpon>PasswordBoxWithIcon.xaml</DependentUpon>
     </Compile>
@@ -214,6 +222,14 @@
     <Compile Include="UI\Pages\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
+    <Page Include="Assets\Images\Images.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\SelfUpdater\SelectLanguage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Controllers\PasswordBoxWithIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -439,6 +455,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.ru-RU.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -536,6 +556,11 @@
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
     <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
+    <Resource Include="Assets\Images\Flags\RU.png" />
+    <Resource Include="Assets\Images\Flags\US.png" />
+    <Resource Include="Assets\Images\SelectLanguage\SelectLanguage.jpg" />
+    <Resource Include="Assets\Images\SelectLanguage\RU.png" />
+    <Resource Include="Assets\Images\SelectLanguage\US.png" />
     <Content Include="Assets\ShaderSource\AverageEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorBurnEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorDodgeEffect.fx" />
@@ -564,6 +589,9 @@
     <Content Include="Assets\ShaderSource\SoftLightEffect.fx" />
     <Content Include="Assets\ShaderSource\VividLightEffect.fx" />
     <Resource Include="Assets\Images\MainWindowBackgrounds\back2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -118,223 +118,189 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Attempt" xml:space="preserve">
-    <value>Attempt</value>
+    <value>Попытка</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back</value>
+    <value>Назад</value>
   </data>
   <data name="CheckingUpdates" xml:space="preserve">
-    <value>Checking for updates</value>
+    <value>Проверка обновлений</value>
   </data>
   <data name="CheckSelfUpdate" xml:space="preserve">
-    <value>Checking for launcher updates...</value>
+    <value>Проверка обновлений лаунчера...</value>
   </data>
   <data name="ConnectionError" xml:space="preserve">
-    <value>Problems with connection</value>
+    <value>Проблемы с соединением</value>
   </data>
   <data name="CriticalError" xml:space="preserve">
-    <value>Critical error</value>
+    <value>Критическая ошибка</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Сведения</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>Готово</value>
   </data>
   <data name="DownloadingClient" xml:space="preserve">
-    <value>Downloading client</value>
+    <value>Загрузка клиента</value>
   </data>
   <data name="DownloadingSKSE" xml:space="preserve">
-    <value>Downloading SKSE</value>
+    <value>Загрузка SKSE</value>
   </data>
   <data name="DownloadingSSERuFixConsole" xml:space="preserve">
-    <value>Downloading SSERuFixConsole</value>
+    <value>Загрузка SSERuFixConsole</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>Email</value>
+    <value>Почта</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Ошибка</value>
   </data>
   <data name="ErrorEndSelfUpdate" xml:space="preserve">
-    <value>Failed to complete update</value>
+    <value>Не удалось завершить обновление</value>
   </data>
   <data name="ErrorSaveFileBusy" xml:space="preserve">
-    <value>Failed to save, file is busy</value>
+    <value>Не удалось сохранить сведения, файл занят</value>
   </data>
   <data name="ErrorSelfUpdate" xml:space="preserve">
-    <value>Failed to update launcher</value>
+    <value>Не удалось выполнить обновление лаунчера</value>
   </data>
   <data name="Extracting" xml:space="preserve">
-    <value>Extracting</value>
+    <value>Распаковка</value>
   </data>
   <data name="ExtractingClient" xml:space="preserve">
-    <value>Extracting client</value>
+    <value>Распаковка клиента</value>
   </data>
   <data name="ExtractingSKSE" xml:space="preserve">
-    <value>Extracting SKSE</value>
+    <value>Распаковка SKSE</value>
   </data>
   <data name="ForgotPassword" xml:space="preserve">
-    <value>Forgot your password?</value>
+    <value>Забыли пароль?</value>
   </data>
   <data name="HaveAGG" xml:space="preserve">
-    <value>Have a good game!</value>
+    <value>Приятной игры!</value>
   </data>
   <data name="Hours" xml:space="preserve">
-    <value>h.</value>
+    <value>ч.</value>
   </data>
   <data name="InitError" xml:space="preserve">
-    <value>An unrecoverable error occurred during application initialization</value>
+    <value>Во время инициализации приложения произошла непоправимая ошибка</value>
   </data>
   <data name="InstallationCompleted" xml:space="preserve">
-    <value>Installation completed</value>
+    <value>Установка завершена</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Осталось</value>
   </data>
   <data name="LogIn" xml:space="preserve">
-    <value>Sign in</value>
+    <value>Войти</value>
   </data>
   <data name="LogOut" xml:space="preserve">
-    <value>Change user</value>
+    <value>Сменить пользователя</value>
   </data>
   <data name="Main" xml:space="preserve">
-    <value>HOME</value>
+    <value>ГЛАВНАЯ</value>
   </data>
   <data name="MaxPlayers" xml:space="preserve">
-    <value>Maximum players</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Microsoft_Bcl_AsyncInterfaces" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Microsoft.Bcl.AsyncInterfaces.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Максимум игроков</value>
   </data>
   <data name="Minutes" xml:space="preserve">
-    <value>min.</value>
+    <value>мин.</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Title</value>
-  </data>
-  <data name="Newtonsoft_Json" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Newtonsoft.Json.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Название</value>
   </data>
   <data name="Of" xml:space="preserve">
-    <value>of</value>
+    <value>из</value>
   </data>
   <data name="Online" xml:space="preserve">
-    <value>Online</value>
+    <value>Онлайн</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Пароль</value>
   </data>
   <data name="PasswordRecovery" xml:space="preserve">
-    <value>Password recovery</value>
+    <value>Восстановление пароля</value>
   </data>
   <data name="PasswordRecoveryDescription" xml:space="preserve">
-    <value>After clicking on the "send" button, you will be sent an email with further instructions.</value>
+    <value>После нажатия на кнопку «отправить», вам на почту будет отправлено письмо с дальнейшей инструкцией.</value>
   </data>
   <data name="PLAY" xml:space="preserve">
-    <value>PLAY</value>
+    <value>ИГРАТЬ</value>
   </data>
   <data name="RefreshServerList" xml:space="preserve">
-    <value>Refresh server list</value>
+    <value>Обновить список серверов</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value>Registration</value>
+    <value>Регистрация</value>
   </data>
   <data name="RegisterDescription" xml:space="preserve">
-    <value>Before you can explore Skyrim, we need you to verify your email address. An email with confirmation instructions will be sent to your address.</value>
+    <value>Прежде чем вы сможете исследовать Skyrim, нам нужно, чтобы вы подтвердили свой адрес электронной почты. Электронное письмо с инструкциями по подтверждению будет отправлено на ваш адрес.</value>
   </data>
   <data name="RegisterNow" xml:space="preserve">
-    <value>Sing up</value>
+    <value>Зарегистрироваться</value>
   </data>
   <data name="RememberMe" xml:space="preserve">
-    <value>Remember me</value>
+    <value>Запомнить меня</value>
   </data>
   <data name="RepeatPassword" xml:space="preserve">
-    <value>Confirm the password</value>
+    <value>Подтвердите пароль</value>
   </data>
   <data name="RETRY" xml:space="preserve">
-    <value>RETRY</value>
+    <value>ПОВТОРИТЬ</value>
   </data>
   <data name="Seconds" xml:space="preserve">
-    <value>sec.</value>
+    <value>сек.</value>
   </data>
   <data name="SelectGameFolder" xml:space="preserve">
-    <value>Select the folder with TES: Skyrim SE</value>
+    <value>Выберите папку с TES: Skyrim SE</value>
   </data>
   <data name="SelectServer" xml:space="preserve">
-    <value>Select server</value>
+    <value>Выберите сервер</value>
   </data>
   <data name="SelfUpdating" xml:space="preserve">
-    <value>Launcher update</value>
+    <value>Обновление лаунчера</value>
   </data>
   <data name="Send" xml:space="preserve">
-    <value>Send</value>
-  </data>
-  <data name="Sentry" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sentry.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Sentry_PlatformAbstractions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sentry.PlatformAbstractions.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Sentry_Protocol" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sentry.Protocol.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SharpCompress" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SharpCompress.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Отправить</value>
   </data>
   <data name="SKSENotFound" xml:space="preserve">
-    <value>SKSE not found, install?</value>
+    <value>SKSE не обнаружен, установить?</value>
   </data>
   <data name="SkyrimNotFound" xml:space="preserve">
-    <value>Skyrim SE not found</value>
+    <value>Skyrim SE не обнаружен</value>
   </data>
   <data name="SSERFix" xml:space="preserve">
-    <value>SSE Russian Fix Console not found, install?</value>
+    <value>SSE Russian Fix Console не обнаружен, установить?</value>
   </data>
   <data name="Successfully" xml:space="preserve">
-    <value>Successfully</value>
+    <value>Успешно</value>
   </data>
   <data name="Support" xml:space="preserve">
-    <value>Support</value>
-  </data>
-  <data name="System_Buffers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\System.Buffers.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Memory" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\System.Memory.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Numerics_Vectors" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\System.Numerics.Vectors.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Runtime_CompilerServices_Unsafe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\System.Runtime.CompilerServices.Unsafe.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Threading_Tasks_Extensions" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\System.Threading.Tasks.Extensions.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>Поддержка</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>SkyMP Launcher</value>
   </data>
   <data name="UPDATE" xml:space="preserve">
-    <value>UPDATE</value>
+    <value>ОБНОВИТЬ</value>
   </data>
   <data name="UrId" xml:space="preserve">
-    <value>Your id</value>
+    <value>Ваш идентификатор</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>Username</value>
+    <value>Логин</value>
   </data>
   <data name="VerifyAccount" xml:space="preserve">
-    <value>You are registered! Verify your account.</value>
+    <value>Вы зарегистрировались! Подтвердите аккаунт.</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>Version</value>
+    <value>Версия</value>
   </data>
   <data name="Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>Внимание</value>
   </data>
   <data name="Welcome" xml:space="preserve">
-    <value>Welcome</value>
+    <value>Добро пожаловать</value>
   </data>
 </root>

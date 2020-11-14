@@ -19,6 +19,7 @@ using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Model;
 using UpdatesClient.UI.Controllers;
 using Yandex.Metrica;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient
 {
@@ -57,15 +58,11 @@ namespace UpdatesClient
                 WindowState = WindowState.Minimized;
             };
             progressBar.Hide();
-
-            Settings.Load();
-
             userButton.LogoutBtn.Click += LogOut_Click;
             authorization.SignIn += Authorization_SignIn;
 
             wind.Loaded += Wind_Loaded;
         }
-
         private ImageBrush GetGridBackGround(FrameworkElement element)
         {
             Point relativePoint = element.TranslatePoint(new Point(0, 0), mainGrid);
@@ -75,7 +72,6 @@ namespace UpdatesClient
             var im = new CroppedBitmap(image, new Int32Rect((int)(relativePoint.X * w), (int)(relativePoint.Y * h), (int)(element.Width * w), (int)(element.Height * h)));
             return new ImageBrush(im);
         }
-
         private async void Authorization_SignIn()
         {
             authorization.Visibility = Visibility.Collapsed;
@@ -92,7 +88,6 @@ namespace UpdatesClient
             }
             CheckClientUpdates();
         }
-
         private async Task GetLogin()
         {
             var username = await Account.GetLogin();
@@ -101,73 +96,80 @@ namespace UpdatesClient
             Settings.UserName = name;
             userButton.Text = name;
         }
-
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
         {
-            string pathToSkyrim = Settings.PathToSkyrim;
-            ResultGameVerification result;
-            do
-            {
-                while (string.IsNullOrEmpty(pathToSkyrim)
-                || !Directory.Exists(pathToSkyrim)
-                || !File.Exists($"{pathToSkyrim}\\SkyrimSE.exe")) pathToSkyrim = GetGameFolder();
-
-                result = GameVerification.VerifyGame(pathToSkyrim, null);
-                if (result.IsGameFound)
-                {
-                    if (Settings.PathToSkyrim != pathToSkyrim)
-                    {
-                        Settings.PathToSkyrim = pathToSkyrim;
-                        Settings.Save();
-                    }
-                    break;
-                }
-
-                MessageBox.Show("Skyrim SE не обнаружен", "Ошибка");
-            } while (true);
-
-            ModVersion.Load();
-            FileWatcher.Init();
-
-            if (!result.IsSKSEFound && MessageBox.Show("SKSE не обнаружен, установить?", "Внимание", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                await InstallSKSE();
-            }
-            if (!result.IsRuFixConsoleFound
-                    && ModVersion.HasRuFixConsole == null
-                    && MessageBox.Show("SSE Rusian Fix Console не обнаружен, установить?", "Внимание", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                await InstallRuFixConsole();
-                ModVersion.Save();
-            }
-            else
-            {
-                ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
-                ModVersion.Save();
-            }
-
-            FillServerList();
-
-            serverListBg.Effect = new OverlayEffect()
-            {
-                BInput = GetGridBackGround(serverList)
-            };
-
             try
             {
-                await GetLogin();
-                Logger.SetUser(Settings.UserId, Settings.UserName);
-                authorization.Visibility = Visibility.Collapsed;
+                string pathToSkyrim = Settings.PathToSkyrim;
+                ResultGameVerification result;
+                do
+                {
+                    while (string.IsNullOrEmpty(pathToSkyrim)
+                    || !Directory.Exists(pathToSkyrim)
+                    || !File.Exists($"{pathToSkyrim}\\SkyrimSE.exe")) pathToSkyrim = GetGameFolder();
+
+                    result = GameVerification.VerifyGame(pathToSkyrim, null);
+                    if (result.IsGameFound)
+                    {
+                        if (Settings.PathToSkyrim != pathToSkyrim)
+                        {
+                            Settings.PathToSkyrim = pathToSkyrim;
+                            Settings.Save();
+                        }
+                        break;
+                    }
+
+                    MessageBox.Show(Res.SkyrimNotFound, Res.Error);
+                } while (true);
+
+                ModVersion.Load();
+                FileWatcher.Init();
+
+                if (!result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    await InstallSKSE();
+                }
+                if (!result.IsRuFixConsoleFound
+                        && ModVersion.HasRuFixConsole == null
+                        && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    await InstallRuFixConsole();
+                    ModVersion.Save();
+                }
+                else
+                {
+                    ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
+                    ModVersion.Save();
+                }
+
+                FillServerList();
+
+                serverListBg.Effect = new OverlayEffect()
+                {
+                    BInput = GetGridBackGround(serverList)
+                };
+
+                try
+                {
+                    await GetLogin();
+                    Logger.SetUser(Settings.UserId, Settings.UserName);
+                    authorization.Visibility = Visibility.Collapsed;
+                }
+                catch
+                {
+                    authorization.Visibility = Visibility.Visible;
+                    return;
+                }
+
+                CheckClientUpdates();
             }
-            catch
+            catch (Exception er)
             {
-                authorization.Visibility = Visibility.Visible;
-                return;
+                Logger.Error("Wind_Loaded", er);
+                MessageBox.Show(Res.InitError, Res.Error);
+                Close();
             }
-
-            CheckClientUpdates();
         }
-
         private async void FillServerList()
         {
             List<ServerModel> list = null;
@@ -187,12 +189,11 @@ namespace UpdatesClient
             serverList.ItemsSource = list;
             serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
         }
-
         private string GetGameFolder()
         {
             using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
             {
-                dialog.Description = "Выберите папку с TES: Skyrim SE";
+                dialog.Description = Res.SelectGameFolder;
                 if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     return dialog.SelectedPath;
@@ -206,11 +207,11 @@ namespace UpdatesClient
             string url = await Net.GetUrlToSKSE();
             string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
 
-            bool ok = await DownloadFile(destinationPath, url, "Загрузка SKSE");
+            bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSKSE);
 
             if (ok)
             {
-                progressBar.Show(true, "Распаковка SKSE");
+                progressBar.Show(true, Res.ExtractingSKSE);
                 try
                 {
                     await Task.Run(() => Unpacker.UnpackArchive(destinationPath,
@@ -225,18 +226,17 @@ namespace UpdatesClient
                 progressBar.Hide();
             }
         }
-
         private async Task InstallRuFixConsole()
         {
             string url = Net.URL_Mod_RuFix;
             string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
 
-            bool ok = await DownloadFile(destinationPath, url, "Загрузка фикса консоли");
+            bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole);
             if (ok)
             {
                 try
                 {
-                    progressBar.Show(true, "Распаковка");
+                    progressBar.Show(true, Res.Extracting);
                     ModVersion.HasRuFixConsole = await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim + "\\Data"));
                     ModVersion.Save();
                     progressBar.Hide();
@@ -250,7 +250,7 @@ namespace UpdatesClient
         }
         private async void CheckClientUpdates()
         {
-            progressBar.Show(true, "Проверка обновлений");
+            progressBar.Show(true, Res.CheckingUpdates);
             try
             {
                 if (await Net.UpdateAvailable()) mainButton.ButtonStatus = MainButtonStatus.Update;
@@ -288,7 +288,12 @@ namespace UpdatesClient
                 return;
             }
 
-            if (serverList.SelectedItem == null) return;
+            if (serverList.SelectedItem == null)
+            {
+                NotifyController.Show(PopupNotify.Error, Res.Warning, Res.SelectServer);
+                return;
+            }
+
             SetServer();
             ServerModel server = (ServerModel)serverList.SelectedItem;
             SetSession(await Account.GetSession(server.Address));
@@ -313,7 +318,6 @@ namespace UpdatesClient
                 Close();
             }
         }
-
         private void SetMods()
         {
             string path = Settings.PathToLocalSkyrim + "Plugins.txt";
@@ -338,7 +342,6 @@ namespace UpdatesClient
                 Logger.Error("Write_Plugin_txt", e);
             }
         }
-
         private void SetServer()
         {
             if (serverList.SelectedItem == null) return;
@@ -350,11 +353,22 @@ namespace UpdatesClient
         }
         private void SetSession(object gameData)
         {
-            SkympClientSettingsModel settingsModel = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
-            settingsModel.GameData = gameData;
-            File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
+            try
+            {
+                SkympClientSettingsModel settingsModel = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+                settingsModel.GameData = gameData;
+                File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
+            }
+            catch (UnauthorizedAccessException)
+            {
+                FileAttributes attr = new FileInfo(Settings.PathToSkympClientSettings).Attributes;
+                Logger.Error("SetSession_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SetSession", e);
+            }
         }
-
         private async Task ReportDmp()
         {
             string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
@@ -396,18 +410,18 @@ namespace UpdatesClient
             (string, string) url = await Net.GetUrlToClient();
             string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
 
-            bool ok = await DownloadFile(destinationPath, url.Item1, "Загрузка клиента", url.Item2);
+            bool ok = await DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, url.Item2);
 
             if (ok)
             {
-                progressBar.Show(true, "Распаковка клиента");
+                progressBar.Show(true, Res.ExtractingClient);
                 try
                 {
                     if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim, "client")))
                     {
                         ModVersion.Version = url.Item2;
                         ModVersion.Save();
-                        NotifyController.Show(PopupNotify.Normal, "Установка завершена", "Приятной игры!");
+                        NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
                     }
                 }
                 catch (Exception e)
@@ -435,7 +449,7 @@ namespace UpdatesClient
         }
         private async Task<bool> DownloadFile(string destinationPath, string url, string status, string vers = null, int c = 0)
         {
-            progressBar.Show(false, $"{status}{(c != 0 ? $" (Попытка №{c})" : "")}", vers);
+            progressBar.Show(false, $"{status}{(c != 0 ? $" ({Res.Attempt} №{c + 1})" : "")}", vers);
 
             Downloader downloader = new Downloader(destinationPath, url);
             downloader.DownloadChanged += Downloader_DownloadChanged;
@@ -447,12 +461,10 @@ namespace UpdatesClient
             if (!ok && c < 3) return await DownloadFile(destinationPath, url, status, vers, ++c);
             return ok;
         }
-
         private void RefreshServerList(object sender, RoutedEventArgs e)
         {
             FillServerList();
         }
-
         private void ServerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (serverList.SelectedIndex != -1)
@@ -460,7 +472,6 @@ namespace UpdatesClient
                 Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;
             }
         }
-
         private void ServerList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DependencyObject source = (DependencyObject)e.OriginalSource;
@@ -473,7 +484,6 @@ namespace UpdatesClient
                 }
             }
         }
-
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
             //TODO: аннулирование токена

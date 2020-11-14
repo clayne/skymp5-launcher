@@ -1,6 +1,7 @@
 ﻿using Sentry;
 using System;
 using System.IO;
+using UpdatesClient.Modules.Configs;
 using Yandex.Metrica;
 
 namespace UpdatesClient.Core
@@ -15,9 +16,8 @@ namespace UpdatesClient.Core
                 options.Release = version.ToString();
             });
 
-            string tmpPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\UpdatesClient\\tmp";
+            string tmpPath = Settings.PathToLocalTmp;
             if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
-
             YandexMetricaFolder.SetCurrent(tmpPath);
             YandexMetrica.Config.CustomAppVersion = version;
         }

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.WebSockets;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
@@ -13,6 +15,7 @@ using UpdatesClient.Modules.SelfUpdater;
 using Yandex.Metrica;
 using Downloader = UpdatesClient.Modules.SelfUpdater.Downloader;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient
 {
@@ -44,6 +47,7 @@ namespace UpdatesClient
         {
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
+            Settings.Load();
             Logger.Init(version);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -140,7 +144,7 @@ namespace UpdatesClient
                 {
                     if (!eUpdate)
                     {
-                        MessageBox.Show($"Не удалось завершить обновление\n{e.Message}", "Ошибка");
+                        MessageBox.Show($"{Res.ErrorEndSelfUpdate}\n{e.Message}", $"{Res.Error}");
                         return false;
                     }
                 }
@@ -172,7 +176,7 @@ namespace UpdatesClient
                 StartLuancher();
 #else
                 SplashWindow = splashWindow;
-                SplashWindow.SetStatus("Проверка обновления лаунчера");
+                SplashWindow.SetStatus($"{Res.CheckSelfUpdate}");
 
                 MasterHash = await Updater.GetLauncherHash();
 
@@ -181,7 +185,7 @@ namespace UpdatesClient
 
                 if (!CheckFile(FullPathToSelfExe))
                 {
-                    SplashWindow.SetStatus("Обновление лаунчера");
+                    SplashWindow.SetStatus($"{Res.SelfUpdating}");
                     SplashWindow.SetProgressMode(false);
                     bool downloaded = Update();
 
@@ -194,22 +198,30 @@ namespace UpdatesClient
                     }
                     else
                     {
-                        SplashWindow.SetStatus("Не удалось выполнить обновление лаунчера");
+                        SplashWindow.SetStatus($"{Res.ErrorSelfUpdate}");
                         Thread.Sleep(1500);
                     }
                 }
                 else
                 {
-                    SplashWindow.SetStatus("Готово");
+                    SplashWindow.SetStatus($"{Res.Done}");
                     SplashWindow.SetProgressMode(false);
                     StartLuancher();
                 }
 #endif
             }
+            catch (WebException e)
+            {
+                MessageBox.Show($"{Res.Details}: {e.Message}", $"{Res.ConnectionError}");
+            }
+            catch (WebSocketException e)
+            {
+                MessageBox.Show($"{Res.Details}: {e.Message}", $"{Res.ConnectionError}");
+            }
             catch (Exception e)
             {
                 Logger.Error($"CriticalError_{Modules.SelfUpdater.Security.UID}", e);
-                MessageBox.Show($"Сведения: {e.Message}\nВаш идентификатор: {Modules.SelfUpdater.Security.UID}", "Критическая ошибка");
+                MessageBox.Show($"{Res.Details}: {e.Message}\n{Res.UrId}: {Modules.SelfUpdater.Security.UID}", $"{Res.CriticalError}");
             }
         }
         private void StartLuancher()

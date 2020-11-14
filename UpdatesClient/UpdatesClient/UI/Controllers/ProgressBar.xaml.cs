@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Controls;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Controllers
 {
@@ -11,7 +12,7 @@ namespace UpdatesClient.UI.Controllers
     public partial class ProgressBar : UserControl
     {
         private readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
-        private readonly string[] TimeSuffixes = { "сек.", "мин.", "ч." };
+        private readonly string[] TimeSuffixes = { Res.Seconds, Res.Minutes, Res.Hours };
 
         public double Value { get => progressBar.Value; set => progressBar.Value = value; }
         public bool IsIndeterminate { get => progressBar.IsIndeterminate; set => progressBar.IsIndeterminate = value; }
@@ -61,8 +62,8 @@ namespace UpdatesClient.UI.Controllers
             Speed = 0;
             NeedTime = 0;
 
-            progressText.Text = $"{SizeSuffix(Downloaded, 0)} из {SizeSuffix(Size, 0)} @ {SizeSuffix(Speed, 0)}/s";
-            timeText.Text = $"{NeedTime:0} сек";
+            progressText.Text = $"{SizeSuffix(Downloaded, 0)} {Res.Of} {SizeSuffix(Size, 0)} @ {SizeSuffix(Speed, 0)}/s";
+            timeText.Text = $"{NeedTime:0} {Res.Seconds}";
         }
         public void Start()
         {
@@ -90,7 +91,7 @@ namespace UpdatesClient.UI.Controllers
                     NeedTime = (long)movingAverageTime.Average; //Sec
                 }
 
-                progressText.Text = $"{SizeSuffix(Downloaded, 0)} из {SizeSuffix(Size, 0)} @ {SizeSuffix(Speed, 0)}/s";
+                progressText.Text = $"{SizeSuffix(Downloaded, 0)} {Res.Of} {SizeSuffix(Size, 0)} @ {SizeSuffix(Speed, 0)}/s";
                 timeText.Text = $"{TimeSuffix(NeedTime, 0)}";
             }
         }
@@ -104,8 +105,8 @@ namespace UpdatesClient.UI.Controllers
             Speed = 0;
             NeedTime = 0;
 
-            progressText.Text = $"0 KB из 0 KB @ 0 KB/s";
-            timeText.Text = $"0 сек";
+            progressText.Text = $"0 KB {Res.Of} 0 KB @ 0 KB/s";
+            timeText.Text = $"0 {Res.Seconds}";
         }
         public void Hide()
         {
@@ -143,7 +144,7 @@ namespace UpdatesClient.UI.Controllers
         {
             if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException("decimalPlaces"); }
             if (value < 0) { return "-" + SizeSuffix(-value); }
-            if (value == 0) { return string.Format("{0:n" + decimalPlaces + "} сек", 0); }
+            if (value == 0) { return string.Format("{0:n" + decimalPlaces + "} " + Res.Seconds, 0); }
 
             // mag is 0 for sec, 1 for min, 2, for hours.
             int mag = (int)Math.Log(value, 60);

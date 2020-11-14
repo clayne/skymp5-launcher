@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.Configs
 {
@@ -47,8 +48,9 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 Logger.Error("Version_Load", e);
+                model = new ModVersionModel();
             }
-            return false;
+            return true;
         }
         internal static void Save()
         {
@@ -61,7 +63,7 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                NotifyController.Show(UI.Controllers.PopupNotify.Error, "Ошибка", "Не удалось сохранить сведения, файл занят");
+                NotifyController.Show(UI.Controllers.PopupNotify.Error, Res.Error, Res.ErrorSaveFileBusy);
                 Logger.Error("Version_Save", e);
             }
         }

@@ -34,6 +34,7 @@ namespace UpdatesClient.Modules.Configs
         #region Launcher
         public static string LastVersion { get => model.LastVersion; private set => model.LastVersion = value; }
         public static int LastServerID { get => model.LastServerID ?? -1; set => model.LastServerID = value; }
+        public static string Locale { get => model.Locale; set => model.Locale = value; }
         #endregion
 
         #region User
@@ -66,8 +67,9 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 Logger.Error("Settings_Load", e);
+                model = new SettingsFileModel();
             }
-            return false;
+            return true;
         }
         internal static void Save()
         {

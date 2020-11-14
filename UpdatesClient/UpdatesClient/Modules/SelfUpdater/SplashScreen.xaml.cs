@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using UpdatesClient.Core;
+using UpdatesClient.Modules.Configs;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -11,6 +14,22 @@ namespace UpdatesClient.Modules.SelfUpdater
     {
         public SplashScreen()
         {
+            try
+            {
+                if (string.IsNullOrEmpty(Settings.Locale))
+                {
+                    SelectLanguage language = new SelectLanguage();
+                    language.ShowDialog();
+                    Settings.Locale = language.Language;
+                    Settings.Save();
+                }
+                Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Settings.Locale);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SelectLanguage", e);
+            }
+            
             InitializeComponent();
 
             this.Loaded += new RoutedEventHandler(Splash_Loaded);

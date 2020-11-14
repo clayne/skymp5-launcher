@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Controllers
 {
@@ -42,19 +43,19 @@ namespace UpdatesClient.UI.Controllers
                         case MainButtonStatus.Play:
                             efC.Color = (Color)ColorConverter.ConvertFromString(Normal);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Normal);
-                            textBlock.Text = "ИГРАТЬ";
+                            textBlock.Text = Res.PLAY;
                             textBlock.FontSize = 30;
                             break;
                         case MainButtonStatus.Update:
                             efC.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Warning);
-                            textBlock.Text = "ОБНОВИТЬ";
+                            textBlock.Text = Res.UPDATE;
                             textBlock.FontSize = 27;
                             break;
                         case MainButtonStatus.Retry:
                             efC.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Warning);
-                            textBlock.Text = "ПОВТОРИТЬ";
+                            textBlock.Text = Res.RETRY;
                             textBlock.FontSize = 26;
                             break;
                     }

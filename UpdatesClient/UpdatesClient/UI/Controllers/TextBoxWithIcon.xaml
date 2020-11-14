@@ -67,7 +67,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBox x:Name="textBox" Margin="5,10,5,10" CaretBrush="White" TextWrapping="Wrap" Style="{StaticResource placeHolder}" Tag="Логин или пароль" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Column="1" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum"/>
+            <TextBox x:Name="textBox" Margin="5,10,5,10" CaretBrush="White" TextWrapping="Wrap" Style="{StaticResource placeHolder}" Tag="Field" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Column="1" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum"/>
             <Image x:Name="icon" Margin="10,10,0,10" HorizontalAlignment="Left" Width="23"/>
         </Grid>
     </Border>

@@ -12,6 +12,7 @@ using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.UI.Controllers;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Pages
 {
@@ -111,7 +112,7 @@ namespace UpdatesClient.UI.Pages
                     }
                     catch
                     {
-                        NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
+                        NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
                     }
 
                 }
@@ -144,7 +145,7 @@ namespace UpdatesClient.UI.Pages
                     Password = passReg.Password
                 };
                 ResRegisterModel ds = await Account.Register(model);
-                NotifyController.Show(PopupNotify.Normal, "Успешно", "Вы зарегистрировались! Подтвердите аккаунт.");
+                NotifyController.Show(PopupNotify.Normal, Res.Successfully, Res.VerifyAccount);
                 Clear();
             }
             catch (WebException we)
@@ -163,7 +164,7 @@ namespace UpdatesClient.UI.Pages
                     }
                     catch
                     {
-                        NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
+                        NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
                     }
                 }
             }
@@ -206,7 +207,7 @@ namespace UpdatesClient.UI.Pages
                     }
                     catch
                     {
-                        NotifyController.Show(PopupNotify.Error, "Ошибка", raw, 5000);
+                        NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
                     }
                 }
             }

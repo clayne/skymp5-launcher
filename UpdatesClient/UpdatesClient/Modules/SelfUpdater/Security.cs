@@ -10,6 +10,7 @@ namespace UpdatesClient.Modules.SelfUpdater
         internal static bool CheckEnvironment()
         {
             UID = Hashing.GetMD5FromText(SystemFunctions.GetHWID());
+            AesEncoder.Init();
 #if (DEBUG)
 
 #elif (BETA)
@@ -17,7 +18,7 @@ namespace UpdatesClient.Modules.SelfUpdater
 #else
             if (!CheckInjection()) return false;
 #endif
-            return AesEncoder.Init();
+            return true;
         }
 
         private static bool CheckInjection()
