@@ -334,7 +334,7 @@
 
         <Button x:Name="backButton" Content="{x:Static res:Resources.Back}" HorizontalAlignment="Left" Style="{DynamicResource ButtonStyleBack}" Margin="12,15,0,0" VerticalAlignment="Top" Foreground="White" Background="{x:Null}" BorderBrush="#FF707070" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Width="93" Click="BackButton_Click"/>
 
-        <Grid x:Name="authPanel" Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <Grid x:Name="authPanel" Visibility="Visible" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -352,9 +352,9 @@
             <CheckBox x:Name="rmAuth" Content="{x:Static res:Resources.RememberMe}" Height="20" HorizontalAlignment="Left" Margin="58,149,0,0" Grid.Row="1" VerticalAlignment="Top" FontSize="20" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" BorderBrush="White" Background="#FF212026" Padding="4,-1,0,0"/>
             <Button Content="{x:Static res:Resources.LogIn}" BorderThickness="2" Margin="51,189,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleCornered}" Background="White" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Click="Signin_Click"/>
             <Button Content="{x:Static res:Resources.Register}" BorderThickness="2" Margin="51,258,51,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="48" HorizontalAlignment="Center" Width="354" Style="{DynamicResource ButtonStyleTransparent}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="26" Foreground="White" Click="Open_RegisterPanel"/>
-            <Button Content="{x:Static res:Resources.ForgotPassword}" BorderThickness="2" Margin="153,323,153,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="30" HorizontalAlignment="Center" Width="150" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Foreground="White" Click="Open_ForgotPassPanel"/>
+            <Button Content="{x:Static res:Resources.ForgotPassword}" BorderThickness="2" Margin="153,323,153,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="30" HorizontalAlignment="Center" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Foreground="White" Click="Open_ForgotPassPanel" Width="131.4"/>
         </Grid>
-        <Grid x:Name="registerPanel" Visibility="Visible" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <Grid x:Name="registerPanel" Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
