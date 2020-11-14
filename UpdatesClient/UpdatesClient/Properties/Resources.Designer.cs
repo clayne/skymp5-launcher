@@ -675,6 +675,16 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] UpdatesClient_ru_RU_resources {
+            get {
+                object obj = ResourceManager.GetObject("UpdatesClient_ru-RU_resources", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Your id.
         /// </summary>
         public static string UrId {

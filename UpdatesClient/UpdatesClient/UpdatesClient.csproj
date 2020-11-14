@@ -47,7 +47,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;UNMANAGED</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNMANAGED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -456,7 +456,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.ru-RU.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.ru-RU.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -505,7 +505,6 @@
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Exit.png" />
@@ -555,6 +554,7 @@
     <Content Include="Assets\Effects\ToneMapping.fx" />
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
+    <None Include="Resources\UpdatesClient.resources.dll" />
     <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
     <Resource Include="Assets\Images\Flags\RU.png" />
     <Resource Include="Assets\Images\Flags\US.png" />

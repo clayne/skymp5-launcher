@@ -51,6 +51,24 @@ namespace UpdatesClient
             Logger.Init(version);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            try
+            {
+                if (Settings.Locale == null || Settings.Locale == "ru-RU")
+                {
+                    string pathRu = $"{Path.GetDirectoryName(FullPathToSelfExe)}\\ru-RU";
+                    if (!Directory.Exists(pathRu)) Directory.CreateDirectory(pathRu);
+                    if (!File.Exists("UpdatesClient.resources.dll"))
+                    {
+                        byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_ru-RU_resources");
+                        File.WriteAllBytes($"{pathRu}\\UpdatesClient.resources.dll", bytes);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("UnpackResx", e);
+            }
+            
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
@@ -101,13 +119,20 @@ namespace UpdatesClient
         {
             string[] par = args.Name.Replace(" ", "").Split(',');
             string newName = par[0].Replace(".", "_");
-            if (newName.EndsWith("_resources")) return null;
-            try
+            //string culture = par[2].Split('=')[1];
+            if (newName.EndsWith("_resources"))
             {
-                byte[] bytes = (byte[])UpdatesClient.Properties.Resources.ResourceManager.GetObject(newName);
-                return Assembly.Load(bytes);
+                return null;
             }
-            catch { }
+            else
+            {
+                try
+                {
+                    byte[] bytes = (byte[])Res.ResourceManager.GetObject(newName);
+                    return Assembly.Load(bytes);
+                }
+                catch { }
+            }
             return null;
         }
 
@@ -243,7 +268,7 @@ namespace UpdatesClient
         }
         private bool Update()
         {
-            string pathToUpdateFile = $"{Path.GetDirectoryName(FullPathToSelfExe + "\\")}\\{NameExeFile}.update.exe";
+            string pathToUpdateFile = $"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe";
             if (File.Exists(pathToUpdateFile)) File.Delete(pathToUpdateFile);
 
             Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, pathToUpdateFile)

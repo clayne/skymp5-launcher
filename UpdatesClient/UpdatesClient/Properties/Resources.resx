@@ -319,6 +319,9 @@
   <data name="UPDATE" xml:space="preserve">
     <value>UPDATE</value>
   </data>
+  <data name="UpdatesClient_ru-RU_resources" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UpdatesClient.resources.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="UrId" xml:space="preserve">
     <value>Your id</value>
   </data>
