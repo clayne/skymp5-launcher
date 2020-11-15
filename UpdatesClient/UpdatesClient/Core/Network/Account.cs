@@ -16,13 +16,13 @@ namespace UpdatesClient.Core.Network
 
         public static async Task<ResRegisterModel> Register(ReqRegisterModel model)
         {
-            string raw = await Request($"{URL_Api}users", "POST", false, JsonConvert.SerializeObject(model));
+            string raw = await Net.Request($"{URL_Api}users", "POST", false, JsonConvert.SerializeObject(model));
             return JsonConvert.DeserializeObject<ResRegisterModel>(raw);
         }
 
         public static async Task<ResLoginModel> Login(ReqLoginModel model)
         {
-            string raw = await Request($"{URL_Api}users/login", "POST", false, JsonConvert.SerializeObject(model));
+            string raw = await Net.Request($"{URL_Api}users/login", "POST", false, JsonConvert.SerializeObject(model));
             return JsonConvert.DeserializeObject<ResLoginModel>(raw);
         }
 
@@ -39,12 +39,12 @@ namespace UpdatesClient.Core.Network
 
         public static Task VerifyToken()
         {
-            return Request($"{URL_Api}secure", "GET", true, null);
+            return Net.Request($"{URL_Api}secure", "GET", true, null);
         }
 
         public static Task<string> GetLogin()
         {
-            return Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
+            return Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
         }
 
         public static async Task<object> GetSession(string address)
