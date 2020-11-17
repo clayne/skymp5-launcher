@@ -26,6 +26,7 @@ namespace UpdatesClient.Core
         {
             SentrySdk.ConfigureScope(scope =>
             {
+                scope.SetTag("Locale", Settings.Locale);
                 scope.User = new Sentry.Protocol.User()
                 {
                     Id = id.ToString(),
@@ -39,7 +40,7 @@ namespace UpdatesClient.Core
             SentryEvent sentryEvent = new SentryEvent(exception)
             {
                 Message = message,
-                Level = Sentry.Protocol.SentryLevel.Error
+                Level = Sentry.Protocol.SentryLevel.Error,
             };
 
             SentrySdk.CaptureEvent(sentryEvent);

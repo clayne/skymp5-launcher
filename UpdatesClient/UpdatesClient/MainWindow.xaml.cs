@@ -4,6 +4,8 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +35,8 @@ namespace UpdatesClient
         //Base color: #FF04D9FF
         //War color: #FFFF7604
         //Er color: #FFFF0404
+
+        private bool blockMainBtn = false;
 
         public MainWindow()
         {
@@ -74,17 +78,24 @@ namespace UpdatesClient
         }
         private async void Authorization_SignIn()
         {
-            authorization.Visibility = Visibility.Collapsed;
             try
             {
                 await GetLogin();
-                Logger.SetUser(Settings.UserId, Settings.UserName);
                 authorization.Visibility = Visibility.Collapsed;
             }
             catch
             {
                 authorization.Visibility = Visibility.Visible;
                 return;
+            }
+
+            try
+            {
+                Logger.SetUser(Settings.UserId, Settings.UserName);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SetUser", e);
             }
             CheckClientUpdates();
         }
@@ -149,19 +160,7 @@ namespace UpdatesClient
                     BInput = GetGridBackGround(serverList)
                 };
 
-                try
-                {
-                    await GetLogin();
-                    Logger.SetUser(Settings.UserId, Settings.UserName);
-                    authorization.Visibility = Visibility.Collapsed;
-                }
-                catch
-                {
-                    authorization.Visibility = Visibility.Visible;
-                    return;
-                }
-
-                CheckClientUpdates();
+                Authorization_SignIn();
             }
             catch (Exception er)
             {
@@ -191,14 +190,21 @@ namespace UpdatesClient
         }
         private string GetGameFolder()
         {
-            using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
+            try
             {
-                dialog.Description = Res.SelectGameFolder;
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
                 {
-                    return dialog.SelectedPath;
+                    dialog.Description = Res.SelectGameFolder;
+                    if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        return dialog.SelectedPath;
+                    }
+                    else { Application.Current.Shutdown(); Close(); }
                 }
-                else { Application.Current.Shutdown(); Close(); }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("GetGameFolder", e);
             }
             return null;
         }
@@ -263,10 +269,12 @@ namespace UpdatesClient
                 mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
             progressBar.Hide();
+            blockMainBtn = false;
         }
         private void MainBtn_Click(object sender, EventArgs e)
         {
-            if (progressBar.Started) return;
+            if (blockMainBtn) return;
+            blockMainBtn = true;
             switch (mainButton.ButtonStatus)
             {
                 case MainButtonStatus.Play:
@@ -285,12 +293,14 @@ namespace UpdatesClient
             if (!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
                 Wind_Loaded(null, null);
+                blockMainBtn = false;
                 return;
             }
 
             if (serverList.SelectedItem == null)
             {
                 NotifyController.Show(PopupNotify.Error, Res.Warning, Res.SelectServer);
+                blockMainBtn = false;
                 return;
             }
 
@@ -317,6 +327,7 @@ namespace UpdatesClient
                 YandexMetrica.ReportEvent("HasNotAccess");
                 Close();
             }
+            blockMainBtn = false;
         }
         private void SetMods()
         {
@@ -345,7 +356,29 @@ namespace UpdatesClient
         private void SetServer()
         {
             if (serverList.SelectedItem == null) return;
-            SkympClientSettingsModel oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+            if (!Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings))) 
+                Directory.CreateDirectory(Path.GetDirectoryName(Settings.PathToSkympClientSettings));
+            SkympClientSettingsModel oldServer;
+            
+            if (File.Exists(Settings.PathToSkympClientSettings))
+            {
+                try
+                {
+                    oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+                }
+                catch (JsonReaderException)
+                {
+                    NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                    return;
+                }
+            }
+            else
+            {
+                oldServer = new SkympClientSettingsModel();
+                oldServer.IsEnableConsole = false;
+                oldServer.IsShowMe = false;
+            }
+
             ServerModel newServer = (ServerModel)serverList.SelectedItem;
             if (newServer.IsSameServer(oldServer)) return;
             File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
@@ -402,7 +435,8 @@ namespace UpdatesClient
             }
             catch (Exception e)
             {
-                Logger.Error("ReportDmp", e);
+                if (!(e is WebException) && (e is SocketException))
+                    Logger.Error("ReportDmp", e);
             }
         }
         private async void UpdateClient()
@@ -410,6 +444,15 @@ namespace UpdatesClient
             (string, string) url = await Net.GetUrlToClient();
             string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
 
+            try
+            {
+                if (File.Exists(destinationPath)) File.Delete(destinationPath);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("DelClientZip", e);
+            }
+            
             bool ok = await DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, url.Item2);
 
             if (ok)
@@ -429,11 +472,13 @@ namespace UpdatesClient
                     Logger.Error("Extract", e);
                     NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;
+                    blockMainBtn = false;
                     return;
                 }
                 progressBar.Hide();
             }
             CheckClientUpdates();
+            blockMainBtn = false;
         }
         private void Downloader_DownloadChanged(long downloaded, long size, double prDown)
         {

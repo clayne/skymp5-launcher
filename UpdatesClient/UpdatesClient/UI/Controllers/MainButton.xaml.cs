@@ -94,7 +94,6 @@ namespace UpdatesClient.UI.Controllers
         private void MainButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Click?.Invoke(sender, e);
-
         }
 
         private void MainButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

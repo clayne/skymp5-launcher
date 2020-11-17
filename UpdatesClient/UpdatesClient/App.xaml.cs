@@ -16,6 +16,7 @@ using Yandex.Metrica;
 using Downloader = UpdatesClient.Modules.SelfUpdater.Downloader;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 using Res = UpdatesClient.Properties.Resources;
+using System.Globalization;
 
 namespace UpdatesClient
 {
@@ -51,24 +52,8 @@ namespace UpdatesClient
             Logger.Init(version);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            try
-            {
-                if (Settings.Locale == null || Settings.Locale == "ru-RU")
-                {
-                    string pathRu = $"{Path.GetDirectoryName(FullPathToSelfExe)}\\ru-RU";
-                    if (!Directory.Exists(pathRu)) Directory.CreateDirectory(pathRu);
-                    if (!File.Exists("UpdatesClient.resources.dll"))
-                    {
-                        byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_ru-RU_resources");
-                        File.WriteAllBytes($"{pathRu}\\UpdatesClient.resources.dll", bytes);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("UnpackResx", e);
-            }
-            
+            UnpackResx();
+
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
 
@@ -90,13 +75,35 @@ namespace UpdatesClient
             }
         }
 
+        private void UnpackResx()
+        {
+            string[] locales = { "ru-RU" };
+            foreach(string l in locales)
+            {
+                try
+                {
+                    string path = $"{Settings.PathToLocal}\\{l}";
+                    if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+                    if (!File.Exists($"{path}\\UpdatesClient.resources.dll"))
+                    {
+                        byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
+                        File.WriteAllBytes($"{path}\\UpdatesClient.resources.dll", bytes);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"UnpackResx_{l}", e);
+                }
+            }
+        }
+
         public bool SignalExternalCommandLineArgs(IList<string> args)
         {
             try
             {
-                if (Current.MainWindow.WindowState == WindowState.Minimized) Current.MainWindow.WindowState = WindowState.Normal;
-                Current.MainWindow.Show();
-                Current.MainWindow.Activate();
+                if (Current?.MainWindow?.WindowState == WindowState.Minimized) Current.MainWindow.WindowState = WindowState.Normal;
+                Current?.MainWindow?.Show();
+                Current?.MainWindow?.Activate();
             }
             catch (Exception e)
             {
@@ -115,14 +122,24 @@ namespace UpdatesClient
         {
             Logger.FatalError("UnhandledException", (Exception)e?.ExceptionObject);
         }
+
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
+            AssemblyName MissingAssembly = new AssemblyName(args.Name);
+            CultureInfo ci = MissingAssembly.CultureInfo;
+
             string[] par = args.Name.Replace(" ", "").Split(',');
             string newName = par[0].Replace(".", "_");
-            //string culture = par[2].Split('=')[1];
             if (newName.EndsWith("_resources"))
             {
-                return null;
+                if (Directory.Exists($"{Settings.PathToLocal}{ci.Name}\\") && File.Exists($"{Settings.PathToLocal}{ci.Name}\\UpdatesClient.resources.dll"))
+                {
+                    return Assembly.LoadFile($"{Settings.PathToLocal}{ci.Name}\\UpdatesClient.resources.dll");
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
@@ -220,6 +237,7 @@ namespace UpdatesClient
                         p.StartInfo.FileName = $"{NameExeFile}.update.exe";
                         p.StartInfo.Arguments = $"{BeginUpdate} {NameExeFile}";
                         p.Start();
+                        ExitApp();
                     }
                     else
                     {

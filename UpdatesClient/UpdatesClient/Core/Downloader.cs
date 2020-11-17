@@ -54,7 +54,7 @@ namespace UpdatesClient.Core
             {
                 Downloading = true;
 
-                if (Directory.Exists(Path.GetDirectoryName(sDestinationPath))) Directory.CreateDirectory(Path.GetDirectoryName(sDestinationPath));
+                if (!Directory.Exists(Path.GetDirectoryName(sDestinationPath))) Directory.CreateDirectory(Path.GetDirectoryName(sDestinationPath));
 
                 DownloadFile();
             }

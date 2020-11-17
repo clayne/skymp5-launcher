@@ -159,6 +159,9 @@
   <data name="ErrorEndSelfUpdate" xml:space="preserve">
     <value>Не удалось завершить обновление</value>
   </data>
+  <data name="ErrorReadSkyMPSettings" xml:space="preserve">
+    <value>Не удалось прочитать файл настроек клиента</value>
+  </data>
   <data name="ErrorSaveFileBusy" xml:space="preserve">
     <value>Не удалось сохранить сведения, файл занят</value>
   </data>

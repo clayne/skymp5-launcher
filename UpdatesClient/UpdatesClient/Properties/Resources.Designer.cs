@@ -187,6 +187,15 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Failed to read client settings file.
+        /// </summary>
+        public static string ErrorReadSkyMPSettings {
+            get {
+                return ResourceManager.GetString("ErrorReadSkyMPSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Failed to save, file is busy.
         /// </summary>
         public static string ErrorSaveFileBusy {
