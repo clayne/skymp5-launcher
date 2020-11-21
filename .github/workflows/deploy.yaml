@@ -5,6 +5,8 @@ on:
 jobs:
   build-win:
     runs-on: windows-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     steps:
     - uses: actions/checkout@master
     - name: Setup MSBuild.exe
