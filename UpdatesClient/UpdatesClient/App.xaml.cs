@@ -251,7 +251,7 @@ namespace UpdatesClient
                         p.StartInfo.FileName = $"{NameExeFile}.update.exe";
                         p.StartInfo.Arguments = $"{BeginUpdate} {NameExeFile}";
                         p.Start();
-                        ExitApp();
+                        //ExitApp();
                     }
                     else
                     {
