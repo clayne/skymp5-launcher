@@ -88,15 +88,6 @@ namespace UpdatesClient
                 authorization.Visibility = Visibility.Visible;
                 return;
             }
-
-            try
-            {
-                Logger.SetUser(Settings.UserId, Settings.UserName);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("SetUser", e);
-            }
             CheckClientUpdates();
         }
         private async Task GetLogin()
@@ -115,9 +106,17 @@ namespace UpdatesClient
                 ResultGameVerification result;
                 do
                 {
-                    while (string.IsNullOrEmpty(pathToSkyrim)
-                    || !Directory.Exists(pathToSkyrim)
-                    || !File.Exists($"{pathToSkyrim}\\SkyrimSE.exe")) pathToSkyrim = GetGameFolder();
+                    while (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim))
+                    {
+                        string path = GameVerification.GetGameFolder();
+                        if (string.IsNullOrEmpty(path))
+                        {
+                            App.AppCurrent.Shutdown();
+                            Close();
+                            return;
+                        }
+                        pathToSkyrim = path;
+                    }
 
                     result = GameVerification.VerifyGame(pathToSkyrim, null);
                     if (result.IsGameFound)
@@ -130,6 +129,7 @@ namespace UpdatesClient
                         break;
                     }
 
+                    pathToSkyrim = null;
                     MessageBox.Show(Res.SkyrimNotFound, Res.Error);
                 } while (true);
 
@@ -155,16 +155,23 @@ namespace UpdatesClient
 
                 FillServerList();
 
-                serverListBg.Effect = new OverlayEffect()
+                try
                 {
-                    BInput = GetGridBackGround(serverList)
-                };
-
+                    serverListBg.Effect = new OverlayEffect()
+                    {
+                        BInput = GetGridBackGround(serverList)
+                    };
+                }
+                catch (Exception oe)
+                {
+                    Logger.Error("Wind_Loaded_OverlayEffect", oe);
+                }
+                
                 Authorization_SignIn();
             }
             catch (Exception er)
             {
-                Logger.Error("Wind_Loaded", er);
+                Logger.FatalError("Wind_Loaded", er);
                 MessageBox.Show(Res.InitError, Res.Error);
                 Close();
             }
@@ -187,26 +194,6 @@ namespace UpdatesClient
             serverList.ItemsSource = null;
             serverList.ItemsSource = list;
             serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
-        }
-        private string GetGameFolder()
-        {
-            try
-            {
-                using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
-                {
-                    dialog.Description = Res.SelectGameFolder;
-                    if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        return dialog.SelectedPath;
-                    }
-                    else { Application.Current.Shutdown(); Close(); }
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("GetGameFolder", e);
-            }
-            return null;
         }
         private async Task InstallSKSE()
         {
@@ -365,6 +352,11 @@ namespace UpdatesClient
                 try
                 {
                     oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+                }
+                catch (JsonSerializationException)
+                {
+                    NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                    return;
                 }
                 catch (JsonReaderException)
                 {

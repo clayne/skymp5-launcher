@@ -16,7 +16,7 @@ namespace Security
                     return mo["ProcessorId"].ToString();
                 }
             }
-            catch (Exception e) { Logger.Error("CheckHWID", e); }
+            catch (Exception e) { /*Logger.Error("CheckHWID", e);*/ }
             return "UnsafeEnvironment";
         }
     }

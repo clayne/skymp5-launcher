@@ -14,6 +14,7 @@ namespace UpdatesClient.Core
             {
                 options.Dsn = new Dsn("https://13d9192e33aa4e86a8f9a55d89d5ffc5:2def384d727d457482cf641f234a2fc8@sentry.skyrez.su/4");
                 options.Release = version.ToString();
+                options.BeforeSend = SentryEvent;
             });
 
             string tmpPath = Settings.PathToLocalTmp;
@@ -22,17 +23,23 @@ namespace UpdatesClient.Core
             YandexMetrica.Config.CustomAppVersion = version;
         }
 
-        public static void SetUser(int id, string userName)
+
+        private static SentryEvent SentryEvent(SentryEvent e)
         {
-            SentrySdk.ConfigureScope(scope =>
+            try
             {
-                scope.SetTag("Locale", Settings.Locale);
-                scope.User = new Sentry.Protocol.User()
+                if (!string.IsNullOrEmpty(Settings.UserName))
                 {
-                    Id = id.ToString(),
-                    Username = userName
-                };
-            });
+                    e.User = new Sentry.Protocol.User()
+                    {
+                        Id = Settings.UserId.ToString(),
+                        Username = Settings.UserName
+                    };
+                }
+                e.SetTag("Locale", Settings.Locale);
+            } catch { }
+            
+            return e;
         }
 
         public static void Error(string message, Exception exception)
@@ -42,7 +49,7 @@ namespace UpdatesClient.Core
                 Message = message,
                 Level = Sentry.Protocol.SentryLevel.Error,
             };
-
+            
             SentrySdk.CaptureEvent(sentryEvent);
         }
         public static void FatalError(string message, Exception exception)
@@ -52,7 +59,6 @@ namespace UpdatesClient.Core
                 Message = message,
                 Level = Sentry.Protocol.SentryLevel.Fatal
             };
-
             SentrySdk.CaptureEvent(sentryEvent);
         }
 

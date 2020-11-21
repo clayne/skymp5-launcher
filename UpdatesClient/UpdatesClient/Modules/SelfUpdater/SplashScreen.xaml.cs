@@ -20,10 +20,18 @@ namespace UpdatesClient.Modules.SelfUpdater
                 {
                     SelectLanguage language = new SelectLanguage();
                     language.ShowDialog();
+                    if (string.IsNullOrEmpty(language.Language))
+                    {
+                        App.AppCurrent.Shutdown();
+                        return;
+                    }
                     Settings.Locale = language.Language;
                     Settings.Save();
                 }
-                Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Settings.Locale);
+                try
+                {
+                    Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Settings.Locale);
+                } catch (Exception e) { Logger.Error("SetLanguage", e); }
             }
             catch (Exception e)
             {

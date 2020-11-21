@@ -41,11 +41,16 @@ namespace UpdatesClient
         private readonly string NameExeFile = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
 
         public static new App Current { get { return Application.Current as App; } }
+        public static Application AppCurrent { get; private set; }
 
         private readonly bool mainInstance = false;
 
         public App()
         {
+            try
+            {
+                AppCurrent = Current;
+            } catch { }
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             Settings.Load();
@@ -89,6 +94,15 @@ namespace UpdatesClient
                         byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
                         File.WriteAllBytes($"{path}\\UpdatesClient.resources.dll", bytes);
                     }
+                }
+                catch (UnauthorizedAccessException uae)
+                {
+                    FileAttributes attributes = FileAttributes.Normal;
+                    try
+                    {
+                        attributes = File.GetAttributes($"{Settings.PathToLocal}\\{l}\\UpdatesClient.resources.dll");
+                    } catch { }
+                    Logger.Error($"UnpackResx_{l}_{attributes}", uae);
                 }
                 catch (Exception e)
                 {
@@ -260,6 +274,18 @@ namespace UpdatesClient
             catch (WebSocketException e)
             {
                 MessageBox.Show($"{Res.Details}: {e.Message}", $"{Res.ConnectionError}");
+            }
+            catch (UnauthorizedAccessException uae)
+            {
+                FileAttributes attributes = FileAttributes.Normal;
+                try
+                {
+                    string pathToUpdateFile = $"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe";
+                    attributes = File.GetAttributes(pathToUpdateFile);
+                }
+                catch { }
+                Logger.Error($"CriticalError_{Modules.SelfUpdater.Security.UID}_{attributes}", uae);
+                MessageBox.Show($"{Res.Details}: {uae.Message}\n{Res.UrId}: {Modules.SelfUpdater.Security.UID}", $"{Res.CriticalError}");
             }
             catch (Exception e)
             {

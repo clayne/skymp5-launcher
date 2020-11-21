@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace UpdatesClient.Core
@@ -58,7 +59,12 @@ namespace UpdatesClient.Core
 
                 DownloadFile();
             }
-            catch (WebException se)
+            catch (WebException we)
+            {
+                sDestinationPath = null;
+                NotifyController.Show(we);
+            }
+            catch (SocketException se)
             {
                 sDestinationPath = null;
                 NotifyController.Show(se);

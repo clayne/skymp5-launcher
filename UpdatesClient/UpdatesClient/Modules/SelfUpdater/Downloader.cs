@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
+using System.Windows;
 using UpdatesClient.Core;
 
 namespace UpdatesClient.Modules.SelfUpdater
@@ -34,6 +36,14 @@ namespace UpdatesClient.Modules.SelfUpdater
             {
                 DownloadFile();
                 return true;
+            }
+            catch (WebException)
+            {
+
+            }
+            catch (SocketException)
+            {
+
             }
             catch (Exception e) 
             { 

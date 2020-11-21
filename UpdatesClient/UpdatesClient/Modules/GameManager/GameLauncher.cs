@@ -58,7 +58,8 @@ namespace UpdatesClient.Modules.GameManager
             if (!GameProcess.HasExited) await Task.Run(() => GameProcess.WaitForExit());
 
             YandexMetrica.ReportEvent("ExitedGame");
-            Runing = false;
+            
+            await Task.Delay(500);
 
             Process[] SkyrimPlatformCEFs = Process.GetProcessesByName("SkyrimPlatformCEF");
             for (int i = 0; i < SkyrimPlatformCEFs.Length; i++)
@@ -67,12 +68,15 @@ namespace UpdatesClient.Modules.GameManager
                 {
                     if (!SkyrimPlatformCEFs[i].HasExited) SkyrimPlatformCEFs[i].Kill();
                     SkyrimPlatformCEFs[i].Dispose();
+                    await Task.Delay(200);
                 }
                 catch (Exception e)
                 {
                     Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
                 }
             }
+
+            Runing = false;
 
             return GameProcess.ExitCode != 0;
         }
