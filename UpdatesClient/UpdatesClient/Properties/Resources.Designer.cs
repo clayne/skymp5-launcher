@@ -450,7 +450,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Sing up.
+        ///   Ищет локализованную строку, похожую на Sign up.
         /// </summary>
         public static string RegisterNow {
             get {
