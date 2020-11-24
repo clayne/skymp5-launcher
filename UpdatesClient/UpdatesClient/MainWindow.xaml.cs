@@ -100,10 +100,10 @@ namespace UpdatesClient
         }
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
         {
-            string pathToSkyrim = Settings.PathToSkyrim;
-            ResultGameVerification result = default;
             try
             {
+                string pathToSkyrim = Settings.PathToSkyrim;
+                ResultGameVerification result;
                 do
                 {
                     while (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim))
@@ -132,26 +132,17 @@ namespace UpdatesClient
                     pathToSkyrim = null;
                     MessageBox.Show(Res.SkyrimNotFound, Res.Error);
                 } while (true);
-            }
-            catch (Exception er)
-            {
-                Logger.FatalError("Wind_Loaded_1", er);
-                MessageBox.Show(Res.InitError, Res.Error);
-                Close();
-            }
 
-            ModVersion.Load();
-            FileWatcher.Init();
+                ModVersion.Load();
+                FileWatcher.Init();
 
-            try
-            {
                 if (!result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     await InstallSKSE();
                 }
                 if (!result.IsRuFixConsoleFound
-                    && ModVersion.HasRuFixConsole == null
-                    && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        && ModVersion.HasRuFixConsole == null
+                        && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     await InstallRuFixConsole();
                     ModVersion.Save();
@@ -161,114 +152,93 @@ namespace UpdatesClient
                     ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
                     ModVersion.Save();
                 }
+
+                FillServerList();
+
+                try
+                {
+                    serverListBg.Effect = new OverlayEffect()
+                    {
+                        BInput = GetGridBackGround(serverList)
+                    };
+                }
+                catch (Exception oe)
+                {
+                    Logger.Error("Wind_Loaded_OverlayEffect", oe);
+                }
+                
+                Authorization_SignIn();
             }
             catch (Exception er)
             {
-                Logger.FatalError("Wind_Loaded_2", er);
-            }
-
-            SetBackgroundServerList();
-            FillServerList();
-            Authorization_SignIn();
-        }
-        private void SetBackgroundServerList()
-        {
-            try
-            {
-                serverListBg.Effect = new OverlayEffect()
-                {
-                    BInput = GetGridBackGround(serverList)
-                };
-            }
-            catch (Exception oe)
-            {
-                Logger.Error("SetBackgroundServerList_OverlayEffect", oe);
+                Logger.FatalError("Wind_Loaded", er);
+                MessageBox.Show(Res.InitError, Res.Error);
+                Close();
             }
         }
         private async void FillServerList()
         {
+            List<ServerModel> list = null;
+            string servers;
             try
             {
-                List<ServerModel> list = null;
-                string servers;
-                try
-                {
-                    servers = await ServerModel.GetServers();
-                    ServerModel.Save(servers);
-                }
-                catch
-                {
-                    servers = ServerModel.Load();
-                }
-                list = ServerModel.ParseServersToList(servers);
-                list.RemoveAll(x => x.IsEmpty());
-                serverList.ItemsSource = null;
-                serverList.ItemsSource = list;
-                serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
+                servers = await ServerModel.GetServers();
+                ServerModel.Save(servers);
             }
-            catch (Exception e)
+            catch
             {
-                Logger.Error("FillServerList", e);
+                servers = ServerModel.Load();
             }
+            list = ServerModel.ParseServersToList(servers);
+            list.RemoveAll(x => x.IsEmpty());
+            serverList.ItemsSource = null;
+            serverList.ItemsSource = list;
+            serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
         }
         private async Task InstallSKSE()
         {
-            try
+            string url = await Net.GetUrlToSKSE();
+            string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
+
+            bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSKSE);
+
+            if (ok)
             {
-                string url = await Net.GetUrlToSKSE();
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSKSE);
-
-                if (ok)
+                progressBar.Show(true, Res.ExtractingSKSE);
+                try
                 {
-                    progressBar.Show(true, Res.ExtractingSKSE);
-                    try
-                    {
-                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath,
-                            Settings.PathToSkyrim, Path.GetFileNameWithoutExtension(destinationPath)));
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("ExtractSKSE", e);
-                        NotifyController.Show(e);
-                        mainButton.ButtonStatus = MainButtonStatus.Retry;
-                    }
-                    progressBar.Hide();
+                    await Task.Run(() => Unpacker.UnpackArchive(destinationPath,
+                        Settings.PathToSkyrim, Path.GetFileNameWithoutExtension(destinationPath)));
                 }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("InstallSKSE", e);
+                catch (Exception e)
+                {
+                    Logger.Error("ExtractSKSE", e);
+                    NotifyController.Show(e);
+                    mainButton.ButtonStatus = MainButtonStatus.Retry;
+                }
+                progressBar.Hide();
             }
         }
         private async Task InstallRuFixConsole()
         {
-            try
-            {
-                string url = Net.URL_Mod_RuFix;
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
+            string url = Net.URL_Mod_RuFix;
+            string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
 
-                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole);
-                if (ok)
-                {
-                    try
-                    {
-                        progressBar.Show(true, Res.Extracting);
-                        ModVersion.HasRuFixConsole = await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim + "\\Data"));
-                        ModVersion.Save();
-                        progressBar.Hide();
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("ExtractRuFix", e);
-                        NotifyController.Show(e);
-                    }
-                }
-            }
-            catch (Exception e)
+            bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole);
+            if (ok)
             {
-                Logger.Error("InstallRuFixConsole", e);
+                try
+                {
+                    progressBar.Show(true, Res.Extracting);
+                    ModVersion.HasRuFixConsole = await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim + "\\Data"));
+                    ModVersion.Save();
+                    progressBar.Hide();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("ExtractRuFix", e);
+                    NotifyController.Show(e);
+                }
             }
         }
         private async void CheckClientUpdates()
