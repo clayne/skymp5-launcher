@@ -173,6 +173,7 @@ namespace UpdatesClient
             if (args.Length > 1)
             {
                 bool eUpdate = false;
+                int trying = 0;
                 try
                 {
                     switch (args[1])
@@ -184,13 +185,31 @@ namespace UpdatesClient
                             break;
                         case BeginUpdate:
                             Thread.Sleep(250);
-                            File.Copy(FullPathToSelfExe, $"{args[2]}.exe", true);
-                            File.SetAttributes($"{args[2]}.exe", FileAttributes.Normal);
+                            try
+                            {
+                                File.Copy(FullPathToSelfExe, $"{args[2]}.exe", true);
+                                File.SetAttributes($"{args[2]}.exe", FileAttributes.Normal);
+                            }
+                            catch (IOException io) 
+                            //фикс ошибки занятого файла, он должен освободится через какое то время
+                            {
+                                trying++;
+                                if (trying < 5) goto case BeginUpdate;
+                                else throw new TimeoutException("Timeout \"BeginUpdate\"", io);
+                            }
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
                             goto default;
                         case "repair":
                             Settings.Reset();
                             break;
+                        case "repair-client":
+                            try
+                            {
+                                Settings.Load();
+                                ModVersion.Reset();
+                            }
+                            catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
+                            goto default;
                         default:
                             ExitApp();
                             return false;
@@ -295,7 +314,11 @@ namespace UpdatesClient
         }
         private void StartLuancher()
         {
-            if (File.Exists($"{NameExeFile}.update.exe")) File.Delete($"{NameExeFile}.update.exe");
+            if (File.Exists($"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe"))
+            {
+                File.SetAttributes($"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe", FileAttributes.Normal);
+                File.Delete($"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe");
+            }
 
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
             {

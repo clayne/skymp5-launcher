@@ -8,7 +8,6 @@ namespace UpdatesClient.Core.Effects
     {
         public static Uri MakePackUri(string relativeFile)
         {
-
             StringBuilder uriString = new StringBuilder();
             uriString.Append("pack://application:,,,");
             uriString.Append("/" + AssemblyShortName + ";component/" + relativeFile);

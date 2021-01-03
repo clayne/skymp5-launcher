@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -66,10 +67,15 @@ namespace UpdatesClient.Modules.GameManager
             {
                 try
                 {
-                    if (!SkyrimPlatformCEFs[i].HasExited) SkyrimPlatformCEFs[i].Kill();
-                    SkyrimPlatformCEFs[i].Dispose();
-                    await Task.Delay(200);
+                    int tr = 0;
+                    do
+                    {
+                        SkyrimPlatformCEFs[i].Kill();
+                        await Task.Delay(200);
+                    }
+                    while (!SkyrimPlatformCEFs[i].HasExited && tr++ < 5);
                 }
+                //catch (Win32Exception) { }
                 catch (Exception e)
                 {
                     Logger.Error("StartGame_KillSkyrimPlatformCEF", e);

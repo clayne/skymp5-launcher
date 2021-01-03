@@ -50,7 +50,9 @@ namespace UpdatesClient.Core.Network
         public static async Task<object> GetSession(string address)
         {
             string raw = await Request($"{URL_Api}users/{Settings.UserId}/play/{address}", "POST", true, null);
-            return JsonConvert.DeserializeObject(raw);
+            if (raw != null) return JsonConvert.DeserializeObject(raw);
+            else return null;
+            
         }
 
         private static async Task<string> Request(string url, string method, bool auth, string data) 
@@ -66,10 +68,6 @@ namespace UpdatesClient.Core.Network
             catch (WebException we)
             {
                 NotifyController.Show(we);
-            }
-            catch (Exception e)
-            {
-                throw e;
             }
             return null;
         }

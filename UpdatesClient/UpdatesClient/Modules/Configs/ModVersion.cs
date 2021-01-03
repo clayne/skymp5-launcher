@@ -10,7 +10,7 @@ namespace UpdatesClient.Modules.Configs
     internal class ModVersion
     {
         private static readonly object sync = new object();
-        private static ModVersionModel model;
+        private static ModVersionModel model = new ModVersionModel();
 
         public static string Version
         {
@@ -38,19 +38,14 @@ namespace UpdatesClient.Modules.Configs
                 {
                     lock (sync)
                         model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
-                    return true;
                 }
-                else
-                {
-                    model = new ModVersionModel();
-                }
+                return true;
             }
             catch (Exception e)
             {
                 Logger.Error("Version_Load", e);
-                model = new ModVersionModel();
+                return false;
             }
-            return true;
         }
         internal static void Save()
         {

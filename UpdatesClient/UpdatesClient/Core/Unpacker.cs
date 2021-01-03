@@ -18,7 +18,7 @@ namespace UpdatesClient.Core
 
             using (IArchive archive = ArchiveFactory.Open(file))
             {
-                foreach (var entry in archive.Entries.Where(entry => !entry.IsDirectory))
+                foreach (IArchiveEntry entry in archive.Entries.Where(entry => !entry.IsDirectory))
                 {
                     entry.WriteToDirectory(tmpFiles, new ExtractionOptions()
                     {
@@ -47,7 +47,12 @@ namespace UpdatesClient.Core
             foreach (string file in Directory.GetFiles(fromDir))
             {
                 string NameFile = file.Substring(file.LastIndexOf('\\'), file.Length - file.LastIndexOf('\\'));
-                File.Copy(file, $"{toDir}\\{NameFile}", true);
+                string pathToDestFile = $"{toDir}\\{NameFile}";
+
+                if (File.GetAttributes(pathToDestFile) != FileAttributes.Normal)
+                    File.SetAttributes(pathToDestFile, FileAttributes.Normal);
+                
+                File.Copy(file, pathToDestFile, true);
             }
             return true;
         }

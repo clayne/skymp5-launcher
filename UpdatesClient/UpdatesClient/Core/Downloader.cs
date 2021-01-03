@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -31,7 +32,7 @@ namespace UpdatesClient.Core
         public async void StartAsync()
         {
             string path = Path.GetDirectoryName(sDestinationPath);
-            if (path != null && path != "" && !Directory.Exists(path)) Directory.CreateDirectory(path);
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path)) Directory.CreateDirectory(path);
 
             await Task.Run(() => StartDown());
 
@@ -41,7 +42,7 @@ namespace UpdatesClient.Core
         public async Task<bool> StartSync()
         {
             string path = Path.GetDirectoryName(sDestinationPath);
-            if (path != null && path != "" && !Directory.Exists(path)) Directory.CreateDirectory(path);
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path)) Directory.CreateDirectory(path);
 
             await Task.Run(() => StartDown());
 
@@ -54,9 +55,6 @@ namespace UpdatesClient.Core
             try
             {
                 Downloading = true;
-
-                if (!Directory.Exists(Path.GetDirectoryName(sDestinationPath))) Directory.CreateDirectory(Path.GetDirectoryName(sDestinationPath));
-
                 DownloadFile();
             }
             catch (WebException we)
@@ -68,6 +66,15 @@ namespace UpdatesClient.Core
             {
                 sDestinationPath = null;
                 NotifyController.Show(se);
+            }
+            catch (UnauthorizedAccessException uae)
+            {
+                sDestinationPath = null;
+                Dictionary<string, string> tags = new Dictionary<string, string>
+                {
+                    { "FullPath", sDestinationPath }
+                };
+                Logger.Error("Downloader_UAE", uae, tags);
             }
             catch (Exception e)
             {

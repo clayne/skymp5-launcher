@@ -153,21 +153,25 @@ namespace UpdatesClient.UI.Pages
             }
             catch (WebException we)
             {
-                var s = we.Response;
-                using (var reader = new StreamReader(s.GetResponseStream()))
+                WebResponse s = we.Response;
+                if (s != null)
                 {
-                    string raw = reader.ReadToEnd();
-                    try
+                    using (var reader = new StreamReader(s.GetResponseStream()))
                     {
-                        JArray jObject = JArray.Parse(raw);
-                        foreach (JToken par in jObject.Children())
+                        string raw = reader.ReadToEnd();
+                        try
                         {
-                            NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                            
+                            JArray jObject = JArray.Parse(raw);
+                            foreach (JToken par in jObject.Children())
+                            {
+                                NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                            }
                         }
-                    }
-                    catch
-                    {
-                        NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
+                        catch
+                        {
+                            NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
+                        }
                     }
                 }
             }

@@ -88,7 +88,7 @@ namespace UpdatesClient
                 authorization.Visibility = Visibility.Visible;
                 return;
             }
-            CheckClientUpdates();
+            await CheckClientUpdates();
         }
         private async Task GetLogin()
         {
@@ -271,7 +271,7 @@ namespace UpdatesClient
                 Logger.Error("InstallRuFixConsole", e);
             }
         }
-        private async void CheckClientUpdates()
+        private async Task CheckClientUpdates()
         {
             progressBar.Show(true, Res.CheckingUpdates);
             try
@@ -286,44 +286,72 @@ namespace UpdatesClient
                 mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
             progressBar.Hide();
-            blockMainBtn = false;
         }
-        private void MainBtn_Click(object sender, EventArgs e)
+        private async void MainBtn_Click(object sender, EventArgs e)
         {
             if (blockMainBtn) return;
             blockMainBtn = true;
             switch (mainButton.ButtonStatus)
             {
                 case MainButtonStatus.Play:
-                    Play();
+                    await Play();
                     break;
                 case MainButtonStatus.Update:
-                    UpdateClient();
+                    await UpdateClient();
                     break;
                 case MainButtonStatus.Retry:
-                    CheckClientUpdates();
+                    await CheckClientUpdates();
                     break;
             }
+            blockMainBtn = false;
         }
-        private async void Play()
+        private async Task Play()
         {
             if (!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
                 Wind_Loaded(null, null);
-                blockMainBtn = false;
                 return;
             }
 
             if (serverList.SelectedItem == null)
             {
                 NotifyController.Show(PopupNotify.Error, Res.Warning, Res.SelectServer);
-                blockMainBtn = false;
                 return;
             }
 
-            SetServer();
-            ServerModel server = (ServerModel)serverList.SelectedItem;
-            SetSession(await Account.GetSession(server.Address));
+            try
+            {
+                File.SetAttributes(Settings.PathToSkympClientSettings, FileAttributes.Normal);
+                SetServer();
+                ServerModel server = (ServerModel)serverList.SelectedItem;
+                object gameData = await Account.GetSession(server.Address);
+                if (gameData == null) return;
+                SetSession(gameData);
+            }
+            catch (JsonSerializationException)
+            {
+                NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                return;
+            }
+            catch (JsonReaderException)
+            {
+                NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                return;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                FileAttributes attr = new FileInfo(Settings.PathToSkympClientSettings).Attributes;
+                Logger.Error("Play_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
+                NotifyController.Show(PopupNotify.Error, Res.Error, "UnAuthorizedAccessException: Unable to access file");
+                return;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Play", e);
+                NotifyController.Show(PopupNotify.Error, Res.Error, e.Message);
+                return;
+            }
+
             SetMods();
 
             try
@@ -344,7 +372,6 @@ namespace UpdatesClient
                 YandexMetrica.ReportEvent("HasNotAccess");
                 Close();
             }
-            blockMainBtn = false;
         }
         private void SetMods()
         {
@@ -353,11 +380,10 @@ namespace UpdatesClient
 # Please do not modify this file.
 *FarmSystem.esp";
 
-            if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
-            if (File.Exists(path)) File.SetAttributes(path, FileAttributes.Normal);
-
             try
             {
+                if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
+                if (File.Exists(path) && File.GetAttributes(path) != FileAttributes.Normal) File.SetAttributes(path, FileAttributes.Normal);
                 File.WriteAllText(path, content);
             }
             catch (UnauthorizedAccessException)
@@ -372,27 +398,14 @@ namespace UpdatesClient
         }
         private void SetServer()
         {
-            if (serverList.SelectedItem == null) return;
             if (!Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings))) 
                 Directory.CreateDirectory(Path.GetDirectoryName(Settings.PathToSkympClientSettings));
+            
             SkympClientSettingsModel oldServer;
             
             if (File.Exists(Settings.PathToSkympClientSettings))
             {
-                try
-                {
-                    oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
-                }
-                catch (JsonSerializationException)
-                {
-                    NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
-                    return;
-                }
-                catch (JsonReaderException)
-                {
-                    NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
-                    return;
-                }
+                oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
             }
             else
             {
@@ -408,21 +421,9 @@ namespace UpdatesClient
         }
         private void SetSession(object gameData)
         {
-            try
-            {
-                SkympClientSettingsModel settingsModel = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
-                settingsModel.GameData = gameData;
-                File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                FileAttributes attr = new FileInfo(Settings.PathToSkympClientSettings).Attributes;
-                Logger.Error("SetSession_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
-            }
-            catch (Exception e)
-            {
-                Logger.Error("SetSession", e);
-            }
+            SkympClientSettingsModel settingsModel = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+            settingsModel.GameData = gameData;
+            File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
         }
         private async Task ReportDmp()
         {
@@ -461,7 +462,7 @@ namespace UpdatesClient
                     Logger.Error("ReportDmp", e);
             }
         }
-        private async void UpdateClient()
+        private async Task UpdateClient()
         {
             (string, string) url = await Net.GetUrlToClient();
             string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
@@ -494,13 +495,11 @@ namespace UpdatesClient
                     Logger.Error("Extract", e);
                     NotifyController.Show(e);
                     mainButton.ButtonStatus = MainButtonStatus.Retry;
-                    blockMainBtn = false;
                     return;
                 }
                 progressBar.Hide();
             }
-            CheckClientUpdates();
-            blockMainBtn = false;
+            await CheckClientUpdates();
         }
         private void Downloader_DownloadChanged(long downloaded, long size, double prDown)
         {
@@ -522,6 +521,7 @@ namespace UpdatesClient
             downloader.DownloadChanged += Downloader_DownloadChanged;
             progressBar.Start();
             bool ok = await downloader.StartSync();
+            downloader.DownloadChanged -= Downloader_DownloadChanged;
             progressBar.Stop();
             progressBar.Hide();
 

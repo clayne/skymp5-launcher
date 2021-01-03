@@ -38,7 +38,12 @@ namespace UpdatesClient.Modules.GameManager
             if (File.Exists($"{pathToGameFolder}\\SkyrimSE.exe"))
             {
                 result.IsGameFound = true;
-                result.GameVersion = new Version(FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\SkyrimSE.exe").FileVersion);
+                string ver = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\SkyrimSE.exe").FileVersion;
+                try
+                {
+                     result.GameVersion = new Version(ver);
+                }
+                catch { Logger.Error("VersionRead", new Exception($"Raw vesrion {ver}")); }
                 result.UnSafeGameFilesDictionary = VerifyGameFiles();
                 result.IsGameSafe = result.UnSafeGameFilesDictionary.Count == 0;
             }
@@ -47,7 +52,12 @@ namespace UpdatesClient.Modules.GameManager
             if (File.Exists($"{pathToGameFolder}\\skse64_loader.exe"))
             {
                 result.IsSKSEFound = true;
-                result.SKSEVersion = new Version(FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\skse64_loader.exe").FileVersion.Replace(", ", "."));
+                string ver = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\skse64_loader.exe").FileVersion.Replace(", ", ".");
+                try
+                {
+                    result.SKSEVersion = new Version(ver);
+                }
+                catch { Logger.Error("VersionReadSKSE", new Exception($"Raw vesrion {ver}")); }
                 result.UnSafeSKSEFilesDictionary = VerifySKSEFiles();
                 result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0;
             }
