@@ -321,7 +321,11 @@ namespace UpdatesClient
 
             try
             {
-                File.SetAttributes(Settings.PathToSkympClientSettings, FileAttributes.Normal);
+                if (Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings)) && File.Exists(Settings.PathToSkympClientSettings))
+                {
+                    File.SetAttributes(Settings.PathToSkympClientSettings, FileAttributes.Normal);
+                }
+
                 SetServer();
                 ServerModel server = (ServerModel)serverList.SelectedItem;
                 object gameData = await Account.GetSession(server.Address);
