@@ -49,7 +49,7 @@ namespace UpdatesClient.Core
                 string NameFile = file.Substring(file.LastIndexOf('\\'), file.Length - file.LastIndexOf('\\'));
                 string pathToDestFile = $"{toDir}\\{NameFile}";
 
-                if (File.GetAttributes(pathToDestFile) != FileAttributes.Normal)
+                if (File.Exists(pathToDestFile) && File.GetAttributes(pathToDestFile) != FileAttributes.Normal)
                     File.SetAttributes(pathToDestFile, FileAttributes.Normal);
                 
                 File.Copy(file, pathToDestFile, true);

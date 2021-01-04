@@ -181,7 +181,18 @@ namespace UpdatesClient
                         case EndUpdate:
                             eUpdate = true;
                             Thread.Sleep(250);
-                            File.Delete($"{args[2]}.update.exe");
+                            try
+                            {
+                                File.SetAttributes($"{args[2]}.update.exe", FileAttributes.Normal);
+                                File.Delete($"{args[2]}.update.exe");
+                            }
+                            catch (IOException io)
+                            //фикс ошибки занятого файла, он должен освободится через какое то время
+                            {
+                                trying++;
+                                if (trying < 5) goto case EndUpdate;
+                                else throw new TimeoutException("Timeout \"EndUpdate\"", io);
+                            }
                             break;
                         case BeginUpdate:
                             Thread.Sleep(250);
@@ -336,7 +347,18 @@ namespace UpdatesClient
         private bool Update()
         {
             string pathToUpdateFile = $"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe";
-            if (File.Exists(pathToUpdateFile)) File.Delete(pathToUpdateFile);
+            if (File.Exists(pathToUpdateFile))
+            {
+                try
+                {
+                    File.SetAttributes(pathToUpdateFile, FileAttributes.Normal);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("UpdateSetAttr", e);
+                }
+                File.Delete(pathToUpdateFile);
+            }
 
             Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, pathToUpdateFile)
             {
