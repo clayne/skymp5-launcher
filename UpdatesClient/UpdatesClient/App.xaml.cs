@@ -183,8 +183,11 @@ namespace UpdatesClient
                             Thread.Sleep(250);
                             try
                             {
-                                File.SetAttributes($"{args[2]}.update.exe", FileAttributes.Normal);
-                                File.Delete($"{args[2]}.update.exe");
+                                if (File.Exists($"{args[2]}.update.exe"))
+                                {
+                                    File.SetAttributes($"{args[2]}.update.exe", FileAttributes.Normal);
+                                    File.Delete($"{args[2]}.update.exe");
+                                }
                             }
                             catch (IOException io)
                             //фикс ошибки занятого файла, он должен освободится через какое то время
