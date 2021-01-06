@@ -100,6 +100,13 @@ namespace UpdatesClient
         }
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
         {
+            await CheckGame();
+            SetBackgroundServerList();
+            FillServerList();
+            Authorization_SignIn();
+        }
+        private async Task CheckGame()
+        {
             string pathToSkyrim = Settings.PathToSkyrim;
             ResultGameVerification result = default;
             try
@@ -166,10 +173,6 @@ namespace UpdatesClient
             {
                 Logger.FatalError("Wind_Loaded_2", er);
             }
-
-            SetBackgroundServerList();
-            FillServerList();
-            Authorization_SignIn();
         }
         private void SetBackgroundServerList()
         {
@@ -309,7 +312,7 @@ namespace UpdatesClient
         {
             if (!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
-                Wind_Loaded(null, null);
+                await CheckGame();
                 return;
             }
 
@@ -560,6 +563,7 @@ namespace UpdatesClient
             //TODO: аннулирование токена
 
             Settings.UserId = 0;
+            Settings.UserName = "";
             Settings.UserToken = "";
             Settings.Save();
 
