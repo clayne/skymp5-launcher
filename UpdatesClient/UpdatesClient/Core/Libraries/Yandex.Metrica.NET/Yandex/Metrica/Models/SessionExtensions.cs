@@ -78,7 +78,9 @@ namespace Yandex.Metrica.Models
             ReportMessage.Session.Event @event = item;
             ReportMessage.Session.Event.NetworkInfo networkInfo = await TaskEx.FromResult<ReportMessage.Session.Event.NetworkInfo>(ServiceData.NetworkTracker.Provide());
             @event.network_info = networkInfo;
+#pragma warning disable IDE0059 // Ненужное присваивание значения
             @event = (ReportMessage.Session.Event)null;
+#pragma warning restore IDE0059 // Ненужное присваивание значения
         }
     }
 }

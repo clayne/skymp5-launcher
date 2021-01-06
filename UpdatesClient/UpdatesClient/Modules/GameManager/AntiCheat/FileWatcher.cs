@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using Yandex.Metrica;
 
@@ -15,10 +16,15 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
         {
             try
             {
+                //! Когда потребуется полноценная поддержка, нужно реализовать это как сервис
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
-                FileSystemWatcher watcher = new FileSystemWatcher(Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\");
-                watcher.IncludeSubdirectories = true;
-                watcher.EnableRaisingEvents = true;
+                string path = Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\";
+                if (!Directory.Exists(path)) return;
+                FileSystemWatcher watcher = new FileSystemWatcher(path)
+                {
+                    IncludeSubdirectories = true,
+                    EnableRaisingEvents = true
+                };
                 watcher.Created += Watcher_Created;
                 watcher.Changed += Watcher_Changed;
                 watcher.Deleted += Watcher_Deleted;
@@ -27,13 +33,13 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("AntiCheat_Init", e);
+                Logger.Error("AntiCheat_Init", e);
             }
         }
 
         private static void Watcher_Error(object sender, ErrorEventArgs e)
         {
-            YandexMetrica.ReportError("WatcherError", e?.GetException());
+            Logger.Error("WatcherError", e?.GetException());
         }
 
         private static void Watcher_Renamed(object sender, RenamedEventArgs e)
@@ -61,7 +67,7 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
         {
             if (EnableAntiCheat)
             {
-                //Провести валидацию изменений
+                //TODO: Провести валидацию изменений
 
                 MessageBox.Show($"Файл {file} был изменен", "Внимание");
                 GameLauncher.StopGame();

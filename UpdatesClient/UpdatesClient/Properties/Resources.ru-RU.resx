@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Attempt" xml:space="preserve">
+    <value>Попытка</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="CheckingUpdates" xml:space="preserve">
+    <value>Проверка обновлений</value>
+  </data>
+  <data name="CheckSelfUpdate" xml:space="preserve">
+    <value>Проверка обновлений лаунчера...</value>
+  </data>
+  <data name="ConnectionError" xml:space="preserve">
+    <value>Проблемы с соединением</value>
+  </data>
+  <data name="CriticalError" xml:space="preserve">
+    <value>Критическая ошибка</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Сведения</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="DownloadingClient" xml:space="preserve">
+    <value>Загрузка клиента</value>
+  </data>
+  <data name="DownloadingSKSE" xml:space="preserve">
+    <value>Загрузка SKSE</value>
+  </data>
+  <data name="DownloadingSSERuFixConsole" xml:space="preserve">
+    <value>Загрузка SSERuFixConsole</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="ErrorEndSelfUpdate" xml:space="preserve">
+    <value>Не удалось завершить обновление</value>
+  </data>
+  <data name="ErrorReadSkyMPSettings" xml:space="preserve">
+    <value>Не удалось прочитать файл настроек клиента</value>
+  </data>
+  <data name="ErrorSaveFileBusy" xml:space="preserve">
+    <value>Не удалось сохранить сведения, файл занят</value>
+  </data>
+  <data name="ErrorSelfUpdate" xml:space="preserve">
+    <value>Не удалось выполнить обновление лаунчера</value>
+  </data>
+  <data name="Extracting" xml:space="preserve">
+    <value>Распаковка</value>
+  </data>
+  <data name="ExtractingClient" xml:space="preserve">
+    <value>Распаковка клиента</value>
+  </data>
+  <data name="ExtractingSKSE" xml:space="preserve">
+    <value>Распаковка SKSE</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="HaveAGG" xml:space="preserve">
+    <value>Приятной игры!</value>
+  </data>
+  <data name="Hours" xml:space="preserve">
+    <value>ч.</value>
+  </data>
+  <data name="InitError" xml:space="preserve">
+    <value>Во время инициализации приложения произошла непоправимая ошибка</value>
+  </data>
+  <data name="InstallationCompleted" xml:space="preserve">
+    <value>Установка завершена</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Осталось</value>
+  </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Сменить пользователя</value>
+  </data>
+  <data name="Main" xml:space="preserve">
+    <value>ГЛАВНАЯ</value>
+  </data>
+  <data name="MaxPlayers" xml:space="preserve">
+    <value>Максимум игроков</value>
+  </data>
+  <data name="Minutes" xml:space="preserve">
+    <value>мин.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>из</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>Онлайн</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="PasswordRecovery" xml:space="preserve">
+    <value>Восстановление пароля</value>
+  </data>
+  <data name="PasswordRecoveryDescription" xml:space="preserve">
+    <value>После нажатия на кнопку «отправить», вам на почту будет отправлено письмо с дальнейшей инструкцией.</value>
+  </data>
+  <data name="PLAY" xml:space="preserve">
+    <value>ИГРАТЬ</value>
+  </data>
+  <data name="RefreshServerList" xml:space="preserve">
+    <value>Обновить список серверов</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="RegisterDescription" xml:space="preserve">
+    <value>Прежде чем вы сможете исследовать Skyrim, нам нужно, чтобы вы подтвердили свой адрес электронной почты. Электронное письмо с инструкциями по подтверждению будет отправлено на ваш адрес.</value>
+  </data>
+  <data name="RegisterNow" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Запомнить меня</value>
+  </data>
+  <data name="RepeatPassword" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="RETRY" xml:space="preserve">
+    <value>ПОВТОРИТЬ</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>сек.</value>
+  </data>
+  <data name="SelectGameFolder" xml:space="preserve">
+    <value>Выберите папку с TES: Skyrim SE</value>
+  </data>
+  <data name="SelectServer" xml:space="preserve">
+    <value>Выберите сервер</value>
+  </data>
+  <data name="SelfUpdating" xml:space="preserve">
+    <value>Обновление лаунчера</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="SKSENotFound" xml:space="preserve">
+    <value>SKSE не обнаружен, установить?</value>
+  </data>
+  <data name="SkyrimNotFound" xml:space="preserve">
+    <value>Skyrim SE не обнаружен</value>
+  </data>
+  <data name="SSERFix" xml:space="preserve">
+    <value>SSE Russian Fix Console не обнаружен, установить?</value>
+  </data>
+  <data name="Successfully" xml:space="preserve">
+    <value>Успешно</value>
+  </data>
+  <data name="Support" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>SkyMP Launcher</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>ОБНОВИТЬ</value>
+  </data>
+  <data name="UrId" xml:space="preserve">
+    <value>Ваш идентификатор</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Логин</value>
+  </data>
+  <data name="VerifyAccount" xml:space="preserve">
+    <value>Вы зарегистрировались! Подтвердите аккаунт.</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Внимание</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Добро пожаловать</value>
+  </data>
+</root>

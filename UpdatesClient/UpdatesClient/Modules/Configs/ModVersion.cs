@@ -1,19 +1,21 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
-using Yandex.Metrica;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.Configs
 {
     internal class ModVersion
     {
-        private static ModVersionModel model;
+        private static readonly object sync = new object();
+        private static ModVersionModel model = new ModVersionModel();
 
         public static string Version
         {
-            get { return Security.FromAes256Base64(model.Version); }
-            set { model.Version = Security.ToAes256Base64(value); }
+            get { return model.Version; }
+            set { model.Version = value; }
         }
         public static bool? HasRuFixConsole
         {
@@ -22,7 +24,7 @@ namespace UpdatesClient.Modules.Configs
         }
         public static DateTime LastDmpReported
         {
-            get { return model.LastDmpReported; }
+            get { return model.LastDmpReported ?? default; }
             set { model.LastDmpReported = value; }
         }
 
@@ -34,19 +36,16 @@ namespace UpdatesClient.Modules.Configs
                 string path = $"{Settings.PathToSkyrim}\\version.json";
                 if (File.Exists(path))
                 {
-                    model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
-                    return true;
+                    lock (sync)
+                        model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
                 }
-                else
-                {
-                    model = new ModVersionModel();
-                }
+                return true;
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Version_Load", e);
+                Logger.Error("Version_Load", e);
+                return false;
             }
-            return false;
         }
         internal static void Save()
         {
@@ -54,11 +53,13 @@ namespace UpdatesClient.Modules.Configs
             {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
                 string path = $"{Settings.PathToSkyrim}\\version.json";
-                File.WriteAllText(path, JsonConvert.SerializeObject(model));
+                lock (sync)
+                    File.WriteAllText(path, JsonConvert.SerializeObject(model));
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Version_Save", e);
+                NotifyController.Show(UI.Controllers.PopupNotify.Error, Res.Error, Res.ErrorSaveFileBusy);
+                Logger.Error("Version_Save", e);
             }
         }
         internal static void Reset()
@@ -67,12 +68,13 @@ namespace UpdatesClient.Modules.Configs
             {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
                 string path = $"{Settings.PathToSkyrim}\\version.json";
-                if (File.Exists(path)) File.Delete(path);
+                lock (sync)
+                    if (File.Exists(path)) File.Delete(path);
                 model = new ModVersionModel();
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Version_Reset", e);
+                Logger.Error("Version_Reset", e);
             }
         }
     }

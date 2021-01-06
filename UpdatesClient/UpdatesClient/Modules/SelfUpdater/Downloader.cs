@@ -1,8 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Windows;
-using Yandex.Metrica;
+using UpdatesClient.Core;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -36,7 +37,18 @@ namespace UpdatesClient.Modules.SelfUpdater
                 DownloadFile();
                 return true;
             }
-            catch (Exception e) { YandexMetrica.ReportError("SelfUpdate_Downloader", e); }
+            catch (WebException)
+            {
+
+            }
+            catch (SocketException)
+            {
+
+            }
+            catch (Exception e) 
+            { 
+                Logger.Error("SelfUpdate_Downloader", e); 
+            }
             return false;
         }
 
@@ -61,7 +73,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                 }
                 catch (Exception e)
                 {
-                    YandexMetrica.ReportError("Down_Hidden", e);
+                    Logger.Error("Down_Hidden", e);
                 }
                 hwRq.AddRange(iExistLen);
 

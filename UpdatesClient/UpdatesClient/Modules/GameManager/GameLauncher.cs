@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager.Helpers;
@@ -19,7 +15,7 @@ namespace UpdatesClient.Modules.GameManager
         public static bool Runing { get; private set; }
 
         private static Process GameProcess = new Process();
-        private static ProcessStartInfo StartInfo = new ProcessStartInfo();
+        private static readonly ProcessStartInfo StartInfo = new ProcessStartInfo();
 
         public static void StopGame()
         {
@@ -30,7 +26,7 @@ namespace UpdatesClient.Modules.GameManager
         {
             string path = $"{Settings.PathToSkyrim}\\Data\\SKSE\\SKSE.ini";
             if (!File.Exists(path)) File.Create(path).Close();
-            
+
             IniFile iniFile = new IniFile(path);
             iniFile.WriteINI("DEBUG", "WriteMiniDumps", "1");
         }
@@ -40,7 +36,6 @@ namespace UpdatesClient.Modules.GameManager
             EnableDebug();
 
             StartInfo.FileName = $"{Settings.PathToSkyrim}\\skse64_loader.exe";
-            //StartInfo.Arguments = $"--UUID {UUID} --Session {session}";
             StartInfo.WorkingDirectory = $"{Settings.PathToSkyrim}\\";
             StartInfo.Verb = "runas";
 
@@ -64,6 +59,29 @@ namespace UpdatesClient.Modules.GameManager
             if (!GameProcess.HasExited) await Task.Run(() => GameProcess.WaitForExit());
 
             YandexMetrica.ReportEvent("ExitedGame");
+            
+            await Task.Delay(500);
+
+            Process[] SkyrimPlatformCEFs = Process.GetProcessesByName("SkyrimPlatformCEF");
+            for (int i = 0; i < SkyrimPlatformCEFs.Length; i++)
+            {
+                try
+                {
+                    int tr = 0;
+                    do
+                    {
+                        SkyrimPlatformCEFs[i].Kill();
+                        await Task.Delay(200);
+                    }
+                    while (!SkyrimPlatformCEFs[i].HasExited && tr++ < 5);
+                }
+                //catch (Win32Exception) { }
+                catch (Exception e)
+                {
+                    Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
+                }
+            }
+
             Runing = false;
 
             return GameProcess.ExitCode != 0;

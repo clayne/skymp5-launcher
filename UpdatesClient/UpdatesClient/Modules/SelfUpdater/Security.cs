@@ -1,6 +1,5 @@
-﻿using System;
-using System.Management;
-using Yandex.Metrica;
+﻿using Security;
+using System;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -8,17 +7,16 @@ namespace UpdatesClient.Modules.SelfUpdater
     {
         internal static string UID;
 
-
         internal static bool CheckEnvironment()
         {
+            UID = Hashing.GetMD5FromText(SystemFunctions.GetHWID());
+            AesEncoder.Init();
 #if (DEBUG)
 
 #elif (BETA)
             if (!CheckInjection()) return false;
-            if (!CheckHWID()) return false;
 #else
             if (!CheckInjection()) return false;
-            if (!CheckHWID()) return false;
 #endif
             return true;
         }
@@ -26,27 +24,7 @@ namespace UpdatesClient.Modules.SelfUpdater
         private static bool CheckInjection()
         {
             if (WinFunctions.GetModuleHandle("SbieDll.dll") != IntPtr.Zero) return false;
-
             return true;
-        }
-        private static bool CheckHWID()
-        {
-            try
-            {
-                ManagementObjectCollection mbsList = new ManagementObjectSearcher("Select ProcessorId From Win32_processor").Get();
-                string id = "";
-                foreach (ManagementObject mo in mbsList)
-                {
-                    id = mo["ProcessorId"].ToString();
-                    UID = Hashing.GetMD5FromText(id);
-                    break;
-                }
-                return id != "";
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

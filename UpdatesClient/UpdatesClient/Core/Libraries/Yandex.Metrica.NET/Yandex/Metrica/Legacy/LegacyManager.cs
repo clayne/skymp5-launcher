@@ -16,7 +16,9 @@ namespace Yandex.Metrica.Legacy
       "Yandex.Metrica.Config",
       "Yandex.Metrica.Sessions"
         };
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private const string LegacyConfigFileName = "Yandex.Metrica.Config";
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
 
         public static LegacyManager.MigrationData Data { get; private set; }
 

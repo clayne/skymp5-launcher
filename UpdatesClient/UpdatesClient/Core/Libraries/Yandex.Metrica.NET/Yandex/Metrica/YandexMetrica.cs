@@ -142,11 +142,13 @@ namespace Yandex.Metrica
             YandexMetrica.Report(EventFactory.Create<TItem>(eventName, serializableItem));
         }
 
+        [Obsolete("ReportUnhandledException is deprecated, it is no longer supported.")]
         public static void ReportUnhandledException(Exception exсeption)
         {
             YandexMetrica.Report(EventFactory.Create(ReportMessage.Session.Event.EventType.EVENT_CRASH, exсeption.ToString(), (string)null));
         }
 
+        [Obsolete("ReportError is deprecated, it is no longer supported.")]
         public static void ReportError(string message, Exception exсeption)
         {
             YandexMetrica.Report(EventFactory.Create(ReportMessage.Session.Event.EventType.EVENT_ERROR, exсeption.ToString(), message));

@@ -60,7 +60,7 @@ namespace Yandex.Metrica.Aero
             try
             {
                 action();
-                return default(TException);
+                return default;
             }
             catch (TException ex)
             {
@@ -88,19 +88,19 @@ namespace Yandex.Metrica.Aero
             return e.Catch<Exception>(action);
         }
 
-        public static void Finally(this Exception e, Action action)
+        public static void Finally(Action action)
         {
             action();
         }
 
         public static TResult With<TSource, TResult>(this TSource source, Func<TSource, TResult> action) where TSource : class
         {
-            return (object)source != null ? action(source) : default(TResult);
+            return source != null ? action(source) : default;
         }
 
         public static TSource Do<TSource>(this TSource source, Action<TSource> action) where TSource : class
         {
-            if ((object)source != null)
+            if (source != null)
                 action(source);
             return source;
         }

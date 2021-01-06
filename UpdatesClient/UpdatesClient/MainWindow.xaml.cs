@@ -1,17 +1,27 @@
-﻿using System;
+﻿using BlendModeEffectLibrary;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using UpdatesClient.Core;
-using UpdatesClient.Core.Enums;
+using UpdatesClient.Core.Models;
+using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Model;
+using UpdatesClient.UI.Controllers;
 using Yandex.Metrica;
-using static UpdatesClient.UI.Controllers.ProgressBarBtn;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient
 {
@@ -26,315 +36,327 @@ namespace UpdatesClient
         //War color: #FFFF7604
         //Er color: #FFFF0404
 
-        private readonly BrushConverter converter = new BrushConverter();
-        private BtnAction BtnAction = BtnAction.Check;
+        private bool blockMainBtn = false;
 
         public MainWindow()
         {
             InitializeComponent();
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
-
-            Settings.Load();
-            wind.Loaded += delegate
+            authorization.TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
+            CloseBtn.Click += (s, e) =>
             {
-                if (string.IsNullOrEmpty(Settings.PathToSkyrim) 
-                || !Directory.Exists(Settings.PathToSkyrim) 
-                || !File.Exists($"{Settings.PathToSkyrim}\\SkyrimSE.exe"))
-                {
-                    SetGameFolder();
-                }
-
-                ModVersion.Load();
-                FileWatcher.Init();
-
-                if (ModVersion.HasRuFixConsole == null) CheckRuFixConsole();
-                else if (BtnAction != BtnAction.InstallSKSE) CheckClient();
+                YandexMetrica.Config.CrashTracking = false;
+                Application.Current.Shutdown();
             };
+            authorization.CloseBtn.Click += (s, e) =>
+            {
+                YandexMetrica.Config.CrashTracking = false;
+                Application.Current.Shutdown();
+            };
+            MinBtn.Click += (s, e) =>
+            {
+                WindowState = WindowState.Minimized;
+            };
+            authorization.MinBtn.Click += (s, e) =>
+            {
+                WindowState = WindowState.Minimized;
+            };
+            progressBar.Hide();
+            userButton.LogoutBtn.Click += LogOut_Click;
+            authorization.SignIn += Authorization_SignIn;
+
+            wind.Loaded += Wind_Loaded;
         }
-
-        private void CheckRuFixConsole()
+        private ImageBrush GetGridBackGround(FrameworkElement element)
         {
-            ResultGameVerification result = GameVerification.VerifyGame(Settings.PathToSkyrim, null);
-            if (!result.IsRuFixConsoleFound)
-            {
-                if (MessageBox.Show("SSE Rusian Fix Console не обнаружен, установить?", "Внимание", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    InstallRuFixConsole();
-                    return;
-                }
-                else
-                {
-                    ModVersion.HasRuFixConsole = false;
-                }
-            }
-            else
-            {
-                ModVersion.HasRuFixConsole = true;
-            }
-            ModVersion.Save();
-            CheckClient();
+            Point relativePoint = element.TranslatePoint(new Point(0, 0), mainGrid);
+            var image = (BitmapSource)((ImageBrush)wind.Background).ImageSource;
+            double w = wind.Width / image.Width;
+            double h = wind.Height / image.Height;
+            var im = new CroppedBitmap(image, new Int32Rect((int)(relativePoint.X * w), (int)(relativePoint.Y * h), (int)(element.Width * w), (int)(element.Height * h)));
+            return new ImageBrush(im);
         }
-
-        private async void InstallRuFixConsole()
+        private async void Authorization_SignIn()
         {
-            MainBtn.SetAsProgressBar(ColorType.Warning, false);
-
-            string req = Net.URL_Mod_RuFix;
-            Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
-            downloader.DownloadChanged += Downloader_DownloadChanged;
-            if (await downloader.StartSync())
+            try
             {
-                try
-                {
-                    MainBtn.SetAsProgressBar(ColorType.Normal, true, "Распаковка");
-
-                    ModVersion.HasRuFixConsole = await Task.Run(() => Unpacker.UnpackZip($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", Settings.PathToSkyrim + "\\Data"));
-                    ModVersion.Save();
-                }
-                catch (Exception e)
-                {
-                    YandexMetrica.ReportError("ExtractRuFix", e);
-                    await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                }
-                CheckClient();
+                await GetLogin();
+                authorization.Visibility = Visibility.Collapsed;
             }
-            else
+            catch
             {
-                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                InstallRuFixConsole();
+                authorization.Visibility = Visibility.Visible;
+                return;
             }
+            await CheckClientUpdates();
         }
-
-        private void SetGameFolder()
+        private async Task GetLogin()
         {
-            using (System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog())
+            var username = await Account.GetLogin();
+            JObject jObject = JObject.Parse(username);
+            string name = jObject["name"].ToString();
+            Settings.UserName = name;
+            userButton.Text = name;
+        }
+        private async void Wind_Loaded(object sender, RoutedEventArgs e)
+        {
+            string pathToSkyrim = Settings.PathToSkyrim;
+            ResultGameVerification result = default;
+            try
             {
-                dialog.Description = "Выберите папку с TES: Skyrim SE";
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                do
                 {
-                    ResultGameVerification result = GameVerification.VerifyGame(dialog.SelectedPath, null);
-
-                    if (!result.IsGameFound)
+                    while (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim))
                     {
-                        MessageBox.Show("Skyrim SE не обнаружен", "Ошибка");
-                        SetGameFolder();
-                    }
-                    else if (!result.IsSKSEFound)
-                    {
-                        if (MessageBox.Show("SKSE не обнаружен, установить?", "Внимание", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        string path = GameVerification.GetGameFolder();
+                        if (string.IsNullOrEmpty(path))
                         {
-                            Settings.PathToSkyrim = dialog.SelectedPath;
+                            App.AppCurrent.Shutdown();
+                            Close();
+                            return;
+                        }
+                        pathToSkyrim = path;
+                    }
+
+                    result = GameVerification.VerifyGame(pathToSkyrim, null);
+                    if (result.IsGameFound)
+                    {
+                        if (Settings.PathToSkyrim != pathToSkyrim)
+                        {
+                            Settings.PathToSkyrim = pathToSkyrim;
                             Settings.Save();
-                            BtnAction = BtnAction.InstallSKSE;
-                            DownloadLib();
                         }
-                        else
-                        {
-                            SetGameFolder();
-                        }
+                        break;
                     }
-                    else
-                    {
-                        Settings.PathToSkyrim = dialog.SelectedPath;
-                        Settings.Save();
-                    }
-                }
-                else { Application.Current.Shutdown(); Close(); }
-            }
-        }
 
-        private async void CheckClient()
-        {
-            MainBtn.SetAsProgressBar(ColorType.Normal, true, "Проверка");
+                    pathToSkyrim = null;
+                    MessageBox.Show(Res.SkyrimNotFound, Res.Error);
+                } while (true);
+            }
+            catch (Exception er)
+            {
+                Logger.FatalError("Wind_Loaded_1", er);
+                MessageBox.Show(Res.InitError, Res.Error);
+                Close();
+            }
+
+            ModVersion.Load();
+            FileWatcher.Init();
+
             try
             {
-                if (await Net.UpdateAvailable())
+                if (!result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    MainBtn.SetAsButton(ColorType.Normal, "Обновить");
-                    BtnAction = BtnAction.Update;
+                    await InstallSKSE();
                 }
-                else
+                if (!result.IsRuFixConsoleFound
+                    && ModVersion.HasRuFixConsole == null
+                    && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    MainBtn.SetAsButton(ColorType.Normal, "Играть");
-                    BtnAction = BtnAction.Play;
-                }
-            }
-            catch (Exception e)
-            {
-                YandexMetrica.ReportError("CheckClient", e);
-                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                MainBtn.SetAsButton(ColorType.Normal, "Повторить");
-            }
-        }
-
-        private void DownloadLib()
-        {
-            if (!File.Exists(Settings.PathToSkyrim + "\\tmp\\7z.dll"))
-            {
-                MainBtn.SetAsProgressBar(ColorType.Warning, false);
-
-                string req = Net.URL_Lib;
-                Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
-                downloader.DownloadChanged += Downloader_DownloadChanged;
-                downloader.DownloadComplete += Downloader_DownloadLibComplete;
-                downloader.StartAsync();
-            }
-            else
-            {
-                InstallSKSE();
-            }
-        }
-        private async void Downloader_DownloadLibComplete(string DestinationFile, string Vers)
-        {
-            if (DestinationFile == null)
-            {
-                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                DownloadLib();
-            }
-            else
-            {
-                InstallSKSE();
-            }
-        }
-        private async void InstallSKSE()
-        {
-            MainBtn.SetAsProgressBar(ColorType.Warning, false);
-
-            string req = await Net.GetUrlToSKSE();
-            Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\{req.Substring(req.LastIndexOf('/'), req.Length - req.LastIndexOf('/'))}", req, "0.0.0.0");
-            downloader.DownloadChanged += Downloader_DownloadChanged;
-            downloader.DownloadComplete += Downloader_DownloadSKSEComplete;
-            downloader.StartAsync();
-        }
-
-        private async void Downloader_DownloadSKSEComplete(string DestinationFile, string Vers)
-        {
-            if (DestinationFile == null)
-            {
-                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                MainBtn.SetAsButton(ColorType.Normal, "Повторить");
-            }
-            else
-            {
-                ExtractSKSE(DestinationFile);
-            }
-        }
-        private async void ExtractSKSE(string file)
-        {
-            try
-            {
-                MainBtn.SetAsProgressBar(ColorType.Normal, true, "Распаковка");
-
-                if (await Task.Run(() => Unpacker.SevenZUnpack(file, Settings.PathToSkyrim)))
-                {
-                    MainBtn.ColorBar = (Brush)converter.ConvertFrom("#FF04D9FF");
-                    CheckClient();
-                }
-                else
-                {
-                    MainBtn.SetAsButton(ColorType.Normal, "Повторить");
-                    BtnAction = BtnAction.InstallSKSE;
-                }
-            }
-            catch (Exception e)
-            {
-                YandexMetrica.ReportError("ExtractSKSE", e);
-                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                MainBtn.SetAsButton(ColorType.Normal, "Повторить");
-            }
-        }
-
-        private void ImageButton_Click(object sender, EventArgs e)
-        {
-            YandexMetrica.Config.CrashTracking = false;
-            Application.Current.Shutdown();
-        }
-
-        private void MainBtn_Click(object sender, EventArgs e)
-        {
-            switch (BtnAction)
-            {
-                case BtnAction.Play:
-                    Play();
-                    break;
-                case BtnAction.Update:
-                    Update();
-                    break;
-                case BtnAction.Check:
-                    CheckClient();
-                    break;
-                case BtnAction.InstallSKSE:
-                    InstallSKSE();
-                    break;
-            }
-        }
-
-        private async void Update()
-        {
-            MainBtn.SetAsProgressBar(ColorType.Normal, false);
-
-            (string, string) req = await Net.GetUrlToClient();
-            Downloader downloader = new Downloader($@"{Settings.PathToSkyrim}\tmp\client.zip", req.Item1, req.Item2);
-            downloader.DownloadChanged += Downloader_DownloadChanged;
-            downloader.DownloadComplete += Downloader_DownloadComplete;
-            downloader.StartAsync();
-        }
-
-        private async void Downloader_DownloadComplete(string DestinationFile, string Vers)
-        {
-            if (DestinationFile == null)
-            {
-                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                MainBtn.SetAsButton(ColorType.Normal, "Повторить");
-            }
-            else
-            {
-                Extract(DestinationFile, Vers);
-            }
-        }
-
-        private async void Extract(string file, string vers)
-        {
-            try
-            {
-                MainBtn.SetAsProgressBar(ColorType.Normal, true, "Распаковка");
-
-                if (await Task.Run(() => Unpacker.Unpack(file, Settings.PathToSkyrim)))
-                {
-                    ModVersion.Version = vers;
+                    await InstallRuFixConsole();
                     ModVersion.Save();
                 }
-                CheckClient();
+                else
+                {
+                    ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
+                    ModVersion.Save();
+                }
+            }
+            catch (Exception er)
+            {
+                Logger.FatalError("Wind_Loaded_2", er);
+            }
+
+            SetBackgroundServerList();
+            FillServerList();
+            Authorization_SignIn();
+        }
+        private void SetBackgroundServerList()
+        {
+            try
+            {
+                serverListBg.Effect = new OverlayEffect()
+                {
+                    BInput = GetGridBackGround(serverList)
+                };
+            }
+            catch (Exception oe)
+            {
+                Logger.Error("SetBackgroundServerList_OverlayEffect", oe);
+            }
+        }
+        private async void FillServerList()
+        {
+            try
+            {
+                List<ServerModel> list = null;
+                string servers;
+                try
+                {
+                    servers = await ServerModel.GetServers();
+                    ServerModel.Save(servers);
+                }
+                catch
+                {
+                    servers = ServerModel.Load();
+                }
+                list = ServerModel.ParseServersToList(servers);
+                list.RemoveAll(x => x.IsEmpty());
+                serverList.ItemsSource = null;
+                serverList.ItemsSource = list;
+                serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("Extract", e);
-                await MainBtn.ShowMessage(ColorType.Error, "Ошибка");
-                MainBtn.SetAsButton(ColorType.Normal, "Повторить");
+                Logger.Error("FillServerList", e);
             }
         }
-
-        private void Downloader_DownloadChanged(double Value, double LenFile, double prDown)
+        private async Task InstallSKSE()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+            try
             {
-                try
-                {
-                    MainBtn.Value = prDown;
-                    MainBtn.StatusText = $"{prDown:0}%";
-                }
-                catch { }
-            });
-        }
+                string url = await Net.GetUrlToSKSE();
+                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
 
-        private async void Play()
+                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSKSE);
+
+                if (ok)
+                {
+                    progressBar.Show(true, Res.ExtractingSKSE);
+                    try
+                    {
+                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath,
+                            Settings.PathToSkyrim, Path.GetFileNameWithoutExtension(destinationPath)));
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("ExtractSKSE", e);
+                        NotifyController.Show(e);
+                        mainButton.ButtonStatus = MainButtonStatus.Retry;
+                    }
+                    progressBar.Hide();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("InstallSKSE", e);
+            }
+        }
+        private async Task InstallRuFixConsole()
+        {
+            try
+            {
+                string url = Net.URL_Mod_RuFix;
+                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
+
+                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole);
+                if (ok)
+                {
+                    try
+                    {
+                        progressBar.Show(true, Res.Extracting);
+                        ModVersion.HasRuFixConsole = await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim + "\\Data"));
+                        ModVersion.Save();
+                        progressBar.Hide();
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("ExtractRuFix", e);
+                        NotifyController.Show(e);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("InstallRuFixConsole", e);
+            }
+        }
+        private async Task CheckClientUpdates()
+        {
+            progressBar.Show(true, Res.CheckingUpdates);
+            try
+            {
+                if (await Net.UpdateAvailable()) mainButton.ButtonStatus = MainButtonStatus.Update;
+                else mainButton.ButtonStatus = MainButtonStatus.Play;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("CheckClient", e);
+                NotifyController.Show(e);
+                mainButton.ButtonStatus = MainButtonStatus.Retry;
+            }
+            progressBar.Hide();
+        }
+        private async void MainBtn_Click(object sender, EventArgs e)
+        {
+            if (blockMainBtn) return;
+            blockMainBtn = true;
+            switch (mainButton.ButtonStatus)
+            {
+                case MainButtonStatus.Play:
+                    await Play();
+                    break;
+                case MainButtonStatus.Update:
+                    await UpdateClient();
+                    break;
+                case MainButtonStatus.Retry:
+                    await CheckClientUpdates();
+                    break;
+            }
+            blockMainBtn = false;
+        }
+        private async Task Play()
         {
             if (!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
-                if (MessageBox.Show("SKSE не обнаружен, установить?", "Ошибка", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    InstallSKSE();
+                Wind_Loaded(null, null);
                 return;
             }
+
+            if (serverList.SelectedItem == null)
+            {
+                NotifyController.Show(PopupNotify.Error, Res.Warning, Res.SelectServer);
+                return;
+            }
+
+            try
+            {
+                if (Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings)) && File.Exists(Settings.PathToSkympClientSettings))
+                {
+                    File.SetAttributes(Settings.PathToSkympClientSettings, FileAttributes.Normal);
+                }
+
+                SetServer();
+                ServerModel server = (ServerModel)serverList.SelectedItem;
+                object gameData = await Account.GetSession(server.Address);
+                if (gameData == null) return;
+                SetSession(gameData);
+            }
+            catch (JsonSerializationException)
+            {
+                NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                return;
+            }
+            catch (JsonReaderException)
+            {
+                NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                return;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                FileAttributes attr = new FileInfo(Settings.PathToSkympClientSettings).Attributes;
+                Logger.Error("Play_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
+                NotifyController.Show(PopupNotify.Error, Res.Error, "UnAuthorizedAccessException: Unable to access file");
+                return;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Play", e);
+                NotifyController.Show(PopupNotify.Error, Res.Error, e.Message);
+                return;
+            }
+
+            SetMods();
 
             try
             {
@@ -355,11 +377,62 @@ namespace UpdatesClient
                 Close();
             }
         }
+        private void SetMods()
+        {
+            string path = Settings.PathToLocalSkyrim + "Plugins.txt";
+            string content = @"# This file is used by Skyrim to keep track of your downloaded content.
+# Please do not modify this file.
+*FarmSystem.esp";
 
+            try
+            {
+                if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
+                if (File.Exists(path) && File.GetAttributes(path) != FileAttributes.Normal) File.SetAttributes(path, FileAttributes.Normal);
+                File.WriteAllText(path, content);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                FileAttributes attr = new FileInfo(path).Attributes;
+                Logger.Error("Write_Plugin_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Write_Plugin_txt", e);
+            }
+        }
+        private void SetServer()
+        {
+            if (!Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings))) 
+                Directory.CreateDirectory(Path.GetDirectoryName(Settings.PathToSkympClientSettings));
+            
+            SkympClientSettingsModel oldServer;
+            
+            if (File.Exists(Settings.PathToSkympClientSettings))
+            {
+                oldServer = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+            }
+            else
+            {
+                oldServer = new SkympClientSettingsModel();
+                oldServer.IsEnableConsole = false;
+                oldServer.IsShowMe = false;
+            }
+
+            ServerModel newServer = (ServerModel)serverList.SelectedItem;
+            if (newServer.IsSameServer(oldServer)) return;
+            File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(newServer.ToSkympClientSettings(oldServer), Formatting.Indented));
+            Settings.Save();
+        }
+        private void SetSession(object gameData)
+        {
+            SkympClientSettingsModel settingsModel = JsonConvert.DeserializeObject<SkympClientSettingsModel>(File.ReadAllText(Settings.PathToSkympClientSettings));
+            settingsModel.GameData = gameData;
+            File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
+        }
         private async Task ReportDmp()
         {
             string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
-
+            if (!Directory.Exists(pathToDmps)) return;
             try
             {
                 DateTime dt = ModVersion.LastDmpReported;
@@ -389,8 +462,108 @@ namespace UpdatesClient
             }
             catch (Exception e)
             {
-                YandexMetrica.ReportError("ReportDmp", e);
+                if (!(e is WebException) && (e is SocketException))
+                    Logger.Error("ReportDmp", e);
             }
+        }
+        private async Task UpdateClient()
+        {
+            (string, string) url = await Net.GetUrlToClient();
+            string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
+
+            try
+            {
+                if (File.Exists(destinationPath)) File.Delete(destinationPath);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("DelClientZip", e);
+            }
+            
+            bool ok = await DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, url.Item2);
+
+            if (ok)
+            {
+                progressBar.Show(true, Res.ExtractingClient);
+                try
+                {
+                    if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim, "client")))
+                    {
+                        ModVersion.Version = url.Item2;
+                        ModVersion.Save();
+                        NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Extract", e);
+                    NotifyController.Show(e);
+                    mainButton.ButtonStatus = MainButtonStatus.Retry;
+                    return;
+                }
+                progressBar.Hide();
+            }
+            await CheckClientUpdates();
+        }
+        private void Downloader_DownloadChanged(long downloaded, long size, double prDown)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+            {
+                try
+                {
+                    progressBar.Size = size;
+                    progressBar.Update(downloaded);
+                }
+                catch { }
+            });
+        }
+        private async Task<bool> DownloadFile(string destinationPath, string url, string status, string vers = null, int c = 0)
+        {
+            progressBar.Show(false, $"{status}{(c != 0 ? $" ({Res.Attempt} №{c + 1})" : "")}", vers);
+
+            Downloader downloader = new Downloader(destinationPath, url);
+            downloader.DownloadChanged += Downloader_DownloadChanged;
+            progressBar.Start();
+            bool ok = await downloader.StartSync();
+            downloader.DownloadChanged -= Downloader_DownloadChanged;
+            progressBar.Stop();
+            progressBar.Hide();
+
+            if (!ok && c < 3) return await DownloadFile(destinationPath, url, status, vers, ++c);
+            return ok;
+        }
+        private void RefreshServerList(object sender, RoutedEventArgs e)
+        {
+            FillServerList();
+        }
+        private void ServerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (serverList.SelectedIndex != -1)
+            {
+                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;
+            }
+        }
+        private void ServerList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DependencyObject source = (DependencyObject)e.OriginalSource;
+
+            if (source is TextBlock block)
+            {
+                if (block.DataContext is ServerModel)
+                {
+                    MainBtn_Click(sender, e);
+                }
+            }
+        }
+        private void LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: аннулирование токена
+
+            Settings.UserId = 0;
+            Settings.UserToken = "";
+            Settings.Save();
+
+            authorization.Visibility = Visibility.Visible;
         }
     }
 }

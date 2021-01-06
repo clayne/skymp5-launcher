@@ -34,7 +34,7 @@ namespace Yandex.Metrica.Legacy
             catch
             {
             }
-            return Task.FromResult<T>(default(T));
+            return Task.FromResult<T>(default);
         }
 
         public Task DeleteAsync(string resourceLocation)

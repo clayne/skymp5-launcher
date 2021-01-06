@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using UpdatesClient.Modules.Configs;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Core
 {
@@ -18,54 +15,66 @@ namespace UpdatesClient.Core
 
         public const string URL_CrashDmp = "https://skymp.io/updates/api/crashes.php";
         public const string URL_CrashDmpSec = "https://skymp.skyrez.su/api/crashes.php";
+        public const string URL_SERVERS = "https://skymp.io/api/servers";
 
         public const string URL_Lib = "https://skymp.io/updates/libs/7z.dll";
         public const string URL_Mod_RuFix = "https://skymp.io/updates/mods/SSERuFixConsole.zip";
 
         public static async Task<bool> UpdateAvailable()
         {
-            string result = await Request($"{URL_Version}", null);
+            string result = await Request($"{URL_Version}", "GET", false, null);
 
             return ModVersion.Version != result;
         }
 
         public static async Task<(string, string)> GetUrlToClient()
         {
-            string ver = await Request($"{URL_Version}", null);
-            string link = await Request(URL_ModLink.Replace("{VERSION}", ver), null);
+            string ver = await Request($"{URL_Version}", "GET", false, null);
+            string link = await Request(URL_ModLink.Replace("{VERSION}", ver), "GET", false, null);
             return (link, ver);
         }
 
         public static async Task<string> GetUrlToSKSE()
         {
-            string ver = await Request($"{URL_Version}", null);
-            string link = await Request(URL_SKSELink.Replace("{VERSION}", ver), null);
+            string ver = await Request($"{URL_Version}", "GET", false, null);
+            string link = await Request(URL_SKSELink.Replace("{VERSION}", ver), "GET", false, null);
             return link;
         }
 
         public static async Task<bool> ReportDmp(string pathToFile)
         {
-            string req1 = await UploadRequest(URL_CrashDmp, null, pathToFile, "crashdmp", "application/x-dmp");
+            //string req1 = await UploadRequest(URL_CrashDmp, null, pathToFile, "crashdmp", "application/x-dmp");
             string req2 = await UploadRequest(URL_CrashDmpSec, null, pathToFile, "crashdmp", "application/x-dmp");
-            if (req1 != "OK") YandexMetrica.ReportError("ReportDmp_Net_S1", new Exception(req1));
-            if (req2 != "OK") YandexMetrica.ReportError("ReportDmp_Net_S2", new Exception(req2));
+            //if (req1 != "OK") Logger.Error("ReportDmp_Net_S1", new Exception(req1));
+            if (req2 != "OK") Logger.Error("ReportDmp_Net_S2", new Exception(req2));
 
-            return req1 == "OK" || req2 == "OK";
+            return /*req1 == "OK" ||*/ req2 == "OK";
         }
 
-        private static async Task<string> Request(string url, string data)
+
+        public static async Task<string> Request(string url, string method, bool auth, string data)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            req.Method = "GET";
+            req.Method = method;
+            req.Timeout = 10000;
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
-            req.ContentType = "application/x-www-form-urlencoded;";
+            req.ContentType = "application/json";
+            if (auth) req.Headers.Add(HttpRequestHeader.Authorization, Settings.UserToken);
             if (data != null)
                 using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data}");
 
-            using (var sr = new StreamReader(req.GetResponse().GetResponseStream())) return await sr.ReadToEndAsync();
+            using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+            {
+                using (StreamReader sr = new StreamReader(res.GetResponseStream()))
+                {
+                    string raw = await sr.ReadToEndAsync();
+                    return raw;
+                }
+            }
         }
-        private static async Task<string> UploadRequest(string url, string data, string file, string paramName, string contentType)
+
+        public static async Task<string> UploadRequest(string url, string data, string file, string paramName, string contentType)
         {
             string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 

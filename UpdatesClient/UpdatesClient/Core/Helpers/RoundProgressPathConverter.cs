@@ -35,8 +35,10 @@ namespace UpdatesClient.Core.Helpers
             var vector2 = new Vector(Math.Sin(angleRadians), -Math.Cos(angleRadians));
             var center = new Point();
 
-            var geo = new StreamGeometry();
-            geo.FillRule = FillRule.EvenOdd;
+            var geo = new StreamGeometry
+            {
+                FillRule = FillRule.EvenOdd
+            };
 
             using (var ctx = geo.Open())
             {

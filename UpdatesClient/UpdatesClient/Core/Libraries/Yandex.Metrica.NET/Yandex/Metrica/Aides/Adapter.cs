@@ -26,7 +26,9 @@ namespace Yandex.Metrica.Aides
             return o is UnhandledExceptionEventArgs exceptionEventArgs && exceptionEventArgs.ExceptionObject.ToString().Contains("Yandex.Metrica");
         }
 
+#pragma warning disable IDE0060 // Удалите неиспользуемый параметр
         public static void TryHandleException(object o)
+#pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
         }
     }

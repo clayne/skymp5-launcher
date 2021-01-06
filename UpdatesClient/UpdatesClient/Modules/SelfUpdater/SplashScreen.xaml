@@ -5,17 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient.Modules.SelfUpdater"
         xmlns:ef="clr-namespace:UpdatesClient.Core.Helpers"
+        xmlns:res="clr-namespace:UpdatesClient.Properties"
         mc:Ignorable="d"
-        Title="SkyMP Launcher" Height="120" Width="400" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        Title="{x:Static res:Resources.Title}" Height="120" Width="400" ScrollViewer.VerticalScrollBarVisibility="Disabled"
         WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/SplashBackground/back2.png" Stretch="UniformToFill"/>
     </Window.Background>
     <Grid>
         <ProgressBar Name="progBar" Minimum="0" Maximum="1" Value="-1" IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Foreground="#FF06AC06"/>
-        <TextBlock x:Name="Status" Margin="10,0,10,15" TextWrapping="Wrap" Text="Проверка обновлений..." Foreground="White" Height="16" VerticalAlignment="Bottom" FontWeight="Bold" TextAlignment="Center">
-            
-
-        </TextBlock>
+        <TextBlock x:Name="Status" Margin="10,0,10,15" TextWrapping="Wrap" Text="{x:Static res:Resources.CheckSelfUpdate}" Foreground="White" Height="16" VerticalAlignment="Bottom" FontWeight="Bold" TextAlignment="Center" />
     </Grid>
 </Window>

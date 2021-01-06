@@ -1,59 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
+using System.Net.Sockets;
 using System.Threading.Tasks;
-using System.Windows;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Core
 {
     public class Downloader
     {
-        public delegate void DownloaderStateHandler(double Value, double LenFile, double prDown);
+        public delegate void DownloaderStateHandler(long donwloaded, long size, double prDown);
         public event DownloaderStateHandler DownloadChanged;
 
-        public delegate void DownloadedStateHandler(string DestinationFile, string Vers);
+        public delegate void DownloadedStateHandler(string DestinationFile);
         public event DownloadedStateHandler DownloadComplete;
 
         private long iFileSize = 0;
-        private double DownValue = 0;
-        private double DownMax = 0;
         public int iBufferSize = 1024;
 
         public bool Downloading = false;
         public string sDestinationPath = $"\\";
         public string sInternetPath;
-        public string sVers;
 
-        public Downloader(string DestinationPath, string InternetPath, string Vers)
+        public Downloader(string DestinationPath, string InternetPath)
         {
             sDestinationPath = DestinationPath;
             sInternetPath = InternetPath;
-            sVers = Vers;
             iBufferSize *= 10;
         }
 
         public async void StartAsync()
         {
             string path = Path.GetDirectoryName(sDestinationPath);
-            if (path != null && path != "" && !Directory.Exists(path)) Directory.CreateDirectory(path);
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path)) Directory.CreateDirectory(path);
 
             await Task.Run(() => StartDown());
 
-            DownloadComplete?.Invoke(sDestinationPath, sVers);
+            DownloadComplete?.Invoke(sDestinationPath);
         }
 
         public async Task<bool> StartSync()
         {
             string path = Path.GetDirectoryName(sDestinationPath);
-            if (path != null && path != "" && !Directory.Exists(path)) Directory.CreateDirectory(path);
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path)) Directory.CreateDirectory(path);
 
             await Task.Run(() => StartDown());
 
-            DownloadComplete?.Invoke(sDestinationPath, sVers);
+            DownloadComplete?.Invoke(sDestinationPath);
             return sDestinationPath != null;
         }
 
@@ -62,18 +55,35 @@ namespace UpdatesClient.Core
             try
             {
                 Downloading = true;
-
-                if (Directory.Exists(Path.GetDirectoryName(sDestinationPath))) Directory.CreateDirectory(Path.GetDirectoryName(sDestinationPath));
-
                 DownloadFile();
-
-                Downloading = false;
             }
-            catch (Exception e) 
-            { 
-                Downloading = false;
-                YandexMetrica.ReportError("Downloader", e);
+            catch (WebException we)
+            {
                 sDestinationPath = null;
+                NotifyController.Show(we);
+            }
+            catch (SocketException se)
+            {
+                sDestinationPath = null;
+                NotifyController.Show(se);
+            }
+            catch (UnauthorizedAccessException uae)
+            {
+                sDestinationPath = null;
+                Dictionary<string, string> tags = new Dictionary<string, string>
+                {
+                    { "FullPath", sDestinationPath }
+                };
+                Logger.Error("Downloader_UAE", uae, tags);
+            }
+            catch (Exception e)
+            {
+                sDestinationPath = null;
+                Logger.Error("Downloader", e);
+            }
+            finally
+            {
+                Downloading = false;
             }
         }
 
@@ -91,17 +101,13 @@ namespace UpdatesClient.Core
                     using (Stream smRespStream = hwRes.GetResponseStream())
                     {
                         iFileSize = hwRes.ContentLength;
-
-                        DownMax = (int)(iFileSize / 1024);
-
                         int iByteSize;
                         byte[] downBuffer = new byte[iBufferSize];
 
                         while ((iByteSize = smRespStream.Read(downBuffer, 0, downBuffer.Length)) > 0)
                         {
                             saveFileStream.Write(downBuffer, 0, iByteSize);
-                            DownValue = (int)(saveFileStream.Length / 1024);
-                            DownloadChanged?.Invoke(DownValue, DownMax, DownValue / DownMax * 100);
+                            DownloadChanged?.Invoke(saveFileStream.Length, iFileSize, 0);
                         }
                     }
                 }

@@ -9,7 +9,9 @@ namespace Yandex.Metrica.Providers
 {
     internal class DeviceDataProvider : ADataProvider<Task<DeviceProperties>>
     {
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private const string StartupPlatform = "dotnet";
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
 
         protected override async Task<DeviceProperties> ProvideOrThrowException()
         {

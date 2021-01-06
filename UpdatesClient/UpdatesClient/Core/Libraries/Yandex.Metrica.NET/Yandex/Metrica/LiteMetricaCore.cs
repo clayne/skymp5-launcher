@@ -55,7 +55,9 @@ namespace Yandex.Metrica
             if (str == null)
                 str = "".GlueGetList(await ServiceData.GetReportParameters(), true);
             sessionModel.ReportParameters = str;
+#pragma warning disable IDE0059 // Ненужное присваивание значения
             sessionModel = (SessionModel)null;
+#pragma warning restore IDE0059 // Ненужное присваивание значения
             this.IsPaused = true;
         }
 
@@ -99,7 +101,9 @@ namespace Yandex.Metrica
             SessionModel sessionModel = this.StartSession(activateApiKey);
             Dictionary<string, object> reportParameters = await ServiceData.GetReportParameters();
             sessionModel.ReportParameters = "".GlueGetList(reportParameters, true);
+#pragma warning disable IDE0059 // Ненужное присваивание значения
             sessionModel = (SessionModel)null;
+#pragma warning restore IDE0059 // Ненужное присваивание значения
             await this.ReportIdentityEvent();
         }
 
