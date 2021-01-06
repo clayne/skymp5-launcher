@@ -75,7 +75,18 @@ namespace UpdatesClient.Modules.GameManager
                     }
                     while (!SkyrimPlatformCEFs[i].HasExited && tr++ < 5);
                 }
-                //catch (Win32Exception) { }
+                catch (Win32Exception) 
+                {
+                    try
+                    {
+                        if(!SkyrimPlatformCEFs[i].HasExited)
+                            ProcessKiller.KillProcess((IntPtr)SkyrimPlatformCEFs[i].Id);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("StartGame_Killer_SkyrimPlatformCEF", e);
+                    }
+                }
                 catch (Exception e)
                 {
                     Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
