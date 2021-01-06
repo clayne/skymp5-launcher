@@ -54,6 +54,7 @@ namespace UpdatesClient
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             Settings.Load();
+            NetworkSettings.Init();
             Logger.Init(version);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 

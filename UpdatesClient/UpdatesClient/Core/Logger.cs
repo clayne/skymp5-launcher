@@ -52,8 +52,6 @@ namespace UpdatesClient.Core
             if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
             YandexMetricaFolder.SetCurrent(tmpPath);
             YandexMetrica.Config.CustomAppVersion = version;
-
-            
         }
 
 
