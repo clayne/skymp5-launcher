@@ -2,4 +2,4 @@ Copyright (c) 2015-2021 Leonid Pospelov
 
 Use of this source code is subject to the Skymp Service Agreement provided on the Skyrim Multiplayer website at the following URL: https://skymp.io/terms.html
 
-"UpdatesClient\UpdatesClient\Core\Libraries" folder is not a subject to the Skymp Service Agreement since it contains third-party source code which is available under licenses which authors provide.
+"UpdatesClient\UpdatesClient\Core\Libraries" and "UpdatesClient\UpdatesClient\Assets" folders are not subjects to the Skymp Service Agreement since it contains third-party source code and assets available under licenses which authors provide.
