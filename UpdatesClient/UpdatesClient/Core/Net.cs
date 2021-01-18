@@ -20,6 +20,8 @@ namespace UpdatesClient.Core
         public const string URL_Lib = "https://skymp.io/updates/libs/7z.dll";
         public const string URL_Mod_RuFix = "https://skymp.io/updates/mods/SSERuFixConsole.zip";
 
+        public const string URL_ApiLauncher = "https://skymplauncher.skyrez.su/api/v1/";
+
         public static async Task<bool> UpdateAvailable()
         {
             string result = await Request($"{URL_Version}", "GET", false, null);
@@ -43,12 +45,13 @@ namespace UpdatesClient.Core
 
         public static async Task<bool> ReportDmp(string pathToFile)
         {
-            //string req1 = await UploadRequest(URL_CrashDmp, null, pathToFile, "crashdmp", "application/x-dmp");
-            string req2 = await UploadRequest(URL_CrashDmpSec, null, pathToFile, "crashdmp", "application/x-dmp");
-            //if (req1 != "OK") Logger.Error("ReportDmp_Net_S1", new Exception(req1));
-            if (req2 != "OK") Logger.Error("ReportDmp_Net_S2", new Exception(req2));
-
-            return /*req1 == "OK" ||*/ req2 == "OK";
+            if (NetworkSettings.ReportDmp)
+            {
+                string req = await UploadRequest(URL_CrashDmpSec, null, pathToFile, "crashdmp", "application/x-dmp");
+                if (req != "OK") Logger.Error("ReportDmp_Net", new Exception(req));
+                return req == "OK";
+            }
+            return true;
         }
 
 
@@ -58,11 +61,12 @@ namespace UpdatesClient.Core
             req.Method = method;
             req.Timeout = 10000;
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-            req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
+            req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0";
             req.ContentType = "application/json";
             if (auth) req.Headers.Add(HttpRequestHeader.Authorization, Settings.UserToken);
-            if (data != null)
-                using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data}");
+            
+            if((data == null && method == "POST") || (data != null))
+                using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data ?? ""}");
 
             using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
             {

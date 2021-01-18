@@ -10,6 +10,7 @@ namespace UpdatesClient.Modules.Configs.Models
         public int? UserId { get; set; }
         public SecureString? UserToken { get; set; }
         public string Locale { get; set; }
+        public bool? ExperimentalFunctions { get; set; }
 
         public SettingsFileModel()
         {

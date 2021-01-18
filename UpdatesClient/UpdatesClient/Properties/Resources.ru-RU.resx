@@ -168,6 +168,12 @@
   <data name="ErrorSelfUpdate" xml:space="preserve">
     <value>Не удалось выполнить обновление лаунчера</value>
   </data>
+  <data name="ExperimentalFeatures" xml:space="preserve">
+    <value>Экспериментальные функции</value>
+  </data>
+  <data name="ExperimentalFeaturesText" xml:space="preserve">
+    <value>Вы можете присоединиться к тестированию экспериментальных функций.\nВнимание: работа лаунчера может стать лучше или хуже.\nПрисоединиться?</value>
+  </data>
   <data name="Extracting" xml:space="preserve">
     <value>Распаковка</value>
   </data>

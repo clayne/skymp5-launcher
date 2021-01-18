@@ -28,7 +28,10 @@ namespace UpdatesClient.Modules.SelfUpdater
                 return new string(hash.SelectMany(a => a.ToString("X2")).ToArray());
             }
         }
-
+        public static string GetMD5FromBytes(byte[] bytes)
+        {
+            return GetMD5Hash(bytes);
+        }
         public static string GetMD5FromFile(FileStream file)
         {
             byte[] fileData = new byte[file.Length];

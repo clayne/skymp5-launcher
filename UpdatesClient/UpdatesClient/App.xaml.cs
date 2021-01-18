@@ -52,11 +52,12 @@ namespace UpdatesClient
                 AppCurrent = Current;
             } catch { }
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
-            Settings.Load();
             Logger.Init(version);
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
+            Settings.Load();
+            NetworkSettings.Init();
             UnpackResx();
 
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
@@ -89,9 +90,12 @@ namespace UpdatesClient
                 {
                     string path = $"{Settings.PathToLocal}\\{l}";
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                    if (!File.Exists($"{path}\\UpdatesClient.resources.dll"))
+                    
+                    byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
+                    
+                    if (!File.Exists($"{path}\\UpdatesClient.resources.dll") 
+                        || Hashing.GetMD5FromBytes(File.ReadAllBytes($"{path}\\UpdatesClient.resources.dll")).ToUpper() != Hashing.GetMD5FromBytes(bytes).ToUpper())
                     {
-                        byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
                         File.WriteAllBytes($"{path}\\UpdatesClient.resources.dll", bytes);
                     }
                 }

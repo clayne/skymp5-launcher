@@ -100,6 +100,25 @@ namespace UpdatesClient
         }
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (Settings.ExperimentalFunctions == null)
+                {
+                    MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"), Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    if (result == MessageBoxResult.Yes) Settings.ExperimentalFunctions = true;
+                    else Settings.ExperimentalFunctions = false;
+                    Settings.Save();
+                }
+            }
+            catch (Exception er) { Logger.Error("ExpFunc", er); }
+
+            await CheckGame();
+            SetBackgroundServerList();
+            FillServerList();
+            Authorization_SignIn();
+        }
+        private async Task CheckGame()
+        {
             string pathToSkyrim = Settings.PathToSkyrim;
             ResultGameVerification result = default;
             try
@@ -166,10 +185,6 @@ namespace UpdatesClient
             {
                 Logger.FatalError("Wind_Loaded_2", er);
             }
-
-            SetBackgroundServerList();
-            FillServerList();
-            Authorization_SignIn();
         }
         private void SetBackgroundServerList()
         {
@@ -205,6 +220,18 @@ namespace UpdatesClient
                 serverList.ItemsSource = null;
                 serverList.ItemsSource = list;
                 serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
+                if (NetworkSettings.ShowingServerStatus)
+                {
+                    if (!list.Exists(x => x.ID == NetworkSettings.OfficialServerAdress.GetHashCode()))
+                    {
+                        bottomInfoPanel.Text = NetworkSettings.ServerStatus;
+                        bottomInfoPanel.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        bottomInfoPanel.Visibility = Visibility.Hidden;
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -309,7 +336,7 @@ namespace UpdatesClient
         {
             if (!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
-                Wind_Loaded(null, null);
+                await CheckGame();
                 return;
             }
 
@@ -560,6 +587,7 @@ namespace UpdatesClient
             //TODO: аннулирование токена
 
             Settings.UserId = 0;
+            Settings.UserName = "";
             Settings.UserToken = "";
             Settings.Save();
 

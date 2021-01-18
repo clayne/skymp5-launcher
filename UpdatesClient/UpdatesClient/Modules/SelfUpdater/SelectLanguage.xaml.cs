@@ -11,7 +11,7 @@ namespace UpdatesClient.Modules.SelfUpdater
     /// </summary>
     public partial class SelectLanguage : Window
     {
-        public string Language = "en-US";
+        public string LanguageBase = "en-US";
         private bool Selected = false;
 
         DropShadowEffect dse = new DropShadowEffect()
@@ -41,7 +41,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             Clear();
             ru.Effect = dse;
             ru.Opacity = 1;
-            Language = "ru-RU";
+            LanguageBase = "ru-RU";
             Selected = true;
         }
 
@@ -50,7 +50,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             Clear();
             us.Effect = dse;
             us.Opacity = 1;
-            Language = "en-US";
+            LanguageBase = "en-US";
             Selected = true;
         }
 
