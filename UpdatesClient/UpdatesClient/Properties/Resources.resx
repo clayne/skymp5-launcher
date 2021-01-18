@@ -168,6 +168,12 @@
   <data name="ErrorSelfUpdate" xml:space="preserve">
     <value>Failed to update launcher</value>
   </data>
+  <data name="ExperimentalFeatures" xml:space="preserve">
+    <value>Experimental features</value>
+  </data>
+  <data name="ExperimentalFeaturesText" xml:space="preserve">
+    <value>You can join the testing of experimental features.\nAttention: the launcher may get better or worse.\nJoin?</value>
+  </data>
   <data name="Extracting" xml:space="preserve">
     <value>Extracting</value>
   </data>

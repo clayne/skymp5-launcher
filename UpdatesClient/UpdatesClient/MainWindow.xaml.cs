@@ -100,6 +100,18 @@ namespace UpdatesClient
         }
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (Settings.ExperimentalFunctions == null)
+                {
+                    MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"), Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    if (result == MessageBoxResult.Yes) Settings.ExperimentalFunctions = true;
+                    else Settings.ExperimentalFunctions = false;
+                    Settings.Save();
+                }
+            }
+            catch (Exception er) { Logger.Error("ExpFunc", er); }
+
             await CheckGame();
             SetBackgroundServerList();
             FillServerList();
@@ -208,6 +220,18 @@ namespace UpdatesClient
                 serverList.ItemsSource = null;
                 serverList.ItemsSource = list;
                 serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
+                if (NetworkSettings.ShowingServerStatus)
+                {
+                    if (!list.Exists(x => x.ID == NetworkSettings.OfficialServerAdress.GetHashCode()))
+                    {
+                        bottomInfoPanel.Text = NetworkSettings.ServerStatus;
+                        bottomInfoPanel.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        bottomInfoPanel.Visibility = Visibility.Hidden;
+                    }
+                }
             }
             catch (Exception e)
             {

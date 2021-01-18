@@ -214,6 +214,24 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Experimental features.
+        /// </summary>
+        public static string ExperimentalFeatures {
+            get {
+                return ResourceManager.GetString("ExperimentalFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на You can join the testing of experimental features.\nAttention: the launcher may get better or worse.\nJoin?.
+        /// </summary>
+        public static string ExperimentalFeaturesText {
+            get {
+                return ResourceManager.GetString("ExperimentalFeaturesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Extracting.
         /// </summary>
         public static string Extracting {

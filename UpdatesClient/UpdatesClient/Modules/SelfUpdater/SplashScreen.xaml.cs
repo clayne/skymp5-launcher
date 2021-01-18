@@ -20,12 +20,12 @@ namespace UpdatesClient.Modules.SelfUpdater
                 {
                     SelectLanguage language = new SelectLanguage();
                     language.ShowDialog();
-                    if (string.IsNullOrEmpty(language.Language))
+                    if (string.IsNullOrEmpty(language.LanguageBase))
                     {
                         App.AppCurrent.Shutdown();
                         return;
                     }
-                    Settings.Locale = language.Language;
+                    Settings.Locale = language.LanguageBase;
                     Settings.Save();
                 }
                 try

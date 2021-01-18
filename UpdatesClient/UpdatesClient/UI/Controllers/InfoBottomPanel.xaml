@@ -16,6 +16,6 @@
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <TextBlock x:Name="textBlock" Margin="70,0,70,7" TextWrapping="Wrap" Text="15 АВГУСТА С 9.00 ДО 15.00 ПО МСК БУДУТ ПРОВОДИТЬСЯ ПЛАНОВЫЕ ТЕХ. РАБОТЫ" VerticalAlignment="Bottom" FontFamily="/UpdatesClient;component/Assets/Fonts/#VTMB_DlgBase2" FontSize="15" Foreground="#FFFCFF00" TextAlignment="Center"/>
+        <TextBlock x:Name="textBlock" Margin="70,0,70,7" TextWrapping="Wrap" Text="15 АВГУСТА С 9.00 ДО 15.00 ПО МСК БУДУТ ПРОВОДИТЬСЯ ПЛАНОВЫЕ ТЕХ. РАБОТЫ" VerticalAlignment="Bottom" FontFamily="Corbel" FontSize="14" Foreground="#FFFCFF00" TextAlignment="Center"/>
     </Grid>
 </UserControl>

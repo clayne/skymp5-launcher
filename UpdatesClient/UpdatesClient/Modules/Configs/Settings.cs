@@ -35,7 +35,7 @@ namespace UpdatesClient.Modules.Configs
         public static string LastVersion { get => model.LastVersion; private set => model.LastVersion = value; }
         public static int LastServerID { get => model.LastServerID ?? -1; set => model.LastServerID = value; }
         public static string Locale { get => model.Locale; set => model.Locale = value; }
-        public static bool ExperimentalFunctions { get => model.ExperimentalFunctions ?? false; set => model.ExperimentalFunctions = value; }
+        public static bool? ExperimentalFunctions { get => model.ExperimentalFunctions; set => model.ExperimentalFunctions = value; }
         #endregion
 
         #region User

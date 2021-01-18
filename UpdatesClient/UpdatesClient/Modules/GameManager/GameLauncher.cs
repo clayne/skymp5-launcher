@@ -77,7 +77,7 @@ namespace UpdatesClient.Modules.GameManager
                 }
                 catch (Win32Exception) 
                 {
-                    if(Settings.ExperimentalFunctions)
+                    if(Settings.ExperimentalFunctions == true)
                     {
                         try
                         {

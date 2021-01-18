@@ -15,7 +15,9 @@ namespace UpdatesClient.Modules.Configs
         public static bool Loaded { get; private set; } = false;
 
         public static bool ReportDmp { get => model.ReportDmp; }
-
+        public static bool ShowingServerStatus { get => model.ShowingServerStatus; }
+        public static string ServerStatus { get => model.ServerStatus; }
+        public static string OfficialServerAdress { get => model.OfficialServerAdress; }
 
         public static async void Init()
         {
