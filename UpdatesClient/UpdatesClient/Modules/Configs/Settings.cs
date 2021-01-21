@@ -30,6 +30,7 @@ namespace UpdatesClient.Modules.Configs
         #region Skyrim
         public static string PathToSkyrim { get => model.PathToSkyrim; set => model.PathToSkyrim = value; }
         public static string PathToSkyrimTmp { get => PathToSkyrim + "\\tmp\\"; }
+        public static string PathToSkyrimMods { get => PathToSkyrim + "\\Mods\\"; }
         #endregion
 
         #region Launcher

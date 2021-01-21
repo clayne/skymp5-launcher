@@ -142,6 +142,11 @@
     <Compile Include="Modules\Configs\Models\NetworkSettingsModel.cs" />
     <Compile Include="Modules\Configs\NetworkSettings.cs" />
     <Compile Include="Modules\GameManager\Helpers\ProcessKiller.cs" />
+    <Compile Include="Modules\ModsManager\Enums\SymbolicLink.cs" />
+    <Compile Include="Modules\ModsManager\Models\ModModel.cs" />
+    <Compile Include="Modules\ModsManager\Models\ModsModel.cs" />
+    <Compile Include="Modules\ModsManager\Mods.cs" />
+    <Compile Include="Modules\ModsManager\WinFunctions.cs" />
     <Compile Include="Properties\Resources.ru-RU.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
