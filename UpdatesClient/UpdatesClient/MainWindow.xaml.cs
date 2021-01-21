@@ -104,7 +104,9 @@ namespace UpdatesClient
             {
                 if (Settings.ExperimentalFunctions == null)
                 {
-                    MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"), Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"), 
+                        Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+
                     if (result == MessageBoxResult.Yes) Settings.ExperimentalFunctions = true;
                     else Settings.ExperimentalFunctions = false;
                     Settings.Save();
@@ -117,7 +119,7 @@ namespace UpdatesClient
             FillServerList();
             Authorization_SignIn();
         }
-        private async Task CheckGame()
+        private ResultGameVerification CheckSkyrim()
         {
             string pathToSkyrim = Settings.PathToSkyrim;
             ResultGameVerification result = default;
@@ -132,7 +134,6 @@ namespace UpdatesClient
                         {
                             App.AppCurrent.Shutdown();
                             Close();
-                            return;
                         }
                         pathToSkyrim = path;
                     }
@@ -154,26 +155,36 @@ namespace UpdatesClient
             }
             catch (Exception er)
             {
-                Logger.FatalError("Wind_Loaded_1", er);
+                Logger.FatalError("CheckPathToSkyrim", er);
                 MessageBox.Show(Res.InitError, Res.Error);
                 Close();
             }
 
+            return result;
+        }
+        private async Task CheckGame()
+        {
+            ResultGameVerification result = CheckSkyrim();
+
             ModVersion.Load();
             FileWatcher.Init();
 
+            if (!result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                blockMainBtn = true;
+                await InstallSKSE();
+                blockMainBtn = false;
+            }
+
             try
             {
-                if (!result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    await InstallSKSE();
-                }
-                if (!result.IsRuFixConsoleFound
-                    && ModVersion.HasRuFixConsole == null
+                if (!result.IsRuFixConsoleFound && ModVersion.HasRuFixConsole == null
                     && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
+                    blockMainBtn = true;
                     await InstallRuFixConsole();
                     ModVersion.Save();
+                    blockMainBtn = false;
                 }
                 else
                 {
@@ -183,7 +194,8 @@ namespace UpdatesClient
             }
             catch (Exception er)
             {
-                Logger.FatalError("Wind_Loaded_2", er);
+                blockMainBtn = false;
+                Logger.FatalError("CheckGame_SSERFix", er);
             }
         }
         private void SetBackgroundServerList()

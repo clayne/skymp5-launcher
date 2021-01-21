@@ -15,6 +15,7 @@ namespace UpdatesClient.Modules.Configs
 
         public static readonly string VersionFile = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
         public static readonly string VersionAssembly = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static bool Loaded { get; private set; } = false;
 
         #region Paths
         public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
@@ -51,14 +52,13 @@ namespace UpdatesClient.Modules.Configs
         #endregion
 
 
-        internal static bool Load()
+        internal static void Load()
         {
             try
             {
                 if (File.Exists(PathToSettingsFile))
                 {
                     model = JsonConvert.DeserializeObject<SettingsFileModel>(File.ReadAllText(PathToSettingsFile));
-                    return true;
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace UpdatesClient.Modules.Configs
                 Logger.Error("Settings_Load", e);
                 model = new SettingsFileModel();
             }
-            return true;
+            Loaded = true;
         }
         internal static void Save()
         {
@@ -95,6 +95,7 @@ namespace UpdatesClient.Modules.Configs
             {
                 Logger.Error("Settings_Reset", e);
             }
+            Loaded = true;
         }
     }
 }

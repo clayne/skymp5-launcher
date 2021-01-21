@@ -55,10 +55,11 @@ namespace UpdatesClient
 
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             Logger.Init(version);
+            UnpackResx();
+
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             Settings.Load();
             NetworkSettings.Init();
-            UnpackResx();
 
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
@@ -92,9 +93,11 @@ namespace UpdatesClient
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
                     
                     byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
-                    
+                    byte[] bytesFile = File.ReadAllBytes($"{path}\\UpdatesClient.resources.dll");
+
+
                     if (!File.Exists($"{path}\\UpdatesClient.resources.dll") 
-                        || Hashing.GetMD5FromBytes(File.ReadAllBytes($"{path}\\UpdatesClient.resources.dll")).ToUpper() != Hashing.GetMD5FromBytes(bytes).ToUpper())
+                        || Hashing.GetMD5FromBytes(bytesFile).ToUpper() != Hashing.GetMD5FromBytes(bytes).ToUpper())
                     {
                         File.WriteAllBytes($"{path}\\UpdatesClient.resources.dll", bytes);
                     }

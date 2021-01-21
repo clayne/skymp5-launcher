@@ -54,6 +54,9 @@ namespace UpdatesClient.Core
         {
             try
             {
+                if (File.Exists(sDestinationPath) && File.GetAttributes(sDestinationPath) != FileAttributes.Normal) 
+                    File.SetAttributes(sDestinationPath, FileAttributes.Normal);
+
                 Downloading = true;
                 DownloadFile();
             }

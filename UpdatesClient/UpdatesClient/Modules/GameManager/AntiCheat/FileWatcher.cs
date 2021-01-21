@@ -16,6 +16,8 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
         {
             try
             {
+                if (!NetworkSettings.EnableAntiCheat) return;
+
                 //! Когда потребуется полноценная поддержка, нужно реализовать это как сервис
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
                 string path = Settings.PathToSkyrim + "\\Data\\Platform\\Plugins\\";
