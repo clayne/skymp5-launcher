@@ -18,6 +18,7 @@ namespace UpdatesClient.Modules.Configs
         public static bool ShowingServerStatus { get => model.ShowingServerStatus; }
         public static string ServerStatus { get => model.ServerStatus; }
         public static string OfficialServerAdress { get => model.OfficialServerAdress; }
+        public static bool EnableAntiCheat { get => model.EnableAntiCheat; }
 
         public static async void Init()
         {

@@ -70,6 +70,7 @@ namespace UpdatesClient.Core
                 e.SetTag("Locale", Settings.Locale);
                 e.SetTag("URI", uri);
                 e.SetTag("MD5", md5Luancher);
+                e.SetTag("ExperimentalFunctions", Settings.ExperimentalFunctions?.ToString());
             }
             catch { }
 

@@ -22,6 +22,11 @@ namespace UpdatesClient.Core
 
         public const string URL_ApiLauncher = "https://skymplauncher.skyrez.su/api/v1/";
 
+        static Net()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+        }
+
         public static async Task<bool> UpdateAvailable()
         {
             string result = await Request($"{URL_Version}", "GET", false, null);

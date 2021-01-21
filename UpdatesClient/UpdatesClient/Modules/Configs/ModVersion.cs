@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using UpdatesClient.Core;
+using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.Configs.Models;
 using Res = UpdatesClient.Properties.Resources;
 
@@ -28,24 +29,32 @@ namespace UpdatesClient.Modules.Configs
             set { model.LastDmpReported = value; }
         }
 
-        internal static bool Load()
+        internal static void Load()
         {
             try
             {
-                if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return false;
+                if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
+
                 string path = $"{Settings.PathToSkyrim}\\version.json";
                 if (File.Exists(path))
                 {
                     lock (sync)
                         model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
                 }
-                return true;
+                else  
+                {
+                    model = new ModVersionModel();
+                }
             }
             catch (Exception e)
             {
                 Logger.Error("Version_Load", e);
-                return false;
+                model = new ModVersionModel();
             }
+            ExperimentalFunctions.Use("ModVerLoad", () =>
+            {
+                if (model == null) model = new ModVersionModel();
+            });
         }
         internal static void Save()
         {
@@ -53,6 +62,9 @@ namespace UpdatesClient.Modules.Configs
             {
                 if (string.IsNullOrEmpty(Settings.PathToSkyrim)) return;
                 string path = $"{Settings.PathToSkyrim}\\version.json";
+
+                if (File.Exists(path) && File.GetAttributes(path) != FileAttributes.Normal) File.SetAttributes(path, FileAttributes.Normal);
+
                 lock (sync)
                     File.WriteAllText(path, JsonConvert.SerializeObject(model));
             }

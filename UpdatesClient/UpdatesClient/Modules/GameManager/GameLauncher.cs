@@ -31,6 +31,42 @@ namespace UpdatesClient.Modules.GameManager
             iniFile.WriteINI("DEBUG", "WriteMiniDumps", "1");
         }
 
+        private static async Task KillProcess()
+        {
+            Process[] SkyrimPlatformCEFs = Process.GetProcessesByName("SkyrimPlatformCEF");
+            for (int i = 0; i < SkyrimPlatformCEFs.Length; i++)
+            {
+                try
+                {
+                    int tr = 0;
+                    while (!SkyrimPlatformCEFs[i].HasExited && tr++ < 5)
+                    {
+                        SkyrimPlatformCEFs[i].Kill();
+                        await Task.Delay(250);
+                    }
+                }
+                catch (Win32Exception)
+                {
+                    if (Settings.ExperimentalFunctions == true)
+                    {
+                        try
+                        {
+                            if (!SkyrimPlatformCEFs[i].HasExited)
+                                ProcessKiller.KillProcess((IntPtr)SkyrimPlatformCEFs[i].Id);
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error("StartGame_Killer_SkyrimPlatformCEF", e);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
+                }
+            }
+        } 
+
         public static async Task<bool> StartGame()
         {
             EnableDebug();
@@ -60,41 +96,8 @@ namespace UpdatesClient.Modules.GameManager
 
             YandexMetrica.ReportEvent("ExitedGame");
             
-            await Task.Delay(500);
-
-            Process[] SkyrimPlatformCEFs = Process.GetProcessesByName("SkyrimPlatformCEF");
-            for (int i = 0; i < SkyrimPlatformCEFs.Length; i++)
-            {
-                try
-                {
-                    int tr = 0;
-                    do
-                    {
-                        SkyrimPlatformCEFs[i].Kill();
-                        await Task.Delay(200);
-                    }
-                    while (!SkyrimPlatformCEFs[i].HasExited && tr++ < 5);
-                }
-                catch (Win32Exception) 
-                {
-                    if(Settings.ExperimentalFunctions == true)
-                    {
-                        try
-                        {
-                            if (!SkyrimPlatformCEFs[i].HasExited)
-                                ProcessKiller.KillProcess((IntPtr)SkyrimPlatformCEFs[i].Id);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error("StartGame_Killer_SkyrimPlatformCEF", e);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
-                }
-            }
+            await Task.Delay(1000);
+            await KillProcess();
 
             Runing = false;
 
