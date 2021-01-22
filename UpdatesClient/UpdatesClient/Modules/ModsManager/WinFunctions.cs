@@ -6,6 +6,6 @@ namespace UpdatesClient.Modules.ModsManager
     public static class WinFunctions
     {
         [DllImport("kernel32.dll")]
-        static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, SymbolicLink dwFlags);
+        public static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, SymbolicLink dwFlags);
     }
 }

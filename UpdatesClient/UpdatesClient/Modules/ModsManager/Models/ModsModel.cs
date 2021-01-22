@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using UpdatesClient.Core.Helpers;
 
 namespace UpdatesClient.Modules.ModsManager.Models
 {
-    public class ModsModel
+    public class ModsModel : IJsonSaver
     {
-        List<string> Mods { get; set; } = new List<string>();
-        List<string> EnabledMods { get; set; } = new List<string>();
+        public List<string> Mods { get; set; } = new List<string>();
+        public List<string> EnabledMods { get; set; } = new List<string>();
     }
 }

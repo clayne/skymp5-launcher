@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
 
@@ -19,6 +15,7 @@ namespace UpdatesClient.Modules.Configs
         public static string ServerStatus { get => model.ServerStatus; }
         public static string OfficialServerAdress { get => model.OfficialServerAdress; }
         public static bool EnableAntiCheat { get => model.EnableAntiCheat; }
+        public static bool EnableModLoader { get => model.EnableModLoader; }
 
         public static async void Init()
         {

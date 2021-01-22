@@ -17,6 +17,9 @@ using Downloader = UpdatesClient.Modules.SelfUpdater.Downloader;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 using Res = UpdatesClient.Properties.Resources;
 using System.Globalization;
+using UpdatesClient.Modules.GameManager.Helpers;
+using UpdatesClient.Modules.Configs.Helpers;
+using UpdatesClient.Modules.ModsManager;
 
 namespace UpdatesClient
 {
@@ -51,14 +54,15 @@ namespace UpdatesClient
             {
                 AppCurrent = Current;
             } catch { }
+            UnpackResxLocale();
+
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
+            Settings.Load();
             Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
             Logger.Init(version);
-            UnpackResx();
-
+            
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            Settings.Load();
             NetworkSettings.Init();
 
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
@@ -82,7 +86,7 @@ namespace UpdatesClient
             }
         }
 
-        private void UnpackResx()
+        private void UnpackResxLocale()
         {
             string[] locales = { "ru-RU" };
             foreach(string l in locales)
@@ -90,31 +94,23 @@ namespace UpdatesClient
                 try
                 {
                     string path = $"{Settings.PathToLocal}\\{l}";
+
                     if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-                    
+
+                    string fullPath = $"{path}\\UpdatesClient.resources.dll";
+
                     byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
-                    byte[] bytesFile = File.ReadAllBytes($"{path}\\UpdatesClient.resources.dll");
+                    string newHash = Hashing.GetMD5FromBytes(bytes).ToUpper();
 
-
-                    if (!File.Exists($"{path}\\UpdatesClient.resources.dll") 
-                        || Hashing.GetMD5FromBytes(bytesFile).ToUpper() != Hashing.GetMD5FromBytes(bytes).ToUpper())
+                    if (!File.Exists(fullPath) || Hashing.GetMD5FromBytes(File.ReadAllBytes(fullPath)).ToUpper() != newHash)
                     {
-                        File.WriteAllBytes($"{path}\\UpdatesClient.resources.dll", bytes);
+                        if (File.Exists(fullPath) && File.GetAttributes(fullPath) != FileAttributes.Normal) 
+                            File.SetAttributes(fullPath, FileAttributes.Normal);
+
+                        File.WriteAllBytes(fullPath, bytes);
                     }
                 }
-                catch (UnauthorizedAccessException uae)
-                {
-                    FileAttributes attributes = FileAttributes.Normal;
-                    try
-                    {
-                        attributes = File.GetAttributes($"{Settings.PathToLocal}\\{l}\\UpdatesClient.resources.dll");
-                    } catch { }
-                    Logger.Error($"UnpackResx_{l}_{attributes}", uae);
-                }
-                catch (Exception e)
-                {
-                    Logger.Error($"UnpackResx_{l}", e);
-                }
+                catch { }
             }
         }
 
@@ -226,8 +222,18 @@ namespace UpdatesClient
                         case "repair-client":
                             try
                             {
-                                Settings.Load();
                                 ModVersion.Reset();
+                            }
+                            catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
+                            goto default;
+                        case "clear-client":
+                            try
+                            {
+                                ExperimentalFunctions.IfUse("Cleaner", () =>
+                                {
+                                    Mods.Init();
+                                    Mods.DisableAll(true);
+                                }, () => GameCleaner.Clear());
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
                             goto default;

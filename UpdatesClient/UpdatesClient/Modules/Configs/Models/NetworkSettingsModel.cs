@@ -13,5 +13,6 @@ namespace UpdatesClient.Modules.Configs.Models
         public string ServerStatus { get; set; } = "ОФИЦИАЛЬНЫЙ СЕРВЕР СЕЙЧАС НЕДОСТУПЕН.";
         public string OfficialServerAdress { get; set; } = "35.180.83.817777";
         public bool EnableAntiCheat { get; set; } = false;
+        public bool EnableModLoader { get; set; } = false;
     }
 }
