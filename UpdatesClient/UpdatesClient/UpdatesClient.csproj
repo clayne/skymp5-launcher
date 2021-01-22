@@ -138,10 +138,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Helpers\JsonModelSaver.cs" />
+    <Compile Include="Core\IO.cs" />
+    <Compile Include="Core\Models\ServerManifest\ModModel.cs" />
+    <Compile Include="Core\Models\ServerManifest\ModsManifest.cs" />
     <Compile Include="Modules\Configs\Helpers\ExperimentalFunctions.cs" />
     <Compile Include="Modules\Configs\Models\NetworkSettingsModel.cs" />
     <Compile Include="Modules\Configs\NetworkSettings.cs" />
+    <Compile Include="Modules\GameManager\Helpers\GameCleaner.cs" />
     <Compile Include="Modules\GameManager\Helpers\ProcessKiller.cs" />
+    <Compile Include="Modules\ModsManager\Enums\SymbolicLink.cs" />
+    <Compile Include="Modules\ModsManager\Models\ModModel.cs" />
+    <Compile Include="Modules\ModsManager\Models\ModsModel.cs" />
+    <Compile Include="Modules\ModsManager\Mods.cs" />
+    <Compile Include="Modules\ModsManager\WinFunctions.cs" />
     <Compile Include="Properties\Resources.ru-RU.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -562,7 +572,6 @@
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
     <None Include="Resources\UpdatesClient.resources.dll" />
-    <None Include="bin\Release\ru-RU\UpdatesClient.resources.dll" />
     <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
     <Resource Include="Assets\Images\Flags\RU.png" />
     <Resource Include="Assets\Images\Flags\US.png" />

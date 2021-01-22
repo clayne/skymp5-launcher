@@ -72,7 +72,9 @@ namespace UpdatesClient.Modules.GameManager
             EnableDebug();
 
             StartInfo.FileName = $"{Settings.PathToSkyrim}\\skse64_loader.exe";
-            StartInfo.WorkingDirectory = $"{Settings.PathToSkyrim}\\";
+            StartInfo.WorkingDirectory = $"{Settings.PathToSkyrim}";
+            StartInfo.UseShellExecute = false;
+            StartInfo.CreateNoWindow = true;
             StartInfo.Verb = "runas";
 
             StartInfo.Domain = AppDomain.CurrentDomain.FriendlyName;

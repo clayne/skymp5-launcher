@@ -24,12 +24,13 @@ namespace UpdatesClient.Modules.Configs
         public static readonly string PathToLocalDlls = $"{PathToLocal}dlls\\";
         public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
         public static readonly string PathToSavedServerList = $"{PathToLocalTmp}\\Servers.json";
-        public static string PathToSkympClientSettings => $"{PathToSkyrim}\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
         #endregion
 
         #region Skyrim
         public static string PathToSkyrim { get => model.PathToSkyrim; set => model.PathToSkyrim = value; }
+        public static string PathToSkympClientSettings => $"{PathToSkyrim}\\Data\\Platform\\Plugins\\skymp5-client-settings.txt";
         public static string PathToSkyrimTmp { get => PathToSkyrim + "\\tmp\\"; }
+        public static string PathToSkyrimMods { get => PathToSkyrim + "\\Mods\\"; }
         #endregion
 
         #region Launcher

@@ -13,8 +13,8 @@ namespace UpdatesClient.Core
             if (!File.Exists(file)) return false;
 
             string tmpFiles = $"{Settings.PathToSkyrimTmp}files\\";
-            Delete(tmpFiles);
-            Create(tmpFiles);
+            IO.RemoveDirectory(tmpFiles);
+            IO.CreateDirectory(tmpFiles);
 
             using (IArchive archive = ArchiveFactory.Open(file))
             {
@@ -28,42 +28,12 @@ namespace UpdatesClient.Core
                 }
             }
 
-            CopyToDir($"{tmpFiles}{extractFromSub}\\", extractTo);
+            IO.RecursiveCopy($"{tmpFiles}{extractFromSub}\\", extractTo);
 
-            Delete(tmpFiles);
+            IO.RemoveDirectory(tmpFiles);
             File.Delete(file);
 
             return true;
-        }
-
-        private static bool CopyToDir(string fromDir, string toDir)
-        {
-            foreach (DirectoryInfo dir in new DirectoryInfo(fromDir).GetDirectories())
-            {
-                Create($"{toDir}\\{dir.Name}");
-                CopyToDir(dir.FullName, $"{toDir}\\{dir.Name}");
-            }
-
-            foreach (string file in Directory.GetFiles(fromDir))
-            {
-                string NameFile = file.Substring(file.LastIndexOf('\\'), file.Length - file.LastIndexOf('\\'));
-                string pathToDestFile = $"{toDir}\\{NameFile}";
-
-                if (File.Exists(pathToDestFile) && File.GetAttributes(pathToDestFile) != FileAttributes.Normal)
-                    File.SetAttributes(pathToDestFile, FileAttributes.Normal);
-                
-                File.Copy(file, pathToDestFile, true);
-            }
-            return true;
-        }
-
-        private static void Create(string path)
-        {
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-        }
-        private static void Delete(string path)
-        {
-            if (Directory.Exists(path)) Directory.Delete(path, true);
         }
     }
 }

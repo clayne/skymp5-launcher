@@ -14,11 +14,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Models;
+using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
+using UpdatesClient.Modules.GameManager.Helpers;
 using UpdatesClient.Modules.GameManager.Model;
+using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.UI.Controllers;
 using Yandex.Metrica;
 using Res = UpdatesClient.Properties.Resources;
@@ -114,7 +118,24 @@ namespace UpdatesClient
             }
             catch (Exception er) { Logger.Error("ExpFunc", er); }
 
-            await CheckGame();
+            Mods.Init();
+
+            if(ExperimentalFunctions.HasExperimentalFunctions())
+            {
+                if (!Mods.ExistMod("SKSE"))
+                {
+                    MessageBox.Show("All files will be reinstalled", "Attention",
+                        MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
+                    GameCleaner.Clear();
+                }
+
+                await CheckGameNew();
+            }
+            else
+            {
+                await CheckGameOld();
+            }
+
             SetBackgroundServerList();
             FillServerList();
             Authorization_SignIn();
@@ -162,7 +183,7 @@ namespace UpdatesClient
 
             return result;
         }
-        private async Task CheckGame()
+        private async Task CheckGameOld()
         {
             ResultGameVerification result = CheckSkyrim();
 
@@ -198,6 +219,53 @@ namespace UpdatesClient
                 Logger.FatalError("CheckGame_SSERFix", er);
             }
         }
+
+        private async Task CheckGameNew() 
+        {
+            ResultGameVerification result = CheckSkyrim();
+
+            ModVersion.Load();
+            FileWatcher.Init();
+
+            if (!Mods.ExistMod("SKSE") && !result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                blockMainBtn = true;
+                await GetSKSE();
+                Mods.EnableMod("SKSE");
+                blockMainBtn = false;
+            }
+            else
+            {
+                Mods.EnableMod("SKSE");
+            }
+
+            try
+            {
+                if (!result.IsRuFixConsoleFound && ModVersion.HasRuFixConsole == null
+                    && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    blockMainBtn = true;
+                    if (!Mods.ExistMod("RuFixConsole")) await GetRuFixConsole();
+                    Mods.EnableMod("RuFixConsole");
+
+                    ModVersion.HasRuFixConsole = true;
+                    ModVersion.Save();
+
+                    blockMainBtn = false;
+                }
+                else
+                {
+                    ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
+                    ModVersion.Save();
+                }
+            }
+            catch (Exception er)
+            {
+                blockMainBtn = false;
+                Logger.FatalError("CheckGameNew_SSERFix", er);
+            }
+        }
+
         private void SetBackgroundServerList()
         {
             try
@@ -336,7 +404,8 @@ namespace UpdatesClient
                     await Play();
                     break;
                 case MainButtonStatus.Update:
-                    await UpdateClient();
+                    if (ExperimentalFunctions.HasExperimentalFunctions()) await UpdateClientNew();
+                    else await UpdateClientOld();
                     break;
                 case MainButtonStatus.Retry:
                     await CheckClientUpdates();
@@ -348,7 +417,7 @@ namespace UpdatesClient
         {
             if (!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
-                await CheckGame();
+                await Task.Run(() => ExperimentalFunctions.IfUse("ModsInit", () => CheckGameNew().Wait(), () => CheckGameOld().Wait()));
                 return;
             }
 
@@ -358,6 +427,7 @@ namespace UpdatesClient
                 return;
             }
 
+            string adress;
             try
             {
                 if (Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings)) && File.Exists(Settings.PathToSkympClientSettings))
@@ -366,8 +436,8 @@ namespace UpdatesClient
                 }
 
                 SetServer();
-                ServerModel server = (ServerModel)serverList.SelectedItem;
-                object gameData = await Account.GetSession(server.Address);
+                adress = ((ServerModel)serverList.SelectedItem).Address;
+                object gameData = await Account.GetSession(adress);
                 if (gameData == null) return;
                 SetSession(gameData);
             }
@@ -395,7 +465,7 @@ namespace UpdatesClient
                 return;
             }
 
-            SetMods();
+            SetMods(adress);
 
             try
             {
@@ -416,13 +486,48 @@ namespace UpdatesClient
                 Close();
             }
         }
-        private void SetMods()
+        private async Task SetMods(string adress)
         {
             string path = Settings.PathToLocalSkyrim + "Plugins.txt";
-            string content = @"# This file is used by Skyrim to keep track of your downloaded content.
-# Please do not modify this file.
-*FarmSystem.esp";
+            string content = "";
+            if (NetworkSettings.EnableModLoader && ExperimentalFunctions.HasExperimentalFunctions())
+            {
+                List<string> WhiteList = new List<string>();
+                WhiteList.Add("Skyrim.esm");
+                WhiteList.Add("Update.esm");
+                WhiteList.Add("Dawnguard.esm");
+                WhiteList.Add("HearthFires.esm");
+                WhiteList.Add("Dragonborn.esm");
 
+                try
+                {
+                    Mods.DisableAll();
+
+                    string serverManifest = await Net.Request($"http://{adress}/manifest.json", "GET", false, null);
+                    ModsManifest mods = JsonConvert.DeserializeObject<ModsManifest>(serverManifest);
+                    List<string> modsActive = new List<string>();
+                    foreach (ModModel mod in mods.Mods)
+                    {
+                        if (WhiteList.Contains(mod.FileName)) continue;
+
+                        if (!Mods.ExistMod(Path.GetFileNameWithoutExtension(mod.FileName))) await DownloadMod(mod);
+                        Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.FileName));
+                        modsActive.Add(mod.FileName);
+
+                        content += $"*{mod.FileName}\n";
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("EnablerMods", e);
+                    NotifyController.Show(e);
+                }
+            }
+            else
+            {
+                content = @"*FarmSystem.esp";
+            }
+            
             try
             {
                 if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
@@ -438,6 +543,10 @@ namespace UpdatesClient
             {
                 Logger.Error("Write_Plugin_txt", e);
             }
+        }
+        private async Task DownloadMod(ModModel mod) 
+        {
+            await Task.Delay(10);
         }
         private void SetServer()
         {
@@ -505,7 +614,71 @@ namespace UpdatesClient
                     Logger.Error("ReportDmp", e);
             }
         }
-        private async Task UpdateClient()
+
+        private async Task GetSKSE()
+        {
+            try
+            {
+                string url = await Net.GetUrlToSKSE();
+                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
+
+                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSKSE);
+
+                if (ok)
+                {
+                    progressBar.Show(true, Res.ExtractingSKSE);
+                    try
+                    {
+                        string path = Mods.GetTmpPath();
+                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, Path.GetFileNameWithoutExtension(destinationPath)));
+                        Mods.AddMod("SKSE", "SKSEHash", path);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("ExtractSKSE", e);
+                        NotifyController.Show(e);
+                        mainButton.ButtonStatus = MainButtonStatus.Retry;
+                    }
+                    progressBar.Hide();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("InstallSKSE", e);
+            }
+        }
+        private async Task GetRuFixConsole()
+        {
+            try
+            {
+                string url = Net.URL_Mod_RuFix;
+                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
+
+                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole);
+                if (ok)
+                {
+                    try
+                    {
+                        string path = Mods.GetTmpPath();
+                        progressBar.Show(true, Res.Extracting);
+                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path + "\\Data"));
+                        Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path);
+                        progressBar.Hide();
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("ExtractRuFix", e);
+                        NotifyController.Show(e);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("InstallRuFixConsole", e);
+            }
+        }
+        
+        private async Task UpdateClientOld()
         {
             (string, string) url = await Net.GetUrlToClient();
             string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
@@ -544,6 +717,51 @@ namespace UpdatesClient
             }
             await CheckClientUpdates();
         }
+
+        private async Task UpdateClientNew()
+        {
+            (string, string) url = await Net.GetUrlToClient();
+            string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
+
+            try
+            {
+                if (File.Exists(destinationPath)) File.Delete(destinationPath);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("DelClientZip", e);
+            }
+
+            bool ok = await DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, url.Item2);
+
+            if (ok)
+            {
+                progressBar.Show(true, Res.ExtractingClient);
+                try
+                {
+                    string path = Mods.GetTmpPath();
+                    if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, "client")))
+                    {
+                        Mods.AddMod("SkyMPCore", url.Item2, path);
+                        Mods.EnableMod("SkyMPCore");
+
+                        ModVersion.Version = url.Item2;
+                        ModVersion.Save();
+                        NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Extract", e);
+                    NotifyController.Show(e);
+                    mainButton.ButtonStatus = MainButtonStatus.Retry;
+                    return;
+                }
+                progressBar.Hide();
+            }
+            await CheckClientUpdates();
+        }
+
         private void Downloader_DownloadChanged(long downloaded, long size, double prDown)
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate

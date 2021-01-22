@@ -25,9 +25,30 @@ namespace UpdatesClient.Modules.Configs.Helpers
                 Logger.Error($"ExpFunc_{message}", e);
             }
         }
+        public static void IfUse(string message, Action isTrue, Action isFalse)
+        {
+            if (!Settings.Loaded) throw new TypeUnloadedException("Settings not loaded");
 
-
-
-
+            if (Settings.ExperimentalFunctions == true)
+            {
+                try
+                {
+                    isTrue.Invoke();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error($"ExpFunc_{message}", e);
+                }
+            }
+            else
+            {
+                isFalse.Invoke();
+            }
+        }
+        public static bool HasExperimentalFunctions()
+        {
+            if (!Settings.Loaded) throw new TypeUnloadedException("Settings not loaded");
+            return Settings.ExperimentalFunctions == true;
+        }
     }
 }
