@@ -148,11 +148,14 @@ namespace UpdatesClient.Modules.ModsManager
 
         public static void AddMod(string modName, string hash, string pathTmp)
         {
-            //TODO: обновление мода
-
             ModModel mod = new ModModel();
             mod.Name = modName;
             mod.Hash = hash;
+
+            if (ExistMod(modName))
+            {
+                //TODO: update
+            }
 
             IO.RecursiveHandleFile(pathTmp, (file) =>
             {

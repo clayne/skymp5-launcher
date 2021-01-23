@@ -234,7 +234,7 @@ namespace UpdatesClient
                 Mods.EnableMod("SKSE");
                 blockMainBtn = false;
             }
-            else
+            else if(Mods.ExistMod("SKSE"))
             {
                 Mods.EnableMod("SKSE");
             }
