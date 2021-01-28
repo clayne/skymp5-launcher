@@ -54,7 +54,7 @@ namespace UpdatesClient.Core
             YandexMetricaFolder.SetCurrent(tmpPath);
             ExperimentalFunctions.IfUse("SetVers", () =>
             {
-                Version nv = new Version(version.Major, version.Minor, version.Build, 0 - version.Revision);
+                Version nv = new Version(version.Major, version.Minor, version.Build, version.Revision+100);
                 YandexMetrica.Config.CustomAppVersion = nv;
             }, () =>
             {
