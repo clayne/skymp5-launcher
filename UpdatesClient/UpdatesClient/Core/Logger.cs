@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.SelfUpdater;
 using Yandex.Metrica;
 
@@ -51,7 +52,14 @@ namespace UpdatesClient.Core
             string tmpPath = Settings.PathToLocalTmp;
             if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
             YandexMetricaFolder.SetCurrent(tmpPath);
-            YandexMetrica.Config.CustomAppVersion = version;
+            ExperimentalFunctions.IfUse("SetVers", () =>
+            {
+                Version nv = new Version(version.Major, version.Minor, version.Build, 0 - version.Revision);
+                YandexMetrica.Config.CustomAppVersion = nv;
+            }, () =>
+            {
+                YandexMetrica.Config.CustomAppVersion = version;
+            });
         }
 
 
