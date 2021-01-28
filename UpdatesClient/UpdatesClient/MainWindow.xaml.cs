@@ -123,7 +123,7 @@ namespace UpdatesClient
 
             if(ExperimentalFunctions.HasExperimentalFunctions())
             {
-                if (!Mods.ExistMod("SKSE"))
+                if (!Mods.ExistMod("SkyMPCore"))
                 {
                     MessageBox.Show("All files will be reinstalled", "Attention",
                         MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
