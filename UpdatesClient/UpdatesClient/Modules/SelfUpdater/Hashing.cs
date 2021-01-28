@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Force.Crc32;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -51,6 +52,15 @@ namespace UpdatesClient.Modules.SelfUpdater
 
                 return new string(hash.SelectMany(a => a.ToString("X2")).ToArray());
             }
+        }
+
+        public static uint GetCRC32FromBytes(byte[] bytes)
+        {
+            return GetCRC32Hash(bytes);
+        }
+        private static uint GetCRC32Hash(byte[] source)
+        {
+            return Crc32Algorithm.Compute(source);
         }
     }
 }

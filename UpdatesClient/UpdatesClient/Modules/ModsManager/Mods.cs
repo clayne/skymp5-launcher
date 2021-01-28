@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Helpers;
+using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.ModsManager.Models;
 using UpdatesClient.Modules.SelfUpdater;
@@ -25,6 +26,60 @@ namespace UpdatesClient.Modules.ModsManager
         {
             IO.CreateDirectory(Settings.PathToSkyrimMods);
             mods = mods.Load<ModsModel>(List);
+        }
+
+        #region Old
+        public static void OldModeEnable()
+        {
+            DisableMod("SkyMPCore");
+            EnableMod("SkyMPCore");
+        }
+        #endregion 
+
+
+        public static ServerModsManifest CheckCore(ServerModsManifest mods)
+        {
+            List<string> WhiteList = new List<string>();
+            WhiteList.Add("Skyrim.esm");
+            WhiteList.Add("Update.esm");
+            WhiteList.Add("Dawnguard.esm");
+            WhiteList.Add("HearthFires.esm");
+            WhiteList.Add("Dragonborn.esm");
+
+            var arrMods = mods.Mods.ToArray();
+
+            foreach (ServerModModel mod in arrMods)
+            {
+                if (WhiteList.Contains(mod.FileName))
+                {
+                    string path = $"{Settings.PathToSkyrim}\\Data\\{mod.FileName}";
+                    if (File.Exists(path))
+                    {
+                        uint lhash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(path));
+                        //if (mod.CRC32 == lhash)
+                            mods.Mods.Remove(mod);
+                    }
+                }
+            }
+            return mods;
+        }
+        public static bool CheckMod(string modName, List<(string, uint)> files)
+        {
+            if (!ExistMod(modName)) throw new FileNotFoundException("Mod not found", modName);
+            string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
+            ModModel mod = new ModModel();
+            mod = mod.Load<ModModel>(pathToMod + "mod.json");
+
+            bool valid = true;
+
+            if (files.Count != mod.Files.Count) return false;
+
+            foreach(var file in files)
+            {
+                if (file.Item2 != mod.Files[$"Data\\{file.Item1}"]) valid = false;
+            }
+
+            return valid;
         }
 
         public static bool ExistMod(string modName)
@@ -146,21 +201,27 @@ namespace UpdatesClient.Modules.ModsManager
             return path;
         }
 
-        public static void AddMod(string modName, string hash, string pathTmp)
+        public static void AddMod(string modName, string hash, string pathTmp, string mainFile = null)
         {
             ModModel mod = new ModModel();
             mod.Name = modName;
             mod.Hash = hash;
 
+            if (mainFile != null)
+            {
+                mod.HasMainFile = true;
+                mod.MainFile = mainFile;
+            }
+
             if (ExistMod(modName))
             {
-                //TODO: update
+                //IO.RemoveDirectory(Settings.PathToSkyrimMods + mod.Name);
             }
 
             IO.RecursiveHandleFile(pathTmp, (file) =>
             {
                 string filePath = file.Replace(pathTmp + "\\", "");
-                string fileHash = Hashing.GetMD5FromBytes(File.ReadAllBytes(file)).ToUpper();
+                uint fileHash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(file));
                 mod.Files.Add(filePath, fileHash);
             });
 
@@ -169,7 +230,10 @@ namespace UpdatesClient.Modules.ModsManager
 
             Directory.Delete(pathTmp, true);
 
-            mods.Mods.Add(mod.Name);
+            if (!mods.Mods.Contains(mod.Name))
+            {
+                mods.Mods.Add(mod.Name);
+            }
             
             mod.Save(Settings.PathToSkyrimMods + mod.Name + "\\mod.json");
             mods.Save(List);

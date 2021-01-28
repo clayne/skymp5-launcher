@@ -12,7 +12,9 @@ namespace UpdatesClient.Modules.ModsManager.Models
     {
         public string Name { get; set; }
         public string Hash { get; set; }
+        public bool HasMainFile { get; set; }
+        public string MainFile { get; set; }
 
-        public Dictionary<string, string> Files { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, uint> Files { get; set; } = new Dictionary<string, uint>();
     }
 }

@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -427,7 +428,7 @@ namespace UpdatesClient
                 return;
             }
 
-            string adress;
+            string adressData;
             try
             {
                 if (Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings)) && File.Exists(Settings.PathToSkympClientSettings))
@@ -436,7 +437,9 @@ namespace UpdatesClient
                 }
 
                 SetServer();
-                adress = ((ServerModel)serverList.SelectedItem).Address;
+                string adress = ((ServerModel)serverList.SelectedItem).Address;
+                adressData = ((ServerModel)serverList.SelectedItem).AddressData;
+
                 object gameData = await Account.GetSession(adress);
                 if (gameData == null) return;
                 SetSession(gameData);
@@ -465,7 +468,7 @@ namespace UpdatesClient
                 return;
             }
 
-            SetMods(adress);
+            if (!await SetMods(adressData)) return;
 
             try
             {
@@ -486,41 +489,105 @@ namespace UpdatesClient
                 Close();
             }
         }
-        private async Task SetMods(string adress)
+
+        private async Task<ServerModsManifest> GetManifest(string adress)
+        {
+            string serverManifest = await Net.Request($"http://{adress}/manifest.json", "GET", false, null);
+            return JsonConvert.DeserializeObject<ServerModsManifest>(serverManifest);
+        }
+        private Dictionary<string, List<(string, uint)>> GetMods(ServerModsManifest modsManifest)
+        {
+            List<string> WhiteList = new List<string>();
+            WhiteList.Add("Skyrim");
+            WhiteList.Add("Update");
+            WhiteList.Add("Dawnguard");
+            WhiteList.Add("HearthFires");
+            WhiteList.Add("Dragonborn");
+
+            List<string> mods = new List<string>();
+            foreach (string mod in modsManifest.LoadOrder)
+            {
+                string modName = Path.GetFileNameWithoutExtension(mod);
+                if (!mods.Contains(modName) && !WhiteList.Contains(modName)) mods.Add(modName);
+            }
+
+            Dictionary<string, List<(string, uint)>> files = new Dictionary<string, List<(string, uint)>>();
+            foreach (string mod in mods)
+            {
+                files.Add(mod, 
+                    modsManifest.Mods.FindAll(m => Path.GetFileNameWithoutExtension(m.FileName) == mod).Select(s => (s.FileName, (uint)s.CRC32)).ToList());
+            }
+
+            return files;
+        }
+        private async Task<bool> SetMods(string adress)
         {
             string path = Settings.PathToLocalSkyrim + "Plugins.txt";
             string content = "";
-            if (NetworkSettings.EnableModLoader && ExperimentalFunctions.HasExperimentalFunctions())
-            {
-                List<string> WhiteList = new List<string>();
-                WhiteList.Add("Skyrim.esm");
-                WhiteList.Add("Update.esm");
-                WhiteList.Add("Dawnguard.esm");
-                WhiteList.Add("HearthFires.esm");
-                WhiteList.Add("Dragonborn.esm");
+#if (DEBUG)
+            bool d = true;
+#else
+            bool d = false;
+#endif
 
+            if (d || (NetworkSettings.EnableModLoader && ExperimentalFunctions.HasExperimentalFunctions()))
+            {
                 try
                 {
                     Mods.DisableAll();
+                    ServerModsManifest mods = Mods.CheckCore(await GetManifest(adress));
+                    Dictionary<string, List<(string, uint)>> needMods = GetMods(mods);
 
-                    string serverManifest = await Net.Request($"http://{adress}/manifest.json", "GET", false, null);
-                    ModsManifest mods = JsonConvert.DeserializeObject<ModsManifest>(serverManifest);
-                    List<string> modsActive = new List<string>();
-                    foreach (ModModel mod in mods.Mods)
+                    foreach (KeyValuePair<string, List<(string, uint)>> mod in needMods)
                     {
-                        if (WhiteList.Contains(mod.FileName)) continue;
+                        if (!Mods.ExistMod(mod.Key) || !Mods.CheckMod(mod.Key, mod.Value))
+                        {
+                            string tmpPath = Mods.GetTmpPath();
+                            string desPath = tmpPath + "\\Data\\";
 
-                        if (!Mods.ExistMod(Path.GetFileNameWithoutExtension(mod.FileName))) await DownloadMod(mod);
-                        Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.FileName));
-                        modsActive.Add(mod.FileName);
-
-                        content += $"*{mod.FileName}\n";
+                            IO.CreateDirectory(desPath);
+                            string mainFile = null;
+                            foreach (var file in mod.Value)
+                            {
+                                await DownloadMod(desPath + file.Item1, adress, file.Item1);
+                                if (mods.LoadOrder.Contains(file.Item1)) mainFile = file.Item1;
+                            }
+                            Mods.AddMod(mod.Key, "", tmpPath, mainFile);
+                        }
+                        Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
                     }
+
+                    foreach (var item in mods.LoadOrder)
+                    {
+                        content += $"*{item}\n";
+                    }
+                }
+                catch (WebException)
+                {
+                    if (NetworkSettings.CompatibilityMode)
+                    {
+                        NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устер, используется режим совместимости");
+                        if (Mods.ExistMod("Farm"))
+                            Mods.OldModeEnable();
+                        await Task.Delay(3000);
+                        content = @"*FarmSystem.esp";
+                    }
+                    else
+                    {
+                        NotifyController.Show(PopupNotify.Error, Res.Attempt, "Возможно целевой сервер устарел, так как не ответил на запрос");
+                        return false;
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+                    NotifyController.Show(PopupNotify.Error, Res.Error, "Один или несколько модов не удалось загрузить с сервера");
+                    return false;
                 }
                 catch (Exception e)
                 {
                     Logger.Error("EnablerMods", e);
                     NotifyController.Show(e);
+                    return false;
                 }
             }
             else
@@ -543,10 +610,12 @@ namespace UpdatesClient
             {
                 Logger.Error("Write_Plugin_txt", e);
             }
+            return true;
         }
-        private async Task DownloadMod(ModModel mod) 
+        private async Task DownloadMod(string destinationPath, string adress, string file) 
         {
-            await Task.Delay(10);
+            string url = $"http://{adress}/{file}";
+            await DownloadFile(destinationPath, url, $"Загрузка {file}");
         }
         private void SetServer()
         {

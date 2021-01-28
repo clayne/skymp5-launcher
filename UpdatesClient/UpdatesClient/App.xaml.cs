@@ -237,6 +237,17 @@ namespace UpdatesClient
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
                             goto default;
+                        case "clear-full-client":
+                            try
+                            {
+                                ExperimentalFunctions.IfUse("Cleaner", () =>
+                                {
+                                    Mods.Init();
+                                    Mods.DisableAll(true);
+                                }, () => GameCleaner.Clear(true));
+                            }
+                            catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
+                            goto default;
                         default:
                             ExitApp();
                             return false;
