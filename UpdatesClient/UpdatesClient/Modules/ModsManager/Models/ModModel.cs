@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UpdatesClient.Core;
+﻿using System.Collections.Generic;
 using UpdatesClient.Core.Helpers;
 
 namespace UpdatesClient.Modules.ModsManager.Models
@@ -12,6 +7,7 @@ namespace UpdatesClient.Modules.ModsManager.Models
     {
         public string Name { get; set; }
         public string Hash { get; set; }
+        public bool IsSkyrimMod { get; set; }
         public bool HasMainFile { get; set; }
         public string MainFile { get; set; }
 

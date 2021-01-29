@@ -497,12 +497,7 @@ namespace UpdatesClient
         }
         private Dictionary<string, List<(string, uint)>> GetMods(ServerModsManifest modsManifest)
         {
-            List<string> WhiteList = new List<string>();
-            WhiteList.Add("Skyrim");
-            WhiteList.Add("Update");
-            WhiteList.Add("Dawnguard");
-            WhiteList.Add("HearthFires");
-            WhiteList.Add("Dragonborn");
+            List<string> WhiteList = Mods.WhiteListMods;
 
             List<string> mods = new List<string>();
             foreach (string mod in modsManifest.LoadOrder)
@@ -552,7 +547,7 @@ namespace UpdatesClient
                                 await DownloadMod(desPath + file.Item1, adress, file.Item1);
                                 if (mods.LoadOrder.Contains(file.Item1)) mainFile = file.Item1;
                             }
-                            Mods.AddMod(mod.Key, "", tmpPath, mainFile);
+                            Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
                         }
                         Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
                     }
@@ -630,9 +625,11 @@ namespace UpdatesClient
             }
             else
             {
-                oldServer = new SkympClientSettingsModel();
-                oldServer.IsEnableConsole = false;
-                oldServer.IsShowMe = false;
+                oldServer = new SkympClientSettingsModel
+                {
+                    IsEnableConsole = false,
+                    IsShowMe = false
+                };
             }
 
             ServerModel newServer = (ServerModel)serverList.SelectedItem;
@@ -700,7 +697,7 @@ namespace UpdatesClient
                     {
                         string path = Mods.GetTmpPath();
                         await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, Path.GetFileNameWithoutExtension(destinationPath)));
-                        Mods.AddMod("SKSE", "SKSEHash", path);
+                        Mods.AddMod("SKSE", "SKSEHash", path, false);
                     }
                     catch (Exception e)
                     {
@@ -731,7 +728,7 @@ namespace UpdatesClient
                         string path = Mods.GetTmpPath();
                         progressBar.Show(true, Res.Extracting);
                         await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path + "\\Data"));
-                        Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path);
+                        Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
                         progressBar.Hide();
                     }
                     catch (Exception e)
@@ -811,7 +808,7 @@ namespace UpdatesClient
                     string path = Mods.GetTmpPath();
                     if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, "client")))
                     {
-                        Mods.AddMod("SkyMPCore", url.Item2, path);
+                        Mods.AddMod("SkyMPCore", url.Item2, path, false);
                         Mods.EnableMod("SkyMPCore");
 
                         ModVersion.Version = url.Item2;

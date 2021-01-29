@@ -352,4 +352,7 @@
   <data name="Welcome" xml:space="preserve">
     <value>Welcome</value>
   </data>
+  <data name="Yandex_Metrica_NET" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Yandex.Metrica.NET.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

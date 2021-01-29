@@ -774,5 +774,15 @@ namespace UpdatesClient.Properties {
                 return ResourceManager.GetString("Welcome", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] Yandex_Metrica_NET {
+            get {
+                object obj = ResourceManager.GetObject("Yandex_Metrica_NET", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

@@ -13,8 +13,7 @@ namespace UpdatesClient.Modules.SelfUpdater
     {
         public string LanguageBase = "en-US";
         private bool Selected = false;
-
-        DropShadowEffect dse = new DropShadowEffect()
+        private readonly DropShadowEffect dse = new DropShadowEffect()
         {
             BlurRadius = 30,
             Color = Colors.White,
@@ -36,7 +35,7 @@ namespace UpdatesClient.Modules.SelfUpdater
         }
 
 
-        private void ru_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Ru_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Clear();
             ru.Effect = dse;
@@ -45,7 +44,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             Selected = true;
         }
 
-        private void us_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Us_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Clear();
             us.Effect = dse;
