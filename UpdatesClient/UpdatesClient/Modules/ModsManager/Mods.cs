@@ -45,7 +45,9 @@ namespace UpdatesClient.Modules.ModsManager
             IO.CreateDirectory(Settings.PathToSkyrimMods);
             mods = mods.Load<ModsModel>(List);
 
-            foreach(var modName in mods.Mods)
+            string[] arMods = mods.Mods.ToArray();
+
+            foreach (var modName in arMods)
             {
                 if (!Directory.Exists(Settings.PathToSkyrimMods + modName))
                 {
