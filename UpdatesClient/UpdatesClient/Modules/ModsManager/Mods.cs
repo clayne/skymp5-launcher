@@ -44,6 +44,16 @@ namespace UpdatesClient.Modules.ModsManager
         {
             IO.CreateDirectory(Settings.PathToSkyrimMods);
             mods = mods.Load<ModsModel>(List);
+
+            foreach(var modName in mods.Mods)
+            {
+                if (!Directory.Exists(Settings.PathToSkyrimMods + modName))
+                {
+                    if (mods.EnabledMods.Contains(modName)) mods.EnabledMods.Remove(modName);
+                    mods.Mods.Remove(modName);
+                    mods.Save(List);
+                }
+            }
         }
 
         #region Old
@@ -93,7 +103,7 @@ namespace UpdatesClient.Modules.ModsManager
             return valid;
         }
 
-        public static bool ExistMod(string modName)
+        public static bool ExistMod(string modName, bool onlySkyrimMods = false)
         {
             bool m = mods.Mods.Contains(modName);
             if (m)
@@ -104,6 +114,12 @@ namespace UpdatesClient.Modules.ModsManager
                     if (mods.EnabledMods.Contains(modName)) mods.EnabledMods.Remove(modName);
                     mods.Mods.Remove(modName);
                     mods.Save(List);
+                }
+                else if (onlySkyrimMods) 
+                { 
+                    ModModel mod = new ModModel();
+                    mod = mod.Load<ModModel>(Settings.PathToSkyrimMods + modName + "\\mod.json");
+                    m = mod.IsSkyrimMod;
                 }
             }
             return m;
