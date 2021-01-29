@@ -2,7 +2,7 @@
 
 namespace UpdatesClient.Core.Models.ServerManifest
 {
-    public class ModModel
+    public class ServerModModel
     {
         [JsonProperty("crc32")]
         public int CRC32 { get; set; }

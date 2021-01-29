@@ -37,6 +37,9 @@ namespace UpdatesClient.Core.Models
         public int ID => (IP + Port.ToString()).GetHashCode();
         public string Address => $"{IP}:{Port}";
 
+        public int DataPort { get => Port == 7777 ? 3000 : Port + 1; }
+        public string AddressData => $"{IP}:{DataPort}";
+
         public static int NullID => new ServerModel().ID;
 
         public bool IsEmpty()

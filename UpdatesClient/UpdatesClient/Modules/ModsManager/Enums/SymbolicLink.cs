@@ -11,4 +11,6 @@ namespace UpdatesClient.Modules.ModsManager.Enums
         File = 0,
         Directory = 1
     }
+
+
 }

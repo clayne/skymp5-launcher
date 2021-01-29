@@ -25,8 +25,8 @@
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
         <TextBlock TextWrapping="Wrap" Text="ВЫБЕРИ ЯЗЫК/CHOOSE LANGUAGE" FontSize="30" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Grid.ColumnSpan="4" Foreground="White" TextAlignment="Center" Height="33" VerticalAlignment="Bottom" Margin="10,0"/>
-        <Image x:Name="ru" Grid.Column="1" HorizontalAlignment="Center" Height="110" Margin="0,0,0,50" Grid.Row="1" VerticalAlignment="Center" Width="110" Source="/UpdatesClient;component/Assets/Images/SelectLanguage/RU.png" Opacity="0.5" MouseLeftButtonDown="ru_MouseLeftButtonDown"/>
-        <Image x:Name="us" Grid.Column="2" HorizontalAlignment="Center" Height="110" Margin="0,0,0,50" Grid.Row="1" VerticalAlignment="Center" Width="110" Source="/UpdatesClient;component/Assets/Images/SelectLanguage/US.png" Opacity="0.5" MouseLeftButtonDown="us_MouseLeftButtonDown"/>
+        <Image x:Name="ru" Grid.Column="1" HorizontalAlignment="Center" Height="110" Margin="0,0,0,50" Grid.Row="1" VerticalAlignment="Center" Width="110" Source="/UpdatesClient;component/Assets/Images/SelectLanguage/RU.png" Opacity="0.5" MouseLeftButtonDown="Ru_MouseLeftButtonDown"/>
+        <Image x:Name="us" Grid.Column="2" HorizontalAlignment="Center" Height="110" Margin="0,0,0,50" Grid.Row="1" VerticalAlignment="Center" Width="110" Source="/UpdatesClient;component/Assets/Images/SelectLanguage/US.png" Opacity="0.5" MouseLeftButtonDown="Us_MouseLeftButtonDown"/>
         <Controllers:ImageButton Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,10" Grid.Row="1" VerticalAlignment="Bottom" Height="70" Width="70" NormalColor="White" Background="#00000000" SelectColor="#FFA2A2A2" PressColor="#FF575757" Grid.ColumnSpan="2" Click="ImageButton_Click">
             <Controllers:ImageButton.Image>
                 <ImageBrush ImageSource="{StaticResource rightarrowcircular}"/>

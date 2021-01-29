@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace UpdatesClient.Core.Models.ServerManifest
 {
-    public class ModsManifest
+    public class ServerModsManifest
     {
         [JsonProperty("mods")]
-        public List<ModModel> Mods { get; set; } = new List<ModModel>();
+        public List<ServerModModel> Mods { get; set; } = new List<ServerModModel>();
 
         [JsonProperty("versionMajor")]
         public int VersionMajor { get; set; } = -1;

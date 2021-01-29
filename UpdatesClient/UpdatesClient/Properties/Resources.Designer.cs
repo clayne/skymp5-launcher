@@ -106,6 +106,16 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] Crc32_NET {
+            get {
+                object obj = ResourceManager.GetObject("Crc32_NET", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Critical error.
         /// </summary>
         public static string CriticalError {
@@ -762,6 +772,16 @@ namespace UpdatesClient.Properties {
         public static string Welcome {
             get {
                 return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] Yandex_Metrica_NET {
+            get {
+                object obj = ResourceManager.GetObject("Yandex_Metrica_NET", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

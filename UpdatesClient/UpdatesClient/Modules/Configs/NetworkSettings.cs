@@ -16,6 +16,7 @@ namespace UpdatesClient.Modules.Configs
         public static string OfficialServerAdress { get => model.OfficialServerAdress; }
         public static bool EnableAntiCheat { get => model.EnableAntiCheat; }
         public static bool EnableModLoader { get => model.EnableModLoader; }
+        public static bool CompatibilityMode { get => model.CompatibilityMode; }
 
         public static async void Init()
         {

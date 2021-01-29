@@ -66,6 +66,10 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Crc32.NET, Version=1.0.0.0, Culture=neutral, PublicKeyToken=dc0b95cf99bf4e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\Crc32.NET.1.2.0\lib\net20\Crc32.NET.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
       <Private>False</Private>
@@ -132,6 +136,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Yandex.Metrica.NET, Version=3.5.1.0, Culture=neutral, PublicKeyToken=21e4d3bd28ff137d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Yandex.Metrica.3.5.1\lib\net45\Yandex.Metrica.NET.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -140,8 +148,8 @@
     </ApplicationDefinition>
     <Compile Include="Core\Helpers\JsonModelSaver.cs" />
     <Compile Include="Core\IO.cs" />
-    <Compile Include="Core\Models\ServerManifest\ModModel.cs" />
-    <Compile Include="Core\Models\ServerManifest\ModsManifest.cs" />
+    <Compile Include="Core\Models\ServerManifest\ServerModModel.cs" />
+    <Compile Include="Core\Models\ServerManifest\ServerModsManifest.cs" />
     <Compile Include="Modules\Configs\Helpers\ExperimentalFunctions.cs" />
     <Compile Include="Modules\Configs\Models\NetworkSettingsModel.cs" />
     <Compile Include="Modules\Configs\NetworkSettings.cs" />
@@ -288,65 +296,6 @@
     <Resource Include="Assets\Effects\ZoomBlur.ps" />
     <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
     <Compile Include="Core\IniFile.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\AllocationStack.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\Key.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\KeyValue.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\MemoryStreamStack.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\PositionStream.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ProtocolBufferException.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ProtocolParser.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\StreamRead.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ThreadSafeStack.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\ThreadUnsafeStack.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\SilentOrbit\ProtocolBuffers\Wire.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\System\Threading\Tasks\TaskEx.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Web.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Windows\Devices\Geolocation\Geocoordinate.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\IExposable.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\IMemoryBox.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\IStorage.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Memory.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Specific\KeyFileStorage.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Store.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aero\Sugar.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\Adapter.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\DataExtensions.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\Identification.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\JsonProfile.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\JsonSerializer.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\Standard.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Aides\UnixTimestampConverter.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\Config.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\ConfigProtoSerializer.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\IsolatedStreamStorage`1.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\IStreamSerializer`1.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Legacy\LegacyManager.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Lifecycler.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\LiteClient.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\LiteMetricaCore.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\LiteMetricaService.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\Config.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\Critical.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\DeviceProperties.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\EventFactory.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\Extensions.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\ProductInfo.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\ReportMessage.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\ReportPackage.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\SessionExtensions.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\SessionModel.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Models\StartupResponse.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Patterns\ADataProvider`1.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Patterns\ILifecycler.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Properties\AssemblyProperties.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\DeviceDataProvider.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\FingerprintDataProvider.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\LocationDataProvider.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\Providers\NetworkDataProvider.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\ServiceData.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetrica.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaActivator.cs" />
-    <Compile Include="Core\Libraries\Yandex.Metrica.NET\Yandex\Metrica\YandexMetricaFolder.cs" />
     <Compile Include="Core\Models\SkympClientSettingsModel.cs" />
     <Compile Include="Core\Models\ServerModel.cs" />
     <Compile Include="Core\Logger.cs" />
@@ -571,6 +520,8 @@
     <Content Include="Assets\Effects\ToneMapping.fx" />
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
+    <None Include="Resources\Yandex.Metrica.NET.dll" />
+    <None Include="Resources\Crc32.NET.dll" />
     <None Include="Resources\UpdatesClient.resources.dll" />
     <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
     <Resource Include="Assets\Images\Flags\RU.png" />
