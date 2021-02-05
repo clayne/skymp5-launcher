@@ -423,8 +423,8 @@
 
         <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Grid.ColumnSpan="2" />
 
-        <Rectangle x:Name="serverListBg"  HorizontalAlignment="Left" Height="325" Margin="432,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="4" Fill="#E5282828" Grid.Column="1"></Rectangle>
-        <DataGrid x:Name="serverList" HorizontalAlignment="Left" Height="302" Margin="432.333,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Grid.ColumnSpan="4" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#00000000" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="22" HorizontalScrollBarVisibility="Disabled" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick" Grid.Column="1">
+        <Rectangle x:Name="serverListBg"  HorizontalAlignment="Left" Height="325" Margin="224,110,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Fill="#E5282828" Grid.Column="1"/>
+        <DataGrid x:Name="serverList" Height="302" Margin="224,110,84,0" Grid.Row="1" VerticalAlignment="Top" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#00000000" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="22" HorizontalScrollBarVisibility="Disabled" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick" Grid.Column="1">
             <DataGrid.CellStyle>
                 <Style>
                     <Style.Triggers>
@@ -473,7 +473,7 @@
                 </Style>
             </DataGrid.RowHeaderStyle>
         </DataGrid>
-        <Button x:Name="refreshServerListButton" Content="{x:Static res:Resources.RefreshServerList}" HorizontalAlignment="Left" Height="25" Margin="432.333,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Grid.ColumnSpan="4" Foreground="White" Background="#00000000" BorderBrush="#7FFFFFFF" FontSize="16" BorderThickness="1,1,1,1" Grid.Column="1" Style="{DynamicResource ServerListButtonStyle}"/>
+        <Button x:Name="refreshServerListButton" Content="{x:Static res:Resources.RefreshServerList}" HorizontalAlignment="Left" Height="25" Margin="224,410,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Foreground="White" Background="#00000000" BorderBrush="#7FFFFFFF" FontSize="16" BorderThickness="1,1,1,1" Grid.Column="1" Style="{DynamicResource ServerListButtonStyle}"/>
 
         <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="77.333,616,22,0" Grid.Row="1" HorizontalAlignment="Center" Width="686" Grid.Column="1" />
 
