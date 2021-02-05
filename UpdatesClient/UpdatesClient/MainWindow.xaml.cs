@@ -561,7 +561,7 @@ namespace UpdatesClient
                 {
                     if (NetworkSettings.CompatibilityMode)
                     {
-                        NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устер, используется режим совместимости");
+                        NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устарел, используется режим совместимости");
                         if (Mods.ExistMod("Farm"))
                             Mods.OldModeEnable();
                         await Task.Delay(3000);
