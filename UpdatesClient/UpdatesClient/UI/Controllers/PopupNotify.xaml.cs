@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using UpdatesClient.Core.Models;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Controllers
@@ -26,10 +27,10 @@ namespace UpdatesClient.UI.Controllers
             Error
         }
 
-        public PopupNotify(Type type, string status, string text, int delayMs)
+        public PopupNotify(NotifyModel model)
         {
             InitializeComponent();
-            switch (type)
+            switch (model.Type)
             {
                 case Type.Normal:
                     border.Background = new SolidColorBrush(Color.FromArgb(255, 9, 188, 0));
@@ -42,15 +43,10 @@ namespace UpdatesClient.UI.Controllers
                     smile.Source = (ImageSource)Application.Current.Resources["SadSmile"];
                     break;
             }
-            this.status.Text = status;
-            description.Text = text;
+            this.status.Text = model.Status;
+            description.Text = model.Text;
             closeBtn.Click += (s, e) => ClickClose?.Invoke(this, e);
-            DelayMs = delayMs;
-        }
-
-        public PopupNotify(Exception exception, int delayMs) : this(Error, Res.Error, exception.Message, delayMs)
-        {
-
+            DelayMs = model.DelayMs;
         }
     }
 }
