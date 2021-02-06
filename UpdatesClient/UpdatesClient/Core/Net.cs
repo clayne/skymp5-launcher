@@ -27,23 +27,22 @@ namespace UpdatesClient.Core
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
-        public static async Task<bool> UpdateAvailable()
+        public static async Task<string> GetLastestVersion()
         {
             string result = await Request($"{URL_Version}", "GET", false, null);
-
-            return ModVersion.Version != result;
+            return result;
         }
 
         public static async Task<(string, string)> GetUrlToClient()
         {
-            string ver = await Request($"{URL_Version}", "GET", false, null);
+            string ver = await GetLastestVersion();
             string link = await Request(URL_ModLink.Replace("{VERSION}", ver), "GET", false, null);
             return (link, ver);
         }
 
         public static async Task<string> GetUrlToSKSE()
         {
-            string ver = await Request($"{URL_Version}", "GET", false, null);
+            string ver = await GetLastestVersion();
             string link = await Request(URL_SKSELink.Replace("{VERSION}", ver), "GET", false, null);
             return link;
         }

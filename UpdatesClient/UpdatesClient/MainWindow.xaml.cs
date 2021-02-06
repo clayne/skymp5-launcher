@@ -66,9 +66,10 @@ namespace UpdatesClient
             {
                 WindowState = WindowState.Minimized;
             };
-            progressBar.Hide();
             userButton.LogoutBtn.Click += LogOut_Click;
             authorization.SignIn += Authorization_SignIn;
+
+            progressBar.Hide();
 
             wind.Loaded += Wind_Loaded;
         }
@@ -119,24 +120,19 @@ namespace UpdatesClient
             }
             catch (Exception er) { Logger.Error("ExpFunc", er); }
 
+            NotifyController.Init();
+
             Mods.Init();
+            ModVersion.Load();
+            FileWatcher.Init();
 
-            if(ExperimentalFunctions.HasExperimentalFunctions())
+            if (!Mods.ExistMod("SkyMPCore"))
             {
-                if (!Mods.ExistMod("SkyMPCore"))
-                {
-                    MessageBox.Show("All files will be reinstalled", "Attention",
-                        MessageBoxButton.OK, MessageBoxImage.Exclamation, MessageBoxResult.OK);
-                    GameCleaner.Clear();
-                }
-
-                await CheckGameNew();
-            }
-            else
-            {
-                await CheckGameOld();
+                GameCleaner.Clear();
             }
 
+            await CheckGame();
+            
             SetBackgroundServerList();
             FillServerList();
             Authorization_SignIn();
@@ -184,49 +180,10 @@ namespace UpdatesClient
 
             return result;
         }
-        private async Task CheckGameOld()
+        
+        private async Task CheckGame() 
         {
             ResultGameVerification result = CheckSkyrim();
-
-            ModVersion.Load();
-            FileWatcher.Init();
-
-            if (!result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                blockMainBtn = true;
-                await InstallSKSE();
-                blockMainBtn = false;
-            }
-
-            try
-            {
-                if (!result.IsRuFixConsoleFound && ModVersion.HasRuFixConsole == null
-                    && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    blockMainBtn = true;
-                    await InstallRuFixConsole();
-                    ModVersion.Save();
-                    blockMainBtn = false;
-                }
-                else
-                {
-                    ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
-                    ModVersion.Save();
-                }
-            }
-            catch (Exception er)
-            {
-                blockMainBtn = false;
-                Logger.FatalError("CheckGame_SSERFix", er);
-            }
-        }
-
-        private async Task CheckGameNew() 
-        {
-            ResultGameVerification result = CheckSkyrim();
-
-            ModVersion.Load();
-            FileWatcher.Init();
 
             if (!Mods.ExistMod("SKSE") && !result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
@@ -242,28 +199,18 @@ namespace UpdatesClient
 
             try
             {
-                if (!result.IsRuFixConsoleFound && ModVersion.HasRuFixConsole == null
-                    && MessageBox.Show(Res.SSERFix, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (!result.IsRuFixConsoleFound && !Mods.ExistMod("RuFixConsole"))
                 {
                     blockMainBtn = true;
-                    if (!Mods.ExistMod("RuFixConsole")) await GetRuFixConsole();
+                    await GetRuFixConsole();
                     Mods.EnableMod("RuFixConsole");
-
-                    ModVersion.HasRuFixConsole = true;
-                    ModVersion.Save();
-
                     blockMainBtn = false;
-                }
-                else
-                {
-                    ModVersion.HasRuFixConsole = result.IsRuFixConsoleFound;
-                    ModVersion.Save();
                 }
             }
             catch (Exception er)
             {
                 blockMainBtn = false;
-                Logger.FatalError("CheckGameNew_SSERFix", er);
+                Logger.FatalError("CheckGame_SSERFix", er);
             }
         }
 
@@ -319,72 +266,14 @@ namespace UpdatesClient
                 Logger.Error("FillServerList", e);
             }
         }
-        private async Task InstallSKSE()
-        {
-            try
-            {
-                string url = await Net.GetUrlToSKSE();
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSKSE);
-
-                if (ok)
-                {
-                    progressBar.Show(true, Res.ExtractingSKSE);
-                    try
-                    {
-                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath,
-                            Settings.PathToSkyrim, Path.GetFileNameWithoutExtension(destinationPath)));
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("ExtractSKSE", e);
-                        NotifyController.Show(e);
-                        mainButton.ButtonStatus = MainButtonStatus.Retry;
-                    }
-                    progressBar.Hide();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("InstallSKSE", e);
-            }
-        }
-        private async Task InstallRuFixConsole()
-        {
-            try
-            {
-                string url = Net.URL_Mod_RuFix;
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole);
-                if (ok)
-                {
-                    try
-                    {
-                        progressBar.Show(true, Res.Extracting);
-                        ModVersion.HasRuFixConsole = await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim + "\\Data"));
-                        ModVersion.Save();
-                        progressBar.Hide();
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("ExtractRuFix", e);
-                        NotifyController.Show(e);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("InstallRuFixConsole", e);
-            }
-        }
         private async Task CheckClientUpdates()
         {
             progressBar.Show(true, Res.CheckingUpdates);
             try
             {
-                if (await Net.UpdateAvailable()) mainButton.ButtonStatus = MainButtonStatus.Update;
+                string lastVersion = await Net.GetLastestVersion();
+                string version = Mods.GetModHash("SkyMPCore");
+                if (lastVersion != version) mainButton.ButtonStatus = MainButtonStatus.Update;
                 else mainButton.ButtonStatus = MainButtonStatus.Play;
             }
             catch (Exception e)
@@ -405,8 +294,7 @@ namespace UpdatesClient
                     await Play();
                     break;
                 case MainButtonStatus.Update:
-                    if (ExperimentalFunctions.HasExperimentalFunctions()) await UpdateClientNew();
-                    else await UpdateClientOld();
+                    await UpdateClient();
                     break;
                 case MainButtonStatus.Retry:
                     await CheckClientUpdates();
@@ -418,7 +306,7 @@ namespace UpdatesClient
         {
             if (!File.Exists($"{Settings.PathToSkyrim}\\skse64_loader.exe"))
             {
-                await Task.Run(() => ExperimentalFunctions.IfUse("ModsInit", () => CheckGameNew().Wait(), () => CheckGameOld().Wait()));
+                await CheckGame();
                 return;
             }
 
@@ -519,75 +407,63 @@ namespace UpdatesClient
         {
             string path = Settings.PathToLocalSkyrim + "Plugins.txt";
             string content = "";
-#if (DEBUG)
-            bool d = true;
-#else
-            bool d = false;
-#endif
 
-            if (d || (NetworkSettings.EnableModLoader && ExperimentalFunctions.HasExperimentalFunctions()))
+            try
             {
-                try
-                {
-                    Mods.DisableAll();
-                    ServerModsManifest mods = Mods.CheckCore(await GetManifest(adress));
-                    Dictionary<string, List<(string, uint)>> needMods = GetMods(mods);
+                Mods.DisableAll();
+                ServerModsManifest mods = Mods.CheckCore(await GetManifest(adress));
+                Dictionary<string, List<(string, uint)>> needMods = GetMods(mods);
 
-                    foreach (KeyValuePair<string, List<(string, uint)>> mod in needMods)
+                foreach (KeyValuePair<string, List<(string, uint)>> mod in needMods)
+                {
+                    if (!Mods.ExistMod(mod.Key) || !Mods.CheckMod(mod.Key, mod.Value))
                     {
-                        if (!Mods.ExistMod(mod.Key) || !Mods.CheckMod(mod.Key, mod.Value))
+                        string tmpPath = Mods.GetTmpPath();
+                        string desPath = tmpPath + "\\Data\\";
+
+                        IO.CreateDirectory(desPath);
+                        string mainFile = null;
+                        foreach (var file in mod.Value)
                         {
-                            string tmpPath = Mods.GetTmpPath();
-                            string desPath = tmpPath + "\\Data\\";
-
-                            IO.CreateDirectory(desPath);
-                            string mainFile = null;
-                            foreach (var file in mod.Value)
-                            {
-                                await DownloadMod(desPath + file.Item1, adress, file.Item1);
-                                if (mods.LoadOrder.Contains(file.Item1)) mainFile = file.Item1;
-                            }
-                            Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
+                            await DownloadMod(desPath + file.Item1, adress, file.Item1);
+                            if (mods.LoadOrder.Contains(file.Item1)) mainFile = file.Item1;
                         }
-                        Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
+                        Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
                     }
+                    Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
+                }
 
-                    foreach (var item in mods.LoadOrder)
-                    {
-                        content += $"*{item}\n";
-                    }
-                }
-                catch (WebException)
+                foreach (var item in mods.LoadOrder)
                 {
-                    if (NetworkSettings.CompatibilityMode)
-                    {
-                        NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устарел, используется режим совместимости");
-                        if (Mods.ExistMod("Farm"))
-                            Mods.OldModeEnable();
-                        await Task.Delay(3000);
-                        content = @"*FarmSystem.esp";
-                    }
-                    else
-                    {
-                        NotifyController.Show(PopupNotify.Error, Res.Attempt, "Возможно целевой сервер устарел, так как не ответил на запрос");
-                        return false;
-                    }
+                    content += $"*{item}\n";
                 }
-                catch (FileNotFoundException)
+            }
+            catch (WebException)
+            {
+                if (NetworkSettings.CompatibilityMode)
                 {
-                    NotifyController.Show(PopupNotify.Error, Res.Error, "Один или несколько модов не удалось загрузить с сервера");
-                    return false;
+                    NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устарел, используется режим совместимости");
+                    if (Mods.ExistMod("Farm"))
+                        Mods.OldModeEnable();
+                    await Task.Delay(3000);
+                    content = @"*FarmSystem.esp";
                 }
-                catch (Exception e)
+                else
                 {
-                    Logger.Error("EnablerMods", e);
-                    NotifyController.Show(e);
+                    NotifyController.Show(PopupNotify.Error, Res.Attempt, "Возможно целевой сервер устарел, так как не ответил на запрос");
                     return false;
                 }
             }
-            else
+            catch (FileNotFoundException)
             {
-                content = @"*FarmSystem.esp";
+                NotifyController.Show(PopupNotify.Error, Res.Error, "Один или несколько модов не удалось загрузить с сервера");
+                return false;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("EnablerMods", e);
+                NotifyController.Show(e);
+                return false;
             }
             
             try
@@ -744,47 +620,7 @@ namespace UpdatesClient
             }
         }
         
-        private async Task UpdateClientOld()
-        {
-            (string, string) url = await Net.GetUrlToClient();
-            string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
-
-            try
-            {
-                if (File.Exists(destinationPath)) File.Delete(destinationPath);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("DelClientZip", e);
-            }
-            
-            bool ok = await DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, url.Item2);
-
-            if (ok)
-            {
-                progressBar.Show(true, Res.ExtractingClient);
-                try
-                {
-                    if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, Settings.PathToSkyrim, "client")))
-                    {
-                        ModVersion.Version = url.Item2;
-                        ModVersion.Save();
-                        NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Error("Extract", e);
-                    NotifyController.Show(e);
-                    mainButton.ButtonStatus = MainButtonStatus.Retry;
-                    return;
-                }
-                progressBar.Hide();
-            }
-            await CheckClientUpdates();
-        }
-
-        private async Task UpdateClientNew()
+        private async Task UpdateClient()
         {
             (string, string) url = await Net.GetUrlToClient();
             string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
@@ -810,9 +646,6 @@ namespace UpdatesClient
                     {
                         Mods.AddMod("SkyMPCore", url.Item2, path, false);
                         Mods.EnableMod("SkyMPCore");
-
-                        ModVersion.Version = url.Item2;
-                        ModVersion.Save();
                         NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
                     }
                 }

@@ -51,5 +51,5 @@ using System.Windows;
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.4.3")]
+[assembly: AssemblyFileVersion("2.0.5.0")]
 [assembly: NeutralResourcesLanguage("en")]
