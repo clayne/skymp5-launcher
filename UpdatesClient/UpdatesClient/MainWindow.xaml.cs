@@ -273,7 +273,7 @@ namespace UpdatesClient
             {
                 string lastVersion = await Net.GetLastestVersion();
                 string version = Mods.GetModHash("SkyMPCore");
-                if (lastVersion != version) mainButton.ButtonStatus = MainButtonStatus.Update;
+                if (String.IsNullOrEmpty(version) || lastVersion != version) mainButton.ButtonStatus = MainButtonStatus.Update;
                 else mainButton.ButtonStatus = MainButtonStatus.Play;
             }
             catch (Exception e)
