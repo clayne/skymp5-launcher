@@ -128,7 +128,7 @@ namespace UpdatesClient.Modules.ModsManager
         }
         public static string GetModHash(string modName)
         {
-            if (!ExistMod(modName)) throw new FileNotFoundException($"Mod ({modName}) not found", modName);
+            if (!ExistMod(modName)) return null;
             string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
             ModModel mod = new ModModel();
             mod = mod.Load<ModModel>(pathToMod + "mod.json");
