@@ -294,9 +294,10 @@ namespace UpdatesClient.Modules.ModsManager
             else
             {
                 mod.Name = modName;
-                mod.Hash = hash;
-                mod.IsSkyrimMod = isSkyrimMod;
+                
             }
+            mod.Hash = hash;
+            mod.IsSkyrimMod = isSkyrimMod;
 
             if (mainFile != null)
             {
