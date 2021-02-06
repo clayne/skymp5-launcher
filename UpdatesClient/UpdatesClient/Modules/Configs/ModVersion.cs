@@ -13,16 +13,6 @@ namespace UpdatesClient.Modules.Configs
         private static readonly object sync = new object();
         private static ModVersionModel model = new ModVersionModel();
 
-        public static string Version
-        {
-            get { return model.Version; }
-            set { model.Version = value; }
-        }
-        public static bool? HasRuFixConsole
-        {
-            get { return model.HasRuFixConsole; }
-            set { model.HasRuFixConsole = value; }
-        }
         public static DateTime LastDmpReported
         {
             get { return model.LastDmpReported ?? default; }
@@ -51,10 +41,7 @@ namespace UpdatesClient.Modules.Configs
                 Logger.Error("Version_Load", e);
                 model = new ModVersionModel();
             }
-            ExperimentalFunctions.Use("ModVerLoad", () =>
-            {
-                if (model == null) model = new ModVersionModel();
-            });
+            if (model == null) model = new ModVersionModel();
         }
         internal static void Save()
         {

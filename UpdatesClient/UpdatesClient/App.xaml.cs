@@ -229,22 +229,18 @@ namespace UpdatesClient
                         case "clear-client":
                             try
                             {
-                                ExperimentalFunctions.IfUse("Cleaner", () =>
-                                {
-                                    Mods.Init();
-                                    Mods.DisableAll(true);
-                                }, () => GameCleaner.Clear());
+                                Mods.Init();
+                                Mods.DisableAll(true);
+                                GameCleaner.Clear();
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
                             goto default;
                         case "clear-full-client":
                             try
                             {
-                                ExperimentalFunctions.IfUse("Cleaner", () =>
-                                {
-                                    Mods.Init();
-                                    Mods.DisableAll(true);
-                                }, () => GameCleaner.Clear(true));
+                                Mods.Init();
+                                Mods.DisableAll(true);
+                                GameCleaner.Clear(true);
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
                             goto default;

@@ -56,6 +56,29 @@ namespace UpdatesClient.Modules.ModsManager
                     mods.Save(List);
                 }
             }
+
+            arMods = mods.Mods.ToArray();
+            foreach (var modName in arMods)
+            {
+                PreLoadMod(modName);
+            }
+        }
+
+        private static void PreLoadMod(string modName)
+        {
+            if (ExistMod(modName))
+            {
+                string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
+                ModModel mod = new ModModel();
+                try
+                {
+                    mod = mod.Load<ModModel>(pathToMod + "mod.json");
+                }
+                catch
+                {
+                    RemoveMod(modName);
+                }
+            }
         }
 
         #region Old
@@ -65,7 +88,6 @@ namespace UpdatesClient.Modules.ModsManager
             EnableMod("SkyMPCore");
         }
         #endregion 
-
 
         public static ServerModsManifest CheckCore(ServerModsManifest mods)
         {
@@ -88,7 +110,7 @@ namespace UpdatesClient.Modules.ModsManager
         }
         public static bool CheckMod(string modName, List<(string, uint)> files)
         {
-            if (!ExistMod(modName)) throw new FileNotFoundException("Mod not found", modName);
+            if (!ExistMod(modName)) throw new FileNotFoundException($"Mod ({modName}) not found", modName);
             string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
             ModModel mod = new ModModel();
             mod = mod.Load<ModModel>(pathToMod + "mod.json");
@@ -104,7 +126,15 @@ namespace UpdatesClient.Modules.ModsManager
 
             return valid;
         }
+        public static string GetModHash(string modName)
+        {
+            if (!ExistMod(modName)) throw new FileNotFoundException($"Mod ({modName}) not found", modName);
+            string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
+            ModModel mod = new ModModel();
+            mod = mod.Load<ModModel>(pathToMod + "mod.json");
+            return mod.Hash;
 
+        }
         public static bool ExistMod(string modName, bool onlySkyrimMods = false)
         {
             bool m = mods.Mods.Contains(modName);
@@ -132,10 +162,10 @@ namespace UpdatesClient.Modules.ModsManager
             return ExistMod(modName) && mods.EnabledMods.Contains(modName);
         }
 
-        //TODO: Skyrim моды через жесткие ссылки без папок
+        //! Skyrim моды через жесткие ссылки без папок
         public static void EnableMod(string modName)
         {
-            if (!ExistMod(modName)) throw new FileNotFoundException("Mod not found", modName);
+            if (!ExistMod(modName)) throw new FileNotFoundException($"Mod ({modName}) not found", modName);
             if (IsEnableMod(modName)) return;
 
             ModModel mod = new ModModel();
@@ -177,10 +207,10 @@ namespace UpdatesClient.Modules.ModsManager
             mods.Save(List);
         }
 
-        //TODO: Skyrim моды через жесткие ссылки без папок
+        //! Skyrim моды через жесткие ссылки без папок
         public static void DisableMod(string modName)
         {
-            if (!ExistMod(modName)) throw new FileNotFoundException("Mod not found", modName);
+            if (!ExistMod(modName)) throw new FileNotFoundException($"Mod ({modName}) not found", modName);
             if (!IsEnableMod(modName)) return;
 
             ModModel mod = new ModModel();
@@ -300,6 +330,16 @@ namespace UpdatesClient.Modules.ModsManager
             
             mod.Save(Settings.PathToSkyrimMods + mod.Name + "\\mod.json");
             mods.Save(List);
+        }
+        public static void RemoveMod(string modName)
+        {
+            if (ExistMod(modName))
+            {
+                string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
+                IO.RemoveDirectory(pathToMod);
+                mods.Mods.Remove(modName);
+                if (mods.EnabledMods.Contains(modName)) mods.EnabledMods.Remove(modName);
+            }
         }
     }
 }

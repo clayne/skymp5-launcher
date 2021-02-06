@@ -11,6 +11,7 @@ namespace UpdatesClient.Core
 {
     public static class NotifyController
     {
+        private static readonly object sync = new object();
         private static readonly Queue<PopupNotify> popupNotifies = new Queue<PopupNotify>();
         private static readonly DoubleAnimation Hide = new DoubleAnimation
         {
@@ -20,43 +21,41 @@ namespace UpdatesClient.Core
             Duration = TimeSpan.FromMilliseconds(500),
         };
 
-        private static bool run = false;
-
-        private async static void Show()
+        public async static void Init()
         {
-            while (NotifyList.NotifyPanel?.panelList.Children.Count < 2 && popupNotifies.Count != 0)
+            while (true)
             {
-                PopupNotify popup = popupNotifies.Dequeue();
-                NotifyList.NotifyPanel?.panelList.Children.Add(popup);
-                popup.Margin = new System.Windows.Thickness(0, 0, 0, 10);
-                popup.ClickClose += Popup_ClickClose;
-            }
-            if (run) return;
-            run = true;
-            if (NotifyList.NotifyPanel?.panelList.Children.Count != 0)
-            {
-                PopupNotify popup = (PopupNotify)NotifyList.NotifyPanel?.panelList.Children[0];
-                await Task.Delay(popup.DelayMs);
-                Close(popup);
+                while (NotifyList.NotifyPanel?.panelList.Children.Count < 2 && popupNotifies.Count != 0)
+                {
+                    PopupNotify popup;
+                    lock (sync)
+                        popup = popupNotifies.Dequeue();
+                    NotifyList.NotifyPanel?.panelList.Children.Add(popup);
+                    popup.Margin = new Thickness(0, 0, 0, 10);
+                    popup.ClickClose += Popup_ClickClose;
+                }
+                if (NotifyList.NotifyPanel?.panelList.Children.Count != 0)
+                {
+                    PopupNotify popup = (PopupNotify)NotifyList.NotifyPanel?.panelList.Children[0];
+                    await Task.Delay(popup.DelayMs);
+                    if (NotifyList.NotifyPanel?.panelList.Children.Contains(popup) == true) Close(popup);
+                }
+                else
+                {
+                    await Task.Delay(250);
+                }
             }
         }
 
-        [STAThread]
         public static void Show(PopupNotify.Type type, string status, string text, int delayMs = 6000)
         {
-            popupNotifies.Enqueue(new PopupNotify(type, status, text, delayMs));
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
-            {
-                Show();
-            });
+            lock(sync)
+                popupNotifies.Enqueue(new PopupNotify(type, status, text, delayMs));
         }
         public static void Show(Exception exception, int delayMs = 8000)
         {
-            popupNotifies.Enqueue(new PopupNotify(exception, delayMs));
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
-            {
-                Show();
-            });
+            lock (sync)
+                popupNotifies.Enqueue(new PopupNotify(exception, delayMs));
         }
 
         private static void Popup_ClickClose(object sender, EventArgs e)
@@ -71,10 +70,7 @@ namespace UpdatesClient.Core
             await Task.Delay(Hide.Duration.TimeSpan);
 
             UIElementCollection collection = NotifyList.NotifyPanel?.panelList.Children;
-            if (collection.Count > 0 && (PopupNotify)collection[0] == popup) run = false;
-
             NotifyList.NotifyPanel?.panelList.Children.Remove(popup);
-            Show();
         }
     }
 }
