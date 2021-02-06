@@ -150,6 +150,8 @@
     <Compile Include="Core\IO.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModsManifest.cs" />
+    <Compile Include="Core\SentryManager.cs" />
+    <Compile Include="Core\YandexMetricaManager.cs" />
     <Compile Include="Modules\Configs\Helpers\ExperimentalFunctions.cs" />
     <Compile Include="Modules\Configs\Models\NetworkSettingsModel.cs" />
     <Compile Include="Modules\Configs\NetworkSettings.cs" />

@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.GameManager.AntiCheat
 {
@@ -46,23 +45,23 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
 
         private static void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            YandexMetrica.ReportEvent($"WatcherRenamed_{e?.Name}");
+            Logger.ReportMetricaEvent($"WatcherRenamed_{e?.Name}");
         }
 
         private static void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            YandexMetrica.ReportEvent($"WatcherDeleted_{e?.Name}");
+            Logger.ReportMetricaEvent($"WatcherDeleted_{e?.Name}");
         }
 
         private static void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            YandexMetrica.ReportEvent($"WatcherChanged_{e?.Name}");
+            Logger.ReportMetricaEvent($"WatcherChanged_{e?.Name}");
             AntiCheatAlert(e?.FullPath);
         }
 
         private static void Watcher_Created(object sender, FileSystemEventArgs e)
         {
-            YandexMetrica.ReportEvent($"WatcherCreated_{e?.Name}");
+            Logger.ReportMetricaEvent($"WatcherCreated_{e?.Name}");
         }
 
 #pragma warning disable IDE0060 // Удалите неиспользуемый параметр
