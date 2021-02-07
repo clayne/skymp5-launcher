@@ -12,7 +12,6 @@ using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.SelfUpdater;
-using Yandex.Metrica;
 using Downloader = UpdatesClient.Modules.SelfUpdater.Downloader;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 using Res = UpdatesClient.Properties.Resources;
@@ -356,7 +355,7 @@ namespace UpdatesClient
 
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
             {
-                YandexMetrica.Activate("3cb6204a-2b9c-4a7c-9ea5-f177e78a4657");
+                Logger.ActivateMetrica();
                 MainWindow = new MainWindow();
                 MainWindow.Show();
             });
