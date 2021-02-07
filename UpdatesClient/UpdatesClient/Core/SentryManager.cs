@@ -26,6 +26,7 @@ namespace UpdatesClient.Core
         }
         private static string _assemblyShortName;
         private static string md5Launcher;
+        private const string dsn = "https://13d9192e33aa4e86a8f9a55d89d5ffc5:2def384d727d457482cf641f234a2fc8@sentry.skyrez.su/4";
 
         public static void Init(Version version)
         {
@@ -41,7 +42,7 @@ namespace UpdatesClient.Core
             
             SentrySdk.Init(options =>
             {
-                options.Dsn = new Dsn("https://13d9192e33aa4e86a8f9a55d89d5ffc5:2def384d727d457482cf641f234a2fc8@sentry.skyrez.su/4");
+                options.Dsn = new Dsn(dsn);
                 options.Release = version.ToString();
                 options.BeforeSend = SentryEvent;
             });

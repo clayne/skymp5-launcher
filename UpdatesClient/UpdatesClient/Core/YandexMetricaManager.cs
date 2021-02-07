@@ -8,7 +8,8 @@ namespace UpdatesClient.Core
 {
     public static class YandexMetricaManager
     {
-        private static readonly string key = "3cb6204a-2b9c-4a7c-9ea5-f177e78a4657";
+        private const string key = "3cb6204a-2b9c-4a7c-9ea5-f177e78a4657";
+
         public static void Init(Version version)
         {
             string tmpPath = Settings.PathToLocalTmp;
