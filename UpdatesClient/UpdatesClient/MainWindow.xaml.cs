@@ -220,7 +220,7 @@ namespace UpdatesClient
             {
                 serverListBg.Effect = new OverlayEffect()
                 {
-                    BInput = GetGridBackGround(serverList)
+                    BInput = GetGridBackGround(serverListBg)
                 };
             }
             catch (Exception oe)
