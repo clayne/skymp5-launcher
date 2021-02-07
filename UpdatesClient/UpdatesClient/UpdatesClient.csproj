@@ -151,6 +151,8 @@
     <Compile Include="Core\Models\NotifyModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModsManifest.cs" />
+    <Compile Include="Core\SentryManager.cs" />
+    <Compile Include="Core\YandexMetricaManager.cs" />
     <Compile Include="Modules\Configs\Helpers\ExperimentalFunctions.cs" />
     <Compile Include="Modules\Configs\Models\NetworkSettingsModel.cs" />
     <Compile Include="Modules\Configs\NetworkSettings.cs" />
@@ -530,6 +532,7 @@
     <Resource Include="Assets\Images\SelectLanguage\SelectLanguage.jpg" />
     <Resource Include="Assets\Images\SelectLanguage\RU.png" />
     <Resource Include="Assets\Images\SelectLanguage\US.png" />
+    <Content Include="Assets\Fonts\Aetherius.ttf" />
     <Content Include="Assets\ShaderSource\AverageEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorBurnEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorDodgeEffect.fx" />
