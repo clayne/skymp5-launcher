@@ -25,7 +25,6 @@ using UpdatesClient.Modules.GameManager.Helpers;
 using UpdatesClient.Modules.GameManager.Model;
 using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.UI.Controllers;
-using Yandex.Metrica;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient
@@ -50,12 +49,12 @@ namespace UpdatesClient
             authorization.TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
             CloseBtn.Click += (s, e) =>
             {
-                YandexMetrica.Config.CrashTracking = false;
+                Logger.DisableCrashTracking();
                 Application.Current.Shutdown();
             };
             authorization.CloseBtn.Click += (s, e) =>
             {
-                YandexMetrica.Config.CrashTracking = false;
+                Logger.DisableCrashTracking();
                 Application.Current.Shutdown();
             };
             MinBtn.Click += (s, e) =>
@@ -366,14 +365,14 @@ namespace UpdatesClient
 
                 if (crash)
                 {
-                    YandexMetrica.ReportEvent("CrashDetected");
+                    Logger.ReportMetricaEvent("CrashDetected");
                     await Task.Delay(500);
                     await ReportDmp();
                 }
             }
             catch
             {
-                YandexMetrica.ReportEvent("HasNotAccess");
+                Logger.ReportMetricaEvent("HasNotAccess");
                 Close();
             }
         }
@@ -541,8 +540,8 @@ namespace UpdatesClient
                 if (!string.IsNullOrEmpty(fileName))
                 {
                     if (await Net.ReportDmp(pathToDmps + fileName))
-                        YandexMetrica.ReportEvent("CrashReported");
-                    else YandexMetrica.ReportEvent("CantReport");
+                        Logger.ReportMetricaEvent("CrashReported");
+                    else Logger.ReportMetricaEvent("CantReport");
                     ModVersion.LastDmpReported = dt;
                     ModVersion.Save();
 

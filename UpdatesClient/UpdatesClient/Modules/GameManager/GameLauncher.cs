@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager.Helpers;
-using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.GameManager
 {
@@ -83,7 +82,7 @@ namespace UpdatesClient.Modules.GameManager
 
             Runing = true;
             GameProcess.Start();
-            YandexMetrica.ReportEvent("StartedGame");
+            Logger.ReportMetricaEvent("StartedGame");
 
             int ParentPID = GameProcess.Id;
 
@@ -96,7 +95,7 @@ namespace UpdatesClient.Modules.GameManager
             Microsoft.Win32.SafeHandles.SafeProcessHandle sh = GameProcess.SafeHandle;
             if (!GameProcess.HasExited) await Task.Run(() => GameProcess.WaitForExit());
 
-            YandexMetrica.ReportEvent("ExitedGame");
+            Logger.ReportMetricaEvent("ExitedGame");
             
             await Task.Delay(1000);
             await KillProcess();
