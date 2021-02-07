@@ -148,6 +148,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\Helpers\JsonModelSaver.cs" />
     <Compile Include="Core\IO.cs" />
+    <Compile Include="Core\Models\NotifyModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModsManifest.cs" />
     <Compile Include="Core\SentryManager.cs" />
@@ -522,9 +523,9 @@
     <Content Include="Assets\Effects\ToneMapping.fx" />
     <Content Include="Assets\Effects\ToonShader.fx" />
     <Content Include="Assets\Effects\ZoomBlur.fx" />
+    <None Include="Resources\UpdatesClient.resources.dll" />
     <None Include="Resources\Yandex.Metrica.NET.dll" />
     <None Include="Resources\Crc32.NET.dll" />
-    <None Include="Resources\UpdatesClient.resources.dll" />
     <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
     <Resource Include="Assets\Images\Flags\RU.png" />
     <Resource Include="Assets\Images\Flags\US.png" />

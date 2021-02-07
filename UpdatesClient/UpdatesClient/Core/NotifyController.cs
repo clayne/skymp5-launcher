@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using UpdatesClient.Core.Models;
 using UpdatesClient.UI.Controllers;
 
 namespace UpdatesClient.Core
@@ -12,7 +13,7 @@ namespace UpdatesClient.Core
     public static class NotifyController
     {
         private static readonly object sync = new object();
-        private static readonly Queue<PopupNotify> popupNotifies = new Queue<PopupNotify>();
+        private static readonly Queue<NotifyModel> popupNotifies = new Queue<NotifyModel>();
         private static readonly DoubleAnimation Hide = new DoubleAnimation
         {
             From = 1,
@@ -29,7 +30,11 @@ namespace UpdatesClient.Core
                 {
                     PopupNotify popup;
                     lock (sync)
-                        popup = popupNotifies.Dequeue();
+                    {
+                        NotifyModel popupModel = popupNotifies.Dequeue();
+                        popup = new PopupNotify(popupModel);
+                    }
+                        
                     NotifyList.NotifyPanel?.panelList.Children.Add(popup);
                     popup.Margin = new Thickness(0, 0, 0, 10);
                     popup.ClickClose += Popup_ClickClose;
@@ -50,12 +55,12 @@ namespace UpdatesClient.Core
         public static void Show(PopupNotify.Type type, string status, string text, int delayMs = 6000)
         {
             lock(sync)
-                popupNotifies.Enqueue(new PopupNotify(type, status, text, delayMs));
+                popupNotifies.Enqueue(new NotifyModel(type, status, text, delayMs));
         }
         public static void Show(Exception exception, int delayMs = 8000)
         {
             lock (sync)
-                popupNotifies.Enqueue(new PopupNotify(exception, delayMs));
+                popupNotifies.Enqueue(new NotifyModel(exception, delayMs));
         }
 
         private static void Popup_ClickClose(object sender, EventArgs e)

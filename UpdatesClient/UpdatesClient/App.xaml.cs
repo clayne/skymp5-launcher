@@ -17,7 +17,6 @@ using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 using Res = UpdatesClient.Properties.Resources;
 using System.Globalization;
 using UpdatesClient.Modules.GameManager.Helpers;
-using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.ModsManager;
 
 namespace UpdatesClient
@@ -31,6 +30,8 @@ namespace UpdatesClient
         private const string Unique = "{F627FE18-0573-4F39-A2BF-8A564F10FC30}";
         private const string BeginUpdate = "begin";
         private const string EndUpdate = "end";
+
+        private const string LastLocaleVersion = "2.0.5.2";
 
         internal delegate void ApplicationInitializeDelegate(SplashScreen splashWindow);
         internal ApplicationInitializeDelegate ApplicationInitialize;
@@ -98,14 +99,15 @@ namespace UpdatesClient
 
                     string fullPath = $"{path}\\UpdatesClient.resources.dll";
 
-                    byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
-                    string newHash = Hashing.GetMD5FromBytes(bytes).ToUpper();
+                    string vers = FileVersionInfo.GetVersionInfo(fullPath).FileVersion;
 
-                    if (!File.Exists(fullPath) || Hashing.GetMD5FromBytes(File.ReadAllBytes(fullPath)).ToUpper() != newHash)
+
+                    if (LastLocaleVersion != vers)
                     {
-                        if (File.Exists(fullPath) && File.GetAttributes(fullPath) != FileAttributes.Normal) 
+                        byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
+                        
+                        if (File.Exists(fullPath) && File.GetAttributes(fullPath) != FileAttributes.Normal)
                             File.SetAttributes(fullPath, FileAttributes.Normal);
-
                         File.WriteAllBytes(fullPath, bytes);
                     }
                 }
