@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using UpdatesClient.Modules.Configs;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Controllers
@@ -44,19 +45,25 @@ namespace UpdatesClient.UI.Controllers
                             efC.Color = (Color)ColorConverter.ConvertFromString(Normal);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Normal);
                             textBlock.Text = Res.PLAY;
-                            textBlock.FontSize = 30;
+                            textBlock.FontSize = 28;
                             break;
                         case MainButtonStatus.Update:
                             efC.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             textBlock.Text = Res.UPDATE;
-                            textBlock.FontSize = 27;
+                            if (Settings.Locale == "ru-RU")
+                                textBlock.FontSize = 23;
+                            else
+                                textBlock.FontSize = 27;
                             break;
                         case MainButtonStatus.Retry:
                             efC.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             textBlock.Text = Res.RETRY;
-                            textBlock.FontSize = 26;
+                            if (Settings.Locale == "ru-RU")
+                                textBlock.FontSize = 21;
+                            else
+                                textBlock.FontSize = 26;
                             break;
                     }
                 }
