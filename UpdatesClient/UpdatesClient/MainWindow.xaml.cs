@@ -188,12 +188,12 @@ namespace UpdatesClient
             {
                 blockMainBtn = true;
                 await GetSKSE();
-                Mods.EnableMod("SKSE");
+                await Mods.EnableMod("SKSE");
                 blockMainBtn = false;
             }
             else if(Mods.ExistMod("SKSE"))
             {
-                Mods.EnableMod("SKSE");
+                await Mods.EnableMod("SKSE");
             }
 
             try
@@ -202,7 +202,7 @@ namespace UpdatesClient
                 {
                     blockMainBtn = true;
                     await GetRuFixConsole();
-                    Mods.EnableMod("RuFixConsole");
+                    await Mods.EnableMod("RuFixConsole");
                     blockMainBtn = false;
                 }
             }
@@ -274,6 +274,11 @@ namespace UpdatesClient
                 string version = Mods.GetModHash("SkyMPCore");
                 if (String.IsNullOrEmpty(version) || lastVersion != version) mainButton.ButtonStatus = MainButtonStatus.Update;
                 else mainButton.ButtonStatus = MainButtonStatus.Play;
+            }
+            catch (WebException we)
+            {
+                NotifyController.Show(we);
+                mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
             catch (Exception e)
             {
@@ -409,7 +414,7 @@ namespace UpdatesClient
 
             try
             {
-                Mods.DisableAll();
+                await Mods.DisableAll();
                 ServerModsManifest mods = Mods.CheckCore(await GetManifest(adress));
                 Dictionary<string, List<(string, uint)>> needMods = GetMods(mods);
 
@@ -427,9 +432,9 @@ namespace UpdatesClient
                             await DownloadMod(desPath + file.Item1, adress, file.Item1);
                             if (mods.LoadOrder.Contains(file.Item1)) mainFile = file.Item1;
                         }
-                        Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
+                        await Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
                     }
-                    Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
+                    await Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
                 }
 
                 foreach (var item in mods.LoadOrder)
@@ -443,7 +448,7 @@ namespace UpdatesClient
                 {
                     NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устарел, используется режим совместимости");
                     if (Mods.ExistMod("Farm"))
-                        Mods.OldModeEnable();
+                        await Mods.OldModeEnable();
                     await Task.Delay(3000);
                     content = @"*FarmSystem.esp";
                 }
@@ -572,7 +577,7 @@ namespace UpdatesClient
                     {
                         string path = Mods.GetTmpPath();
                         await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, Path.GetFileNameWithoutExtension(destinationPath)));
-                        Mods.AddMod("SKSE", "SKSEHash", path, false);
+                        await Mods.AddMod("SKSE", "SKSEHash", path, false);
                     }
                     catch (Exception e)
                     {
@@ -603,7 +608,7 @@ namespace UpdatesClient
                         string path = Mods.GetTmpPath();
                         progressBar.Show(true, Res.Extracting);
                         await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path + "\\Data"));
-                        Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
+                        await Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
                         progressBar.Hide();
                     }
                     catch (Exception e)
@@ -621,7 +626,17 @@ namespace UpdatesClient
         
         private async Task UpdateClient()
         {
-            (string, string) url = await Net.GetUrlToClient();
+            (string, string) url = (null, null);
+            try
+            {
+                url = await Net.GetUrlToClient();
+            }
+            catch (WebException we)
+            {
+                NotifyController.Show(we);
+                return;
+            }
+            
             string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
 
             try
@@ -643,8 +658,8 @@ namespace UpdatesClient
                     string path = Mods.GetTmpPath();
                     if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, "client")))
                     {
-                        Mods.AddMod("SkyMPCore", url.Item2, path, false);
-                        Mods.EnableMod("SkyMPCore");
+                        await Mods.AddMod("SkyMPCore", url.Item2, path, false);
+                        await Mods.EnableMod("SkyMPCore");
                         NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
                     }
                 }

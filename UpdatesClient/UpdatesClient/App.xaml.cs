@@ -184,7 +184,7 @@ namespace UpdatesClient
                     {
                         case EndUpdate:
                             eUpdate = true;
-                            Thread.Sleep(250);
+                            Thread.Sleep(500);
                             try
                             {
                                 if (File.Exists($"{args[2]}.update.exe"))
@@ -202,7 +202,7 @@ namespace UpdatesClient
                             }
                             break;
                         case BeginUpdate:
-                            Thread.Sleep(250);
+                            Thread.Sleep(500);
                             try
                             {
                                 File.Copy(FullPathToSelfExe, $"{args[2]}.exe", true);
@@ -231,7 +231,7 @@ namespace UpdatesClient
                             try
                             {
                                 Mods.Init();
-                                Mods.DisableAll(true);
+                                Mods.DisableAll(true).Wait();
                                 GameCleaner.Clear();
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
@@ -240,7 +240,7 @@ namespace UpdatesClient
                             try
                             {
                                 Mods.Init();
-                                Mods.DisableAll(true);
+                                Mods.DisableAll(true).Wait();
                                 GameCleaner.Clear(true);
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }

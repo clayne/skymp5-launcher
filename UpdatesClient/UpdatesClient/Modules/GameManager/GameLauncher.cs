@@ -16,9 +16,15 @@ namespace UpdatesClient.Modules.GameManager
         private static Process GameProcess = new Process();
         private static readonly ProcessStartInfo StartInfo = new ProcessStartInfo();
 
-        public static void StopGame()
+        public static async Task StopGame()
         {
-            GameProcess.Kill();
+            if (GameProcess != null && !GameProcess.HasExited)
+            {
+                GameProcess.Kill();
+                await Task.Run(() => GameProcess.WaitForExit());
+            }
+
+            await KillProcess();
         }
 
         public static void EnableDebug()

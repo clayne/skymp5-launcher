@@ -78,6 +78,7 @@ namespace UpdatesClient.Core
                 Level = Sentry.Protocol.SentryLevel.Error,
             };
             if (extraTags != null) sentryEvent.SetTags(extraTags);
+            sentryEvent.SetTag("HRESULT", exception.HResult.ToString());
 
             SentrySdk.CaptureEvent(sentryEvent);
         }
@@ -89,6 +90,8 @@ namespace UpdatesClient.Core
                 Message = message,
                 Level = Sentry.Protocol.SentryLevel.Fatal
             };
+            sentryEvent.SetTag("HRESULT", exception.HResult.ToString());
+
             SentrySdk.CaptureEvent(sentryEvent);
         }
         

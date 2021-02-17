@@ -51,19 +51,16 @@ namespace UpdatesClient.UI.Controllers
                             efC.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             textBlock.Text = Res.UPDATE;
-                            if (Settings.Locale == "ru-RU")
-                                textBlock.FontSize = 23;
-                            else
-                                textBlock.FontSize = 27;
+                            textBlock.FontSize = 26;
                             break;
                         case MainButtonStatus.Retry:
                             efC.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             efT.Color = (Color)ColorConverter.ConvertFromString(Warning);
                             textBlock.Text = Res.RETRY;
                             if (Settings.Locale == "ru-RU")
-                                textBlock.FontSize = 21;
+                                textBlock.FontSize = 22;
                             else
-                                textBlock.FontSize = 26;
+                                textBlock.FontSize = 28;
                             break;
                     }
                 }
