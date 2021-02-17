@@ -37,7 +37,7 @@ namespace UpdatesClient.Modules.GameManager
             if (File.Exists($"{pathToGameFolder}\\SkyrimSE.exe"))
             {
                 FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\SkyrimSE.exe");
-                if (fileVersionInfo != null)
+                if (fileVersionInfo != null && fileVersionInfo.FileVersion != null)
                 {
                     result.IsGameFound = true;
                     string ver = "null";
@@ -57,7 +57,7 @@ namespace UpdatesClient.Modules.GameManager
             if (File.Exists($"{pathToGameFolder}\\skse64_loader.exe"))
             {
                 FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\skse64_loader.exe");
-                if (fileVersionInfo != null)
+                if (fileVersionInfo != null && fileVersionInfo.FileVersion != null)
                 {
                     result.IsSKSEFound = true;
                     string ver = "null";

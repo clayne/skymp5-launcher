@@ -231,7 +231,7 @@ namespace UpdatesClient
                             try
                             {
                                 Mods.Init();
-                                Mods.DisableAll(true);
+                                Mods.DisableAll(true).Wait();
                                 GameCleaner.Clear();
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }
@@ -240,7 +240,7 @@ namespace UpdatesClient
                             try
                             {
                                 Mods.Init();
-                                Mods.DisableAll(true);
+                                Mods.DisableAll(true).Wait();
                                 GameCleaner.Clear(true);
                             }
                             catch (Exception e) { MessageBox.Show($"{e.Message}", $"{Res.Error}"); }

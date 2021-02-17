@@ -188,12 +188,12 @@ namespace UpdatesClient
             {
                 blockMainBtn = true;
                 await GetSKSE();
-                Mods.EnableMod("SKSE");
+                await Mods.EnableMod("SKSE");
                 blockMainBtn = false;
             }
             else if(Mods.ExistMod("SKSE"))
             {
-                Mods.EnableMod("SKSE");
+                await Mods.EnableMod("SKSE");
             }
 
             try
@@ -202,7 +202,7 @@ namespace UpdatesClient
                 {
                     blockMainBtn = true;
                     await GetRuFixConsole();
-                    Mods.EnableMod("RuFixConsole");
+                    await Mods.EnableMod("RuFixConsole");
                     blockMainBtn = false;
                 }
             }
@@ -274,6 +274,11 @@ namespace UpdatesClient
                 string version = Mods.GetModHash("SkyMPCore");
                 if (String.IsNullOrEmpty(version) || lastVersion != version) mainButton.ButtonStatus = MainButtonStatus.Update;
                 else mainButton.ButtonStatus = MainButtonStatus.Play;
+            }
+            catch (WebException we)
+            {
+                NotifyController.Show(we);
+                mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
             catch (Exception e)
             {
@@ -409,7 +414,7 @@ namespace UpdatesClient
 
             try
             {
-                Mods.DisableAll();
+                await Mods.DisableAll();
                 ServerModsManifest mods = Mods.CheckCore(await GetManifest(adress));
                 Dictionary<string, List<(string, uint)>> needMods = GetMods(mods);
 
@@ -429,7 +434,7 @@ namespace UpdatesClient
                         }
                         Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
                     }
-                    Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
+                    await Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
                 }
 
                 foreach (var item in mods.LoadOrder)
@@ -443,7 +448,7 @@ namespace UpdatesClient
                 {
                     NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устарел, используется режим совместимости");
                     if (Mods.ExistMod("Farm"))
-                        Mods.OldModeEnable();
+                        await Mods.OldModeEnable();
                     await Task.Delay(3000);
                     content = @"*FarmSystem.esp";
                 }
@@ -644,7 +649,7 @@ namespace UpdatesClient
                     if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, "client")))
                     {
                         Mods.AddMod("SkyMPCore", url.Item2, path, false);
-                        Mods.EnableMod("SkyMPCore");
+                        await Mods.EnableMod("SkyMPCore");
                         NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
                     }
                 }

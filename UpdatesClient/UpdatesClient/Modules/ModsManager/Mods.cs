@@ -9,6 +9,7 @@ using UpdatesClient.Core;
 using UpdatesClient.Core.Helpers;
 using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.ModsManager.Models;
 using UpdatesClient.Modules.SelfUpdater;
 
@@ -40,7 +41,7 @@ namespace UpdatesClient.Modules.ModsManager
         };
 
 
-        public static void Init()
+        public static async void Init()
         {
             IO.CreateDirectory(Settings.PathToSkyrimMods);
             mods = mods.Load<ModsModel>(List);
@@ -60,11 +61,11 @@ namespace UpdatesClient.Modules.ModsManager
             arMods = mods.Mods.ToArray();
             foreach (var modName in arMods)
             {
-                PreLoadMod(modName);
+                await PreLoadMod(modName);
             }
         }
 
-        private static void PreLoadMod(string modName)
+        private static async Task PreLoadMod(string modName)
         {
             if (ExistMod(modName))
             {
@@ -76,16 +77,16 @@ namespace UpdatesClient.Modules.ModsManager
                 }
                 catch
                 {
-                    RemoveMod(modName);
+                    await RemoveMod(modName);
                 }
             }
         }
 
         #region Old
-        public static void OldModeEnable()
+        public static async Task OldModeEnable()
         {
-            DisableMod("SkyMPCore");
-            EnableMod("SkyMPCore");
+            await DisableMod("SkyMPCore");
+            await EnableMod("SkyMPCore");
         }
         #endregion 
 
@@ -163,10 +164,12 @@ namespace UpdatesClient.Modules.ModsManager
         }
 
         //! Skyrim моды через жесткие ссылки без папок
-        public static void EnableMod(string modName)
+        public static async Task EnableMod(string modName)
         {
             if (!ExistMod(modName)) throw new FileNotFoundException($"Mod ({modName}) not found", modName);
             if (IsEnableMod(modName)) return;
+
+            await GameLauncher.StopGame();
 
             ModModel mod = new ModModel();
             mod = mod.Load<ModModel>(Settings.PathToSkyrimMods + modName + "\\mod.json");
@@ -208,10 +211,12 @@ namespace UpdatesClient.Modules.ModsManager
         }
 
         //! Skyrim моды через жесткие ссылки без папок
-        public static void DisableMod(string modName)
+        public static async Task DisableMod(string modName)
         {
             if (!ExistMod(modName)) throw new FileNotFoundException($"Mod ({modName}) not found", modName);
             if (!IsEnableMod(modName)) return;
+
+            await GameLauncher.StopGame();
 
             ModModel mod = new ModModel();
             mod = mod.Load<ModModel>(Settings.PathToSkyrimMods + modName + "\\mod.json");
@@ -256,9 +261,10 @@ namespace UpdatesClient.Modules.ModsManager
             mods.EnabledMods.Remove(modName);
             mods.Save(List);
         }
-
-        public static void DisableAll(bool ignoreWL = false)
+        public static async Task DisableAll(bool ignoreWL = false)
         {
+            await GameLauncher.StopGame();
+
             List<string> WhiteList = new List<string>
             {
                 "SKSE",
@@ -271,7 +277,7 @@ namespace UpdatesClient.Modules.ModsManager
             foreach (string mod in enMods)
             {
                 if (!ignoreWL && WhiteList.Contains(mod)) continue;
-                DisableMod(mod);
+                await DisableMod(mod);
             }
         }
 
@@ -332,11 +338,12 @@ namespace UpdatesClient.Modules.ModsManager
             mod.Save(Settings.PathToSkyrimMods + mod.Name + "\\mod.json");
             mods.Save(List);
         }
-        public static void RemoveMod(string modName)
+        public static async Task RemoveMod(string modName)
         {
             if (ExistMod(modName))
             {
                 string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
+                if (IsEnableMod(modName)) await DisableMod(modName);
                 IO.RemoveDirectory(pathToMod);
                 mods.Mods.Remove(modName);
                 if (mods.EnabledMods.Contains(modName)) mods.EnabledMods.Remove(modName);
