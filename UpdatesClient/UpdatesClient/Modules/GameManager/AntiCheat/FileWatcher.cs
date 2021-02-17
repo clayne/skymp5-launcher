@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
@@ -53,10 +54,10 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
             Logger.ReportMetricaEvent($"WatcherDeleted_{e?.Name}");
         }
 
-        private static void Watcher_Changed(object sender, FileSystemEventArgs e)
+        private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
             Logger.ReportMetricaEvent($"WatcherChanged_{e?.Name}");
-            AntiCheatAlert(e?.FullPath);
+            await AntiCheatAlert(e?.FullPath);
         }
 
         private static void Watcher_Created(object sender, FileSystemEventArgs e)
@@ -65,7 +66,7 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
         }
 
 #pragma warning disable IDE0060 // Удалите неиспользуемый параметр
-        private static void AntiCheatAlert(string file)
+        private static async Task AntiCheatAlert(string file)
 #pragma warning restore IDE0060 // Удалите неиспользуемый параметр
         {
             if (EnableAntiCheat)
@@ -75,7 +76,7 @@ namespace UpdatesClient.Modules.GameManager.AntiCheat
 #pragma warning disable CS0162 // Обнаружен недостижимый код
                 MessageBox.Show($"Файл {file} был изменен", "Внимание");
 #pragma warning restore CS0162 // Обнаружен недостижимый код
-                GameLauncher.StopGame();
+                await GameLauncher.StopGame();
             }
         }
     }

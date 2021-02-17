@@ -432,7 +432,7 @@ namespace UpdatesClient
                             await DownloadMod(desPath + file.Item1, adress, file.Item1);
                             if (mods.LoadOrder.Contains(file.Item1)) mainFile = file.Item1;
                         }
-                        Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
+                        await Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
                     }
                     await Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
                 }
@@ -577,7 +577,7 @@ namespace UpdatesClient
                     {
                         string path = Mods.GetTmpPath();
                         await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, Path.GetFileNameWithoutExtension(destinationPath)));
-                        Mods.AddMod("SKSE", "SKSEHash", path, false);
+                        await Mods.AddMod("SKSE", "SKSEHash", path, false);
                     }
                     catch (Exception e)
                     {
@@ -608,7 +608,7 @@ namespace UpdatesClient
                         string path = Mods.GetTmpPath();
                         progressBar.Show(true, Res.Extracting);
                         await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path + "\\Data"));
-                        Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
+                        await Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
                         progressBar.Hide();
                     }
                     catch (Exception e)
@@ -626,7 +626,17 @@ namespace UpdatesClient
         
         private async Task UpdateClient()
         {
-            (string, string) url = await Net.GetUrlToClient();
+            (string, string) url = (null, null);
+            try
+            {
+                url = await Net.GetUrlToClient();
+            }
+            catch (WebException we)
+            {
+                NotifyController.Show(we);
+                return;
+            }
+            
             string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
 
             try
@@ -648,7 +658,7 @@ namespace UpdatesClient
                     string path = Mods.GetTmpPath();
                     if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, "client")))
                     {
-                        Mods.AddMod("SkyMPCore", url.Item2, path, false);
+                        await Mods.AddMod("SkyMPCore", url.Item2, path, false);
                         await Mods.EnableMod("SkyMPCore");
                         NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
                     }

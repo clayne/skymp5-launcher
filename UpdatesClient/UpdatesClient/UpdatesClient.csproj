@@ -532,7 +532,7 @@
     <Resource Include="Assets\Images\SelectLanguage\SelectLanguage.jpg" />
     <Resource Include="Assets\Images\SelectLanguage\RU.png" />
     <Resource Include="Assets\Images\SelectLanguage\US.png" />
-    <Content Include="Assets\Fonts\Aetherius.ttf" />
+    <Resource Include="Assets\Fonts\Aetherius.ttf" />
     <Content Include="Assets\ShaderSource\AverageEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorBurnEffect.fx" />
     <Content Include="Assets\ShaderSource\ColorDodgeEffect.fx" />

@@ -289,8 +289,10 @@ namespace UpdatesClient.Modules.ModsManager
             return path;
         }
 
-        public static void AddMod(string modName, string hash, string pathTmp, bool isSkyrimMod, string mainFile = null)
+        public static async Task AddMod(string modName, string hash, string pathTmp, bool isSkyrimMod, string mainFile = null)
         {
+            await GameLauncher.StopGame();
+
             ModModel mod = new ModModel();
 
             if (ExistMod(modName))
@@ -300,7 +302,6 @@ namespace UpdatesClient.Modules.ModsManager
             else
             {
                 mod.Name = modName;
-                
             }
             mod.Hash = hash;
             mod.IsSkyrimMod = isSkyrimMod;
