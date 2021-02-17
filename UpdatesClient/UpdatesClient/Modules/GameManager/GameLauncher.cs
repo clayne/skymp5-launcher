@@ -18,12 +18,15 @@ namespace UpdatesClient.Modules.GameManager
 
         public static async Task StopGame()
         {
-            if (GameProcess != null && !GameProcess.HasExited)
+            try
             {
-                GameProcess.Kill();
-                await Task.Run(() => GameProcess.WaitForExit());
+                if (GameProcess != null && !GameProcess.HasExited)
+                {
+                    GameProcess.Kill();
+                    await Task.Run(() => GameProcess.WaitForExit());
+                }
             }
-
+            catch { }
             await KillProcess();
         }
 
