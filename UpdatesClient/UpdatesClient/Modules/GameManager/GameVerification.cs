@@ -34,32 +34,42 @@ namespace UpdatesClient.Modules.GameManager
         internal static ResultGameVerification VerifyGame(string pathToGameFolder, string pathToVerificationFile)
         {
             ResultGameVerification result = new ResultGameVerification();
-
             if (File.Exists($"{pathToGameFolder}\\SkyrimSE.exe"))
             {
-                result.IsGameFound = true;
-                string ver = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\SkyrimSE.exe").FileVersion;
-                try
+                FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\SkyrimSE.exe");
+                if (fileVersionInfo != null)
                 {
-                     result.GameVersion = new Version(ver);
+                    result.IsGameFound = true;
+                    string ver = "null";
+
+                    try
+                    {
+                        ver = fileVersionInfo.FileVersion;
+                        result.GameVersion = new Version(ver);
+                    }
+                    catch { Logger.Error("VersionRead", new Exception($"Raw vesrion {ver}")); }
+                    result.UnSafeGameFilesDictionary = VerifyGameFiles();
+                    result.IsGameSafe = result.UnSafeGameFilesDictionary.Count == 0;
                 }
-                catch { Logger.Error("VersionRead", new Exception($"Raw vesrion {ver}")); }
-                result.UnSafeGameFilesDictionary = VerifyGameFiles();
-                result.IsGameSafe = result.UnSafeGameFilesDictionary.Count == 0;
             }
             else return result;
 
             if (File.Exists($"{pathToGameFolder}\\skse64_loader.exe"))
             {
-                result.IsSKSEFound = true;
-                string ver = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\skse64_loader.exe").FileVersion.Replace(", ", ".");
-                try
+                FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo($"{pathToGameFolder}\\skse64_loader.exe");
+                if (fileVersionInfo != null)
                 {
-                    result.SKSEVersion = new Version(ver);
+                    result.IsSKSEFound = true;
+                    string ver = "null";
+                    try
+                    {
+                        ver = fileVersionInfo.FileVersion.Replace(", ", ".");
+                        result.SKSEVersion = new Version(ver);
+                    }
+                    catch { Logger.Error("VersionReadSKSE", new Exception($"Raw vesrion {ver}")); }
+                    result.UnSafeSKSEFilesDictionary = VerifySKSEFiles();
+                    result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0;
                 }
-                catch { Logger.Error("VersionReadSKSE", new Exception($"Raw vesrion {ver}")); }
-                result.UnSafeSKSEFilesDictionary = VerifySKSEFiles();
-                result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0;
             }
 
             if (Directory.Exists($"{pathToGameFolder}\\Data\\Interface"))
