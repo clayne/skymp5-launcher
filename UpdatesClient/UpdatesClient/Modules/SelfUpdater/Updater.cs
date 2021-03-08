@@ -1,60 +1,71 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using UpdatesClient.Core;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
-    internal static class Updater
+    public static class Updater
     {
-        static Updater()
+        public static readonly string PathToFileUpdate = $"{Path.GetDirectoryName(EnvParams.PathToFile)}\\{EnvParams.NameOfFileWithoutExtension}.update.exe";
+
+        private static string fileHash;
+        private static string masterHash;
+        private static SplashScreen SplashWindow;
+
+        private static string MasterHash { get => masterHash; set => masterHash = value?.ToUpper()?.Trim(); }
+        private static string FileHash { get => fileHash; set => fileHash = value?.ToUpper()?.Trim(); }
+
+        public static async Task Init(SplashScreen splashWindow)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+            SplashWindow = splashWindow;
+
+            MasterHash = await Net.GetLauncherHash();
+            FileHash = GetFileHash(EnvParams.PathToFile);
+
+            if (string.IsNullOrEmpty(MasterHash)) throw new Exception("MasterHash is empty");
+            if (string.IsNullOrEmpty(FileHash)) throw new Exception("FileHash is empty");
         }
 
-#if (DEBUG)
-        internal static string PROTOCOL = "http://";
-
-        private static readonly string OwnDomain = $@"skymp.local";
-        private static readonly string SubDomainS001 = $@"resource.{OwnDomain}";
-
-        private static readonly string FolderLauncher = $@"launcher";
-#elif (BETA)
-        internal static string PROTOCOL = "https://";
-
-        private static readonly string OwnDomain = $@"skymp.io";
-        private static readonly string SubDomainS001 = $@"{OwnDomain}/updates";
-
-        private static readonly string FolderLauncher = $@"launcherBeta";
-#else
-        internal static string PROTOCOL = "https://";
-
-        private static readonly string OwnDomain = $@"skymp.io";
-        private static readonly string SubDomainS001 = $@"{OwnDomain}/updates";
-
-        private static readonly string FolderLauncher = $@"launcher";
-#endif
-
-        internal const string LauncherName = "SkyMPLauncher.exe";
-        internal static string AddressToLauncher = $@"{PROTOCOL}{SubDomainS001}/{FolderLauncher}/";
-
-        private static Task<string> Request(string url, string data)
+        private static string GetFileHash(string path)
         {
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
-            req.Method = "GET";
-            req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-            req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
-            req.ContentType = "application/x-www-form-urlencoded;";
-            if (data != null)
-                using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data}");
-
-            using (var sr = new StreamReader(req.GetResponse().GetResponseStream())) return sr.ReadToEndAsync();
+            if (!File.Exists(path)) return null;
+            return Hashing.GetMD5FromFile(File.OpenRead(path));
         }
 
-        internal static async Task<string> GetLauncherHash()
+        //!======================================
+        public static bool UpdateAvailable()
         {
-            string[] req = (await Request($"{AddressToLauncher}", null)).Split('|');
-            if (req[0] == "OK") return req[1];
-            return null;
+            return MasterHash != FileHash;
+        }
+
+        public static bool Update()
+        {
+            string pathToUpdateFile = $"{Path.GetDirectoryName(EnvParams.PathToFile)}\\{EnvParams.NameOfFileWithoutExtension}.update.exe";
+            if (File.Exists(pathToUpdateFile))
+            {
+                try
+                {
+                    File.SetAttributes(pathToUpdateFile, FileAttributes.Normal);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("UpdateSetAttr", e);
+                }
+                File.Delete(pathToUpdateFile);
+            }
+
+            Downloader downloader = new Downloader(Net.AddressToLauncher + Net.LauncherName, pathToUpdateFile)
+            {
+                IsHidden = true
+            };
+            downloader.DownloadChanged += SplashWindow.SetProgress;
+
+            bool downloaded = downloader.Download();
+
+            return downloaded && MasterHash == GetFileHash($"{EnvParams.NameOfFileWithoutExtension}.update.exe");
         }
     }
 }

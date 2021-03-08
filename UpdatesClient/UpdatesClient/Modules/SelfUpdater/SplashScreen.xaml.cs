@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {

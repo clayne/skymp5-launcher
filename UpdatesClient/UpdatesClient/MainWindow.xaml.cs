@@ -19,6 +19,7 @@ using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Configs.Helpers;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Helpers;
@@ -409,7 +410,7 @@ namespace UpdatesClient
         }
         private async Task<bool> SetMods(string adress)
         {
-            string path = Settings.PathToLocalSkyrim + "Plugins.txt";
+            string path = DefaultPaths.PathToLocalSkyrim + "Plugins.txt";
             string content = "";
 
             try
@@ -472,7 +473,7 @@ namespace UpdatesClient
             
             try
             {
-                if (!Directory.Exists(Settings.PathToLocalSkyrim)) Directory.CreateDirectory(Settings.PathToLocalSkyrim);
+                if (!Directory.Exists(DefaultPaths.PathToLocalSkyrim)) Directory.CreateDirectory(DefaultPaths.PathToLocalSkyrim);
                 if (File.Exists(path) && File.GetAttributes(path) != FileAttributes.Normal) File.SetAttributes(path, FileAttributes.Normal);
                 File.WriteAllText(path, content);
             }

@@ -80,20 +80,20 @@ namespace UpdatesClient.Core.Models
 
         public static string Load()
         {
-            if (File.Exists(Settings.PathToSavedServerList))
+            if (File.Exists(DefaultPaths.PathToSavedServerList))
             {
-                return File.ReadAllText(Settings.PathToSavedServerList);
+                return File.ReadAllText(DefaultPaths.PathToSavedServerList);
             }
             else
             {
-                File.WriteAllText(Settings.PathToSavedServerList, "[{}]");
+                File.WriteAllText(DefaultPaths.PathToSavedServerList, "[{}]");
                 return "[{}]";
             }
         }
 
         public static void Save(string serverList)
         {
-            File.WriteAllText(Settings.PathToSavedServerList, serverList);
+            File.WriteAllText(DefaultPaths.PathToSavedServerList, serverList);
         }
     }
 }

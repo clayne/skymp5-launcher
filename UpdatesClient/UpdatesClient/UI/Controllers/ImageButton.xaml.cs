@@ -22,18 +22,13 @@ namespace UpdatesClient.UI.Controllers
 
         public ImageButton()
         {
-            try
-            {
-                InitializeComponent();
+            InitializeComponent();
 
-                this.Loaded += (a, e) => image.Fill = NormalColor;
-                btn.MouseEnter += Btn_MouseEnter;
-                btn.MouseLeave += Btn_MouseLeave;
-                btn.MouseLeftButtonDown += Btn_MouseLeftButtonDown;
-                btn.MouseLeftButtonUp += Btn_MouseLeftButtonUp;
-            }
-            catch (Exception e) { Logger.Error("ImageButton", e); }
-
+            this.Loaded += (a, e) => image.Fill = NormalColor;
+            btn.MouseEnter += Btn_MouseEnter;
+            btn.MouseLeave += Btn_MouseLeave;
+            btn.MouseLeftButtonDown += Btn_MouseLeftButtonDown;
+            btn.MouseLeftButtonUp += Btn_MouseLeftButtonUp;
         }
 
         private void Btn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

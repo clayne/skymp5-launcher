@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UpdatesClient.Core
+namespace UpdatesClient.Modules.Debugger
 {
     public static class Logger
     {
@@ -11,7 +11,6 @@ namespace UpdatesClient.Core
             YandexMetricaManager.Init(version);
         }
         
-
         public static void Error(string message, Exception exception, IEnumerable<KeyValuePair<string, string>> extraTags = null)
         {
             SentryManager.Error(message, exception, extraTags);

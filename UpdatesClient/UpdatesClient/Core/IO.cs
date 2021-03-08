@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,20 +10,35 @@ namespace UpdatesClient.Core
 {
     public static class IO
     {
+        public static string GetFileVersion(string path)
+        {
+            return FileVersionInfo.GetVersionInfo(path)?.FileVersion;
+        }
+
         public static void FileSetNormalAttribute(string path)
         {
             if (File.Exists(path) && File.GetAttributes(path) != FileAttributes.Normal) File.SetAttributes(path, FileAttributes.Normal);
         }
 
+        public static void DeleteFile(string file)
+        {
+            if (File.Exists(file))
+            {
+                FileSetNormalAttribute(file);
+                File.Delete(file);
+            }
+        }
 
         public static void CreateDirectory(string path)
         {
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
         }
+
         public static void RemoveDirectory(string path)
         {
             if (Directory.Exists(path)) Directory.Delete(path, true);
         }
+
         public static void RecursiveCopy(string pathFrom, string pathTo)
         {
             foreach (DirectoryInfo dir in new DirectoryInfo(pathFrom).GetDirectories())
@@ -41,6 +57,7 @@ namespace UpdatesClient.Core
                 File.Copy(file, pathToDestFile, true);
             }
         }
+
         public static void RecursiveHandleFile(string directory, Action<string> action)
         {
             foreach (DirectoryInfo dir in new DirectoryInfo(directory).GetDirectories())

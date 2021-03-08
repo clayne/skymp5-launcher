@@ -7,7 +7,7 @@ using Sentry;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.SelfUpdater;
 
-namespace UpdatesClient.Core
+namespace UpdatesClient.Modules.Debugger
 {
     public static class SentryManager
     {
@@ -34,7 +34,7 @@ namespace UpdatesClient.Core
             {
                 StringBuilder uriString = new StringBuilder();
                 uriString.Append("pack://application:,,,");
-                uriString.Append("/" + AssemblyShortName + ";component/{path}");
+                uriString.Append($"/{AssemblyShortName};component/{{path}}");
                 uri = uriString.ToString();
                 md5Launcher = Hashing.GetMD5FromFile(File.OpenRead(Assembly.GetExecutingAssembly().Location));
             }

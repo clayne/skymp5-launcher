@@ -146,13 +146,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\EnvParams.cs" />
     <Compile Include="Core\Helpers\JsonModelSaver.cs" />
     <Compile Include="Core\IO.cs" />
+    <Compile Include="Core\LocalesManager.cs" />
     <Compile Include="Core\Models\NotifyModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModsManifest.cs" />
-    <Compile Include="Core\SentryManager.cs" />
-    <Compile Include="Core\YandexMetricaManager.cs" />
+    <Compile Include="Modules\Configs\DefaultPaths.cs" />
+    <Compile Include="Modules\Debugger\SentryManager.cs" />
+    <Compile Include="Modules\Debugger\YandexMetricaManager.cs" />
     <Compile Include="Modules\Configs\Helpers\ExperimentalFunctions.cs" />
     <Compile Include="Modules\Configs\Models\NetworkSettingsModel.cs" />
     <Compile Include="Modules\Configs\NetworkSettings.cs" />
@@ -163,6 +166,8 @@
     <Compile Include="Modules\ModsManager\Models\ModsModel.cs" />
     <Compile Include="Modules\ModsManager\Mods.cs" />
     <Compile Include="Modules\ModsManager\WinFunctions.cs" />
+    <Compile Include="Modules\ModulesManager.cs" />
+    <Compile Include="Modules\SelfUpdater\Net.cs" />
     <Compile Include="Properties\Resources.ru-RU.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -301,7 +306,7 @@
     <Compile Include="Core\IniFile.cs" />
     <Compile Include="Core\Models\SkympClientSettingsModel.cs" />
     <Compile Include="Core\Models\ServerModel.cs" />
-    <Compile Include="Core\Logger.cs" />
+    <Compile Include="Modules\Debugger\Logger.cs" />
     <Compile Include="Core\Net.cs" />
     <Compile Include="Core\NotifyController.cs" />
     <Compile Include="Core\Unpacker.cs" />

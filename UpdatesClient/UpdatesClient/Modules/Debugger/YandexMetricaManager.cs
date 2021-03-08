@@ -4,7 +4,7 @@ using Yandex.Metrica;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Configs.Helpers;
 
-namespace UpdatesClient.Core
+namespace UpdatesClient.Modules.Debugger
 {
     public static class YandexMetricaManager
     {
@@ -12,7 +12,7 @@ namespace UpdatesClient.Core
 
         public static void Init(Version version)
         {
-            string tmpPath = Settings.PathToLocalTmp;
+            string tmpPath = DefaultPaths.PathToLocalTmp;
             if (!Directory.Exists(tmpPath)) Directory.CreateDirectory(tmpPath);
             YandexMetricaFolder.SetCurrent(tmpPath);
             ExperimentalFunctions.IfUse("SetVers", () =>

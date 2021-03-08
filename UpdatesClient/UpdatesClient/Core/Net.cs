@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Core
 {

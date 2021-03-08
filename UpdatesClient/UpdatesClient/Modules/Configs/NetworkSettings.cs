@@ -2,6 +2,7 @@
 using System;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.Configs
 {

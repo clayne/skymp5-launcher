@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using UpdatesClient.Core;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Enums;
 using UpdatesClient.Modules.GameManager.Model;
 using Res = UpdatesClient.Properties.Resources;

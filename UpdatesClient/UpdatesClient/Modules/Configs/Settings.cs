@@ -1,11 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Security.Extensions;
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.Configs
 {
@@ -13,18 +11,7 @@ namespace UpdatesClient.Modules.Configs
     {
         private static SettingsFileModel model;
 
-        public static readonly string VersionFile = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-        public static readonly string VersionAssembly = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public static bool Loaded { get; private set; } = false;
-
-        #region Paths
-        public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
-        public static readonly string PathToLocalSkyrim = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Skyrim Special Edition\\";
-        public static readonly string PathToLocalTmp = $"{PathToLocal}tmp\\";
-        public static readonly string PathToLocalDlls = $"{PathToLocal}dlls\\";
-        public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
-        public static readonly string PathToSavedServerList = $"{PathToLocalTmp}\\Servers.json";
-        #endregion
 
         #region Skyrim
         public static string PathToSkyrim { get => model.PathToSkyrim; set => model.PathToSkyrim = value; }
@@ -57,9 +44,9 @@ namespace UpdatesClient.Modules.Configs
         {
             try
             {
-                if (File.Exists(PathToSettingsFile))
+                if (File.Exists(DefaultPaths.PathToSettingsFile))
                 {
-                    model = JsonConvert.DeserializeObject<SettingsFileModel>(File.ReadAllText(PathToSettingsFile));
+                    model = JsonConvert.DeserializeObject<SettingsFileModel>(File.ReadAllText(DefaultPaths.PathToSettingsFile));
                 }
                 else
                 {
@@ -77,8 +64,8 @@ namespace UpdatesClient.Modules.Configs
         {
             try
             {
-                if (!Directory.Exists(PathToLocal)) Directory.CreateDirectory(PathToLocal);
-                File.WriteAllText(PathToSettingsFile, JsonConvert.SerializeObject(model));
+                if (!Directory.Exists(DefaultPaths.PathToLocal)) Directory.CreateDirectory(DefaultPaths.PathToLocal);
+                File.WriteAllText(DefaultPaths.PathToSettingsFile, JsonConvert.SerializeObject(model));
             }
             catch (Exception e)
             {
@@ -89,7 +76,7 @@ namespace UpdatesClient.Modules.Configs
         {
             try
             {
-                if (File.Exists(PathToSettingsFile)) File.Delete(PathToSettingsFile);
+                if (File.Exists(DefaultPaths.PathToSettingsFile)) File.Delete(DefaultPaths.PathToSettingsFile);
                 model = new SettingsFileModel();
             }
             catch (Exception e)

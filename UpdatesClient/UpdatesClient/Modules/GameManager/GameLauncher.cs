@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Helpers;
 
 namespace UpdatesClient.Modules.GameManager

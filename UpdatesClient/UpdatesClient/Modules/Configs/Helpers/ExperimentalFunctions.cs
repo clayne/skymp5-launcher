@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.Configs.Helpers
 {

@@ -11,6 +11,7 @@ using UpdatesClient.Core.Network;
 using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.UI.Controllers;
 using Res = UpdatesClient.Properties.Resources;
 
