@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
+using UpdatesClient.Modules.Downloader;
+using UpdatesClient.Modules.Downloader.UI;
 
 namespace UpdatesClient.Modules
 {
@@ -14,8 +16,8 @@ namespace UpdatesClient.Modules
     {
         public static void PreInitModules()
         {
-            Logger.Init(new Version(EnvParams.VersionFile));
             Settings.Load();
+            Logger.Init(new Version(EnvParams.VersionFile));
             NetworkSettings.Init();
         }
 
@@ -24,9 +26,9 @@ namespace UpdatesClient.Modules
 
         }
 
-        public static void PostInitModules()
+        public static void PostInitModules(ProgressBar progressBar)
         {
-
+            DownloadManager.PostInit(progressBar);
         }
     }
 }

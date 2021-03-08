@@ -1,25 +1,22 @@
 ﻿using BlendModeEffectLibrary;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Core.Network;
+using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
-using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.Debugger;
+using UpdatesClient.Modules.Downloader;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Helpers;
@@ -35,12 +32,6 @@ namespace UpdatesClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Check file "SkyrimSE.exe"
-        //Check file "skse64_loader.exe"
-        //Base color: #FF04D9FF
-        //War color: #FFFF7604
-        //Er color: #FFFF0404
-
         private bool blockMainBtn = false;
 
         public MainWindow()
@@ -48,40 +39,21 @@ namespace UpdatesClient
             InitializeComponent();
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
             authorization.TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
-            CloseBtn.Click += (s, e) =>
-            {
-                Logger.DisableCrashTracking();
-                Application.Current.Shutdown();
-            };
-            authorization.CloseBtn.Click += (s, e) =>
-            {
-                Logger.DisableCrashTracking();
-                Application.Current.Shutdown();
-            };
-            MinBtn.Click += (s, e) =>
-            {
-                WindowState = WindowState.Minimized;
-            };
-            authorization.MinBtn.Click += (s, e) =>
-            {
-                WindowState = WindowState.Minimized;
-            };
+
+            CloseBtn.Click += (s, e) => Application.Current.Shutdown();
+            authorization.CloseBtn.Click += (s, e) => Application.Current.Shutdown();
+
+            MinBtn.Click += (s, e) => WindowState = WindowState.Minimized;
+            authorization.MinBtn.Click += (s, e) => WindowState = WindowState.Minimized;
+            
             userButton.LogoutBtn.Click += LogOut_Click;
             authorization.SignIn += Authorization_SignIn;
 
-            progressBar.Hide();
+            ModulesManager.PostInitModules(progressBar);
 
             wind.Loaded += Wind_Loaded;
         }
-        private ImageBrush GetGridBackGround(FrameworkElement element)
-        {
-            Point relativePoint = element.TranslatePoint(new Point(0, 0), mainGrid);
-            var image = (BitmapSource)((ImageBrush)wind.Background).ImageSource;
-            double w = wind.Width / image.Width;
-            double h = wind.Height / image.Height;
-            var im = new CroppedBitmap(image, new Int32Rect((int)(relativePoint.X * w), (int)(relativePoint.Y * h), (int)(element.Width * w), (int)(element.Height * h)));
-            return new ImageBrush(im);
-        }
+        
         private async void Authorization_SignIn()
         {
             try
@@ -94,15 +66,19 @@ namespace UpdatesClient
                 authorization.Visibility = Visibility.Visible;
                 return;
             }
+
+            await Task.Delay(100);
+
+            await CheckGame();
             await CheckClientUpdates();
+            FillServerList();
         }
+
         private async Task GetLogin()
         {
             var username = await Account.GetLogin();
-            JObject jObject = JObject.Parse(username);
-            string name = jObject["name"].ToString();
-            Settings.UserName = name;
-            userButton.Text = name;
+            Settings.UserName = username;
+            userButton.Text = username;
         }
         private async void Wind_Loaded(object sender, RoutedEventArgs e)
         {
@@ -131,10 +107,7 @@ namespace UpdatesClient
                 GameCleaner.Clear();
             }
 
-            await CheckGame();
-            
             SetBackgroundServerList();
-            FillServerList();
             Authorization_SignIn();
         }
         private ResultGameVerification CheckSkyrim()
@@ -188,8 +161,10 @@ namespace UpdatesClient
             if (!Mods.ExistMod("SKSE") && !result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 blockMainBtn = true;
-                await GetSKSE();
-                await Mods.EnableMod("SKSE");
+                if (await ModUtilities.GetSKSE())
+                {
+                    await Mods.EnableMod("SKSE");
+                }
                 blockMainBtn = false;
             }
             else if(Mods.ExistMod("SKSE"))
@@ -202,8 +177,10 @@ namespace UpdatesClient
                 if (!result.IsRuFixConsoleFound && !Mods.ExistMod("RuFixConsole"))
                 {
                     blockMainBtn = true;
-                    await GetRuFixConsole();
-                    await Mods.EnableMod("RuFixConsole");
+                    if (await ModUtilities.GetRuFixConsole())
+                    {
+                        await Mods.EnableMod("RuFixConsole");
+                    }
                     blockMainBtn = false;
                 }
             }
@@ -220,7 +197,7 @@ namespace UpdatesClient
             {
                 serverListBg.Effect = new OverlayEffect()
                 {
-                    BInput = GetGridBackGround(serverListBg)
+                    BInput = Graphics.GetGridBackGround(serverListBg, mainGrid, (ImageBrush)wind.Background, wind.Width, wind.Height)
                 };
             }
             catch (Exception oe)
@@ -299,7 +276,8 @@ namespace UpdatesClient
                     await Play();
                     break;
                 case MainButtonStatus.Update:
-                    await UpdateClient();
+                    if (await ModUtilities.GetClient()) goto case MainButtonStatus.Retry;
+                    else mainButton.ButtonStatus = MainButtonStatus.Retry;
                     break;
                 case MainButtonStatus.Retry:
                     await CheckClientUpdates();
@@ -373,7 +351,7 @@ namespace UpdatesClient
                 {
                     Logger.ReportMetricaEvent("CrashDetected");
                     await Task.Delay(500);
-                    await ReportDmp();
+                    await DebuggerUtilities.ReportDmp();
                 }
             }
             catch
@@ -491,7 +469,7 @@ namespace UpdatesClient
         private async Task DownloadMod(string destinationPath, string adress, string file) 
         {
             string url = $"http://{adress}/{file}";
-            await DownloadFile(destinationPath, url, $"Загрузка {file}");
+            await DownloadManager.DownloadFile(destinationPath, url, $"Загрузка {file}", null, null);
         }
         private void SetServer()
         {
@@ -524,185 +502,9 @@ namespace UpdatesClient
             settingsModel.GameData = gameData;
             File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
         }
-        private async Task ReportDmp()
-        {
-            string pathToDmps = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\My Games\Skyrim Special Edition\SKSE\Crashdumps\";
-            if (!Directory.Exists(pathToDmps)) return;
-            try
-            {
-                DateTime dt = ModVersion.LastDmpReported;
-                string fileName = "";
-                foreach (FileSystemInfo fileSI in new DirectoryInfo(pathToDmps).GetFileSystemInfos())
-                {
-                    if (fileSI.Extension == ".dmp")
-                    {
-                        if (dt < Convert.ToDateTime(fileSI.CreationTime))
-                        {
-                            dt = Convert.ToDateTime(fileSI.CreationTime);
-                            fileName = fileSI.Name;
-                        }
-                    }
-                }
-                if (!string.IsNullOrEmpty(fileName))
-                {
-                    if (await Net.ReportDmp(pathToDmps + fileName))
-                        Logger.ReportMetricaEvent("CrashReported");
-                    else Logger.ReportMetricaEvent("CantReport");
-                    ModVersion.LastDmpReported = dt;
-                    ModVersion.Save();
-
-                    await Task.Delay(3000);
-                    File.Delete(pathToDmps + fileName);
-                }
-            }
-            catch (Exception e)
-            {
-                if (!(e is WebException) && (e is SocketException))
-                    Logger.Error("ReportDmp", e);
-            }
-        }
-
-        private async Task GetSKSE()
-        {
-            try
-            {
-                string url = await Net.GetUrlToSKSE();
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSKSE);
-
-                if (ok)
-                {
-                    progressBar.Show(true, Res.ExtractingSKSE);
-                    try
-                    {
-                        string path = Mods.GetTmpPath();
-                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, Path.GetFileNameWithoutExtension(destinationPath)));
-                        await Mods.AddMod("SKSE", "SKSEHash", path, false);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("ExtractSKSE", e);
-                        NotifyController.Show(e);
-                        mainButton.ButtonStatus = MainButtonStatus.Retry;
-                    }
-                    progressBar.Hide();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("InstallSKSE", e);
-            }
-        }
-        private async Task GetRuFixConsole()
-        {
-            try
-            {
-                string url = Net.URL_Mod_RuFix;
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                bool ok = await DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole);
-                if (ok)
-                {
-                    try
-                    {
-                        string path = Mods.GetTmpPath();
-                        progressBar.Show(true, Res.Extracting);
-                        await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path + "\\Data"));
-                        await Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
-                        progressBar.Hide();
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("ExtractRuFix", e);
-                        NotifyController.Show(e);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("InstallRuFixConsole", e);
-            }
-        }
         
-        private async Task UpdateClient()
-        {
-            (string, string) url = (null, null);
-            try
-            {
-                url = await Net.GetUrlToClient();
-            }
-            catch (WebException we)
-            {
-                NotifyController.Show(we);
-                return;
-            }
-            
-            string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
-
-            try
-            {
-                if (File.Exists(destinationPath)) File.Delete(destinationPath);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("DelClientZip", e);
-            }
-
-            bool ok = await DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, url.Item2);
-
-            if (ok)
-            {
-                progressBar.Show(true, Res.ExtractingClient);
-                try
-                {
-                    string path = Mods.GetTmpPath();
-                    if (await Task.Run(() => Unpacker.UnpackArchive(destinationPath, path, "client")))
-                    {
-                        await Mods.AddMod("SkyMPCore", url.Item2, path, false);
-                        await Mods.EnableMod("SkyMPCore");
-                        NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Logger.Error("Extract", e);
-                    NotifyController.Show(e);
-                    mainButton.ButtonStatus = MainButtonStatus.Retry;
-                    return;
-                }
-                progressBar.Hide();
-            }
-            await CheckClientUpdates();
-        }
-
-        private void Downloader_DownloadChanged(long downloaded, long size, double prDown)
-        {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
-            {
-                try
-                {
-                    progressBar.Size = size;
-                    progressBar.Update(downloaded);
-                }
-                catch { }
-            });
-        }
-        private async Task<bool> DownloadFile(string destinationPath, string url, string status, string vers = null, int c = 0)
-        {
-            progressBar.Show(false, $"{status}{(c != 0 ? $" ({Res.Attempt} №{c + 1})" : "")}", vers);
-
-            Downloader downloader = new Downloader(destinationPath, url);
-            downloader.DownloadChanged += Downloader_DownloadChanged;
-            progressBar.Start();
-            bool ok = await downloader.StartSync();
-            downloader.DownloadChanged -= Downloader_DownloadChanged;
-            progressBar.Stop();
-            progressBar.Hide();
-
-            if (!ok && c < 3) return await DownloadFile(destinationPath, url, status, vers, ++c);
-            return ok;
-        }
+        
+        
         private void RefreshServerList(object sender, RoutedEventArgs e)
         {
             FillServerList();

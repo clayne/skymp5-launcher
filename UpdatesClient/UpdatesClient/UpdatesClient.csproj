@@ -147,6 +147,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\EnvParams.cs" />
+    <Compile Include="Core\Graphics.cs" />
     <Compile Include="Core\Helpers\JsonModelSaver.cs" />
     <Compile Include="Core\IO.cs" />
     <Compile Include="Core\LocalesManager.cs" />
@@ -154,17 +155,21 @@
     <Compile Include="Core\Models\ServerManifest\ServerModModel.cs" />
     <Compile Include="Core\Models\ServerManifest\ServerModsManifest.cs" />
     <Compile Include="Modules\Configs\DefaultPaths.cs" />
+    <Compile Include="Modules\Debugger\DebuggerUtilities.cs" />
     <Compile Include="Modules\Debugger\SentryManager.cs" />
     <Compile Include="Modules\Debugger\YandexMetricaManager.cs" />
     <Compile Include="Modules\Configs\Helpers\ExperimentalFunctions.cs" />
     <Compile Include="Modules\Configs\Models\NetworkSettingsModel.cs" />
     <Compile Include="Modules\Configs\NetworkSettings.cs" />
+    <Compile Include="Modules\Downloader\DownloadManager.cs" />
+    <Compile Include="Modules\Downloader\Models\DownloadModel.cs" />
     <Compile Include="Modules\GameManager\Helpers\GameCleaner.cs" />
     <Compile Include="Modules\GameManager\Helpers\ProcessKiller.cs" />
     <Compile Include="Modules\ModsManager\Enums\SymbolicLink.cs" />
     <Compile Include="Modules\ModsManager\Models\ModModel.cs" />
     <Compile Include="Modules\ModsManager\Models\ModsModel.cs" />
     <Compile Include="Modules\ModsManager\Mods.cs" />
+    <Compile Include="Modules\ModsManager\ModUtilities.cs" />
     <Compile Include="Modules\ModsManager\WinFunctions.cs" />
     <Compile Include="Modules\ModulesManager.cs" />
     <Compile Include="Modules\SelfUpdater\Net.cs" />
@@ -173,7 +178,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.ru-RU.resx</DependentUpon>
     </Compile>
-    <Compile Include="Core\Downloader.cs" />
+    <Compile Include="Modules\Downloader\Downloader.cs" />
     <Compile Include="Core\Effects\BandedSwirlEffect.cs" />
     <Compile Include="Core\Effects\BloomEffect.cs" />
     <Compile Include="Core\Effects\BrightExtractEffect.cs" />
@@ -344,7 +349,7 @@
     <Compile Include="UI\Controllers\ImageButton.xaml.cs">
       <DependentUpon>ImageButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controllers\ProgressBar.xaml.cs">
+    <Compile Include="Modules\Downloader\UI\ProgressBar.xaml.cs">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Controllers\ProgressBarBtn.xaml.cs">
@@ -398,7 +403,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controllers\ProgressBar.xaml">
+    <Page Include="Modules\Downloader\UI\ProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

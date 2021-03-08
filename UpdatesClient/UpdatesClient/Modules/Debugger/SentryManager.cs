@@ -60,6 +60,7 @@ namespace UpdatesClient.Modules.Debugger
                         Username = Settings.UserName
                     };
                 }
+
                 e.SetTag("Locale", Settings.Locale);
                 e.SetTag("URI", uri);
                 e.SetTag("MD5", md5Launcher);

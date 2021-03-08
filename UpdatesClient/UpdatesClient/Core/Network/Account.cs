@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.CodeDom;
 using System.Net;
@@ -42,9 +43,11 @@ namespace UpdatesClient.Core.Network
             return Net.Request($"{URL_Api}secure", "GET", true, null);
         }
 
-        public static Task<string> GetLogin()
+        public static async Task<string> GetLogin()
         {
-            return Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
+            string raw = await Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
+            JObject jObject = JObject.Parse(raw);
+            return jObject["name"].ToString();
         }
 
         public static async Task<object> GetSession(string address)

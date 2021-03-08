@@ -4,9 +4,10 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Debugger;
 
-namespace UpdatesClient.Core
+namespace UpdatesClient.Modules.Downloader
 {
     public class Downloader
     {

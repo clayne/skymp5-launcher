@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows.Controls;
 using Res = UpdatesClient.Properties.Resources;
 
-namespace UpdatesClient.UI.Controllers
+namespace UpdatesClient.Modules.Downloader.UI
 {
     /// <summary>
     /// Логика взаимодействия для ProgressBar.xaml
@@ -31,11 +31,11 @@ namespace UpdatesClient.UI.Controllers
         private long NeedTime;
 
         private Stopwatch stopwatch;
-        readonly MovingAverage movingAverage = new MovingAverage()
+        private readonly MovingAverage movingAverage = new MovingAverage()
         {
             windowSize = 16
         };
-        readonly MovingAverage movingAverageTime = new MovingAverage()
+        private readonly MovingAverage movingAverageTime = new MovingAverage()
         {
             windowSize = 16
         };
@@ -112,8 +112,6 @@ namespace UpdatesClient.UI.Controllers
         {
             Visibility = System.Windows.Visibility.Hidden;
         }
-
-
         private string SizeSuffix(long value, int decimalPlaces = 1)
         {
             if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException("decimalPlaces"); }
