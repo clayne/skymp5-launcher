@@ -53,7 +53,36 @@ namespace UpdatesClient
 
             wind.Loaded += Wind_Loaded;
         }
-        
+        private void Wind_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (Settings.ExperimentalFunctions == null)
+                {
+                    MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"),
+                        Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+
+                    if (result == MessageBoxResult.Yes) Settings.ExperimentalFunctions = true;
+                    else Settings.ExperimentalFunctions = false;
+                    Settings.Save();
+                }
+            }
+            catch (Exception er) { Logger.Error("ExpFunc", er); }
+
+            NotifyController.Init();
+
+            Mods.Init();
+            ModVersion.Load();
+            FileWatcher.Init();
+
+            if (!Mods.ExistMod("SkyMPCore"))
+            {
+                GameCleaner.Clear();
+            }
+
+            SetBackgroundServerList();
+            Authorization_SignIn();
+        }
         private async void Authorization_SignIn()
         {
             try
@@ -80,83 +109,10 @@ namespace UpdatesClient
             Settings.UserName = username;
             userButton.Text = username;
         }
-        private async void Wind_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (Settings.ExperimentalFunctions == null)
-                {
-                    MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"), 
-                        Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-
-                    if (result == MessageBoxResult.Yes) Settings.ExperimentalFunctions = true;
-                    else Settings.ExperimentalFunctions = false;
-                    Settings.Save();
-                }
-            }
-            catch (Exception er) { Logger.Error("ExpFunc", er); }
-
-            NotifyController.Init();
-
-            Mods.Init();
-            ModVersion.Load();
-            FileWatcher.Init();
-
-            if (!Mods.ExistMod("SkyMPCore"))
-            {
-                GameCleaner.Clear();
-            }
-
-            SetBackgroundServerList();
-            Authorization_SignIn();
-        }
-        private ResultGameVerification CheckSkyrim()
-        {
-            string pathToSkyrim = Settings.PathToSkyrim;
-            ResultGameVerification result = default;
-            try
-            {
-                do
-                {
-                    while (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim))
-                    {
-                        string path = GameVerification.GetGameFolder();
-                        if (string.IsNullOrEmpty(path))
-                        {
-                            App.AppCurrent.Shutdown();
-                            Close();
-                        }
-                        pathToSkyrim = path;
-                    }
-
-                    result = GameVerification.VerifyGame(pathToSkyrim, null);
-                    if (result.IsGameFound)
-                    {
-                        if (Settings.PathToSkyrim != pathToSkyrim)
-                        {
-                            Settings.PathToSkyrim = pathToSkyrim;
-                            Settings.Save();
-                        }
-                        break;
-                    }
-
-                    pathToSkyrim = null;
-                    MessageBox.Show(Res.SkyrimNotFound, Res.Error);
-                } while (true);
-            }
-            catch (Exception er)
-            {
-                Logger.FatalError("CheckPathToSkyrim", er);
-                MessageBox.Show(Res.InitError, Res.Error);
-                Close();
-            }
-
-            return result;
-        }
         
         private async Task CheckGame() 
         {
-            ResultGameVerification result = CheckSkyrim();
+            ResultGameVerification result = GameVerification.CheckSkyrim();
 
             if (!Mods.ExistMod("SKSE") && !result.IsSKSEFound && MessageBox.Show(Res.SKSENotFound, Res.Warning, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
@@ -502,8 +458,6 @@ namespace UpdatesClient
             settingsModel.GameData = gameData;
             File.WriteAllText(Settings.PathToSkympClientSettings, JsonConvert.SerializeObject(settingsModel, Formatting.Indented));
         }
-        
-        
         
         private void RefreshServerList(object sender, RoutedEventArgs e)
         {

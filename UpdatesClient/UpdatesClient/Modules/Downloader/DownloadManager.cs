@@ -107,10 +107,7 @@ namespace UpdatesClient.Modules.Downloader
                     ProgressBar.Size = size;
                     ProgressBar.Update(downloaded);
                 }
-                catch 
-                { 
-            
-                }
+                catch { }
             });
         }
 

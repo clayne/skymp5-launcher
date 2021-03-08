@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using UpdatesClient.Core;
+using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Enums;
 using UpdatesClient.Modules.GameManager.Model;
@@ -10,7 +12,7 @@ using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.GameManager
 {
-    internal class GameVerification
+    internal static class GameVerification
     {
         public static string GetGameFolder()
         {
@@ -32,7 +34,49 @@ namespace UpdatesClient.Modules.GameManager
             return null;
         }
 
-        internal static ResultGameVerification VerifyGame(string pathToGameFolder, string pathToVerificationFile)
+        public static ResultGameVerification CheckSkyrim()
+        {
+            string pathToSkyrim = Settings.PathToSkyrim;
+            ResultGameVerification result = default;
+            try
+            {
+                do
+                {
+                    while (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim))
+                    {
+                        string path = GetGameFolder();
+                        if (string.IsNullOrEmpty(path))
+                        {
+                            Environment.Exit(0);
+                        }
+                        pathToSkyrim = path;
+                    }
+
+                    result = VerifyGame(pathToSkyrim, null);
+                    if (result.IsGameFound)
+                    {
+                        if (Settings.PathToSkyrim != pathToSkyrim)
+                        {
+                            Settings.PathToSkyrim = pathToSkyrim;
+                            Settings.Save();
+                        }
+                        break;
+                    }
+
+                    pathToSkyrim = null;
+                    MessageBox.Show(Res.SkyrimNotFound, Res.Error);
+                } while (true);
+            }
+            catch (Exception er)
+            {
+                Logger.FatalError("CheckPathToSkyrim", er);
+                MessageBox.Show(Res.InitError, Res.Error);
+                Environment.Exit(0);
+            }
+            return result;
+        }
+
+        public static ResultGameVerification VerifyGame(string pathToGameFolder, string pathToVerificationFile)
         {
             ResultGameVerification result = new ResultGameVerification();
             if (File.Exists($"{pathToGameFolder}\\SkyrimSE.exe"))

@@ -289,7 +289,7 @@ namespace UpdatesClient
 
         private void ExitApp()
         {
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         private void StartLuancher()
