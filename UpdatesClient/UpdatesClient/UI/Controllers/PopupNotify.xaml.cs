@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using UpdatesClient.Core.Models;
-using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Controllers
 {

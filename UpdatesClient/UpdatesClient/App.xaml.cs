@@ -10,15 +10,14 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Core;
+using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
-using UpdatesClient.Modules.SelfUpdater;
-using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
-using Res = UpdatesClient.Properties.Resources;
-using System.Globalization;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Helpers;
 using UpdatesClient.Modules.ModsManager;
-using UpdatesClient.Modules;
-using UpdatesClient.Modules.Debugger;
+using UpdatesClient.Modules.SelfUpdater;
+using Res = UpdatesClient.Properties.Resources;
+using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 
 namespace UpdatesClient
 {

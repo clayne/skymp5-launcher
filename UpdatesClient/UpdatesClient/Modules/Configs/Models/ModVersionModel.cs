@@ -1,5 +1,4 @@
-﻿using Security.Extensions;
-using System;
+﻿using System;
 
 namespace UpdatesClient.Modules.Configs.Models
 {

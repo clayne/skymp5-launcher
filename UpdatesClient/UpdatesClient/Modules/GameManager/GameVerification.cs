@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Enums;

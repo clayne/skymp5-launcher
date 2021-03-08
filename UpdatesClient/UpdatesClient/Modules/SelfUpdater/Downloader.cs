@@ -2,8 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Windows;
-using UpdatesClient.Core;
 using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.SelfUpdater

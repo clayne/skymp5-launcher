@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using UpdatesClient.Core;
-using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.Configs.Models;
 using UpdatesClient.Modules.Debugger;
 using Res = UpdatesClient.Properties.Resources;

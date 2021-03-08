@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using System.Windows.Threading;
 using UpdatesClient.Core.Models;
 using UpdatesClient.UI.Controllers;
 

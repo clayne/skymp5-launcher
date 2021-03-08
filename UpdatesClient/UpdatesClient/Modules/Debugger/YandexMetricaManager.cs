@@ -1,8 +1,8 @@
 using System;
 using System.IO;
-using Yandex.Metrica;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Configs.Helpers;
+using Yandex.Metrica;
 
 namespace UpdatesClient.Modules.Debugger
 {

@@ -1,9 +1,9 @@
+using Sentry;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Reflection;
-using Sentry;
+using System.Text;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.SelfUpdater;
 

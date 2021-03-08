@@ -163,6 +163,7 @@
     <Compile Include="Modules\Configs\NetworkSettings.cs" />
     <Compile Include="Modules\Downloader\DownloadManager.cs" />
     <Compile Include="Modules\Downloader\Models\DownloadModel.cs" />
+    <Compile Include="Modules\GameManager\GameUtilities.cs" />
     <Compile Include="Modules\GameManager\Helpers\GameCleaner.cs" />
     <Compile Include="Modules\GameManager\Helpers\ProcessKiller.cs" />
     <Compile Include="Modules\ModsManager\Enums\SymbolicLink.cs" />
