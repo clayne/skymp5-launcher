@@ -73,9 +73,9 @@ namespace UpdatesClient.Core.Models
             return JArray.Parse(jArrayServerList).ToObject<List<ServerModel>>();
         }
 
-        public static async Task<string> GetServers()
+        public static Task<string> GetServers()
         {
-            return await Net.Request(Net.URL_SERVERS, "GET", false, null);
+            return Net.Request(Net.URL_SERVERS, "GET", false, null);
         }
 
         public static string Load()

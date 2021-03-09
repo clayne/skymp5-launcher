@@ -21,7 +21,9 @@ namespace UpdatesClient.Modules.SelfUpdater
             return true;
         }
 
+#pragma warning disable IDE0051 // Удалите неиспользуемые закрытые члены
         private static bool CheckInjection()
+#pragma warning restore IDE0051 // Удалите неиспользуемые закрытые члены
         {
             if (WinFunctions.GetModuleHandle("SbieDll.dll") != IntPtr.Zero) return false;
             return true;

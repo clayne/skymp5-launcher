@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.SelfUpdater;
 
@@ -32,11 +33,8 @@ namespace UpdatesClient.Modules.Debugger
         {
             try
             {
-                StringBuilder uriString = new StringBuilder();
-                uriString.Append("pack://application:,,,");
-                uriString.Append($"/{AssemblyShortName};component/{{path}}");
-                uri = uriString.ToString();
-                md5Launcher = Hashing.GetMD5FromFile(File.OpenRead(Assembly.GetExecutingAssembly().Location));
+                uri = $"pack://application:,,,/{AssemblyShortName};component/{{path}}";
+                md5Launcher = Hashing.GetMD5FromFile(File.OpenRead(EnvParams.PathToFile));
             }
             catch { }
             

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace UpdatesClient.Core.Models.ServerManifest
+namespace UpdatesClient.Modules.GameManager.Models.ServerManifest
 {
     public class ServerModModel
     {

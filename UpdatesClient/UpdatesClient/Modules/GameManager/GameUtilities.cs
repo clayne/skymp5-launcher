@@ -7,11 +7,11 @@ using System.Net;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Models;
-using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.Downloader;
+using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.UI.Controllers;
 
@@ -90,26 +90,7 @@ namespace UpdatesClient.Modules.GameManager
             string serverManifest = await Net.Request($"http://{adress}/manifest.json", "GET", false, null);
             return JsonConvert.DeserializeObject<ServerModsManifest>(serverManifest);
         }
-        private static Dictionary<string, List<(string, uint)>> GetMods(ServerModsManifest modsManifest)
-        {
-            List<string> WhiteList = Mods.WhiteListMods;
-
-            List<string> mods = new List<string>();
-            foreach (string mod in modsManifest.LoadOrder)
-            {
-                string modName = Path.GetFileNameWithoutExtension(mod);
-                if (!mods.Contains(modName) && !WhiteList.Contains(modName)) mods.Add(modName);
-            }
-
-            Dictionary<string, List<(string, uint)>> files = new Dictionary<string, List<(string, uint)>>();
-            foreach (string mod in mods)
-            {
-                files.Add(mod,
-                    modsManifest.Mods.FindAll(m => Path.GetFileNameWithoutExtension(m.FileName) == mod).Select(s => (s.FileName, (uint)s.CRC32)).ToList());
-            }
-
-            return files;
-        }
+        
         private static async Task<bool> SetMods(string adress)
         {
             string path = DefaultPaths.PathToLocalSkyrim + "Plugins.txt";
@@ -119,7 +100,7 @@ namespace UpdatesClient.Modules.GameManager
             {
                 await Mods.DisableAll();
                 ServerModsManifest mods = Mods.CheckCore(await GetManifest(adress));
-                Dictionary<string, List<(string, uint)>> needMods = GetMods(mods);
+                Dictionary<string, List<(string, uint)>> needMods = mods.GetMods();
 
                 foreach (KeyValuePair<string, List<(string, uint)>> mod in needMods)
                 {

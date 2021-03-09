@@ -7,7 +7,7 @@ using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.Configs
 {
-    internal class Settings
+    internal static class Settings
     {
         private static SettingsFileModel model;
 

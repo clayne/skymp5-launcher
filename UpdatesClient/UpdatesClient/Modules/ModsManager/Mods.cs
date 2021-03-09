@@ -4,9 +4,9 @@ using System.IO;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Helpers;
-using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
+using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager.Models;
 using UpdatesClient.Modules.SelfUpdater;
 
@@ -89,7 +89,7 @@ namespace UpdatesClient.Modules.ModsManager
 
         public static ServerModsManifest CheckCore(ServerModsManifest mods)
         {
-            var arrMods = mods.Mods.ToArray();
+            ServerModModel[] arrMods = mods.Mods.ToArray();
 
             foreach (ServerModModel mod in arrMods)
             {
@@ -100,7 +100,7 @@ namespace UpdatesClient.Modules.ModsManager
                     {
                         uint lhash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(path));
                         //if (mod.CRC32 == lhash)
-                            mods.Mods.Remove(mod);
+                        mods.Mods.Remove(mod);
                     }
                 }
             }

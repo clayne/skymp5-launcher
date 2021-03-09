@@ -161,7 +161,6 @@ namespace UpdatesClient
         {
             try
             {
-                List<ServerModel> list = null;
                 string servers;
                 try
                 {
@@ -172,14 +171,15 @@ namespace UpdatesClient
                 {
                     servers = ServerModel.Load();
                 }
-                list = ServerModel.ParseServersToList(servers);
+                List<ServerModel> list = ServerModel.ParseServersToList(servers);
                 list.RemoveAll(x => x.IsEmpty());
                 serverList.ItemsSource = null;
                 serverList.ItemsSource = list;
                 serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
                 if (NetworkSettings.ShowingServerStatus)
                 {
-                    if (!list.Exists(x => x.ID == NetworkSettings.OfficialServerAdress.GetHashCode()))
+                    int hashCode = NetworkSettings.OfficialServerAdress.GetHashCode();
+                    if (!list.Exists(x => x.ID == hashCode))
                     {
                         bottomInfoPanel.Text = NetworkSettings.ServerStatus;
                         bottomInfoPanel.Visibility = Visibility.Visible;

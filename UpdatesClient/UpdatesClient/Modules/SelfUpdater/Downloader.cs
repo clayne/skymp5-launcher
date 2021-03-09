@@ -57,7 +57,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             string sPath = $"{sDestinationPath}";
 
             string path = Path.GetDirectoryName(sPath);
-            if (path != null && path != "") Directory.CreateDirectory(path);
+            if (string.IsNullOrEmpty(path)) Directory.CreateDirectory(path);
 
             hwRq = (HttpWebRequest)HttpWebRequest.Create(new Uri($"{sInternetPath}"));
             hwRq.Timeout = 10000;

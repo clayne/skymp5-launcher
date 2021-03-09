@@ -79,12 +79,11 @@ namespace UpdatesClient.Modules.Downloader.UI
                 Value = downloaded / (Size / 100.0);
                 if (timeChange < 50) return;
                 stopwatch.Restart();
-                long sizeChange = (downloaded - Downloaded); //KB
                 Downloaded = downloaded;
 
                 if (timeChange != 0)
                 {
-                    movingAverage.ComputeAverage(sizeChange / timeChange);
+                    movingAverage.ComputeAverage((downloaded - Downloaded) / timeChange);
                     Speed = (long)movingAverage.Average * 1000; // kb/ms
 
                     movingAverageTime.ComputeAverage((Size - Downloaded) / Speed);

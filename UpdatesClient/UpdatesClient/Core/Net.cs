@@ -96,11 +96,7 @@ namespace UpdatesClient.Core
             byte[] boundarybytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
             byte[] endBoundaryBytes = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--");
 
-            string formdataTemplate = "\r\n--" + boundary + "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
-            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\n" +
-                "Content-Type: {2}\r\n\r\n";
-
-            Stream memStream = new MemoryStream();
+            MemoryStream memStream = new MemoryStream();
 
             if (data != null)
             {
@@ -108,14 +104,15 @@ namespace UpdatesClient.Core
                 {
                     (string, string) pair = (d.Split('=')[0], d.Split('=')[1]);
 
-                    string formitem = string.Format(formdataTemplate, pair.Item1, pair.Item2);
+                    string formitem = $"\r\n--{boundary}\r\nContent-Disposition: form-data; name=\"{pair.Item1}\";\r\n\r\n{pair.Item2}";
                     byte[] formitembytes = Encoding.UTF8.GetBytes(formitem);
                     memStream.Write(formitembytes, 0, formitembytes.Length);
                 }
             }
 
             memStream.Write(boundarybytes, 0, boundarybytes.Length);
-            var header = string.Format(headerTemplate, paramName, new FileInfo(file).Name, contentType);
+            var header = $"Content-Disposition: form-data; name=\"{paramName}\"; filename=\"{new FileInfo(file).Name}\"\r\n" +
+                $"Content-Type: {contentType}\r\n\r\n";
             var headerbytes = Encoding.UTF8.GetBytes(header);
 
             memStream.Write(headerbytes, 0, headerbytes.Length);

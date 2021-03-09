@@ -75,7 +75,7 @@ namespace UpdatesClient.Modules.Downloader
             catch (UnauthorizedAccessException uae)
             {
                 sDestinationPath = null;
-                Dictionary<string, string> tags = new Dictionary<string, string>
+                Dictionary<string, string> tags = new Dictionary<string, string>(1)
                 {
                     { "FullPath", sDestinationPath }
                 };

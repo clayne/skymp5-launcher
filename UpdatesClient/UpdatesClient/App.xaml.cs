@@ -169,7 +169,9 @@ namespace UpdatesClient
             return true;
         }
 
+#pragma warning disable CS1998 // В асинхронном методе отсутствуют операторы await, будет выполнен синхронный метод
         private async void ApplicationInit(SplashScreen SplashWindow)
+#pragma warning restore CS1998 // В асинхронном методе отсутствуют операторы await, будет выполнен синхронный метод
         {
             try
             {
@@ -286,7 +288,7 @@ namespace UpdatesClient
             ApplicationInitialize = ApplicationInit;
         }
 
-        private void ExitApp()
+        private static void ExitApp()
         {
             Environment.Exit(0);
         }
