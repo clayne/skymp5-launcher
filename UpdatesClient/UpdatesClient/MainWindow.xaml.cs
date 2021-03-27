@@ -1,5 +1,4 @@
-﻿using BlendModeEffectLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -67,7 +66,6 @@ namespace UpdatesClient
 
             NotifyController.Init();
 
-            SetBackgroundServerList();
             Authorization_SignIn();
         }
         private async void Authorization_SignIn()
@@ -143,20 +141,6 @@ namespace UpdatesClient
             }
         }
 
-        private void SetBackgroundServerList()
-        {
-            try
-            {
-                serverListBg.Effect = new OverlayEffect()
-                {
-                    BInput = Graphics.GetGridBackGround(serverListBg, mainGrid, (ImageBrush)wind.Background, wind.Width, wind.Height)
-                };
-            }
-            catch (Exception oe)
-            {
-                Logger.Error("SetBackgroundServerList_OverlayEffect", oe);
-            }
-        }
         private async void FillServerList()
         {
             try

@@ -216,7 +216,13 @@ namespace UpdatesClient.Modules.ModsManager
             await GameLauncher.StopGame();
 
             ModModel mod = new ModModel();
-            mod = mod.Load<ModModel>(Settings.PathToSkyrimMods + modName + "\\mod.json");
+
+            string pathTmp = Settings.PathToSkyrimMods + modName + "\\";
+            IO.RecursiveHandleFile(pathTmp, (file) =>
+            {
+                string filePath = file.Replace(pathTmp, "");
+                mod.Files.Add(filePath, 0);
+            });
 
             foreach (string file in mod.Files.Keys)
             {

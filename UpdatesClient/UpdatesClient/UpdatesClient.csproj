@@ -180,58 +180,6 @@
       <DependentUpon>Resources.ru-RU.resx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Downloader\Downloader.cs" />
-    <Compile Include="Core\Effects\BandedSwirlEffect.cs" />
-    <Compile Include="Core\Effects\BloomEffect.cs" />
-    <Compile Include="Core\Effects\BrightExtractEffect.cs" />
-    <Compile Include="Core\Effects\ColorKeyAlphaEffect.cs" />
-    <Compile Include="Core\Effects\ColorToneEffect.cs" />
-    <Compile Include="Core\Effects\ContrastAdjustEffect.cs" />
-    <Compile Include="Core\Effects\DirectionalBlurEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\AverageEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\BlendModeEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\ColorBurnEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\ColorDodgeEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\ColorEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\DarkenEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\DifferenceEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\ExclusionEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\GlowEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\HardLightEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\HardMixEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\HueEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\LightenEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\LinearBurnEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\LinearDodgeEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\LinearLightEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\LuminosityEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\MultiplyEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\NegationEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\NormalEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\OverlayEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\PhoenixEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\PinLightEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\ReflectEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\SaturationEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\ScreenEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\SoftLightEffect.cs" />
-    <Compile Include="Core\Effects\EffectFiles\VividLightEffect.cs" />
-    <Compile Include="Core\Effects\EffectLibrary.cs" />
-    <Compile Include="Core\Effects\EmbossedEffect.cs" />
-    <Compile Include="Core\Effects\GloomEffect.cs" />
-    <Compile Include="Core\Effects\GrowablePoissonDiskEffect.cs" />
-    <Compile Include="Core\Effects\InvertColorEffect.cs" />
-    <Compile Include="Core\Effects\LightStreakEffect.cs" />
-    <Compile Include="Core\Effects\MagnifyEffect.cs" />
-    <Compile Include="Core\Effects\MonochromeEffect.cs" />
-    <Compile Include="Core\Effects\PinchEffect.cs" />
-    <Compile Include="Core\Effects\PixelateEffect.cs" />
-    <Compile Include="Core\Effects\RippleEffect.cs" />
-    <Compile Include="Core\Effects\SharpenEffect.cs" />
-    <Compile Include="Core\Effects\SmoothMagnifyEffect.cs" />
-    <Compile Include="Core\Effects\SwirlEffect.cs" />
-    <Compile Include="Core\Effects\ToneMappingEffect.cs" />
-    <Compile Include="Core\Effects\ToonShaderEffect.cs" />
-    <Compile Include="Core\Effects\ZoomBlurEffect.cs" />
     <Compile Include="Core\Libraries\SingleInstanceApp\ISingleInstance.cs" />
     <Compile Include="Core\Libraries\SingleInstanceApp\NativeMethods.cs" />
     <Compile Include="Core\Libraries\SingleInstanceApp\SingleInstance.cs" />
@@ -281,33 +229,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Resource Include="Assets\Fonts\Forum-Regular.ttf" />
-    <Resource Include="Assets\Fonts\PERTIBD.TTF" />
-    <Resource Include="Assets\Fonts\PERTILI.TTF" />
-    <Resource Include="Assets\Fonts\VTMB_DLGBASE2.TTF" />
-    <Resource Include="Assets\Effects\BandedSwirl.ps" />
-    <Resource Include="Assets\Effects\Bloom.ps" />
-    <Resource Include="Assets\Effects\BrightExtract.ps" />
-    <Resource Include="Assets\Effects\ColorKeyAlpha.ps" />
-    <Resource Include="Assets\Effects\ColorTone.ps" />
-    <Resource Include="Assets\Effects\ContrastAdjust.ps" />
-    <Resource Include="Assets\Effects\DirectionalBlur.ps" />
-    <Resource Include="Assets\Effects\Embossed.ps" />
-    <Resource Include="Assets\Effects\Gloom.ps" />
-    <Resource Include="Assets\Effects\GrowablePoissonDisk.ps" />
-    <Resource Include="Assets\Effects\InvertColor.ps" />
-    <Resource Include="Assets\Effects\LightStreak.ps" />
-    <Resource Include="Assets\Effects\Magnify.ps" />
-    <Resource Include="Assets\Effects\Monochrome.ps" />
-    <Resource Include="Assets\Effects\Pinch.ps" />
-    <Resource Include="Assets\Effects\Pixelate.ps" />
-    <Resource Include="Assets\Effects\Ripple.ps" />
-    <Resource Include="Assets\Effects\Sharpen.ps" />
-    <Resource Include="Assets\Effects\SmoothMagnify.ps" />
-    <Resource Include="Assets\Effects\Swirl.ps" />
-    <Resource Include="Assets\Effects\ToneMapping.ps" />
-    <Resource Include="Assets\Effects\ToonShader.ps" />
-    <Resource Include="Assets\Effects\ZoomBlur.ps" />
     <Compile Include="Core\Helpers\RoundProgressPathConverter.cs" />
     <Compile Include="Core\IniFile.cs" />
     <Compile Include="Core\Models\SkympClientSettingsModel.cs" />
@@ -444,33 +365,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Resource Include="Assets\ShaderSource\AverageEffect.ps" />
-    <Resource Include="Assets\ShaderSource\ColorBurnEffect.ps" />
-    <Resource Include="Assets\ShaderSource\ColorDodgeEffect.ps" />
-    <Resource Include="Assets\ShaderSource\ColorEffect.ps" />
-    <Resource Include="Assets\ShaderSource\DarkenEffect.ps" />
-    <Resource Include="Assets\ShaderSource\DifferenceEffect.ps" />
-    <Resource Include="Assets\ShaderSource\ExclusionEffect.ps" />
-    <Resource Include="Assets\ShaderSource\GlowEffect.ps" />
-    <Resource Include="Assets\ShaderSource\HardLightEffect.ps" />
-    <Resource Include="Assets\ShaderSource\HardMixEffect.ps" />
-    <Resource Include="Assets\ShaderSource\HueEffect.ps" />
-    <Resource Include="Assets\ShaderSource\LightenEffect.ps" />
-    <Resource Include="Assets\ShaderSource\LinearBurnEffect.ps" />
-    <Resource Include="Assets\ShaderSource\LinearDodgeEffect.ps" />
-    <Resource Include="Assets\ShaderSource\LinearLightEffect.ps" />
-    <Resource Include="Assets\ShaderSource\LuminosityEffect.ps" />
-    <Resource Include="Assets\ShaderSource\MultiplyEffect.ps" />
-    <Resource Include="Assets\ShaderSource\NegationEffect.ps" />
-    <Resource Include="Assets\ShaderSource\NormalEffect.ps" />
-    <Resource Include="Assets\ShaderSource\OverlayEffect.ps" />
-    <Resource Include="Assets\ShaderSource\PhoenixEffect.ps" />
-    <Resource Include="Assets\ShaderSource\PinLightEffect.ps" />
-    <Resource Include="Assets\ShaderSource\ReflectEffect.ps" />
-    <Resource Include="Assets\ShaderSource\SaturationEffect.ps" />
-    <Resource Include="Assets\ShaderSource\ScreenEffect.ps" />
-    <Resource Include="Assets\ShaderSource\SoftLightEffect.ps" />
-    <Resource Include="Assets\ShaderSource\VividLightEffect.ps" />
+    <Resource Include="Assets\Fonts\Gilroy-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -482,18 +377,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Images\MainWindowBackgrounds\" />
+    <Folder Include="Assets\Images\SelectLanguage\" />
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\Exit.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\Images\favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\Images\SplashBackground\back1.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -508,70 +399,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\SplashBackground\back2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Effects\BandedSwirl.fx" />
-    <Content Include="Assets\Effects\Bloom.fx" />
-    <Content Include="Assets\Effects\BrightExtract.fx" />
-    <Content Include="Assets\Effects\ColorKeyAlpha.fx" />
-    <Content Include="Assets\Effects\ColorTone.fx" />
-    <Content Include="Assets\Effects\ContrastAdjust.fx" />
-    <Content Include="Assets\Effects\DirectionalBlur.fx" />
-    <Content Include="Assets\Effects\Embossed.fx" />
-    <Content Include="Assets\Effects\Gloom.fx" />
-    <Content Include="Assets\Effects\GrowablePoissonDisk.fx" />
-    <Content Include="Assets\Effects\InvertColor.fx" />
-    <Content Include="Assets\Effects\LightStreak.fx" />
-    <Content Include="Assets\Effects\Magnify.fx" />
-    <Content Include="Assets\Effects\Monochrome.fx" />
-    <Content Include="Assets\Effects\Pinch.fx" />
-    <Content Include="Assets\Effects\Pixelate.fx" />
-    <Content Include="Assets\Effects\Ripple.fx" />
-    <Content Include="Assets\Effects\Sharpen.fx" />
-    <Content Include="Assets\Effects\SmoothMagnify.fx" />
-    <Content Include="Assets\Effects\Swirl.fx" />
-    <Content Include="Assets\Effects\ToneMapping.fx" />
-    <Content Include="Assets\Effects\ToonShader.fx" />
-    <Content Include="Assets\Effects\ZoomBlur.fx" />
     <None Include="Resources\UpdatesClient.resources.dll" />
     <None Include="Resources\Yandex.Metrica.NET.dll" />
     <None Include="Resources\Crc32.NET.dll" />
-    <Resource Include="Assets\Images\MainWindowBackgrounds\back1.png" />
-    <Resource Include="Assets\Images\Flags\RU.png" />
-    <Resource Include="Assets\Images\Flags\US.png" />
-    <Resource Include="Assets\Images\SelectLanguage\SelectLanguage.jpg" />
-    <Resource Include="Assets\Images\SelectLanguage\RU.png" />
-    <Resource Include="Assets\Images\SelectLanguage\US.png" />
-    <Resource Include="Assets\Fonts\Aetherius.ttf" />
-    <Content Include="Assets\ShaderSource\AverageEffect.fx" />
-    <Content Include="Assets\ShaderSource\ColorBurnEffect.fx" />
-    <Content Include="Assets\ShaderSource\ColorDodgeEffect.fx" />
-    <Content Include="Assets\ShaderSource\ColorEffect.fx" />
-    <Content Include="Assets\ShaderSource\DarkenEffect.fx" />
-    <Content Include="Assets\ShaderSource\DifferenceEffect.fx" />
-    <Content Include="Assets\ShaderSource\ExclusionEffect.fx" />
-    <Content Include="Assets\ShaderSource\GlowEffect.fx" />
-    <Content Include="Assets\ShaderSource\HardLightEffect.fx" />
-    <Content Include="Assets\ShaderSource\HardMixEffect.fx" />
-    <Content Include="Assets\ShaderSource\HueEffect.fx" />
-    <Content Include="Assets\ShaderSource\LightenEffect.fx" />
-    <Content Include="Assets\ShaderSource\LinearBurnEffect.fx" />
-    <Content Include="Assets\ShaderSource\LinearDodgeEffect.fx" />
-    <Content Include="Assets\ShaderSource\LinearLightEffect.fx" />
-    <Content Include="Assets\ShaderSource\LuminosityEffect.fx" />
-    <Content Include="Assets\ShaderSource\MultiplyEffect.fx" />
-    <Content Include="Assets\ShaderSource\NegationEffect.fx" />
-    <Content Include="Assets\ShaderSource\NormalEffect.fx" />
-    <Content Include="Assets\ShaderSource\OverlayEffect.fx" />
-    <Content Include="Assets\ShaderSource\PhoenixEffect.fx" />
-    <Content Include="Assets\ShaderSource\PinLightEffect.fx" />
-    <Content Include="Assets\ShaderSource\ReflectEffect.fx" />
-    <Content Include="Assets\ShaderSource\SaturationEffect.fx" />
-    <Content Include="Assets\ShaderSource\ScreenEffect.fx" />
-    <Content Include="Assets\ShaderSource\SoftLightEffect.fx" />
-    <Content Include="Assets\ShaderSource\VividLightEffect.fx" />
-    <Resource Include="Assets\Images\MainWindowBackgrounds\back2.png" />
+    <Resource Include="Assets\Images\SplashBackground\Background1.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

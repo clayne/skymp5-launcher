@@ -176,7 +176,7 @@ namespace UpdatesClient
             try
             {
 #if (DEBUG || DeR)
-                Thread.Sleep(5); //Без этого может не работать
+                Thread.Sleep(10000); //Без этого может не работать
                 StartLuancher();
 #else
                 SplashWindow.SetStatus($"{Res.CheckSelfUpdate}");
