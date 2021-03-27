@@ -225,6 +225,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Pages\Authorization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -377,8 +381,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Assets\Images\MainWindowBackgrounds\" />
-    <Folder Include="Assets\Images\SelectLanguage\" />
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
@@ -402,7 +404,7 @@
     <None Include="Resources\UpdatesClient.resources.dll" />
     <None Include="Resources\Yandex.Metrica.NET.dll" />
     <None Include="Resources\Crc32.NET.dll" />
-    <Resource Include="Assets\Images\SplashBackground\Background1.jpg" />
+    <Resource Include="Assets\Images\Backgrounds\Background1.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

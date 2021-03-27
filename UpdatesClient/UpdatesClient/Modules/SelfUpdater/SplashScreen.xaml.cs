@@ -22,7 +22,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                     language.ShowDialog();
                     if (string.IsNullOrEmpty(language.LanguageBase))
                     {
-                        App.AppCurrent.Shutdown();
+                        Close();
                         return;
                     }
                     Settings.Locale = language.LanguageBase;
@@ -40,7 +40,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             
             InitializeComponent();
 
-            this.Loaded += new RoutedEventHandler(Splash_Loaded);
+            Loaded += new RoutedEventHandler(Splash_Loaded);
         }
 
         void Splash_Loaded(object sender, RoutedEventArgs e)

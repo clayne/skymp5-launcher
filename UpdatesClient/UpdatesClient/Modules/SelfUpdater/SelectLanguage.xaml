@@ -6,32 +6,110 @@
         xmlns:local="clr-namespace:UpdatesClient.Modules.SelfUpdater"
         xmlns:Controllers="clr-namespace:UpdatesClient.UI.Controllers" x:Class="UpdatesClient.Modules.SelfUpdater.SelectLanguage"
         mc:Ignorable="d"
-        Title="Language" Height="300" Width="500" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Title="Language" Height="600" Width="800" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        AllowsTransparency="True" Background="Transparent"
+        WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <Style x:Key="FlagButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid RenderTransformOrigin="0.5,0.5">
+                            <Border x:Name="bordermask" Background="Transparent" OpacityMask="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="5" RenderTransformOrigin="0.5,0.5"/>
+                            <Border x:Name="border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="5" RenderTransformOrigin="0.5,0.5">
+                                <Border.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Border.RenderTransform>
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="RenderTransform" TargetName="border">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="RenderTransform" TargetName="border">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.03" ScaleY="1.03"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="RenderTransform" TargetName="border">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="1.02" ScaleY="1.02"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="bordermask" Value="{StaticResource Button.Disabled.Background}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Window.Resources>
-    <Window.Background>
-        <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/SelectLanguage/SelectLanguage.jpg"/>
-    </Window.Background>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="50"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock TextWrapping="Wrap" Text="ВЫБЕРИ ЯЗЫК/CHOOSE LANGUAGE" FontSize="30" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Grid.ColumnSpan="4" Foreground="White" TextAlignment="Center" Height="33" VerticalAlignment="Bottom" Margin="10,0"/>
-        <Image x:Name="ru" Grid.Column="1" HorizontalAlignment="Center" Height="110" Margin="0,0,0,50" Grid.Row="1" VerticalAlignment="Center" Width="110" Source="/UpdatesClient;component/Assets/Images/SelectLanguage/RU.png" Opacity="0.5" MouseLeftButtonDown="Ru_MouseLeftButtonDown"/>
-        <Image x:Name="us" Grid.Column="2" HorizontalAlignment="Center" Height="110" Margin="0,0,0,50" Grid.Row="1" VerticalAlignment="Center" Width="110" Source="/UpdatesClient;component/Assets/Images/SelectLanguage/US.png" Opacity="0.5" MouseLeftButtonDown="Us_MouseLeftButtonDown"/>
-        <Controllers:ImageButton Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,10" Grid.Row="1" VerticalAlignment="Bottom" Height="70" Width="70" NormalColor="White" Background="#00000000" SelectColor="#FFA2A2A2" PressColor="#FF575757" Grid.ColumnSpan="2" Click="ImageButton_Click">
-            <Controllers:ImageButton.Image>
-                <ImageBrush ImageSource="{StaticResource rightarrowcircular}"/>
-            </Controllers:ImageButton.Image>
-        </Controllers:ImageButton>
-
-    </Grid>
+    <Border BorderThickness="0,0,0,0" CornerRadius="25">
+        <Border.Background>
+            <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.jpg"/>
+        </Border.Background>
+        <Grid>
+            <Image HorizontalAlignment="Left" Height="34" Margin="20,17,0,0" VerticalAlignment="Top" Width="51" Source="{StaticResource logo}"/>
+            <Button HorizontalAlignment="Right" Margin="0,22,20,0" VerticalAlignment="Top" Width="25" Height="25" Padding="5" BorderBrush="#FF8C8C8C" Click="Button_Click" Style="{StaticResource HeaderIconButtonStyle}">
+                <Button.Background>
+                    <ImageBrush ImageSource="{StaticResource close}" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+            <Button HorizontalAlignment="Right" Margin="0,22,58,0" VerticalAlignment="Top" Width="24" Height="25" Padding="5" BorderBrush="#FF8C8C8C" Click="Button_Click_1" Style="{StaticResource HeaderIconButtonStyle}">
+                <Button.Background>
+                    <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+            <Grid HorizontalAlignment="Center" Margin="167,231,166,231" VerticalAlignment="Center" Width="467" Height="138">
+                <TextBlock HorizontalAlignment="Center" Margin="168,0,167,0" TextWrapping="Wrap" Text="Choose language" VerticalAlignment="Top" FontFamily="/UpdatesClient;component/Assets/Fonts/#Gilroy" FontSize="16" Foreground="#FF8C8C8C"/>
+                <TextBlock HorizontalAlignment="Center" Margin="161,28,162,88" TextWrapping="Wrap" Text="Выберете язык" VerticalAlignment="Center" FontFamily="/UpdatesClient;component/Assets/Fonts/#Gilroy" FontSize="20" Foreground="White" FontWeight="Bold"/>
+                <Rectangle Fill="White" HorizontalAlignment="Left" Height="2" Margin="0,40,0,96" Stroke="White" VerticalAlignment="Center" Width="132"/>
+                <Rectangle Fill="White" HorizontalAlignment="Right" Height="2" Margin="0,40,0,96" Stroke="White" VerticalAlignment="Center" Width="132"/>
+                <Button x:Name="ru" HorizontalAlignment="Left" Margin="119,0,0,0" VerticalAlignment="Bottom" Width="100" Height="66" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
+                    <Button.Background>
+                        <ImageBrush ImageSource="{DynamicResource RU}"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="en" HorizontalAlignment="Right" Margin="0,0,128,0" VerticalAlignment="Bottom" Width="100" Height="66" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
+                    <Button.Background>
+                        <ImageBrush ImageSource="{DynamicResource EN}"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

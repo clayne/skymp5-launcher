@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
@@ -11,51 +12,37 @@ namespace UpdatesClient.Modules.SelfUpdater
     /// </summary>
     public partial class SelectLanguage : Window
     {
-        public string LanguageBase = "en-US";
-        private bool Selected = false;
-        private readonly DropShadowEffect dse = new DropShadowEffect()
-        {
-            BlurRadius = 30,
-            Color = Colors.White,
-            Direction = 0,
-            ShadowDepth = 0
-        };
-
+        public string LanguageBase = null;
+        
         public SelectLanguage()
         {
             InitializeComponent();
         }
 
-        private void Clear()
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ru.Effect = null;
-            us.Effect = null;
-            ru.Opacity = 0.5;
-            us.Opacity = 0.5;
+            Close();
         }
 
-
-        private void Ru_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Clear();
-            ru.Effect = dse;
-            ru.Opacity = 1;
-            LanguageBase = "ru-RU";
-            Selected = true;
+            WindowState = WindowState.Minimized;
         }
 
-        private void Us_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void SelectLang(object sender, RoutedEventArgs e)
         {
-            Clear();
-            us.Effect = dse;
-            us.Opacity = 1;
-            LanguageBase = "en-US";
-            Selected = true;
-        }
-
-        private void ImageButton_Click(object sender, EventArgs e)
-        {
-            if (Selected) Close();
+            switch(((Button)sender).Name)
+            {
+                case "ru":
+                    LanguageBase = "ru-RU";
+                    goto default;
+                case "en":
+                    LanguageBase = "en-US";
+                    goto default;
+                default:
+                    Close();
+                    break;
+            }
         }
     }
 }

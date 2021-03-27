@@ -288,7 +288,7 @@ namespace UpdatesClient
             ApplicationInitialize = ApplicationInit;
         }
 
-        private static void ExitApp()
+        public static void ExitApp()
         {
             Environment.Exit(0);
         }
