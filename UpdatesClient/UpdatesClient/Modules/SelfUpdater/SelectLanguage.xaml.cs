@@ -13,36 +13,44 @@ namespace UpdatesClient.Modules.SelfUpdater
     public partial class SelectLanguage : Window
     {
         public string LanguageBase = null;
-        
+        private string languageBase = "en-US";
+
+
         public SelectLanguage()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
-
         private void SelectLang(object sender, RoutedEventArgs e)
         {
-            switch(((Button)sender).Name)
+            ruEff.Opacity = 0;
+            enEff.Opacity = 0;
+
+            switch (((Button)sender).Name)
             {
                 case "ru":
-                    LanguageBase = "ru-RU";
-                    goto default;
+                    languageBase = "ru-RU";
+                    ruEff.Opacity = 1;
+
+                    text.Text = "Выберите ваш язык";
+                    _continue.Content = "ПРОДОЛЖИТЬ";
+                    break;
                 case "en":
-                    LanguageBase = "en-US";
-                    goto default;
+                    languageBase = "en-US";
+                    enEff.Opacity = 1;
+
+                    text.Text = "Choose your language";
+                    _continue.Content = "CONTINUE";
+                    break;
                 default:
-                    Close();
                     break;
             }
+        }
+
+        private void _continue_Click(object sender, RoutedEventArgs e)
+        {
+            LanguageBase = languageBase;
+            Close();
         }
     }
 }

@@ -6,9 +6,7 @@
         xmlns:local="clr-namespace:UpdatesClient.Modules.SelfUpdater"
         xmlns:Controllers="clr-namespace:UpdatesClient.UI.Controllers" x:Class="UpdatesClient.Modules.SelfUpdater.SelectLanguage"
         mc:Ignorable="d"
-        Title="Language" Height="600" Width="800" ScrollViewer.VerticalScrollBarVisibility="Disabled"
-        AllowsTransparency="True" Background="Transparent"
-        WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Language" Height="674" Width="1054" ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None">
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -76,40 +74,98 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyleRounded" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderThickness="0" Background="#FF6D7183" SnapsToDevicePixels="true" CornerRadius="6">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
+                                                To="#FF1186CA" DecelerationRatio="0.9" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard FillBehavior="Stop">
+                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
+                                                To="#FF6D7183" DecelerationRatio="0.9" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
+                                                To="#FF0F72AC" DecelerationRatio="0.9" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard FillBehavior="Stop">
+                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
+                                                To="#FF1186CA" DecelerationRatio="0.9" Duration="0:0:0.2" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="Red"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Window.Resources>
-    <Border BorderThickness="0,0,0,0" CornerRadius="25">
-        <Border.Background>
-            <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.jpg"/>
-        </Border.Background>
-        <Grid>
-            <Image HorizontalAlignment="Left" Height="34" Margin="20,17,0,0" VerticalAlignment="Top" Width="51" Source="{StaticResource logo}"/>
-            <Button HorizontalAlignment="Right" Margin="0,22,20,0" VerticalAlignment="Top" Width="25" Height="25" Padding="5" BorderBrush="#FF8C8C8C" Click="Button_Click" Style="{StaticResource HeaderIconButtonStyle}">
+    <Window.Background>
+        <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.png"/>
+    </Window.Background>
+    <Grid>
+        <Grid HorizontalAlignment="Center" Margin="320,224,320,184" VerticalAlignment="Center" Width="414" Height="266">
+            <TextBlock x:Name="text" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="/UpdatesClient;component/Assets/Fonts/#Gilroy" FontSize="20" Foreground="White" FontWeight="Light" TextAlignment="Center"><Span Foreground="White" FontSize="28" FontFamily="Segoe UI"><Run Text="Choose your language"/></Span></TextBlock>
+            <Button x:Name="ru" HorizontalAlignment="Center" Margin="128,80,0,0" VerticalAlignment="Top" Width="81" Height="81" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
+                <Button.Effect>
+                    <DropShadowEffect x:Name="ruEff" BlurRadius="30" ShadowDepth="0" Color="White" Opacity="0"/>
+                </Button.Effect>
                 <Button.Background>
-                    <ImageBrush ImageSource="{StaticResource close}" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="{DynamicResource RU}"/>
                 </Button.Background>
             </Button>
-            <Button HorizontalAlignment="Right" Margin="0,22,58,0" VerticalAlignment="Top" Width="24" Height="25" Padding="5" BorderBrush="#FF8C8C8C" Click="Button_Click_1" Style="{StaticResource HeaderIconButtonStyle}">
+            <Button x:Name="en" HorizontalAlignment="Center" Margin="-128,80,0,0" VerticalAlignment="Top" Width="81" Height="81" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
+                <Button.Effect>
+                    <DropShadowEffect x:Name="enEff" BlurRadius="30" ShadowDepth="0" Color="White" Opacity="1"/>
+                </Button.Effect>
                 <Button.Background>
-                    <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
+                    <ImageBrush ImageSource="{DynamicResource EN}"/>
                 </Button.Background>
             </Button>
-            <Grid HorizontalAlignment="Center" Margin="167,231,166,231" VerticalAlignment="Center" Width="467" Height="138">
-                <TextBlock HorizontalAlignment="Center" Margin="168,0,167,0" TextWrapping="Wrap" Text="Choose language" VerticalAlignment="Top" FontFamily="/UpdatesClient;component/Assets/Fonts/#Gilroy" FontSize="16" Foreground="#FF8C8C8C"/>
-                <TextBlock HorizontalAlignment="Center" Margin="161,28,162,88" TextWrapping="Wrap" Text="Выберете язык" VerticalAlignment="Center" FontFamily="/UpdatesClient;component/Assets/Fonts/#Gilroy" FontSize="20" Foreground="White" FontWeight="Bold"/>
-                <Rectangle Fill="White" HorizontalAlignment="Left" Height="2" Margin="0,40,0,96" Stroke="White" VerticalAlignment="Center" Width="132"/>
-                <Rectangle Fill="White" HorizontalAlignment="Right" Height="2" Margin="0,40,0,96" Stroke="White" VerticalAlignment="Center" Width="132"/>
-                <Button x:Name="ru" HorizontalAlignment="Left" Margin="119,0,0,0" VerticalAlignment="Bottom" Width="100" Height="66" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
-                    <Button.Background>
-                        <ImageBrush ImageSource="{DynamicResource RU}"/>
-                    </Button.Background>
-                </Button>
-                <Button x:Name="en" HorizontalAlignment="Right" Margin="0,0,128,0" VerticalAlignment="Bottom" Width="100" Height="66" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
-                    <Button.Background>
-                        <ImageBrush ImageSource="{DynamicResource EN}"/>
-                    </Button.Background>
-                </Button>
-            </Grid>
+            <Rectangle Fill="#FF707070" Height="1" Margin="0,58,0,0" VerticalAlignment="Top" Width="402"/>
+            <Button x:Name="_continue" Content="CONTINUE" Margin="0,208,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Foreground="White" Height="58" Background="#FF6D7183" Style="{DynamicResource ButtonStyleRounded}" Click="_continue_Click"/>
         </Grid>
-    </Border>
+        <Controllers:Header VerticalAlignment="Top" Height="72"/>
+    </Grid>
 </Window>

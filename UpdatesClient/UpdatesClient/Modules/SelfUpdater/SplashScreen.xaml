@@ -13,7 +13,7 @@
         WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Border BorderThickness="0,0,0,0" CornerRadius="25" >
         <Border.Background>
-            <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.jpg"/>
+            <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.png"/>
         </Border.Background>
         <Grid>
             <Image HorizontalAlignment="Left" Height="34" Margin="20,17,0,0" VerticalAlignment="Top" Width="51" Source="{StaticResource logo}"/>

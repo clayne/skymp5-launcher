@@ -30,8 +30,12 @@ namespace UpdatesClient.Core
                 if (!Directory.Exists(path)) Directory.CreateDirectory(path);
                 string pathToFile = $"{path}\\UpdatesClient.resources.dll";
 
-                string vers = FileVersionInfo.GetVersionInfo(pathToFile)?.FileVersion;
-                if (LastLocaleVersion != vers) UnpackResxLocale(locale, pathToFile);
+                string vers = null;
+                if (File.Exists(pathToFile))
+                {
+                    vers = FileVersionInfo.GetVersionInfo(pathToFile)?.FileVersion;
+                }
+                if (string.IsNullOrEmpty(vers) || LastLocaleVersion != vers) UnpackResxLocale(locale, pathToFile);
             }
         }
 
