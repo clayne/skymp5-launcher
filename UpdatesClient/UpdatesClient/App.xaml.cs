@@ -176,8 +176,9 @@ namespace UpdatesClient
             try
             {
 #if (DEBUG || DeR)
-                Thread.Sleep(10000); //Без этого может не работать
-                StartLuancher();
+                Thread.Sleep(1000);
+                SplashWindow.Ready();
+                if (SplashWindow.Wait()) StartLuancher();
 #else
                 SplashWindow.SetStatus($"{Res.CheckSelfUpdate}");
 
@@ -205,7 +206,8 @@ namespace UpdatesClient
                 {
                     SplashWindow.SetStatus($"{Res.Done}");
                     SplashWindow.SetProgressMode(false);
-                    StartLuancher();
+                    SplashWindow.Ready();
+                    if (SplashWindow.Wait()) StartLuancher();
                 }
 #endif
             }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
@@ -12,6 +14,9 @@ namespace UpdatesClient.Modules.SelfUpdater
     /// </summary>
     public partial class SplashScreen : Window
     {
+        private bool WaitOk = false;
+        private bool Ok = false;
+
         public SplashScreen()
         {
             try
@@ -39,7 +44,6 @@ namespace UpdatesClient.Modules.SelfUpdater
             }
             
             InitializeComponent();
-
             Loaded += new RoutedEventHandler(Splash_Loaded);
         }
 
@@ -50,7 +54,6 @@ namespace UpdatesClient.Modules.SelfUpdater
             void initCompleted(IAsyncResult ar)
             {
                 App.Current.ApplicationInitialize.EndInvoke(result);
-
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate { Close(); });
             }
             result = App.Current.ApplicationInitialize.BeginInvoke(this, initCompleted, null);
@@ -73,14 +76,43 @@ namespace UpdatesClient.Modules.SelfUpdater
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate { Status.Text = text; });
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        public void Ready()
         {
-            Close();
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
+            {
+                Animation();
+            });
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        public bool Wait()
         {
-            WindowState = WindowState.Minimized;
+            //Условие выхода - авторизация
+            while (!WaitOk) Thread.Sleep(100);
+            return Ok;
+        }
+
+        public async void Animation()
+        {
+            progressBarGrid.Visibility = Visibility.Collapsed;
+            header.MoveIsEnabled = false;
+            const double width = 1054;
+            TimeSpan span = new TimeSpan(0, 0, 0, 0, 750);
+
+            DoubleAnimation animWidth = new DoubleAnimation(width, new Duration(span))
+            {
+                FillBehavior = FillBehavior.HoldEnd
+            };
+            BeginAnimation(WidthProperty, animWidth);
+            BeginAnimation(MinWidthProperty, animWidth);
+            DoubleAnimation animLeft = new DoubleAnimation(Left - (width - 469) / 2, new Duration(span))
+            {
+                FillBehavior = FillBehavior.Stop
+            };
+            BeginAnimation(LeftProperty, animLeft);
+
+            await Task.Delay(span);
+            header.MoveIsEnabled = true;
         }
     }
 }

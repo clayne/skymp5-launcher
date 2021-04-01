@@ -33,13 +33,10 @@ namespace UpdatesClient
         {
             InitializeComponent();
             TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
-            authorization.TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
 
             CloseBtn.Click += (s, e) => Application.Current.Shutdown();
-            authorization.CloseBtn.Click += (s, e) => Application.Current.Shutdown();
 
             MinBtn.Click += (s, e) => WindowState = WindowState.Minimized;
-            authorization.MinBtn.Click += (s, e) => WindowState = WindowState.Minimized;
             
             userButton.LogoutBtn.Click += LogOut_Click;
             authorization.SignIn += Authorization_SignIn;

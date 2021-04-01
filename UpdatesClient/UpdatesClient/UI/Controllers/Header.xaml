@@ -7,20 +7,22 @@
              mc:Ignorable="d" 
              d:DesignHeight="60" d:DesignWidth="800">
     <Grid x:Name="grid" Background="#00000000">
-        <Button HorizontalAlignment="Right" Margin="0,28,38,0" VerticalAlignment="Top" Width="22" Height="22" Padding="5" BorderBrush="#FF8C8C8C" Style="{StaticResource HeaderIconButtonStyle}" Click="Close">
-            <Button.Background>
-                <ImageBrush ImageSource="{StaticResource close}" Stretch="Uniform"/>
-            </Button.Background>
-        </Button>
-        <Button HorizontalAlignment="Right" Margin="0,28,68,0" VerticalAlignment="Top" Width="22" Height="22" Padding="5" BorderBrush="#FF8C8C8C" Style="{StaticResource HeaderIconButtonStyle}" Click="Maximize">
-            <Button.Background>
-                <ImageBrush ImageSource="{StaticResource maximize}" Stretch="Uniform"/>
-            </Button.Background>
-        </Button>
-        <Button HorizontalAlignment="Right" Margin="0,28,98,0" VerticalAlignment="Top" Width="22" Height="22" Padding="5" BorderBrush="#FF8C8C8C" Style="{StaticResource HeaderIconButtonStyle}" Click="Minimize">
-            <Button.Background>
-                <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
-            </Button.Background>
-        </Button>
+        <StackPanel HorizontalAlignment="Right" Height="22" Margin="0,23,33,0" VerticalAlignment="Top" Orientation="Horizontal" FlowDirection="RightToLeft" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Width="22" Height="22" Padding="5" BorderBrush="#FF8C8C8C" Style="{StaticResource HeaderIconButtonStyle}" Click="Close" Margin="0,0,7,0">
+                <Button.Background>
+                    <ImageBrush ImageSource="{StaticResource close}" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="maximize" HorizontalAlignment="Right" VerticalAlignment="Top" Width="22" Height="22" Padding="5" BorderBrush="#FF8C8C8C" Style="{StaticResource HeaderIconButtonStyle}" Click="Maximize" Margin="0,0,7,0">
+                <Button.Background>
+                    <ImageBrush ImageSource="{StaticResource maximize}" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Width="22" Height="22" Padding="5" BorderBrush="#FF8C8C8C" Style="{StaticResource HeaderIconButtonStyle}" Click="Minimize" Margin="0,0,7,0">
+                <Button.Background>
+                    <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

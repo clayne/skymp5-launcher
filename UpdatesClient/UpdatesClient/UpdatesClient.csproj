@@ -212,9 +212,6 @@
     <Compile Include="UI\Pages\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\AuthWindow.xaml.cs">
-      <DependentUpon>AuthWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="Assets\Images\Images.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -347,10 +344,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Windows\AuthWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modules\SelfUpdater\Downloader.cs" />
@@ -398,6 +391,7 @@
     <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
+    <Folder Include="UI\Windows\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\favicon.ico" />
@@ -424,6 +418,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Backgrounds\Background1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Debug\Group 48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Banners\Default.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -20,6 +20,24 @@ namespace UpdatesClient.UI.Controllers
     /// </summary>
     public partial class Header : UserControl
     {
+        public bool MaximizeIsEnabled
+        {
+            get
+            {
+                return maximize.Visibility == Visibility.Collapsed;
+            }
+
+            set
+            {
+                if (value)
+                    maximize.Visibility = Visibility.Visible;
+                else
+                    maximize.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public bool MoveIsEnabled { get; set; } = true;
+
         private Window window;
 
         public Header()
@@ -36,7 +54,7 @@ namespace UpdatesClient.UI.Controllers
 
         private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            window?.DragMove();
+            if (MoveIsEnabled) window?.DragMove();
         }
 
         private void Close(object sender, RoutedEventArgs e)

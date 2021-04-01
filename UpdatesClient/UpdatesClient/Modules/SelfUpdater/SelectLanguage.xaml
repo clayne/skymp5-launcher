@@ -8,15 +8,6 @@
         mc:Ignorable="d"
         Title="Language" Height="674" Width="1054" ScrollViewer.VerticalScrollBarVisibility="Disabled" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None">
     <Window.Resources>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <Style x:Key="FlagButtonStyle" TargetType="{x:Type Button}">
@@ -74,72 +65,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="ButtonStyleRounded" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderThickness="0" Background="#FF6D7183" SnapsToDevicePixels="true" CornerRadius="6">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="Red"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
-                                                To="#FF1186CA" DecelerationRatio="0.9" Duration="0:0:0.2" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard FillBehavior="Stop">
-                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
-                                                To="#FF6D7183" DecelerationRatio="0.9" Duration="0:0:0.2" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
-                                                To="#FF0F72AC" DecelerationRatio="0.9" Duration="0:0:0.2" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard FillBehavior="Stop">
-                                            <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color"
-                                                To="#FF1186CA" DecelerationRatio="0.9" Duration="0:0:0.2" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="Red"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.png"/>
@@ -164,7 +89,7 @@
                 </Button.Background>
             </Button>
             <Rectangle Fill="#FF707070" Height="1" Margin="0,58,0,0" VerticalAlignment="Top" Width="402"/>
-            <Button x:Name="_continue" Content="CONTINUE" Margin="0,208,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Foreground="White" Height="58" Background="#FF6D7183" Style="{DynamicResource ButtonStyleRounded}" Click="_continue_Click"/>
+            <Button x:Name="_continue" Content="CONTINUE" Margin="0,208,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Foreground="White" Height="58" Style="{DynamicResource ButtonStyleRounded}" Click="_continue_Click"/>
         </Grid>
         <Controllers:Header VerticalAlignment="Top" Height="72"/>
     </Grid>

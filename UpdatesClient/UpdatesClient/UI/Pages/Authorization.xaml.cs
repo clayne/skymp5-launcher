@@ -31,7 +31,6 @@ namespace UpdatesClient.UI.Pages
             authPanel.Visibility = Visibility.Visible;
             forgotPassPanel.Visibility = Visibility.Collapsed;
             registerPanel.Visibility = Visibility.Collapsed;
-            backButton.Visibility = Visibility.Hidden;
         }
 
         private void Clear()
@@ -39,16 +38,12 @@ namespace UpdatesClient.UI.Pages
             authPanel.IsEnabled = true;
             registerPanel.IsEnabled = true;
             forgotPassPanel.IsEnabled = true;
-            backButton.IsEnabled = true;
 
             authPanel.Visibility = Visibility.Visible;
             forgotPassPanel.Visibility = Visibility.Collapsed;
             registerPanel.Visibility = Visibility.Collapsed;
-            backButton.Visibility = Visibility.Hidden;
 
             rmAuth.IsChecked = false;
-            emailAuth.Text = "";
-            passAuth.Password = "";
 
             nameReg.Text = "";
             emailReg.Text = "";
@@ -62,14 +57,12 @@ namespace UpdatesClient.UI.Pages
         {
             authPanel.Visibility = Visibility.Collapsed;
             registerPanel.Visibility = Visibility.Visible;
-            backButton.Visibility = Visibility.Visible;
         }
 
         private void Open_ForgotPassPanel(object sender, RoutedEventArgs e)
         {
             authPanel.Visibility = Visibility.Collapsed;
             forgotPassPanel.Visibility = Visibility.Visible;
-            backButton.Visibility = Visibility.Visible;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -80,15 +73,13 @@ namespace UpdatesClient.UI.Pages
         private async void Signin_Click(object sender, RoutedEventArgs e)
         {
             authPanel.IsEnabled = false;
-            backButton.IsEnabled = false;
             Settings.RememberMe = (bool)rmAuth.IsChecked;
 
             try
             {
                 ReqLoginModel model = new ReqLoginModel()
                 {
-                    Email = emailAuth.Text,
-                    Password = passAuth.Password
+                    Password = ""
                 };
                 ResLoginModel ds = await Account.Login(model);
 
@@ -127,7 +118,6 @@ namespace UpdatesClient.UI.Pages
             }
 
             authPanel.IsEnabled = true;
-            backButton.IsEnabled = true;
         }
         private async void Signup_Click(object sender, RoutedEventArgs e)
         {
@@ -138,7 +128,6 @@ namespace UpdatesClient.UI.Pages
             }
 
             registerPanel.IsEnabled = false;
-            backButton.IsEnabled = false;
 
             try
             {
@@ -182,12 +171,10 @@ namespace UpdatesClient.UI.Pages
             }
 
             registerPanel.IsEnabled = true;
-            backButton.IsEnabled = true;
         }
         private async void Forgot_Click(object sender, RoutedEventArgs e)
         {
             forgotPassPanel.IsEnabled = false;
-            backButton.IsEnabled = false;
 
             try
             {
@@ -225,7 +212,6 @@ namespace UpdatesClient.UI.Pages
             }
 
             forgotPassPanel.IsEnabled = true;
-            backButton.IsEnabled = true;
         }
     }
 }

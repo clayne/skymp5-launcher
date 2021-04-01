@@ -279,7 +279,7 @@
 
     </Window.Resources>
     <Window.Background>
-        <ImageBrush ImageSource="Assets/Images/MainWindowBackgrounds/back1.png" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="Assets/Images/Backgrounds/Background1.png" Stretch="UniformToFill"/>
     </Window.Background>
     <Grid x:Name="mainGrid" Background="#33000000">
         <Grid.ColumnDefinitions>
