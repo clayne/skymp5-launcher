@@ -42,14 +42,14 @@
             <ColumnDefinition Width="38*"/>
             <ColumnDefinition Width="169*"/>
         </Grid.ColumnDefinitions>
-        <Border x:Name="border" BorderBrush="#F2FF0000" BorderThickness="3" Background="#FFBC0000" Opacity="0.4" CornerRadius="12" Grid.ColumnSpan="2"/>
+        <Border x:Name="border" BorderBrush="#F2FF0000" BorderThickness="2" Background="#FFBC0000" Opacity="0.4" CornerRadius="6" Grid.ColumnSpan="2"/>
         <Image x:Name="smile" Margin="15,12" Source="{StaticResource SadSmile}"/>
         <TextBlock x:Name="status" Grid.Column="1" Margin="0,12,10,0" TextWrapping="Wrap" Text="Status" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" TextDecorations="{x:Null}"/>
         <TextBlock x:Name="description" Grid.Column="1" Margin="0,33,10,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="14"/>
-        <local1:ImageButton x:Name="closeBtn" Grid.Column="2" HorizontalAlignment="Right" Margin="0,7,7,0" VerticalAlignment="Top" Height="13" Width="14" NormalColor="#FFC5C5C5" PressColor="#FF323232" SelectColor="#FF747474" ImageMargin="2" OpacityMask="{x:Null}">
-            <local1:ImageButton.Image>
-                <ImageBrush ImageSource="{StaticResource close}"/>
-            </local1:ImageButton.Image>
-        </local1:ImageButton>
+        <Button x:Name="closeBtn" Style="{StaticResource HeaderIconButtonStyle}" Grid.Column="2" HorizontalAlignment="Right" Margin="0,7,7,0" VerticalAlignment="Top" Height="14" Width="14" OpacityMask="{x:Null}" BorderBrush="White" Padding="3">
+            <Button.Background>
+                <ImageBrush ImageSource="{DynamicResource close}" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </UserControl>

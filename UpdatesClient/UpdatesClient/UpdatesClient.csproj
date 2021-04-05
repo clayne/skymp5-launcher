@@ -203,15 +203,13 @@
     <Compile Include="UI\Controllers\Header.xaml.cs">
       <DependentUpon>Header.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controllers\PasswordBoxWithIcon.xaml.cs">
-      <DependentUpon>PasswordBoxWithIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Controllers\TextBoxWithIcon.xaml.cs">
-      <DependentUpon>TextBoxWithIcon.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Pages\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\Models\AuthModels\AuthModel.cs" />
+    <Compile Include="UI\Pages\Models\AuthModels\FormModel.cs" />
+    <Compile Include="UI\Pages\Models\AuthModels\RecPswrdModel.cs" />
+    <Compile Include="UI\Pages\Models\AuthModels\RegModel.cs" />
     <Page Include="Assets\Images\Images.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -221,14 +219,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Controllers\Header.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Controllers\PasswordBoxWithIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Controllers\TextBoxWithIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -258,14 +248,8 @@
     <Compile Include="Modules\GameManager\GameVerification.cs" />
     <Compile Include="Modules\GameManager\Helpers\ProcessExtensions.cs" />
     <Compile Include="Modules\GameManager\Model\ResultGameVerification.cs" />
-    <Compile Include="UI\Controllers\HeadButton.xaml.cs">
-      <DependentUpon>HeadButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controllers\InfoBottomPanel.xaml.cs">
       <DependentUpon>InfoBottomPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Controllers\MainButton.xaml.cs">
-      <DependentUpon>MainButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Controllers\NotifyList.xaml.cs">
       <DependentUpon>NotifyList.xaml</DependentUpon>
@@ -276,17 +260,8 @@
     <Compile Include="UI\Controllers\PopupNotify.xaml.cs">
       <DependentUpon>PopupNotify.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controllers\SupportButton.xaml.cs">
-      <DependentUpon>SupportButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Controllers\ImageButton.xaml.cs">
-      <DependentUpon>ImageButton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Modules\Downloader\UI\ProgressBar.xaml.cs">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Controllers\ProgressBarBtn.xaml.cs">
-      <DependentUpon>ProgressBarBtn.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -304,15 +279,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controllers\HeadButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UI\Controllers\InfoBottomPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Controllers\MainButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -328,19 +295,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controllers\SupportButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Controllers\ImageButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Modules\Downloader\UI\ProgressBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Controllers\ProgressBarBtn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

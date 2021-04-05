@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 
@@ -76,13 +77,27 @@ namespace UpdatesClient.Modules.SelfUpdater
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate { Status.Text = text; });
         }
 
-
         public void Ready()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
             {
-                Animation();
+                DispReady();
             });
+        }
+
+        private async void DispReady()
+        {
+            try
+            {
+                string username = await Account.GetLogin();
+                Settings.UserName = username;
+                Ok = true;
+                WaitOk = true;
+            }
+            catch
+            {
+                Animation();
+            }
         }
 
         public bool Wait()

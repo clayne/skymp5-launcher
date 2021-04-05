@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -13,6 +14,7 @@ using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.UI.Controllers;
+using UpdatesClient.UI.Pages.Models.AuthModels;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Pages
@@ -25,55 +27,41 @@ namespace UpdatesClient.UI.Pages
         public delegate void AuthResult();
         public event AuthResult SignIn;
 
+        //TODO: уведомления об ошибках
+
+        public FormModel FormModel { get; set; }
+
         public Authorization()
         {
             InitializeComponent();
-            authPanel.Visibility = Visibility.Visible;
-            forgotPassPanel.Visibility = Visibility.Collapsed;
-            registerPanel.Visibility = Visibility.Collapsed;
+
+            FormModel = new FormModel
+            {
+                AuthModel = new AuthModel(),
+                RegModel = new RegModel(),
+                RecPswrdModel = new RecPswrdModel(),
+                CurrentView = FormModel.View.SignIn
+            };
+            DataContext = FormModel;
         }
 
-        private void Clear()
+        private void Open_AuthPanel(object sender, RoutedEventArgs e)
         {
-            authPanel.IsEnabled = true;
-            registerPanel.IsEnabled = true;
-            forgotPassPanel.IsEnabled = true;
-
-            authPanel.Visibility = Visibility.Visible;
-            forgotPassPanel.Visibility = Visibility.Collapsed;
-            registerPanel.Visibility = Visibility.Collapsed;
-
-            rmAuth.IsChecked = false;
-
-            nameReg.Text = "";
-            emailReg.Text = "";
-            passReg.Password = "";
-            passCheckReg.Password = "";
-
-            emailForgot.Text = "";
+            FormModel.CurrentView = FormModel.View.SignIn;
         }
-
         private void Open_RegisterPanel(object sender, RoutedEventArgs e)
         {
-            authPanel.Visibility = Visibility.Collapsed;
-            registerPanel.Visibility = Visibility.Visible;
+            FormModel.CurrentView = FormModel.View.SignUp;
         }
-
         private void Open_ForgotPassPanel(object sender, RoutedEventArgs e)
         {
-            authPanel.Visibility = Visibility.Collapsed;
-            forgotPassPanel.Visibility = Visibility.Visible;
-        }
-
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            Clear();
+            FormModel.CurrentView = FormModel.View.Recov;
         }
 
         private async void Signin_Click(object sender, RoutedEventArgs e)
         {
             authPanel.IsEnabled = false;
-            Settings.RememberMe = (bool)rmAuth.IsChecked;
+            //Settings.RememberMe = (bool)rmAuth.IsChecked;
 
             try
             {
@@ -121,25 +109,16 @@ namespace UpdatesClient.UI.Pages
         }
         private async void Signup_Click(object sender, RoutedEventArgs e)
         {
-            if (passReg.Password != passCheckReg.Password)
-            {
-                passCheckReg.Password = "";
-                return;
-            }
-
             registerPanel.IsEnabled = false;
 
             try
             {
                 ReqRegisterModel model = new ReqRegisterModel()
                 {
-                    Email = emailReg.Text,
-                    Name = nameReg.Text,
-                    Password = passReg.Password
+
                 };
                 ResRegisterModel ds = await Account.Register(model);
                 NotifyController.Show(PopupNotify.Normal, Res.Successfully, Res.VerifyAccount);
-                Clear();
             }
             catch (WebException we)
             {
@@ -180,11 +159,10 @@ namespace UpdatesClient.UI.Pages
             {
                 ReqResetPassword model = new ReqResetPassword()
                 {
-                    Email = emailForgot.Text
+
                 };
                 await Account.ResetPassword(model);
                 await Task.Delay(200);
-                Clear();
             }
             catch (WebException we)
             {

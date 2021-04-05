@@ -32,16 +32,10 @@ namespace UpdatesClient
         public MainWindow()
         {
             InitializeComponent();
-            TitleWindow.MouseLeftButtonDown += (s, e) => DragMove();
 
-            CloseBtn.Click += (s, e) => Application.Current.Shutdown();
-
-            MinBtn.Click += (s, e) => WindowState = WindowState.Minimized;
-            
             userButton.LogoutBtn.Click += LogOut_Click;
-            authorization.SignIn += Authorization_SignIn;
 
-            ModulesManager.PostInitModules(progressBar);
+            //ModulesManager.PostInitModules(progressBar);
 
             wind.Loaded += Wind_Loaded;
         }
@@ -70,11 +64,11 @@ namespace UpdatesClient
             try
             {
                 await GetLogin();
-                authorization.Visibility = Visibility.Collapsed;
+                //authorization.Visibility = Visibility.Collapsed;
             }
             catch
             {
-                authorization.Visibility = Visibility.Visible;
+                //authorization.Visibility = Visibility.Visible;
                 return;
             }
 
@@ -178,45 +172,45 @@ namespace UpdatesClient
         }
         private async Task CheckClientUpdates()
         {
-            progressBar.Show(true, Res.CheckingUpdates);
+            //progressBar.Show(true, Res.CheckingUpdates);
             try
             {
                 string lastVersion = await Net.GetLastestVersion();
                 string version = Mods.GetModHash("SkyMPCore");
-                if (String.IsNullOrEmpty(version) || lastVersion != version) mainButton.ButtonStatus = MainButtonStatus.Update;
-                else mainButton.ButtonStatus = MainButtonStatus.Play;
+                //if (String.IsNullOrEmpty(version) || lastVersion != version) mainButton.ButtonStatus = MainButtonStatus.Update;
+                //else mainButton.ButtonStatus = MainButtonStatus.Play;
             }
             catch (WebException we)
             {
                 NotifyController.Show(we);
-                mainButton.ButtonStatus = MainButtonStatus.Retry;
+                //mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
             catch (Exception e)
             {
                 Logger.Error("CheckClient", e);
                 NotifyController.Show(e);
-                mainButton.ButtonStatus = MainButtonStatus.Retry;
+                //mainButton.ButtonStatus = MainButtonStatus.Retry;
             }
-            progressBar.Hide();
+            //progressBar.Hide();
         }
         private async void MainBtn_Click(object sender, EventArgs e)
         {
             if (!blockMainBtn)
             {
                 blockMainBtn = true;
-                switch (mainButton.ButtonStatus)
-                {
-                    case MainButtonStatus.Play:
-                        await Play((ServerModel)serverList.SelectedItem);
-                        break;
-                    case MainButtonStatus.Update:
-                        if (await ModUtilities.GetClient()) goto case MainButtonStatus.Retry;
-                        else mainButton.ButtonStatus = MainButtonStatus.Retry;
-                        break;
-                    case MainButtonStatus.Retry:
-                        await CheckClientUpdates();
-                        break;
-                }
+                //switch (mainButton.ButtonStatus)
+                //{
+                //    case MainButtonStatus.Play:
+                //        await Play((ServerModel)serverList.SelectedItem);
+                //        break;
+                //    case MainButtonStatus.Update:
+                //        if (await ModUtilities.GetClient()) goto case MainButtonStatus.Retry;
+                //        else mainButton.ButtonStatus = MainButtonStatus.Retry;
+                //        break;
+                //    case MainButtonStatus.Retry:
+                //        await CheckClientUpdates();
+                //        break;
+                //}
                 blockMainBtn = false;
             }
         }
@@ -270,7 +264,12 @@ namespace UpdatesClient
             Settings.UserToken = "";
             Settings.Save();
 
-            authorization.Visibility = Visibility.Visible;
+            //authorization.Visibility = Visibility.Visible;
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

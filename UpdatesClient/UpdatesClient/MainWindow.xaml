@@ -9,7 +9,7 @@
         xmlns:local3="clr-namespace:UpdatesClient.Modules.Downloader.UI"
         xmlns:res="clr-namespace:UpdatesClient.Properties"
         mc:Ignorable="d"
-        Title="{x:Static res:Resources.Title}" Height="730" Width="1058" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Title="{x:Static res:Resources.Title}" Height="672" Width="1055" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="ServerListDataGrid" TargetType="{x:Type DataGrid}">
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
@@ -276,155 +276,100 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="RadioButton.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="RadioButton.Static.Border" Color="#FF707070"/>
+        <Style x:Key="OptionMarkFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="RadioButton.IsChecked.Foreground" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="#FFF3F9FF"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Background" Color="#FFD9ECFF"/>
+        <Style x:Key="HeaderRadioButtonStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource RadioButton.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource RadioButton.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle x:Name="radioButtonBorder" Visibility="Hidden" Grid.Row="1" Fill="{TemplateBinding Background}" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Height="1" Width="Auto"/>
+                            <TextBlock x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Text="{TemplateBinding Content}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="HasContent" Value="true">
+                                <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                                <Setter Property="Padding" Value="4,-1,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.MouseOver.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.MouseOver.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Disabled.Glyph}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Pressed.Border}"/>
+                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Pressed.Glyph}"/>
+                            </Trigger>-->
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource RadioButton.IsChecked.Foreground}"/>
+                                <Setter Property="Visibility" TargetName="radioButtonBorder" Value="Visible"/>
+                            </Trigger>
+                            <!--<Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter Property="Opacity" TargetName="radioButtonBorder" Value="0.56"/>
+                            </Trigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="Assets/Images/Backgrounds/Background1.png" Stretch="UniformToFill"/>
     </Window.Background>
-    <Grid x:Name="mainGrid" Background="#33000000">
+    <Grid x:Name="mainGrid">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                <GradientStop Color="#00000000"/>
+                <GradientStop Color="#77000000" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="1055"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="57"/>
+            <RowDefinition Height="65"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="#1EFFFFFF" Height="1" Margin="21,0,21,0" VerticalAlignment="Bottom" Grid.ColumnSpan="5">
-            <Rectangle.OpacityMask>
-                <LinearGradientBrush EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5">
-                    <GradientStop Color="#00000000" Offset="0"/>
-                    <GradientStop Offset="1"/>
-                    <GradientStop Color="White" Offset="0.98"/>
-                    <GradientStop Color="White" Offset="0.02"/>
-                </LinearGradientBrush>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="4">
-            <Rectangle.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#00000000" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="White" Offset="0.15"/>
-                </LinearGradientBrush>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="3">
-            <Rectangle.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#00000000" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="White" Offset="0.15"/>
-                </LinearGradientBrush>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="2">
-            <Rectangle.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#00000000" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="White" Offset="0.15"/>
-                </LinearGradientBrush>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-        <Rectangle Fill="#1EFFFFFF" HorizontalAlignment="Left" Margin="0,10,0,1" Width="1" Grid.Column="1">
-            <Rectangle.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#00000000" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                    <GradientStop Color="White" Offset="0.15"/>
-                </LinearGradientBrush>
-            </Rectangle.OpacityMask>
-        </Rectangle>
-        <Rectangle x:Name="space" Grid.ColumnSpan="5" Grid.RowSpan="2" Fill="#00000000" />
-        <Rectangle x:Name="TitleWindow" Fill="#00000000" Grid.ColumnSpan="5"/>
-
-        <StackPanel Grid.Column="1" Margin="1,10,127,1" Orientation="Horizontal">
-            <Button Content="{x:Static res:Resources.Main}" Width="110" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" >
-                <Button.Effect>
-                    <DropShadowEffect Color="#FF6bc1f2" ShadowDepth="0" BlurRadius="7"/>
-                </Button.Effect>
-            </Button>
-            <!--<Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
-                <Separator.OpacityMask>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#00000000" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="White" Offset="0.15"/>
-                    </LinearGradientBrush>
-                </Separator.OpacityMask>
-            </Separator>
-            <Button Content="МОДЫ" Width="90" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />
-            <Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
-                <Separator.OpacityMask>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#00000000" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="White" Offset="0.15"/>
-                    </LinearGradientBrush>
-                </Separator.OpacityMask>
-            </Separator>
-            <Button Content="СЕРВЕРА" Width="100" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />
-            <Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
-                <Separator.OpacityMask>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#00000000" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="White" Offset="0.15"/>
-                    </LinearGradientBrush>
-                </Separator.OpacityMask>
-            </Separator>
-            <Button Content="ОБЩЕНИЕ" Width="120" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />
-            <Separator Margin="0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Width="1" Background="#1EFFFFFF">
-                <Separator.OpacityMask>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#00000000" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="White" Offset="0.15"/>
-                    </LinearGradientBrush>
-                </Separator.OpacityMask>
-            </Separator>
-            <Button Content="МАГАЗИН" Width="115" Background="#00000000" BorderBrush="{x:Null}" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="20" Style="{DynamicResource MenuButtonStyle}" />-->
+        <local1:Header />
+        <StackPanel Margin="27,0,331,0" Orientation="Horizontal">
+            <RadioButton Content="Список серверов" IsChecked="True" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
+            <RadioButton Content="Новости" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
+            <RadioButton Content="Магазин" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
         </StackPanel>
-        <Button Content="SkyMP" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" Background="#00DDDDDD" BorderBrush="{x:Null}" FontSize="24" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="White" Style="{DynamicResource MainButton}">
-            <Button.Effect>
-                <DropShadowEffect Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="8"/>
-            </Button.Effect>
-        </Button>
 
-        <local1:ImageButton x:Name="CloseBtn" Grid.Column="4" HorizontalAlignment="Right" Margin="0,12,16,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF9E0000" SelectColor="#FFEC0000" ImageMargin="5">
-            <local1:ImageButton.Image>
-                <ImageBrush ImageSource="{StaticResource close}"/>
-            </local1:ImageButton.Image>
-        </local1:ImageButton>
-        <local1:ImageButton x:Name="MinBtn" Grid.Column="4" HorizontalAlignment="Right" Margin="0,12,43,0" VerticalAlignment="Top" Height="22" Width="22" NormalColor="White" PressColor="#FF6C6969" SelectColor="#FF8B8B8B" ImageMargin="5">
-            <local1:ImageButton.Image>
-                <ImageBrush ImageSource="{StaticResource minimize}" Stretch="Uniform"/>
-            </local1:ImageButton.Image>
-        </local1:ImageButton>
-        <local1:OnlineButton x:Name="userButton" Margin="0,0,10,14" Text="POSPELOV" Height="18.2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1" />
 
-        <local1:ImageButton Grid.Column="3" Margin="10,15,10,10" ImageMargin="3,7" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30">
-            <local1:ImageButton.Image>
-                <ImageBrush ImageSource="{StaticResource users_team}"/>
-            </local1:ImageButton.Image>
-        </local1:ImageButton>
-        <local1:ImageButton Grid.Column="2" Margin="10,17,10,10" ImageMargin="5" NormalColor="White" PressColor="#FFA8A8A8" SelectColor="#FFDEDEDE" Width="30" Height="30">
-            <local1:ImageButton.Image>
-                <ImageBrush ImageSource="{StaticResource bell}"/>
-            </local1:ImageButton.Image>
-        </local1:ImageButton>
-
-        <local3:ProgressBar x:Name="progressBar" Margin="60,541,78,71" Grid.Row="1" Grid.ColumnSpan="2" />
-        <local1:MainButton x:Name="mainButton" Margin="739.333,478,61,39" Grid.Row="1" Grid.ColumnSpan="4" Click="MainBtn_Click" Grid.Column="1" />
-
-        <local1:SupportButton Margin="17,0,0,18" Grid.Row="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Bottom" Grid.ColumnSpan="2" />
-
-        <Rectangle x:Name="serverListBg"  HorizontalAlignment="Left" Height="325" Margin="189,111,0,0" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Top" Width="480" Fill="#E5282828" Grid.Column="1"/>
-        <DataGrid x:Name="serverList" Height="302" Margin="189,111,118,0" Grid.Row="1"  VerticalAlignment="Top" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#00000000" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="22" HorizontalScrollBarVisibility="Disabled" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick" Grid.Column="1">
+        <DataGrid x:Name="serverList" Margin="345,20,31,39" Grid.Row="1" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#00000000" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="22" HorizontalScrollBarVisibility="Disabled" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick">
             <DataGrid.CellStyle>
                 <Style>
                     <Style.Triggers>
@@ -473,15 +418,23 @@
                 </Style>
             </DataGrid.RowHeaderStyle>
         </DataGrid>
-        <Button x:Name="refreshServerListButton" Content="{x:Static res:Resources.RefreshServerList}" HorizontalAlignment="Left" Height="25" Margin="189,412,0,0" Grid.Row="1" VerticalAlignment="Top" Width="480" Click="RefreshServerList" Foreground="White" Background="#00000000" BorderBrush="#7FFFFFFF" FontSize="16" BorderThickness="1,1,1,1" Grid.Column="1" Style="{DynamicResource ServerListButtonStyle}"/>
 
-        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="77.333,616,22,0" Grid.Row="1" HorizontalAlignment="Center" Width="686" Grid.Column="1" />
+        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="177,616,192,-9" Grid.Row="1" HorizontalAlignment="Center" Width="686" />
+        <local1:NotifyList Margin="632,10,20,0" Grid.Row="1" VerticalAlignment="Top" />
+        <StackPanel HorizontalAlignment="Right" Height="21" Margin="0,23,175,0" VerticalAlignment="Top" Width="205" ScrollViewer.VerticalScrollBarVisibility="Disabled" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <local1:OnlineButton x:Name="userButton" Text="POSPELOV" FlowDirection="LeftToRight" Margin="0,0,20,0" />
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
+                <Button.Background>
+                    <ImageBrush ImageSource="{DynamicResource Settings}" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
+                <Button.Background>
+                    <ImageBrush ImageSource="{DynamicResource Notifications}" Stretch="Uniform"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
 
-
-
-
-        <local2:Authorization x:Name="authorization" Visibility="Collapsed" Grid.RowSpan="2" Grid.ColumnSpan="5" />
-        <local1:NotifyList Margin="532,10,20,0" Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Top" Grid.Column="1" />
     </Grid>
 </Window>
     
