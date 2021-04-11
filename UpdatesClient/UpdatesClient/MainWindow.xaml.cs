@@ -148,9 +148,9 @@ namespace UpdatesClient
                 }
                 List<ServerModel> list = ServerModel.ParseServersToList(servers);
                 list.RemoveAll(x => x.IsEmpty());
-                serverList.ItemsSource = null;
-                serverList.ItemsSource = list;
-                serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
+                //serverList.ItemsSource = null;
+                //serverList.ItemsSource = list;
+                //serverList.SelectedItem = list.Find(x => x.ID == Settings.LastServerID);
                 if (NetworkSettings.ShowingServerStatus)
                 {
                     int hashCode = NetworkSettings.OfficialServerAdress.GetHashCode();
@@ -223,11 +223,11 @@ namespace UpdatesClient
                 return;
             }
 
-            if (serverList.SelectedItem == null)
-            {
-                NotifyController.Show(PopupNotify.Error, Res.Warning, Res.SelectServer);
-                return;
-            }
+            //if (serverList.SelectedItem == null)
+            //{
+            //    NotifyController.Show(PopupNotify.Error, Res.Warning, Res.SelectServer);
+            //    return;
+            //}
 
             await GameUtilities.Play(server, this);
         }
@@ -238,10 +238,10 @@ namespace UpdatesClient
         }
         private void ServerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (serverList.SelectedIndex != -1)
-            {
-                Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;
-            }
+            //if (serverList.SelectedIndex != -1)
+            //{
+            //    Settings.LastServerID = ((ServerModel)serverList.SelectedItem).ID;
+            //}
         }
         private void ServerList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

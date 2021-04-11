@@ -7,70 +7,12 @@
         xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
         xmlns:local2="clr-namespace:UpdatesClient.UI.Pages"
         xmlns:local3="clr-namespace:UpdatesClient.Modules.Downloader.UI"
+        xmlns:local4="clr-namespace:UpdatesClient.UI.Pages.MainWindow"
         xmlns:res="clr-namespace:UpdatesClient.Properties"
         mc:Ignorable="d"
         Title="{x:Static res:Resources.Title}" Height="672" Width="1055" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Style x:Key="ServerListDataGrid" TargetType="{x:Type DataGrid}">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderBrush" Value="#7FFFFFFF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
-            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-            <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type DataGrid}">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
-                            <ScrollViewer x:Name="DG_ScrollViewer" Focusable="false" Foreground="White" Opacity="1" Background="Transparent" BorderBrush="White" SnapsToDevicePixels="True" FontSize="16">
-                                <ScrollViewer.Template>
-                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                            <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                            <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1" Margin="0"/>
-                                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
-                                            <Grid Grid.Column="1" Grid.Row="2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <ScrollBar x:Name="PART_HorizontalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableWidth}" Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
-                                            </Grid>
-                                            <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Left" Margin="159,0,0,0" Grid.RowSpan="2" Height="Auto" Grid.Row="0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
-                                            <GridSplitter Grid.Column="1" Width="1" HorizontalAlignment="Left" Margin="319,0,0,0" Grid.RowSpan="2" Height="Auto" Grid.Row="0" RenderTransformOrigin="0.5,0.5" IsEnabled="False"/>
-                                            <GridSplitter Grid.Row="2" Width="480" Height="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.RowSpan="1" RenderTransformOrigin="0.5,0.5" IsEnabled="False" Grid.ColumnSpan="3"/>
-                                        </Grid>
-                                    </ControlTemplate>
-                                </ScrollViewer.Template>
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="0"/>
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <MultiTrigger>
-                    <MultiTrigger.Conditions>
-                        <Condition Property="IsGrouping" Value="true"/>
-                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
-                    </MultiTrigger.Conditions>
-                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-                </MultiTrigger>
-            </Style.Triggers>
-        </Style>
+        
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -89,47 +31,6 @@
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="MainButton" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Width="Auto">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="15"/>
-                                </Grid.ColumnDefinitions>
-                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="Stretch" Margin="0" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch"/>
-                                <Image HorizontalAlignment="Left" Height="6" Margin="5,10,0,10" VerticalAlignment="Center" Width="10" Source="{DynamicResource arrowDown}" Grid.Column="1"/>
-
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style x:Key="MenuButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
@@ -231,51 +132,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ServerListButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <!--<Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-                            </Trigger>-->
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border">
-                                    <Setter.Value>
-                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#2D22DCFD" Offset="1"/>
-                                            <GradientStop Color="#2D5865B9" Offset="0"/>
-                                            <GradientStop Color="#2D1C91E2" Offset="0.5"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <!--<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>-->
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <SolidColorBrush x:Key="RadioButton.Static.Background" Color="#FFFFFFFF"/>
         <SolidColorBrush x:Key="RadioButton.Static.Border" Color="#FF707070"/>
         <Style x:Key="OptionMarkFocusVisual">
@@ -288,9 +144,9 @@
             </Setter>
         </Style>
         <SolidColorBrush x:Key="RadioButton.IsChecked.Foreground" Color="#FFFFFFFF"/>
-        <SolidColorBrush x:Key="RadioButton.MouseOver.Background" Color="#FFF3F9FF"/>
-        <SolidColorBrush x:Key="RadioButton.Disabled.Background" Color="#FFE6E6E6"/>
-        <SolidColorBrush x:Key="RadioButton.Pressed.Background" Color="#FFD9ECFF"/>
+        <SolidColorBrush x:Key="RadioButton.MouseOver.Foreground" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="RadioButton.Disabled.Foreground" Color="#33FFFFFF"/>
+        <SolidColorBrush x:Key="RadioButton.Pressed.Foreground" Color="#7FFFFFFF"/>
         <Style x:Key="HeaderRadioButtonStyle" TargetType="{x:Type RadioButton}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource RadioButton.Static.Background}"/>
@@ -314,29 +170,20 @@
                             <!--<Trigger Property="HasContent" Value="true">
                                 <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
                                 <Setter Property="Padding" Value="4,-1,0,0"/>
-                            </Trigger>
+                            </Trigger>-->
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.MouseOver.Border}"/>
-                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.MouseOver.Glyph}"/>
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource RadioButton.MouseOver.Foreground}"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Disabled.Border}"/>
-                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Disabled.Glyph}"/>
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource RadioButton.Disabled.Foreground}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="radioButtonBorder" Value="{StaticResource RadioButton.Pressed.Border}"/>
-                                <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource RadioButton.Pressed.Glyph}"/>
-                            </Trigger>-->
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource RadioButton.Pressed.Foreground}"/>
+                            </Trigger>
                             <Trigger Property="IsChecked" Value="true">
                                 <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource RadioButton.IsChecked.Foreground}"/>
                                 <Setter Property="Visibility" TargetName="radioButtonBorder" Value="Visible"/>
                             </Trigger>
-                            <!--<Trigger Property="IsChecked" Value="{x:Null}">
-                                <Setter Property="Opacity" TargetName="radioButtonBorder" Value="0.56"/>
-                            </Trigger>-->
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -354,9 +201,6 @@
                 <GradientStop Color="#77000000" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1055"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="65"/>
             <RowDefinition/>
@@ -367,60 +211,6 @@
             <RadioButton Content="Новости" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
             <RadioButton Content="Магазин" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
         </StackPanel>
-
-
-        <DataGrid x:Name="serverList" Margin="345,20,31,39" Grid.Row="1" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False" ColumnWidth="160" RowBackground="Transparent" CanUserResizeColumns="False" CanUserResizeRows="False" SelectionChanged="ServerList_SelectionChanged" Style="{DynamicResource ServerListDataGrid}" Background="#00000000" BorderBrush="#7FFFFFFF" Foreground="White" RowHeight="22" HorizontalScrollBarVisibility="Disabled" FontSize="16" HorizontalGridLinesBrush ="White" VerticalGridLinesBrush="White" MouseDoubleClick="ServerList_MouseDoubleClick">
-            <DataGrid.CellStyle>
-                <Style>
-                    <Style.Triggers>
-                        <Trigger Property="DataGridCell.IsSelected" Value="true">
-                            <Setter Property="DataGridCell.Foreground" Value="White"/>
-                            <Setter Property="DataGridCell.Background">
-                                <Setter.Value>
-                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#26344754" Offset="0.4"/>
-                                        <GradientStop Color="#26D4CFC9" Offset="1"/>
-                                    </LinearGradientBrush>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                    <Setter Property="DataGridCell.BorderThickness" Value="0"/>
-                    <Setter Property="DataGridCell.BorderBrush" Value="White"/>
-                    <Setter Property="DataGridCell.Background" Value="Transparent"/>
-                    <Setter Property="DataGridCell.Margin" Value="0,-2,0,0" />
-                </Style>
-            </DataGrid.CellStyle>
-
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static res:Resources.Name}" Binding="{Binding Path=ViewName}"/>
-                <DataGridTextColumn Header="{x:Static res:Resources.Online}" Binding="{Binding Path=Online}"/>
-                <DataGridTextColumn Header="{x:Static res:Resources.MaxPlayers}" Binding="{Binding Path=MaxPlayers}"/>
-            </DataGrid.Columns>
-
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="BorderBrush" Value="White"/>
-                    <Setter Property="BorderThickness" Value="0,0,0,2"/>
-                </Style>
-            </DataGrid.ColumnHeaderStyle>
-
-            <DataGrid.RowHeaderStyle>
-                <Style TargetType="{x:Type DataGridRowHeader}">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="BorderBrush" Value="White"/>
-                </Style>
-            </DataGrid.RowHeaderStyle>
-        </DataGrid>
-
-        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="177,616,192,-9" Grid.Row="1" HorizontalAlignment="Center" Width="686" />
-        <local1:NotifyList Margin="632,10,20,0" Grid.Row="1" VerticalAlignment="Top" />
         <StackPanel HorizontalAlignment="Right" Height="21" Margin="0,23,175,0" VerticalAlignment="Top" Width="205" ScrollViewer.VerticalScrollBarVisibility="Disabled" Orientation="Horizontal" FlowDirection="RightToLeft">
             <local1:OnlineButton x:Name="userButton" Text="POSPELOV" FlowDirection="LeftToRight" Margin="0,0,20,0" />
             <Button HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
@@ -435,6 +225,12 @@
             </Button>
         </StackPanel>
 
+        <ContentControl Grid.Row="1">
+            <local4:ServerList />
+        </ContentControl>
+
+        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="177,616,192,-9" Grid.Row="1" HorizontalAlignment="Center" Width="686" />
+        <local1:NotifyList Margin="632,10,20,0" Grid.Row="1" VerticalAlignment="Top" />
     </Grid>
 </Window>
     

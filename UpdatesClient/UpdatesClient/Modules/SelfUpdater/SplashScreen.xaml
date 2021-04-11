@@ -27,7 +27,7 @@
                 <TextBlock x:Name="Status" Margin="18,0,0,60" TextWrapping="Wrap" Text="{x:Static res:Resources.CheckSelfUpdate}" Foreground="White" VerticalAlignment="Bottom" TextAlignment="Center" HorizontalAlignment="Left" FontWeight="Light" />
             </Grid>
         </Grid>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Background="#CC2A2E41">
             <Pages:Authorization />
         </Grid>
 

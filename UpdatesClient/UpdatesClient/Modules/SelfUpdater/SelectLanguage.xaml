@@ -22,8 +22,8 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid RenderTransformOrigin="0.5,0.5">
-                            <Border x:Name="bordermask" Background="Transparent" OpacityMask="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="5" RenderTransformOrigin="0.5,0.5"/>
-                            <Border x:Name="border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="5" RenderTransformOrigin="0.5,0.5">
+                            <Border x:Name="bordermask" Background="Transparent" OpacityMask="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="1" RenderTransformOrigin="0.5,0.5"/>
+                            <Border x:Name="border" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="1" RenderTransformOrigin="0.5,0.5">
                                 <Border.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -72,7 +72,7 @@
     <Grid>
         <Grid HorizontalAlignment="Center" Margin="320,224,320,184" VerticalAlignment="Center" Width="414" Height="266">
             <TextBlock x:Name="text" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="/UpdatesClient;component/Assets/Fonts/#Gilroy" FontSize="20" Foreground="White" FontWeight="Light" TextAlignment="Center"><Span Foreground="White" FontSize="28" FontFamily="Segoe UI"><Run Text="Choose your language"/></Span></TextBlock>
-            <Button x:Name="ru" HorizontalAlignment="Center" Margin="128,80,0,0" VerticalAlignment="Top" Width="81" Height="81" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
+            <Button x:Name="ru" HorizontalAlignment="Center" Margin="128,90,0,0" VerticalAlignment="Top" Width="94" Height="63" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
                 <Button.Effect>
                     <DropShadowEffect x:Name="ruEff" BlurRadius="30" ShadowDepth="0" Color="White" Opacity="0"/>
                 </Button.Effect>
@@ -80,7 +80,7 @@
                     <ImageBrush ImageSource="{DynamicResource RU}"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="en" HorizontalAlignment="Center" Margin="-128,80,0,0" VerticalAlignment="Top" Width="81" Height="81" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
+            <Button x:Name="en" HorizontalAlignment="Center" Margin="-128,90,0,0" VerticalAlignment="Top" Width="94" Height="63" Style="{DynamicResource FlagButtonStyle}" Click="SelectLang">
                 <Button.Effect>
                     <DropShadowEffect x:Name="enEff" BlurRadius="30" ShadowDepth="0" Color="White" Opacity="1"/>
                 </Button.Effect>

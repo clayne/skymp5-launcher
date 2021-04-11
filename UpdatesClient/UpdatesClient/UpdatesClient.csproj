@@ -203,8 +203,26 @@
     <Compile Include="UI\Controllers\Header.xaml.cs">
       <DependentUpon>Header.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controllers\ServerBlock\ServerDescription.xaml.cs">
+      <DependentUpon>ServerDescription.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\ServerBlock\ServerMods.xaml.cs">
+      <DependentUpon>ServerMods.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\ServerBlock\ServerPlayers.xaml.cs">
+      <DependentUpon>ServerPlayers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\ServerItemGrid.xaml.cs">
+      <DependentUpon>ServerItemGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controllers\ServerListGrid.xaml.cs">
+      <DependentUpon>ServerListGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Pages\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\MainWindow\ServerList.xaml.cs">
+      <DependentUpon>ServerList.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Pages\Models\AuthModels\AuthModel.cs" />
     <Compile Include="UI\Pages\Models\AuthModels\FormModel.cs" />
@@ -219,6 +237,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Controllers\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ServerBlock\ServerDescription.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ServerBlock\ServerMods.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ServerBlock\ServerPlayers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ServerItemGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\ServerListGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -299,6 +337,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Pages\MainWindow\ServerList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modules\SelfUpdater\Downloader.cs" />
@@ -372,13 +414,16 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Images\Backgrounds\Background1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\Debug\Group 48.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Banners\Default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Backgrounds\Background1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Debug\SyQdvUpSCa0.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

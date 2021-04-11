@@ -59,7 +59,7 @@
     <clr:Double x:Key="ButtonRounded.Disabled.Opacity">0.3</clr:Double>
     <Style x:Key="ButtonStyleRounded" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="{StaticResource ButtonRounded.Static.Background}"/>
+        <Setter Property="Background" Value="{StaticResource ButtonRounded.Static.Background.Brush}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
