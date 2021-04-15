@@ -61,13 +61,16 @@ namespace UpdatesClient.UI.Pages
         private async void Signin_Click(object sender, RoutedEventArgs e)
         {
             authPanel.IsEnabled = false;
-            //Settings.RememberMe = (bool)rmAuth.IsChecked;
+            AuthModel auth = FormModel.AuthModel;
+
+            Settings.RememberMe = auth.RememberMe;
 
             try
             {
                 ReqLoginModel model = new ReqLoginModel()
                 {
-                    Password = ""
+                    Email = auth.Email,
+                    Password = passwordBoxAuth.Password
                 };
                 ResLoginModel ds = await Account.Login(model);
 
@@ -78,27 +81,27 @@ namespace UpdatesClient.UI.Pages
             }
             catch (WebException we)
             {
-                var s = we.Response;
-                if (s != null)
-                {
-                    using (var reader = new StreamReader(s.GetResponseStream()))
-                    {
-                        string raw = reader.ReadToEnd();
-                        try
-                        {
-                            JArray jObject = JArray.Parse(raw);
-                            foreach (JToken par in jObject.Children())
-                            {
-                                NotifyController.Show(PopupNotify.Error, par.Value<string>("property"),
-                                    ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
-                            }
-                        }
-                        catch
-                        {
-                            NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
-                        }
-                    }
-                }
+                //var s = we.Response;
+                //if (s != null)
+                //{
+                //    using (var reader = new StreamReader(s.GetResponseStream()))
+                //    {
+                //        string raw = reader.ReadToEnd();
+                //        try
+                //        {
+                //            JArray jObject = JArray.Parse(raw);
+                //            foreach (JToken par in jObject.Children())
+                //            {
+                //                NotifyController.Show(PopupNotify.Error, par.Value<string>("property"),
+                //                    ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                //            }
+                //        }
+                //        catch
+                //        {
+                //            NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
+                //        }
+                //    }
+                //}
             }
             catch (Exception err)
             {
@@ -110,39 +113,43 @@ namespace UpdatesClient.UI.Pages
         private async void Signup_Click(object sender, RoutedEventArgs e)
         {
             registerPanel.IsEnabled = false;
+            RegModel reg = FormModel.RegModel;
 
             try
             {
                 ReqRegisterModel model = new ReqRegisterModel()
                 {
-
+                    Email = reg.Email,
+                    Name = reg.Login,
+                    Password = passwordBoxReg.Password
                 };
                 ResRegisterModel ds = await Account.Register(model);
-                NotifyController.Show(PopupNotify.Normal, Res.Successfully, Res.VerifyAccount);
+                Open_AuthPanel(null, null);
+                //NotifyController.Show(PopupNotify.Normal, Res.Successfully, Res.VerifyAccount);
             }
             catch (WebException we)
             {
-                WebResponse s = we.Response;
-                if (s != null)
-                {
-                    using (var reader = new StreamReader(s.GetResponseStream()))
-                    {
-                        string raw = reader.ReadToEnd();
-                        try
-                        {
+                //WebResponse s = we.Response;
+                //if (s != null)
+                //{
+                //    using (var reader = new StreamReader(s.GetResponseStream()))
+                //    {
+                //        string raw = reader.ReadToEnd();
+                //        try
+                //        {
                             
-                            JArray jObject = JArray.Parse(raw);
-                            foreach (JToken par in jObject.Children())
-                            {
-                                NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
-                            }
-                        }
-                        catch
-                        {
-                            NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
-                        }
-                    }
-                }
+                //            JArray jObject = JArray.Parse(raw);
+                //            foreach (JToken par in jObject.Children())
+                //            {
+                //                NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                //            }
+                //        }
+                //        catch
+                //        {
+                //            NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
+                //        }
+                //    }
+                //}
             }
             catch (Exception err)
             {
@@ -154,35 +161,37 @@ namespace UpdatesClient.UI.Pages
         private async void Forgot_Click(object sender, RoutedEventArgs e)
         {
             forgotPassPanel.IsEnabled = false;
+            RecPswrdModel rec = FormModel.RecPswrdModel;
 
             try
             {
                 ReqResetPassword model = new ReqResetPassword()
                 {
-
+                    Email = rec.Email
                 };
                 await Account.ResetPassword(model);
                 await Task.Delay(200);
+                Open_AuthPanel(null, null);
             }
             catch (WebException we)
             {
-                var s = we.Response;
-                using (var reader = new StreamReader(s.GetResponseStream()))
-                {
-                    string raw = reader.ReadToEnd();
-                    try
-                    {
-                        JArray jObject = JArray.Parse(raw);
-                        foreach (JToken par in jObject.Children())
-                        {
-                            NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
-                        }
-                    }
-                    catch
-                    {
-                        NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
-                    }
-                }
+                //var s = we.Response;
+                //using (var reader = new StreamReader(s.GetResponseStream()))
+                //{
+                //    string raw = reader.ReadToEnd();
+                //    try
+                //    {
+                //        JArray jObject = JArray.Parse(raw);
+                //        foreach (JToken par in jObject.Children())
+                //        {
+                //            NotifyController.Show(PopupNotify.Error, par.Value<string>("property"), ((JProperty)par.Value<JToken>("constraints").First()).Value.ToString(), 4000);
+                //        }
+                //    }
+                //    catch
+                //    {
+                //        NotifyController.Show(PopupNotify.Error, Res.Error, raw, 5000);
+                //    }
+                //}
             }
             catch (Exception err)
             {

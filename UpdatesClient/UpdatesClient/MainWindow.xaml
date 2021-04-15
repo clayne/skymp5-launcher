@@ -8,9 +8,11 @@
         xmlns:local2="clr-namespace:UpdatesClient.UI.Pages"
         xmlns:local3="clr-namespace:UpdatesClient.Modules.Downloader.UI"
         xmlns:local4="clr-namespace:UpdatesClient.UI.Pages.MainWindow"
+        xmlns:local5="clr-namespace:UpdatesClient.UI.Pages.MainWindow.Models"
         xmlns:res="clr-namespace:UpdatesClient.Properties"
         mc:Ignorable="d"
-        Title="{x:Static res:Resources.Title}" Height="672" Width="1055" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Title="{x:Static res:Resources.Title}" Height="672" Width="1055" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=local5:MainWindowModel}">
     <Window.Resources>
         
         <Style x:Key="FocusVisual">
@@ -208,8 +210,8 @@
         <local1:Header />
         <StackPanel Margin="27,0,331,0" Orientation="Horizontal">
             <RadioButton Content="Список серверов" IsChecked="True" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
-            <RadioButton Content="Новости" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
-            <RadioButton Content="Магазин" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
+            <RadioButton IsEnabled="False" Content="Новости" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
+            <RadioButton IsEnabled="False" Content="Магазин" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Height="21" Margin="0,23,175,0" VerticalAlignment="Top" Width="205" ScrollViewer.VerticalScrollBarVisibility="Disabled" Orientation="Horizontal" FlowDirection="RightToLeft">
             <local1:OnlineButton x:Name="userButton" Text="POSPELOV" FlowDirection="LeftToRight" Margin="0,0,20,0" />
@@ -218,14 +220,14 @@
                     <ImageBrush ImageSource="{DynamicResource Settings}" Stretch="Uniform"/>
                 </Button.Background>
             </Button>
-            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
+            <Button IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
                 <Button.Background>
                     <ImageBrush ImageSource="{DynamicResource Notifications}" Stretch="Uniform"/>
                 </Button.Background>
             </Button>
         </StackPanel>
 
-        <ContentControl Grid.Row="1">
+        <ContentControl x:Name="content" Grid.Row="1">
             <local4:ServerList />
         </ContentControl>
 

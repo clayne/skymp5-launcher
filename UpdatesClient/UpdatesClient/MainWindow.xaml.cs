@@ -18,6 +18,8 @@ using UpdatesClient.Modules.GameManager.Helpers;
 using UpdatesClient.Modules.GameManager.Model;
 using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.UI.Controllers;
+using UpdatesClient.UI.Pages.MainWindow;
+using UpdatesClient.UI.Pages.MainWindow.Models;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient
@@ -27,13 +29,19 @@ namespace UpdatesClient
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindowModel WindowModel;
+
         private bool blockMainBtn = false;
 
         public MainWindow()
         {
             InitializeComponent();
-
             userButton.LogoutBtn.Click += LogOut_Click;
+
+            WindowModel = new MainWindowModel(Settings.UserName);
+            wind.DataContext = WindowModel;
+
+            content.Content = new ServerList();
 
             //ModulesManager.PostInitModules(progressBar);
 
@@ -41,19 +49,19 @@ namespace UpdatesClient
         }
         private void Wind_Loaded(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                if (Settings.ExperimentalFunctions == null)
-                {
-                    MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"),
-                        Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            //try
+            //{
+            //    if (Settings.ExperimentalFunctions == null)
+            //    {
+            //        MessageBoxResult result = MessageBox.Show(Res.ExperimentalFeaturesText.Replace(@"\n", "\n"),
+            //            Res.ExperimentalFeatures, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
 
-                    if (result == MessageBoxResult.Yes) Settings.ExperimentalFunctions = true;
-                    else Settings.ExperimentalFunctions = false;
-                    Settings.Save();
-                }
-            }
-            catch (Exception er) { Logger.Error("ExpFunc", er); }
+            //        if (result == MessageBoxResult.Yes) Settings.ExperimentalFunctions = true;
+            //        else Settings.ExperimentalFunctions = false;
+            //        Settings.Save();
+            //    }
+            //}
+            //catch (Exception er) { Logger.Error("ExpFunc", er); }
 
             NotifyController.Init();
 
@@ -61,19 +69,6 @@ namespace UpdatesClient
         }
         private async void Authorization_SignIn()
         {
-            try
-            {
-                await GetLogin();
-                //authorization.Visibility = Visibility.Collapsed;
-            }
-            catch
-            {
-                //authorization.Visibility = Visibility.Visible;
-                return;
-            }
-
-            await Task.Delay(100);
-
             await CheckGame();
             ModVersion.Load();
             FileWatcher.Init();
@@ -85,12 +80,6 @@ namespace UpdatesClient
 
             await CheckClientUpdates();
             FillServerList();
-        }
-        private async Task GetLogin()
-        {
-            var username = await Account.GetLogin();
-            Settings.UserName = username;
-            userButton.Text = username;
         }
         
         //TODO: часть убрать в установщик

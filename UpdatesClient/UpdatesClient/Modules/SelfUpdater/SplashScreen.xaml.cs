@@ -81,6 +81,7 @@ namespace UpdatesClient.Modules.SelfUpdater
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
             {
+                auth.SignIn += Auth_SignIn;
                 DispReady();
             });
         }
@@ -89,15 +90,29 @@ namespace UpdatesClient.Modules.SelfUpdater
         {
             try
             {
-                string username = await Account.GetLogin();
-                Settings.UserName = username;
-                Ok = true;
-                WaitOk = true;
+                await Auth();
             }
             catch
             {
                 Animation();
             }
+        }
+
+        private async Task Auth()
+        {
+            string username = await Account.GetLogin();
+            Settings.UserName = username;
+            Ok = true;
+            WaitOk = true;
+        }
+
+        private async void Auth_SignIn()
+        {
+            try
+            {
+                await Auth();
+            }
+            catch { }
         }
 
         public bool Wait()

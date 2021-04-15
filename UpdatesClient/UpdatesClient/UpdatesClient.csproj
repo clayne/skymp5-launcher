@@ -221,6 +221,8 @@
     <Compile Include="UI\Pages\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\MainWindow\Models\MainWindowModel.cs" />
+    <Compile Include="UI\Pages\MainWindow\Models\ServerListModel.cs" />
     <Compile Include="UI\Pages\MainWindow\ServerList.xaml.cs">
       <DependentUpon>ServerList.xaml</DependentUpon>
     </Compile>

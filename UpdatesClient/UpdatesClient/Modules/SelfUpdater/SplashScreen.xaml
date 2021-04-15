@@ -28,7 +28,7 @@
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Background="#CC2A2E41">
-            <Pages:Authorization />
+            <Pages:Authorization x:Name="auth" />
         </Grid>
 
         <Controllers:Header x:Name="header" VerticalAlignment="Top" MaximizeIsEnabled="False" Grid.ColumnSpan="2" Height="72"/>
