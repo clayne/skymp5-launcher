@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using UpdatesClient.Core.Enums;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
@@ -22,7 +25,7 @@ namespace UpdatesClient.Modules.SelfUpdater
         {
             try
             {
-                if (string.IsNullOrEmpty(Settings.Locale))
+                if (Settings.Locale == 0)
                 {
                     SelectLanguage language = new SelectLanguage();
                     language.ShowDialog();
@@ -31,12 +34,13 @@ namespace UpdatesClient.Modules.SelfUpdater
                         Close();
                         return;
                     }
-                    Settings.Locale = language.LanguageBase;
+
+                    Settings.Locale = GetLocaleByName(language.LanguageBase);
                     Settings.Save();
                 }
                 try
                 {
-                    Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(Settings.Locale);
+                    Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(GetLocaleDescription(Settings.Locale));
                 } catch (Exception e) { Logger.Error("SetLanguage", e); }
             }
             catch (Exception e)
@@ -46,6 +50,27 @@ namespace UpdatesClient.Modules.SelfUpdater
             
             InitializeComponent();
             Loaded += new RoutedEventHandler(Splash_Loaded);
+        }
+
+        private Locales GetLocaleByName(string name)
+        {
+            switch (name)
+            {
+                case "ru-RU": return Locales.ru_RU;
+                case "en-US": return Locales.en_US;
+                default: return Locales.nul;
+            }
+        }
+        private string GetLocaleDescription(Locales locale)
+        {
+            MemberInfo[] memInfo = typeof(Locales).GetMember(locale.ToString());
+            if (memInfo != null && memInfo.Length > 0)
+            {
+                object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if (attrs != null && attrs.Length > 0)
+                    return ((DescriptionAttribute)attrs[0]).Description;
+            }
+            return "en-US";
         }
 
         void Splash_Loaded(object sender, RoutedEventArgs e)

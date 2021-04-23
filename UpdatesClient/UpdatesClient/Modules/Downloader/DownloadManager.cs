@@ -22,10 +22,7 @@ namespace UpdatesClient.Modules.Downloader
         public static void PostInit(ProgressBar progressBar)
         {
             ProgressBar = progressBar;
-            ProgressBar.Hide();
-
             Dispatcher = Dispatcher.CurrentDispatcher;
-
             Worker();
         }
 
@@ -74,7 +71,7 @@ namespace UpdatesClient.Modules.Downloader
 
         private static async Task<bool> Download(DownloadModel model, int c = 0)
         {
-            ProgressBar.Show(false, $"{model.Description}{(c != 0 ? $" ({Res.Attempt} №{c + 1})" : "")}", model.Version);
+            ProgressBar.Init(false);
 
             Downloader downloader = new Downloader(model.DestinationPath, model.Url);
             downloader.DownloadChanged += Downloader_DownloadChanged;
@@ -85,13 +82,11 @@ namespace UpdatesClient.Modules.Downloader
             downloader.DownloadChanged -= Downloader_DownloadChanged;
 
             ProgressBar.Stop();
-            ProgressBar.Hide();
 
             if (ok && model.PostAction != null)
             {
-                ProgressBar.Show(true, model.PostActionDescription);
+                ProgressBar.Init(true, model.PostActionDescription);
                 await Task.Run(() => model.PostAction.Invoke());
-                ProgressBar.Hide();
             }
 
             if (!ok && c < MaxTries) return await Download(model, ++c);

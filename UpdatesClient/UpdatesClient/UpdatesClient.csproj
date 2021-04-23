@@ -78,6 +78,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="Sentry, Version=2.1.6.0, Culture=neutral, PublicKeyToken=fba2ec45388e2af0, processorArchitecture=MSIL">
       <HintPath>..\packages\Sentry.2.1.6\lib\net461\Sentry.dll</HintPath>
       <Private>False</Private>
@@ -146,12 +147,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Enums\Locales.cs" />
+    <Compile Include="Core\Enums\MainButtonStatus.cs" />
     <Compile Include="Core\EnvParams.cs" />
     <Compile Include="Core\Graphics.cs" />
     <Compile Include="Core\Helpers\JsonModelSaver.cs" />
     <Compile Include="Core\IO.cs" />
     <Compile Include="Core\LocalesManager.cs" />
     <Compile Include="Core\Models\NotifyModel.cs" />
+    <Compile Include="Modules\Downloader\Models\ProgressBarModel.cs" />
     <Compile Include="Modules\GameManager\Model\ServerManifest\ServerModModel.cs" />
     <Compile Include="Modules\GameManager\Model\ServerManifest\ServerModsManifest.cs" />
     <Compile Include="Modules\Configs\DefaultPaths.cs" />
@@ -203,6 +207,9 @@
     <Compile Include="UI\Controllers\Header.xaml.cs">
       <DependentUpon>Header.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controllers\MainButton.xaml.cs">
+      <DependentUpon>MainButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controllers\ServerBlock\ServerDescription.xaml.cs">
       <DependentUpon>ServerDescription.xaml</DependentUpon>
     </Compile>
@@ -223,13 +230,22 @@
     </Compile>
     <Compile Include="UI\Pages\MainWindow\Models\MainWindowModel.cs" />
     <Compile Include="UI\Pages\MainWindow\Models\ServerListModel.cs" />
+    <Compile Include="UI\Pages\MainWindow\Models\ServerItemModel.cs" />
+    <Compile Include="UI\Pages\MainWindow\Models\SettingsPanelModel.cs" />
     <Compile Include="UI\Pages\MainWindow\ServerList.xaml.cs">
       <DependentUpon>ServerList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\MainWindow\SettingsPanel.xaml.cs">
+      <DependentUpon>SettingsPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Pages\Models\AuthModels\AuthModel.cs" />
     <Compile Include="UI\Pages\Models\AuthModels\FormModel.cs" />
     <Compile Include="UI\Pages\Models\AuthModels\RecPswrdModel.cs" />
     <Compile Include="UI\Pages\Models\AuthModels\RegModel.cs" />
+    <Compile Include="UI\Windows\InstallerWindow.xaml.cs">
+      <DependentUpon>InstallerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Windows\InstallerWindowModels\InstallerWindowModel.cs" />
     <Page Include="Assets\Images\Images.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -239,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Controllers\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\MainButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -343,6 +363,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Pages\MainWindow\SettingsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Windows\InstallerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modules\SelfUpdater\Downloader.cs" />
@@ -387,10 +415,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Enums\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
-    <Folder Include="UI\Windows\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\favicon.ico" />
@@ -425,7 +451,7 @@
     <Resource Include="Assets\Images\Backgrounds\Background1.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Debug\SyQdvUpSCa0.png" />
+    <Resource Include="Assets\Images\Banners\Installer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

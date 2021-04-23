@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             xmlns:local2="clr-namespace:UpdatesClient.UI.Pages.MainWindow.Models"
              xmlns:res="clr-namespace:UpdatesClient.Properties"
-             mc:Ignorable="d" Height="21">
+             mc:Ignorable="d" Height="21"
+             d:DataContext="{d:DesignInstance Type=local2:MainWindowModel}">
     <UserControl.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -227,7 +229,7 @@
     </UserControl.Resources>
     <Grid>
         <Menu x:Name="menu" Margin="0,0,0,0" VerticalAlignment="Top" Background="{x:Null}">
-            <MenuItem x:Name="Username" Header="Pospelov" BorderBrush="{x:Null}" Background="#00000000" Foreground="White" FontSize="16" Template="{DynamicResource MenuItemControlTemplate1}" FontWeight="Light" Margin="0" Padding="2,-2,5,0" >
+            <MenuItem x:Name="Username" Header="{Binding Path=UserName}" BorderBrush="{x:Null}" Background="#00000000" Foreground="White" FontSize="16" Template="{DynamicResource MenuItemControlTemplate1}" FontWeight="Light" Margin="0" Padding="2,-2,5,0" >
                 <MenuItem x:Name="LogoutBtn" Header="{x:Static res:Resources.LogOut}" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16"/>
             </MenuItem>
         </Menu>

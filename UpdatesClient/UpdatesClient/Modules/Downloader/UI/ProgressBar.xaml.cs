@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Controls;
+using UpdatesClient.Modules.Downloader.Models;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.Downloader.UI
@@ -14,11 +15,9 @@ namespace UpdatesClient.Modules.Downloader.UI
         private readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         private readonly string[] TimeSuffixes = { Res.Seconds, Res.Minutes, Res.Hours };
 
-        public double Value { get => progressBar.Value; set => progressBar.Value = value; }
-        public bool IsIndeterminate { get => progressBar.IsIndeterminate; set => progressBar.IsIndeterminate = value; }
+        private ProgressBarModel model;
 
-        public string StatusText { get => statusText.Text; set => statusText.Text = value; }
-        public string VersionText { get => versionText.Text; set => versionText.Text = value; }
+        public double Value { get; set; }
 
         //Bytes
         public long Size { get; set; }
@@ -31,39 +30,24 @@ namespace UpdatesClient.Modules.Downloader.UI
         private long NeedTime;
 
         private Stopwatch stopwatch;
-        private readonly MovingAverage movingAverage = new MovingAverage()
-        {
-            windowSize = 16
-        };
-        private readonly MovingAverage movingAverageTime = new MovingAverage()
-        {
-            windowSize = 16
-        };
+        private readonly MovingAverage movingAverage = new MovingAverage(16);
+        private readonly MovingAverage movingAverageTime = new MovingAverage(16);
 
         public ProgressBar()
         {
             InitializeComponent();
+            Init(false);
         }
 
-        public void Show(bool isIndeterminate, string statusText, string versionText = null)
+        public void Init(bool isIndeterminate, string text = null)
         {
-            Visibility = System.Windows.Visibility.Visible;
-            IsIndeterminate = isIndeterminate;
+            model = new ProgressBarModel
+            {
+                IsIndeterminate = isIndeterminate
+            };
+            if (!string.IsNullOrEmpty(text) && isIndeterminate) model.Progress = text;
 
-            if (isIndeterminate) Value = 100;
-            else Value = 0;
-
-            StatusText = statusText;
-
-            if (versionText != null) VersionText = versionText;
-
-            Size = 0;
-            Downloaded = 0;
-            Speed = 0;
-            NeedTime = 0;
-
-            progressText.Text = $"{SizeSuffix(Downloaded, 0)} {Res.Of} {SizeSuffix(Size, 0)} @ {SizeSuffix(Speed, 0)}/s";
-            timeText.Text = $"{NeedTime:0} {Res.Seconds}";
+            grid.DataContext = model;
         }
         public void Start()
         {
@@ -79,19 +63,21 @@ namespace UpdatesClient.Modules.Downloader.UI
                 Value = downloaded / (Size / 100.0);
                 if (timeChange < 50) return;
                 stopwatch.Restart();
-                Downloaded = downloaded;
-
+                
                 if (timeChange != 0)
                 {
                     movingAverage.ComputeAverage((downloaded - Downloaded) / timeChange);
                     Speed = (long)movingAverage.Average * 1000; // kb/ms
 
-                    movingAverageTime.ComputeAverage((Size - Downloaded) / Speed);
+                    if (Speed != 0) movingAverageTime.ComputeAverage((Size - Downloaded) / Speed);
                     NeedTime = (long)movingAverageTime.Average; //Sec
                 }
+                Downloaded = downloaded;
 
-                progressText.Text = $"{SizeSuffix(Downloaded, 0)} {Res.Of} {SizeSuffix(Size, 0)} @ {SizeSuffix(Speed, 0)}/s";
-                timeText.Text = $"{TimeSuffix(NeedTime, 0)}";
+
+                model.FProgress = (float)Value;
+                model.Speed = $"({SizeSuffix(Speed, 0)}/s)";
+                model.Time = $"{TimeSuffix(NeedTime, 0)}";
             }
         }
         public void Stop()
@@ -104,13 +90,11 @@ namespace UpdatesClient.Modules.Downloader.UI
             Speed = 0;
             NeedTime = 0;
 
-            progressText.Text = $"0 KB {Res.Of} 0 KB @ 0 KB/s";
-            timeText.Text = $"0 {Res.Seconds}";
+            model.FProgress = 100;
+            model.Speed = $"(0 MB/s)";
+            model.Time = $"00:00:00";
         }
-        public void Hide()
-        {
-            Visibility = System.Windows.Visibility.Hidden;
-        }
+
         private string SizeSuffix(long value, int decimalPlaces = 1)
         {
             if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException("decimalPlaces"); }
@@ -136,7 +120,6 @@ namespace UpdatesClient.Modules.Downloader.UI
                 adjustedSize,
                 SizeSuffixes[mag]);
         }
-
         private string TimeSuffix(long value, int decimalPlaces = 1)
         {
             if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException("decimalPlaces"); }
@@ -171,9 +154,14 @@ namespace UpdatesClient.Modules.Downloader.UI
     public class MovingAverage
     {
         private readonly Queue<Decimal> samples = new Queue<Decimal>();
-        public int windowSize = 32;
+        private int windowSize = 32;
         private Decimal sampleAccumulator;
         public Decimal Average { get; private set; }
+
+        public MovingAverage(int size = 32)
+        {
+            windowSize = size;
+        }
 
         /// <summary>
         /// Computes a new windowed average each time a new sample arrives

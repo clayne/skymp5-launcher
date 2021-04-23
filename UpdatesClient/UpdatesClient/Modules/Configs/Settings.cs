@@ -2,6 +2,7 @@
 using Security.Extensions;
 using System;
 using System.IO;
+using UpdatesClient.Core.Enums;
 using UpdatesClient.Modules.Configs.Models;
 using UpdatesClient.Modules.Debugger;
 
@@ -23,7 +24,7 @@ namespace UpdatesClient.Modules.Configs
         #region Launcher
         public static string LastVersion { get => model.LastVersion; private set => model.LastVersion = value; }
         public static int LastServerID { get => model.LastServerID ?? -1; set => model.LastServerID = value; }
-        public static string Locale { get => model.Locale; set => model.Locale = value; }
+        public static Locales Locale { get => model.Locale; set => model.Locale = value; }
         public static bool? ExperimentalFunctions { get => model.ExperimentalFunctions; set => model.ExperimentalFunctions = value; }
         #endregion
 

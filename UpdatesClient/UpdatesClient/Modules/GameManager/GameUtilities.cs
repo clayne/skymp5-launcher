@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Core.Network;
@@ -14,14 +15,14 @@ using UpdatesClient.Modules.Downloader;
 using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.UI.Controllers;
-
+using UpdatesClient.UI.Pages.MainWindow;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.GameManager
 {
     public static class GameUtilities
     {
-        public static async Task Play(ServerModel server, MainWindow window)
+        public static async Task Play(ServerModel server, Window window)
         {
             string adressData;
             try
@@ -113,7 +114,9 @@ namespace UpdatesClient.Modules.GameManager
                         string mainFile = null;
                         foreach (var file in mod.Value)
                         {
+                            ServerList.ShowProgressBar = true;
                             await DownloadMod(desPath + file.Item1, adress, file.Item1);
+                            ServerList.ShowProgressBar = false;
                             if (mods.LoadOrder.Contains(file.Item1)) mainFile = file.Item1;
                         }
                         await Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);

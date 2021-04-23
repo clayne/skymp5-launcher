@@ -1,4 +1,5 @@
 ﻿using Security.Extensions;
+using UpdatesClient.Core.Enums;
 
 namespace UpdatesClient.Modules.Configs.Models
 {
@@ -9,7 +10,7 @@ namespace UpdatesClient.Modules.Configs.Models
         public int? LastServerID { get; set; }
         public int? UserId { get; set; }
         public SecureString? UserToken { get; set; }
-        public string Locale { get; set; }
+        public Locales Locale { get; set; }
         public bool? ExperimentalFunctions { get; set; }
 
         public SettingsFileModel()

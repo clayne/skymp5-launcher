@@ -59,7 +59,7 @@ namespace UpdatesClient.Modules.Debugger
                     };
                 }
 
-                e.SetTag("Locale", Settings.Locale);
+                e.SetTag("Locale", Settings.Locale.ToString());
                 e.SetTag("URI", uri);
                 e.SetTag("MD5", md5Launcher);
                 e.SetTag("ExperimentalFunctions", Settings.ExperimentalFunctions?.ToString());

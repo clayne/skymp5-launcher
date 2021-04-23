@@ -7,6 +7,7 @@ using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Enums;
 using UpdatesClient.Modules.GameManager.Model;
+using UpdatesClient.Modules.ModsManager;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.GameManager
@@ -39,39 +40,22 @@ namespace UpdatesClient.Modules.GameManager
             ResultGameVerification result = default;
             try
             {
-                do
+                if (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim) || !File.Exists($"{pathToSkyrim}\\SkyrimSE.exe"))
                 {
-                    while (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim))
-                    {
-                        string path = GetGameFolder();
-                        if (string.IsNullOrEmpty(path))
-                        {
-                            Environment.Exit(0);
-                        }
-                        pathToSkyrim = path;
-                    }
+                    result.IsGameFound = false;
+                    result.NeedInstall = true;
+                    return result;
+                }
 
-                    result = VerifyGame(pathToSkyrim, null);
-                    if (result.IsGameFound)
-                    {
-                        if (Settings.PathToSkyrim != pathToSkyrim)
-                        {
-                            Settings.PathToSkyrim = pathToSkyrim;
-                            Settings.Save();
-                        }
-                        break;
-                    }
-
-                    pathToSkyrim = null;
-                    MessageBox.Show(Res.SkyrimNotFound, Res.Error);
-                } while (true);
+                result = VerifyGame(pathToSkyrim, null);
             }
             catch (Exception er)
             {
                 Logger.FatalError("CheckPathToSkyrim", er);
                 MessageBox.Show(Res.InitError, Res.Error);
-                Environment.Exit(0);
+                result.NeedInstall = true;
             }
+
             return result;
         }
 
@@ -114,6 +98,14 @@ namespace UpdatesClient.Modules.GameManager
                     result.UnSafeSKSEFilesDictionary = VerifySKSEFiles();
                     result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0;
                 }
+                else
+                {
+                    result.NeedInstall = true;
+                }
+            }
+            else
+            {
+                result.NeedInstall = true;
             }
 
             if (Directory.Exists($"{pathToGameFolder}\\Data\\Interface"))

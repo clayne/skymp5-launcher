@@ -5,24 +5,25 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace UpdatesClient.UI.Pages.MainWindow.Models
 {
     public class MainWindowModel : INotifyPropertyChanged
     {
-        private ServerListModel serverList;
         private string userName;
+        private bool isOpenSettings;
+
+        public bool IsOpenSettings
+        {
+            get { return isOpenSettings; }
+            set { isOpenSettings = value; OnPropertyChanged(); }
+        }
 
         public string UserName
         {
             get { return userName; }
-            set { userName = value; }
-        }
-
-        public ServerListModel ServerList
-        {
-            get { return serverList; }
-            set { serverList = value; OnPropertyChanged(); }
+            set { userName = value; OnPropertyChanged(); }
         }
 
         public MainWindowModel(string userName)

@@ -33,7 +33,9 @@ namespace UpdatesClient.Modules.GameManager
 
         public static void EnableDebug()
         {
-            string path = $"{Settings.PathToSkyrim}\\Data\\SKSE\\SKSE.ini";
+            string dir = $"{Settings.PathToSkyrim}\\Data\\SKSE\\";
+            string path = $"{dir}SKSE.ini";
+            IO.CreateDirectory(dir);
             if (!File.Exists(path)) File.Create(path).Close();
 
             IniFile iniFile = new IniFile(path);

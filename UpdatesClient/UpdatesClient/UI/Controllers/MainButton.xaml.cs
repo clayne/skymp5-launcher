@@ -1,19 +1,20 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using UpdatesClient.Modules;
 
 namespace UpdatesClient.UI.Controllers
 {
     /// <summary>
-    /// Логика взаимодействия для OnlineButton.xaml
+    /// Логика взаимодействия для MainButton.xaml
     /// </summary>
-    public partial class OnlineButton : UserControl/*, IContentHost, IServiceProvider*/
+    public partial class MainButton : UserControl
     {
-        public event EventHandler Click;
+        public event RoutedEventHandler Click;
 
-        public OnlineButton()
+        public MainButton()
         {
             InitializeComponent();
+            ModulesManager.RegObject(progressBar);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

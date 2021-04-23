@@ -9,12 +9,12 @@
         xmlns:local3="clr-namespace:UpdatesClient.Modules.Downloader.UI"
         xmlns:local4="clr-namespace:UpdatesClient.UI.Pages.MainWindow"
         xmlns:local5="clr-namespace:UpdatesClient.UI.Pages.MainWindow.Models"
-        xmlns:res="clr-namespace:UpdatesClient.Properties"
+        xmlns:res="clr-namespace:UpdatesClient.Properties" xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="{x:Static res:Resources.Title}" Height="672" Width="1055" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance Type=local5:MainWindowModel}">
     <Window.Resources>
-        
+
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -192,6 +192,38 @@
             </Setter>
         </Style>
 
+        <SolidColorBrush x:Key="OptionMark.Static.Background" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="OptionMark.Static.Border" Color="#FF707070"/>
+
+        <Style x:Key="CheckBoxStyleSettings" TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="checkBoxBorder" Visibility="Visible" Source="{StaticResource Settings}" />
+                            <Image x:Name="checkBoxBorderChecked" Visibility="Visible" Source="{StaticResource SettingsChecked}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="checkBoxBorder" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="checkBoxBorderChecked" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="Assets/Images/Backgrounds/Background1.png" Stretch="UniformToFill"/>
@@ -207,19 +239,62 @@
             <RowDefinition Height="65"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <local1:Header />
+
+        <ContentControl x:Name="content" Grid.Row="1">
+            <local4:ServerList />
+        </ContentControl>
+
+        <local4:SettingsPanel x:Name="settingsPanel" HorizontalAlignment="Right" Width="362" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" >
+            <local4:SettingsPanel.Style>
+                <Style TargetType="local4:SettingsPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsOpenSettings}">
+                            <DataTrigger.Value>
+                                <sys:Boolean>True</sys:Boolean>
+                            </DataTrigger.Value>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            To="0" Duration="0:0:0.35"
+                                            DecelerationRatio="0.995"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).
+                                                (TranslateTransform.X)"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Duration="0:0:0.35"
+                                            AccelerationRatio="0.955"
+                                            Storyboard.TargetProperty="
+                                                (UIElement.RenderTransform).
+                                                (TranslateTransform.X)"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </local4:SettingsPanel.Style>
+            <local4:SettingsPanel.RenderTransform>
+                <TranslateTransform
+                    X="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor,
+                                        AncestorType=UIElement}}"/>
+            </local4:SettingsPanel.RenderTransform>
+        </local4:SettingsPanel>
+
+        <local1:Header  />
         <StackPanel Margin="27,0,331,0" Orientation="Horizontal">
             <RadioButton Content="Список серверов" IsChecked="True" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
             <RadioButton IsEnabled="False" Content="Новости" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
             <RadioButton IsEnabled="False" Content="Магазин" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Height="21" Margin="0,23,175,0" VerticalAlignment="Top" Width="205" ScrollViewer.VerticalScrollBarVisibility="Disabled" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <local1:OnlineButton x:Name="userButton" Text="POSPELOV" FlowDirection="LeftToRight" Margin="0,0,20,0" />
-            <Button HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
-                <Button.Background>
-                    <ImageBrush ImageSource="{DynamicResource Settings}" Stretch="Uniform"/>
-                </Button.Background>
-            </Button>
+            <local1:OnlineButton x:Name="userButton" FlowDirection="LeftToRight" Margin="0,0,20,0" />
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding Path=IsOpenSettings}" VerticalAlignment="Center" Width="17" Style="{StaticResource CheckBoxStyleSettings}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0" Click="openSettings" />
             <Button IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
                 <Button.Background>
                     <ImageBrush ImageSource="{DynamicResource Notifications}" Stretch="Uniform"/>
@@ -227,11 +302,6 @@
             </Button>
         </StackPanel>
 
-        <ContentControl x:Name="content" Grid.Row="1">
-            <local4:ServerList />
-        </ContentControl>
-
-        <local1:InfoBottomPanel x:Name="bottomInfoPanel" Visibility="Hidden" Margin="177,616,192,-9" Grid.Row="1" HorizontalAlignment="Center" Width="686" />
         <local1:NotifyList Margin="632,10,20,0" Grid.Row="1" VerticalAlignment="Top" />
     </Grid>
 </Window>

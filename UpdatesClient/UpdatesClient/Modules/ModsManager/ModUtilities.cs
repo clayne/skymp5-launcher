@@ -13,124 +13,147 @@ namespace UpdatesClient.Modules.ModsManager
 {
     public static class ModUtilities
     {
-        public static async Task<bool> GetSKSE()
+        public static async Task<bool> InstallSKSE()
         {
             try
             {
-                string url = await Net.GetUrlToSKSE();
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                string path = Mods.GetTmpPath();
-
-                bool ok = await DownloadManager.DownloadFile(destinationPath, url, Res.DownloadingSKSE, () =>
+                if (!Mods.ExistMod("SKSE"))
                 {
-                    try
-                    {
-                        Unpacker.UnpackArchive(destinationPath, path, Path.GetFileNameWithoutExtension(destinationPath));
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("ExtractSKSE", e);
-                        NotifyController.Show(e);
-                    }
-                }, Res.ExtractingSKSE);
+                    string url = await Net.GetUrlToSKSE();
+                    string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
 
-                if (ok)
-                {
-                    await Mods.AddMod("SKSE", "SKSEHash", path, false);
-                    return true;
+                    string path = Mods.GetTmpPath();
+
+                    bool ok = await DownloadManager.DownloadFile(destinationPath, url, Res.DownloadingSKSE, () =>
+                    {
+                        try
+                        {
+                            Unpacker.UnpackArchive(destinationPath, path, Path.GetFileNameWithoutExtension(destinationPath));
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error("ExtractSKSE", e);
+                            NotifyController.Show(e);
+                        }
+                    }, Res.ExtractingSKSE);
+                    if (ok)
+                    {
+                        await Mods.AddMod("SKSE", "SKSEHash", path, false);
+                    }
                 }
+
+                await Mods.EnableMod("SKSE");
+                return true;
             }
             catch (Exception e)
             {
                 Logger.Error("InstallSKSE", e);
+                return false;
             }
-            return false;
         }
-        public static async Task<bool> GetRuFixConsole()
+        public static async Task<bool> InstallRuFixConsole()
         {
             try
             {
-                const string url = Net.URL_Mod_RuFix;
-                string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
-
-                string path = Mods.GetTmpPath();
-
-                bool ok = await DownloadManager.DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole, () =>
+                if (!Mods.ExistMod("RuFixConsole"))
                 {
-                    try
+                    const string url = Net.URL_Mod_RuFix;
+                    string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
+
+                    string path = Mods.GetTmpPath();
+
+                    bool ok = await DownloadManager.DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole, () =>
                     {
-                        Unpacker.UnpackArchive(destinationPath, path + "\\Data");
-                    }
-                    catch (Exception e)
+                        try
+                        {
+                            Unpacker.UnpackArchive(destinationPath, path + "\\Data");
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error("ExtractRuFix", e);
+                            NotifyController.Show(e);
+                        }
+                    }, Res.Extracting);
+
+                    if (ok)
                     {
-                        Logger.Error("ExtractRuFix", e);
-                        NotifyController.Show(e);
+                        await Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
                     }
-                }, Res.Extracting);
-                
-                if (ok)
-                {
-                    await Mods.AddMod("RuFixConsole", "RuFixConsoleHash", path, false);
-                    return true;
                 }
+
+                await Mods.EnableMod("RuFixConsole");
+                return true;
             }
             catch (Exception e)
             {
                 Logger.Error("InstallRuFixConsole", e);
-            }
-            return false;
-        }
-        public static async Task<bool> GetClient()
-        {
-            (string, string) url = (null, null);
-            try
-            {
-                url = await Net.GetUrlToClient();
-            }
-            catch (WebException we)
-            {
-                NotifyController.Show(we);
                 return false;
             }
-
-            string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
-
-            try
+        }
+        public static async Task<bool> InstallClient()
+        {
+            if (!Mods.ExistMod("SkyMPCore"))
             {
-                IO.DeleteFile(destinationPath);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("DelClientZip", e);
-            }
-
-            string path = Mods.GetTmpPath();
-
-            bool ok = await DownloadManager.DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, () =>
-            {
+                (string, string) url = (null, null);
                 try
                 {
-                    if (Unpacker.UnpackArchive(destinationPath, path, "client"))
-                    {
-                        NotifyController.Show(PopupNotify.Normal, Res.InstallationCompleted, Res.HaveAGG);
-                    }
+                    url = await Net.GetUrlToClient();
+                }
+                catch (WebException we)
+                {
+                    NotifyController.Show(we);
+                    return false;
+                }
+
+                string destinationPath = $"{Settings.PathToSkyrimTmp}client.zip";
+
+                try
+                {
+                    IO.DeleteFile(destinationPath);
                 }
                 catch (Exception e)
                 {
-                    Logger.Error("Extract", e);
-                    NotifyController.Show(e);
+                    Logger.Error("DelClientZip", e);
                 }
-            }, Res.ExtractingClient, url.Item2);
 
-            if (ok)
+                string path = Mods.GetTmpPath();
+
+                bool ok = await DownloadManager.DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, () =>
+                {
+                    try
+                    {
+                        Unpacker.UnpackArchive(destinationPath, path, "client");
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Extract", e);
+                        NotifyController.Show(e);
+                    }
+                }, Res.ExtractingClient, url.Item2);
+
+                if (ok)
+                {
+                    await Mods.AddMod("SkyMPCore", url.Item2, path, false);
+                    return true;
+                }
+            }
+            await Mods.EnableMod("SkyMPCore");
+            return true;
+        }
+
+        public static async Task<bool> ActivateCoreMod()
+        {
+            try
             {
-                await Mods.AddMod("SkyMPCore", url.Item2, path, false);
-                await Mods.EnableMod("SkyMPCore");
-
+                if (Mods.ExistMod("SKSE")) await Mods.EnableMod("SKSE");
+                if (Mods.ExistMod("RuFixConsole")) await Mods.EnableMod("RuFixConsole");
+                if (Mods.ExistMod("SkyMPCore")) await Mods.EnableMod("SkyMPCore");
                 return true;
             }
-            return false;
+            catch
+            {
+                return false;
+            }
         }
     }
 }

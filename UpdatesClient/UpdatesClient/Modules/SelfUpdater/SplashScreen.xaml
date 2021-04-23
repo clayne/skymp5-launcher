@@ -13,7 +13,7 @@
         AllowsTransparency="True"
         WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Background>
-        <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.png" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="/UpdatesClient;component/Assets/Images/Backgrounds/Background1.png" Stretch="UniformToFill" />
     </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
