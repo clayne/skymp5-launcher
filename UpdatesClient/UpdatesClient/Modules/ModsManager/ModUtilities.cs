@@ -89,10 +89,15 @@ namespace UpdatesClient.Modules.ModsManager
                 return false;
             }
         }
-        public static async Task<bool> InstallClient()
+        public static async Task<bool> InstallClient(bool update = false)
         {
-            if (!Mods.ExistMod("SkyMPCore"))
+            if (!Mods.ExistMod("SkyMPCore") || update)
             {
+                if (update && Mods.ExistMod("SkyMPCore"))
+                {
+                    await Mods.DisableMod("SkyMPCore");
+                }
+
                 (string, string) url = (null, null);
                 try
                 {

@@ -133,7 +133,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
                         break;
                     case MainButtonStatus.Update:
                         model.MainButtonProgressBar = true;
-                        if (await ModUtilities.InstallClient()) goto case MainButtonStatus.Retry;
+                        if (await ModUtilities.InstallClient(true)) goto case MainButtonStatus.Retry;
                         else model.MainButtonStatus = MainButtonStatus.Retry;
                         break;
                     case MainButtonStatus.Retry:
