@@ -28,5 +28,10 @@ namespace UpdatesClient.Modules.SelfUpdater
             if (WinFunctions.GetModuleHandle("SbieDll.dll") != IntPtr.Zero) return false;
             return true;
         }
+
+        private static bool CheckVersion()
+        {
+
+        }
     }
 }

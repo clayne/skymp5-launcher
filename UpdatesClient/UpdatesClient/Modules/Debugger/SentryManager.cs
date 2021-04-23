@@ -38,12 +38,16 @@ namespace UpdatesClient.Modules.Debugger
             }
             catch { }
             
-            SentrySdk.Init(options =>
+            try
             {
-                options.Dsn = new Dsn(dsn);
-                options.Release = version.ToString();
-                options.BeforeSend = SentryEvent;
-            });
+                SentrySdk.Init(options =>
+                {
+                    options.Dsn = new Dsn(dsn);
+                    options.Release = version.ToString();
+                    options.BeforeSend = SentryEvent;
+                });
+            }
+            catch { }
         }
         
         private static SentryEvent SentryEvent(SentryEvent e)

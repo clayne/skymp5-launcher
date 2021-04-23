@@ -72,7 +72,7 @@ namespace UpdatesClient
             }
         }
 
-        //! Переработать
+        //TODO: Переработать
         private bool HandleCmdArgs()
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -176,7 +176,7 @@ namespace UpdatesClient
             try
             {
 #if (DEBUG || DeR)
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 SplashWindow.Ready();
                 if (SplashWindow.Wait()) StartLuancher();
 #else

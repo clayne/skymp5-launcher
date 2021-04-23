@@ -13,7 +13,7 @@ namespace UpdatesClient.Core.Enums
         nul,
         [Description("ru-RU")]
         ru_RU,
-        [Description("en_US")]
+        [Description("en-US")]
         en_US,
     }
 }

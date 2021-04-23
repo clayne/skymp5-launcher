@@ -268,7 +268,7 @@ namespace UpdatesClient.Modules.ModsManager
         {
             await GameLauncher.StopGame();
 
-            List<string> WhiteList = new List<string>
+            List<string> WhiteList = new List<string>(3)
             {
                 "SKSE",
                 "SkyMPCore",

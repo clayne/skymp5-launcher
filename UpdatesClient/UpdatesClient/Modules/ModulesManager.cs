@@ -10,7 +10,7 @@ namespace UpdatesClient.Modules
 {
     public static class ModulesManager
     {
-        private static Dictionary<string, object> objects = new Dictionary<string, object>();
+        private static readonly Dictionary<string, object> objects = new Dictionary<string, object>();
 
         public static void PreInitModules()
         {
@@ -26,7 +26,15 @@ namespace UpdatesClient.Modules
 
         public static void PostInitModules()
         {
-            DownloadManager.PostInit((ProgressBar)objects[typeof(ProgressBar).Name]);
+            DownloadManager.PostInit(GetObject<ProgressBar>());
+        }
+
+        public static T GetObject<T>()
+        {
+            string key = typeof(T).Name;
+            if (objects.TryGetValue(key, out object o))
+                return (T)o;
+            else return default;
         }
 
         public static void RegObject(object o)

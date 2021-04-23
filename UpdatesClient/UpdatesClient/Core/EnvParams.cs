@@ -11,7 +11,5 @@ namespace UpdatesClient.Core
 
         public static readonly string VersionFile = FileVersionInfo.GetVersionInfo(PathToFile)?.FileVersion ?? "0.0.0.0";
         public static readonly string VersionAssembly = Assembly.GetExecutingAssembly().GetName().Version.ToString() ?? "0.0.0.0";
-
-
     }
 }

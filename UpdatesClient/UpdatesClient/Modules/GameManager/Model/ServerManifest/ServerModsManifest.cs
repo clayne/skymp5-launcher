@@ -20,14 +20,14 @@ namespace UpdatesClient.Modules.GameManager.Models.ServerManifest
         {
             List<string> WhiteList = ModsManager.Mods.WhiteListMods;
 
-            List<string> mods = new List<string>();
+            List<string> mods = new List<string>(16);
             foreach (string mod in LoadOrder)
             {
                 string modName = Path.GetFileNameWithoutExtension(mod);
                 if (!mods.Contains(modName) && !WhiteList.Contains(modName)) mods.Add(modName);
             }
 
-            Dictionary<string, List<(string, uint)>> files = new Dictionary<string, List<(string, uint)>>();
+            Dictionary<string, List<(string, uint)>> files = new Dictionary<string, List<(string, uint)>>(32);
             foreach (string mod in mods)
             {
                 files.Add(mod,

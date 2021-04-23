@@ -50,7 +50,7 @@ namespace UpdatesClient.Modules.GameManager.Helpers
 
                 foreach (var item in collection)
                 {
-                    UInt32 childProcessId = (UInt32)item["ProcessId"];
+                    uint childProcessId = (uint)item["ProcessId"];
                     if ((int)childProcessId != Process.GetCurrentProcess().Id)
                     {
                         proc.Add(Process.GetProcessById((int)childProcessId));

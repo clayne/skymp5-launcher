@@ -2,6 +2,7 @@
 using Security.Extensions;
 using System;
 using System.IO;
+using UpdatesClient.Core;
 using UpdatesClient.Core.Enums;
 using UpdatesClient.Modules.Configs.Models;
 using UpdatesClient.Modules.Debugger;
@@ -65,7 +66,7 @@ namespace UpdatesClient.Modules.Configs
         {
             try
             {
-                if (!Directory.Exists(DefaultPaths.PathToLocal)) Directory.CreateDirectory(DefaultPaths.PathToLocal);
+                IO.CreateDirectory(DefaultPaths.PathToLocal);
                 File.WriteAllText(DefaultPaths.PathToSettingsFile, JsonConvert.SerializeObject(model));
             }
             catch (Exception e)

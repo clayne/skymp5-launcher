@@ -24,7 +24,7 @@ namespace UpdatesClient.Modules.ModsManager
 
                     string path = Mods.GetTmpPath();
 
-                    bool ok = await DownloadManager.DownloadFile(destinationPath, url, Res.DownloadingSKSE, () =>
+                    bool ok = await DownloadManager.DownloadFile(destinationPath, url, () =>
                     {
                         try
                         {
@@ -62,7 +62,7 @@ namespace UpdatesClient.Modules.ModsManager
 
                     string path = Mods.GetTmpPath();
 
-                    bool ok = await DownloadManager.DownloadFile(destinationPath, url, Res.DownloadingSSERuFixConsole, () =>
+                    bool ok = await DownloadManager.DownloadFile(destinationPath, url, () =>
                     {
                         try
                         {
@@ -118,7 +118,7 @@ namespace UpdatesClient.Modules.ModsManager
 
                 string path = Mods.GetTmpPath();
 
-                bool ok = await DownloadManager.DownloadFile(destinationPath, url.Item1, Res.DownloadingClient, () =>
+                bool ok = await DownloadManager.DownloadFile(destinationPath, url.Item1, () =>
                 {
                     try
                     {
@@ -129,7 +129,7 @@ namespace UpdatesClient.Modules.ModsManager
                         Logger.Error("Extract", e);
                         NotifyController.Show(e);
                     }
-                }, Res.ExtractingClient, url.Item2);
+                }, Res.ExtractingClient);
 
                 if (ok)
                 {

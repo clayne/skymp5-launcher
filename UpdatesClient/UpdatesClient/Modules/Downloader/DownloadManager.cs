@@ -5,7 +5,6 @@ using System.Windows.Threading;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.Downloader.Models;
 using UpdatesClient.Modules.Downloader.UI;
-using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.Downloader
 {
@@ -26,15 +25,12 @@ namespace UpdatesClient.Modules.Downloader
             Worker();
         }
 
-        public static async Task<bool> DownloadFile(string destinationPath, string url, string description, Action action, string postActionDescription, string vers = null)
+        public static async Task<bool> DownloadFile(string destinationPath, string url, Action action, string postActionDescription)
         {
-            DownloadModel model = new DownloadModel(url, destinationPath, description, vers, action, postActionDescription);
+            DownloadModel model = new DownloadModel(url, destinationPath, action, postActionDescription);
 
-            lock (sync)
-            {
-                Downloads.Enqueue(model);
-            }
-
+            lock (sync) Downloads.Enqueue(model);
+            
             while (!model.Performed) await Task.Delay(500);
             return model.Success;
         }

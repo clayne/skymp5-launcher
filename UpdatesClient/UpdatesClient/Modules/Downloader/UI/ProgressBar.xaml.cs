@@ -13,7 +13,6 @@ namespace UpdatesClient.Modules.Downloader.UI
     public partial class ProgressBar : UserControl
     {
         private readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
-        private readonly string[] TimeSuffixes = { Res.Seconds, Res.Minutes, Res.Hours };
 
         private ProgressBarModel model;
 
@@ -77,7 +76,7 @@ namespace UpdatesClient.Modules.Downloader.UI
 
                 model.FProgress = (float)Value;
                 model.Speed = $"({SizeSuffix(Speed, 0)}/s)";
-                model.Time = $"{TimeSuffix(NeedTime, 0)}";
+                model.Time = $"{TimeSuffix(NeedTime)}";
             }
         }
         public void Stop()
@@ -120,43 +119,27 @@ namespace UpdatesClient.Modules.Downloader.UI
                 adjustedSize,
                 SizeSuffixes[mag]);
         }
-        private string TimeSuffix(long value, int decimalPlaces = 1)
+        private string TimeSuffix(long value)
         {
-            if (decimalPlaces < 0) { throw new ArgumentOutOfRangeException("decimalPlaces"); }
-            if (value < 0) { return "-" + SizeSuffix(-value); }
-            if (value == 0) { return string.Format("{0:n" + decimalPlaces + "} " + Res.Seconds, 0); }
+            if (value < 0) { return "-" + TimeSuffix(-value); }
+            if (value == 0) return "00:00:00";
 
-            // mag is 0 for sec, 1 for min, 2, for hours.
-            int mag = (int)Math.Log(value, 60);
+            long m = value / 60;
+            long h = m / 60;
 
-            // [i.e. the number of bytes in the unit corresponding to mag]
-            decimal adjustedSize = (decimal)value / (decimal)Math.Pow(60, mag);
+            long s = value % 60;
+            m %= 60;
 
-            if (mag >= TimeSuffixes.Length)
-            {
-                adjustedSize = (decimal)value / (decimal)Math.Pow(60, 2);
-                return string.Format("{0:n" + decimalPlaces + "} {1}", adjustedSize, TimeSuffixes[2]);
-            }
-            // make adjustment when the value is large enough that
-            // it would round up to 60 or more
-            if (Math.Round(adjustedSize, decimalPlaces) >= 60)
-            {
-                mag += 1;
-                adjustedSize /= 60;
-            }
-
-            return string.Format("{0:n" + decimalPlaces + "} {1}",
-                adjustedSize,
-                TimeSuffixes[mag]);
+            return $"{h:00}:{m:00}:{s:00}";
         }
     }
 
     public class MovingAverage
     {
-        private readonly Queue<Decimal> samples = new Queue<Decimal>();
-        private int windowSize = 32;
-        private Decimal sampleAccumulator;
-        public Decimal Average { get; private set; }
+        private readonly Queue<decimal> samples = new Queue<decimal>();
+        private readonly int windowSize = 32;
+        private decimal sampleAccumulator;
+        public decimal Average { get; private set; }
 
         public MovingAverage(int size = 32)
         {
@@ -167,7 +150,7 @@ namespace UpdatesClient.Modules.Downloader.UI
         /// Computes a new windowed average each time a new sample arrives
         /// </summary>
         /// <param name="newSample"></param>
-        public void ComputeAverage(Decimal newSample)
+        public void ComputeAverage(decimal newSample)
         {
             sampleAccumulator += newSample;
             samples.Enqueue(newSample);
