@@ -73,7 +73,7 @@ namespace UpdatesClient.Modules.GameManager
                     Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
                 }
             }
-        } 
+        }
 
         public static async Task<bool> StartGame()
         {
@@ -105,7 +105,7 @@ namespace UpdatesClient.Modules.GameManager
             if (!GameProcess.HasExited) await Task.Run(() => GameProcess.WaitForExit());
 
             Logger.ReportMetricaEvent("ExitedGame");
-            
+
             await Task.Delay(1000);
             await KillProcess();
 

@@ -7,7 +7,7 @@ namespace UpdatesClient.UI.Controllers
     /// <summary>
     /// Логика взаимодействия для OnlineButton.xaml
     /// </summary>
-    public partial class OnlineButton : UserControl/*, IContentHost, IServiceProvider*/
+    public partial class OnlineButton : UserControl
     {
         public event EventHandler Click;
 

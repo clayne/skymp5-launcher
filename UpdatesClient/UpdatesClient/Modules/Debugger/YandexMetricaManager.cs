@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Configs.Helpers;

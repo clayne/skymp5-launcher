@@ -14,7 +14,7 @@ namespace UpdatesClient.Core
             double w = width / image.Width;
             double h = height / image.Height;
 
-            CroppedBitmap im = new CroppedBitmap(image, 
+            CroppedBitmap im = new CroppedBitmap(image,
                 new Int32Rect((int)(relativePoint.X * w), (int)(relativePoint.Y * h), (int)(element.Width * w), (int)(element.Height * h)));
             return new ImageBrush(im);
         }

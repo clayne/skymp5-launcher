@@ -1,33 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Enums;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
-using UpdatesClient.Modules.Downloader;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Model;
 using UpdatesClient.Modules.ModsManager;
-using UpdatesClient.UI.Controllers.ServerBlock;
 using UpdatesClient.UI.Pages.MainWindow.Models;
 using UpdatesClient.UI.Windows;
-using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Pages.MainWindow
 {

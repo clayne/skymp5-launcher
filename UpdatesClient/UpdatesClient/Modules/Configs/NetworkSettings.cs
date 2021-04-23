@@ -30,8 +30,8 @@ namespace UpdatesClient.Modules.Configs
                     Loaded = true;
                 }
             }
-            catch (Exception e) 
-            { 
+            catch (Exception e)
+            {
                 Logger.Error("NetSettigsInit", e);
             }
         }

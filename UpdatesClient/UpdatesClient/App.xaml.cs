@@ -44,7 +44,8 @@ namespace UpdatesClient
             try
             {
                 AppCurrent = Current;
-            } catch { }
+            }
+            catch { }
             LocalesManager.CheckResxLocales();
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;

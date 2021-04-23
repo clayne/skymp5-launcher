@@ -6,7 +6,6 @@ using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.Downloader;
-using UpdatesClient.UI.Controllers;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.ModsManager

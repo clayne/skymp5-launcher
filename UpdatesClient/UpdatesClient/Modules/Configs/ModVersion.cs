@@ -31,7 +31,7 @@ namespace UpdatesClient.Modules.Configs
                     lock (sync)
                         model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
                 }
-                else  
+                else
                 {
                     model = new ModVersionModel();
                 }

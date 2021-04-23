@@ -41,13 +41,14 @@ namespace UpdatesClient.Modules.SelfUpdater
                 try
                 {
                     Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo(GetLocaleDescription(Settings.Locale));
-                } catch (Exception e) { Logger.Error("SetLanguage", e); }
+                }
+                catch (Exception e) { Logger.Error("SetLanguage", e); }
             }
             catch (Exception e)
             {
                 Logger.Error("SelectLanguage", e);
             }
-            
+
             InitializeComponent();
             Loaded += new RoutedEventHandler(Splash_Loaded);
         }

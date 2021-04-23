@@ -69,8 +69,8 @@ namespace UpdatesClient.Core
             req.UserAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0";
             req.ContentType = "application/json";
             if (auth) req.Headers.Add(HttpRequestHeader.Authorization, Settings.UserToken);
-            
-            if((data == null && method == "POST") || (data != null))
+
+            if ((data == null && method == "POST") || (data != null))
                 using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data ?? ""}");
 
             using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())

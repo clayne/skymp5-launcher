@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using UpdatesClient.Modules.Configs;
 
 namespace UpdatesClient.Core.Models
@@ -35,11 +34,11 @@ namespace UpdatesClient.Core.Models
         public int ID => Address.GetHashCode();
 
         public bool IsEmpty() => ID == NullID;
-        
+
         public override string ToString() => Name + " (" + Online + " / " + MaxPlayers + ")";
-        
+
         public bool IsSameServer(SkympClientSettingsModel s) => $"{s.IP}:{s.Port}".GetHashCode() == ID;
-        
+
         public SkympClientSettingsModel ToSkympClientSettings(SkympClientSettingsModel oldSettings)
         {
             return new SkympClientSettingsModel

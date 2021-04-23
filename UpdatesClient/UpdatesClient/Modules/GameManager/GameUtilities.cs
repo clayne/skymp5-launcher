@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -91,7 +90,7 @@ namespace UpdatesClient.Modules.GameManager
             string serverManifest = await Net.Request($"http://{adress}/manifest.json", "GET", false, null);
             return JsonConvert.DeserializeObject<ServerModsManifest>(serverManifest);
         }
-        
+
         private static async Task<bool> SetMods(string adress)
         {
             string path = DefaultPaths.PathToLocalSkyrim + "Plugins.txt";

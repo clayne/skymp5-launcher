@@ -117,7 +117,7 @@ namespace UpdatesClient.Modules.ModsManager
 
             if (files.Count != mod.Files.Count) return false;
 
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 if (file.Item2 != mod.Files[$"Data\\{file.Item1}"]) valid = false;
             }
@@ -145,8 +145,8 @@ namespace UpdatesClient.Modules.ModsManager
                     mods.Mods.Remove(modName);
                     mods.Save(List);
                 }
-                else if (onlySkyrimMods) 
-                { 
+                else if (onlySkyrimMods)
+                {
                     ModModel mod = new ModModel();
                     mod = mod.Load<ModModel>(Settings.PathToSkyrimMods + modName + "\\mod.json");
                     m = mod.IsSkyrimMod;
@@ -338,7 +338,7 @@ namespace UpdatesClient.Modules.ModsManager
             {
                 mods.Mods.Add(mod.Name);
             }
-            
+
             mod.Save(Settings.PathToSkyrimMods + mod.Name + "\\mod.json");
             mods.Save(List);
         }

@@ -58,7 +58,7 @@ namespace UpdatesClient.Core
         {
             foreach (DirectoryInfo dir in new DirectoryInfo(directory).GetDirectories())
                 RecursiveHandleFile(dir.FullName, action);
-            
+
             foreach (string file in Directory.GetFiles(directory))
                 action.Invoke(file);
         }

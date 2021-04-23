@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace UpdatesClient.UI.Pages.Models.AuthModels
@@ -26,10 +21,10 @@ namespace UpdatesClient.UI.Pages.Models.AuthModels
             Recov
         }
 
-        public View CurrentView 
-        { 
-            get { return currentView; } 
-            set { currentView = value; OnPropertyChanged("AuthPanel"); OnPropertyChanged("RegPanel"); OnPropertyChanged("RecPanel"); } 
+        public View CurrentView
+        {
+            get { return currentView; }
+            set { currentView = value; OnPropertyChanged("AuthPanel"); OnPropertyChanged("RegPanel"); OnPropertyChanged("RecPanel"); }
         }
 
         public AuthModel AuthModel
@@ -59,7 +54,7 @@ namespace UpdatesClient.UI.Pages.Models.AuthModels
         //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         //}
 
-        private void OnPropertyChanged([CallerMemberName]string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

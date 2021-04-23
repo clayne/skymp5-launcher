@@ -10,7 +10,7 @@ namespace UpdatesClient.Modules.Debugger
             SentryManager.Init(version);
             YandexMetricaManager.Init(version);
         }
-        
+
         public static void Error(string message, Exception exception, IEnumerable<KeyValuePair<string, string>> extraTags = null)
         {
             SentryManager.Error(message, exception, extraTags);
@@ -20,7 +20,7 @@ namespace UpdatesClient.Modules.Debugger
         {
             SentryManager.FatalError(message, exception);
         }
-        
+
         public static void Event(string message)
         {
             SentryManager.Event(message);

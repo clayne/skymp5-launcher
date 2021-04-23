@@ -53,10 +53,10 @@ namespace UpdatesClient.Core.Network
             string raw = await Request($"{URL_Api}users/{Settings.UserId}/play/{address}", "POST", true, null);
             if (raw != null) return JsonConvert.DeserializeObject(raw);
             else return null;
-            
+
         }
 
-        private static async Task<string> Request(string url, string method, bool auth, string data) 
+        private static async Task<string> Request(string url, string method, bool auth, string data)
         {
             try
             {

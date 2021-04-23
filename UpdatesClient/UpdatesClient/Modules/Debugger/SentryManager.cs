@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.SelfUpdater;
@@ -37,7 +36,7 @@ namespace UpdatesClient.Modules.Debugger
                 md5Launcher = Hashing.GetMD5FromFile(File.OpenRead(EnvParams.PathToFile));
             }
             catch { }
-            
+
             try
             {
                 SentrySdk.Init(options =>
@@ -49,7 +48,7 @@ namespace UpdatesClient.Modules.Debugger
             }
             catch { }
         }
-        
+
         private static SentryEvent SentryEvent(SentryEvent e)
         {
             try
@@ -72,7 +71,7 @@ namespace UpdatesClient.Modules.Debugger
 
             return e;
         }
-        
+
         public static void Error(string message, Exception exception, IEnumerable<KeyValuePair<string, string>> extraTags)
         {
             SentryEvent sentryEvent = new SentryEvent(exception)
@@ -85,7 +84,7 @@ namespace UpdatesClient.Modules.Debugger
 
             SentrySdk.CaptureEvent(sentryEvent);
         }
-        
+
         public static void FatalError(string message, Exception exception)
         {
             SentryEvent sentryEvent = new SentryEvent(exception)
@@ -97,7 +96,7 @@ namespace UpdatesClient.Modules.Debugger
 
             SentrySdk.CaptureEvent(sentryEvent);
         }
-        
+
         public static void Event(string message)
         {
             SentrySdk.CaptureMessage(message);

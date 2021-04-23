@@ -44,9 +44,9 @@ namespace UpdatesClient.Modules.SelfUpdater
             {
 
             }
-            catch (Exception e) 
-            { 
-                Logger.Error("SelfUpdate_Downloader", e); 
+            catch (Exception e)
+            {
+                Logger.Error("SelfUpdate_Downloader", e);
             }
             return false;
         }

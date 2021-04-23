@@ -1,21 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using UpdatesClient.Core;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
-using UpdatesClient.UI.Controllers;
 using UpdatesClient.UI.Pages.Models.AuthModels;
-using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Pages
 {
@@ -137,7 +130,7 @@ namespace UpdatesClient.UI.Pages
                 //        string raw = reader.ReadToEnd();
                 //        try
                 //        {
-                            
+
                 //            JArray jObject = JArray.Parse(raw);
                 //            foreach (JToken par in jObject.Children())
                 //            {

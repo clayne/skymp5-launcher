@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Controls;
 using UpdatesClient.Modules.Downloader.Models;
-using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.Downloader.UI
 {
@@ -62,7 +61,7 @@ namespace UpdatesClient.Modules.Downloader.UI
                 Value = downloaded / (Size / 100.0);
                 if (timeChange < 50) return;
                 stopwatch.Restart();
-                
+
                 if (timeChange != 0)
                 {
                     movingAverage.ComputeAverage((downloaded - Downloaded) / timeChange);

@@ -4,7 +4,6 @@ using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.UI.Pages.MainWindow;
 using UpdatesClient.UI.Pages.MainWindow.Models;
-using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient
 {

@@ -56,7 +56,7 @@ namespace UpdatesClient.Modules.Downloader
         {
             try
             {
-                if (File.Exists(sDestinationPath) && File.GetAttributes(sDestinationPath) != FileAttributes.Normal) 
+                if (File.Exists(sDestinationPath) && File.GetAttributes(sDestinationPath) != FileAttributes.Normal)
                     File.SetAttributes(sDestinationPath, FileAttributes.Normal);
 
                 Downloading = true;

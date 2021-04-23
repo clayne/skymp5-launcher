@@ -30,7 +30,7 @@ namespace UpdatesClient.Modules.Downloader
             DownloadModel model = new DownloadModel(url, destinationPath, action, postActionDescription);
 
             lock (sync) Downloads.Enqueue(model);
-            
+
             while (!model.Performed) await Task.Delay(500);
             return model.Success;
         }
@@ -45,7 +45,7 @@ namespace UpdatesClient.Modules.Downloader
                     lock (sync) model = Downloads.Dequeue();
 
                     bool success = false;
-                    
+
                     try
                     {
                         success = await Download(model);
@@ -54,7 +54,7 @@ namespace UpdatesClient.Modules.Downloader
                     {
                         Logger.Error("DownloadManager", e);
                     }
-                    
+
                     model.Success = success;
                     model.Performed = true;
                 }

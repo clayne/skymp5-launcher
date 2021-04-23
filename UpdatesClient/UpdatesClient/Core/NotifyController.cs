@@ -21,7 +21,7 @@ namespace UpdatesClient.Core
             Duration = TimeSpan.FromMilliseconds(500),
         };
 
-        public async static void Init()
+        public static async void Init()
         {
             while (true)
             {
@@ -33,7 +33,7 @@ namespace UpdatesClient.Core
                         NotifyModel popupModel = popupNotifies.Dequeue();
                         popup = new PopupNotify(popupModel);
                     }
-                        
+
                     NotifyList.NotifyPanel?.panelList.Children.Add(popup);
                     popup.Margin = new Thickness(0, 0, 0, 10);
                     popup.ClickClose += Popup_ClickClose;
@@ -53,7 +53,7 @@ namespace UpdatesClient.Core
 
         public static void Show(PopupNotify.Type type, string status, string text, int delayMs = 6000)
         {
-            lock(sync)
+            lock (sync)
                 popupNotifies.Enqueue(new NotifyModel(type, status, text, delayMs));
         }
         public static void Show(Exception exception, int delayMs = 8000)
@@ -67,7 +67,7 @@ namespace UpdatesClient.Core
             Close((PopupNotify)sender);
         }
 
-        private async static void Close(PopupNotify popup)
+        private static async void Close(PopupNotify popup)
         {
             popup.ClickClose -= Popup_ClickClose;
             popup.BeginAnimation(UserControl.OpacityProperty, Hide);
