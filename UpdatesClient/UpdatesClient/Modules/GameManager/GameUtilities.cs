@@ -177,7 +177,7 @@ namespace UpdatesClient.Modules.GameManager
         private static async Task DownloadMod(string destinationPath, string adress, string file)
         {
             string url = $"http://{adress}/{file}";
-            await DownloadManager.DownloadFile(destinationPath, url, $"Загрузка {file}", null, null);
+            await DownloadManager.DownloadFile(destinationPath, url, null, null);
         }
         private static void SetServer(ServerModel server)
         {

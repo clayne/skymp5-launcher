@@ -177,8 +177,11 @@ namespace UpdatesClient
             {
 #if (DEBUG || DeR)
                 Thread.Sleep(500);
-                SplashWindow.Ready();
-                if (SplashWindow.Wait()) StartLuancher();
+                if (CanRun())
+                {
+                    SplashWindow.Ready();
+                    if (SplashWindow.Wait()) StartLuancher();
+                }
 #else
                 SplashWindow.SetStatus($"{Res.CheckSelfUpdate}");
 
@@ -202,7 +205,7 @@ namespace UpdatesClient
                         Thread.Sleep(1500);
                     }
                 }
-                else
+                else if (CanRun())
                 {
                     SplashWindow.SetStatus($"{Res.Done}");
                     SplashWindow.SetProgressMode(false);
@@ -277,7 +280,10 @@ namespace UpdatesClient
             return true;
         }
 
-
+        private bool CanRun()
+        {
+            return !Modules.SelfUpdater.Security.Status.Block;
+        }
         //====================================================
         protected override void OnExit(ExitEventArgs e)
         {

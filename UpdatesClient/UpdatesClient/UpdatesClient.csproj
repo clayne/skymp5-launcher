@@ -177,6 +177,7 @@
     <Compile Include="Modules\ModsManager\ModUtilities.cs" />
     <Compile Include="Modules\ModsManager\WinFunctions.cs" />
     <Compile Include="Modules\ModulesManager.cs" />
+    <Compile Include="Modules\SelfUpdater\Models\VersionStatus.cs" />
     <Compile Include="Modules\SelfUpdater\Net.cs" />
     <Compile Include="Properties\Resources.ru-RU.Designer.cs">
       <AutoGen>True</AutoGen>
