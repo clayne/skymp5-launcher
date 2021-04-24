@@ -17,12 +17,19 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         private TabEn tab = TabEn.Descrpt;
         private object content;
         private bool mainButtonProgressBar;
+        private bool mainButtonEnabled;
         private MainButtonStatus mainButtonStatus;
 
         public MainButtonStatus MainButtonStatus
         {
             get { return mainButtonStatus; }
             set { mainButtonStatus = value; OnPropertyChanged(); OnPropertyChanged("MainButtonText"); }
+        }
+
+        public bool MainButtonEnabled
+        {
+            get { return mainButtonEnabled; }
+            set { mainButtonEnabled = value; OnPropertyChanged(); }
         }
 
         public bool MainButtonProgressBar

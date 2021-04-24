@@ -90,7 +90,7 @@
                 <RadioButton IsEnabled="False" Content="Моды" IsChecked="{Binding Path=IsModsTab}" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="8,3"/>
                 <RadioButton IsEnabled="False" Content="Параметры" IsChecked="{Binding Path=IsSettingsTab}" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="8,3"/>
             </Grid>
-            <local1:MainButton x:Name="mainButton" Margin="0,0,1,39" VerticalAlignment="Bottom" Height="63" HorizontalAlignment="Right" Width="315" Grid.Row="3" Click="mainButton_Click"/>
+            <local1:MainButton x:Name="mainButton" IsEnabled="{Binding MainButtonEnabled}" Margin="0,0,1,39" VerticalAlignment="Bottom" Height="63" HorizontalAlignment="Right" Width="315" Grid.Row="3" Click="mainButton_Click"/>
         </Grid>
         <Grid Grid.Column="1">
             <local1:ServerListDataGrid Click="ServerListDataGrid_Click" />

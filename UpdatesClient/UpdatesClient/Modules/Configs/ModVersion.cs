@@ -19,6 +19,9 @@ namespace UpdatesClient.Modules.Configs
             set { model.LastDmpReported = value; }
         }
 
+        public static bool SKSEDisabled { get => model.SKSEDisabled; set => model.SKSEDisabled = value; }
+        public static bool ModsDisabled { get => model.ModsDisabled; set => model.ModsDisabled = value; }
+
         internal static void Load()
         {
             try

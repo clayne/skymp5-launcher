@@ -12,6 +12,36 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         private int selectedLocale;
         private bool expFunctions;
 
+        private bool canDisabledSKSE;
+        private bool canDisabledMods;
+
+        private bool disabledSKSE;
+        private bool disabledMods;
+
+        public bool CanDisabledSKSE
+        {
+            get { return canDisabledSKSE; }
+            set { canDisabledSKSE = value; OnPropertyChanged(); }
+        }
+
+        public bool DisabledMods
+        {
+            get { return disabledMods; }
+            set { disabledMods = value; OnPropertyChanged(); }
+        }
+
+        public bool CanDisabledMods
+        {
+            get { return !disabledSKSE && canDisabledMods; }
+            set { canDisabledMods = value; OnPropertyChanged(); }
+        }
+
+        public bool DisabledSKSE
+        {
+            get { return disabledSKSE; }
+            set { disabledSKSE = value; OnPropertyChanged(); OnPropertyChanged("CanDisabledMods"); }
+        }
+
         public bool ExpFunctions
         {
             get { return expFunctions; }

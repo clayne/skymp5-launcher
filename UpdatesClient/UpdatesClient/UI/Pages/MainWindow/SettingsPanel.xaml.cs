@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using UpdatesClient.Core.Enums;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
+using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.UI.Pages.MainWindow.Models;
 
 namespace UpdatesClient.UI.Pages.MainWindow
@@ -27,17 +28,70 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 Locales = new string[] { "Русский", "Английский" },
                 SelectedLocale = GetIdByLocale(Settings.Locale),
                 SkyrimPath = Settings.PathToSkyrim,
-                ExpFunctions = Settings.ExperimentalFunctions ?? false
+                ExpFunctions = Settings.ExperimentalFunctions ?? false,
+                DisabledSKSE = ModVersion.SKSEDisabled,
+                DisabledMods = ModVersion.ModsDisabled,
+                CanDisabledMods = Mods.ExistMod("SkyMPCore"),
+                CanDisabledSKSE = Mods.ExistMod("SKSE")
             };
             grid.DataContext = Model;
         }
 
-        public void Save()
+        public async void Save()
         {
-            Settings.PathToSkyrim = Model.SkyrimPath;
-            Settings.Locale = GetLocaleById(Model.SelectedLocale);
-            Settings.ExperimentalFunctions = Model.ExpFunctions;
-            Settings.Save();
+            bool modified = false;
+            bool modifiedMv = false;
+            if (Settings.PathToSkyrim != Model.SkyrimPath)
+            {
+                Settings.PathToSkyrim = Model.SkyrimPath;
+                modified = true;
+            }
+
+            if (Settings.Locale != GetLocaleById(Model.SelectedLocale))
+            {
+                Settings.Locale = GetLocaleById(Model.SelectedLocale);
+                modified = true;
+            }
+
+            if (Settings.ExperimentalFunctions != Model.ExpFunctions)
+            {
+                Settings.ExperimentalFunctions = Model.ExpFunctions;
+                modified = true;
+            }
+            
+            if (ModVersion.ModsDisabled != Model.DisabledMods)
+            {
+                ModVersion.ModsDisabled = Model.DisabledMods;
+                if (ModVersion.ModsDisabled)
+                {
+                    await Mods.DisableAll();
+                    await Mods.DisableMod("RuFixConsole");
+                    await Mods.DisableMod("SkyMPCore");
+                }
+                else
+                {
+                    if (Mods.ExistMod("RuFixConsole")) await Mods.EnableMod("RuFixConsole");
+                    if (Mods.ExistMod("SkyMPCore")) await Mods.EnableMod("SkyMPCore");
+                }
+                modifiedMv = true;
+            }
+
+            if (Model.CanDisabledSKSE && ModVersion.SKSEDisabled != Model.DisabledSKSE)
+            {
+                ModVersion.SKSEDisabled = Model.DisabledSKSE;
+                if (ModVersion.SKSEDisabled)
+                {
+                    await Mods.DisableAll(true);
+                }
+                else
+                {
+                    await ModUtilities.ActivateCoreMod();
+                }
+                modifiedMv = true;
+            }
+
+            if (modified) Settings.Save();
+            if (modifiedMv) ModVersion.Save();
         }
 
         private int GetIdByLocale(Locales locale)

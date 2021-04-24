@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Helpers;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager.Models;
@@ -261,6 +263,28 @@ namespace UpdatesClient.Modules.ModsManager
                 }
             }
 
+            try
+            {
+                if (mod.IsSkyrimMod && mod.HasMainFile)
+                {
+                    string path = DefaultPaths.PathToLocalSkyrim + "Plugins.txt";
+                    if (Directory.Exists(DefaultPaths.PathToLocalSkyrim) && File.Exists(path))
+                    {
+                        IO.FileSetNormalAttribute(path);
+                        string content = File.ReadAllText(path);
+                        string[] cmods = content.Split('\n');
+                        List<string> nmods = new List<string>(cmods.Length - 1);
+                        for (int i = 0; i < cmods.Length; i++)
+                        {
+                            if (cmods[i] != $"*{mod.MainFile}") nmods.Add(cmods[i]);
+                        }
+                        content = string.Join("\n", nmods);
+                        File.WriteAllText(path, content);
+                    }
+                }
+            }
+            catch (Exception e) { Logger.Error("DisableSkyrimMod", e); }
+            
             mods.EnabledMods.Remove(modName);
             mods.Save(List);
         }

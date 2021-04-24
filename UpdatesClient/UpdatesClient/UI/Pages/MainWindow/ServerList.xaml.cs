@@ -52,6 +52,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
             await Task.Yield();
             await CheckGame();
             ModVersion.Load();
+            model.MainButtonEnabled = !ModVersion.SKSEDisabled && !ModVersion.ModsDisabled;
             FileWatcher.Init();
         }
         public async Task CheckGame()
@@ -113,6 +114,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
         private void ServerListDataGrid_Click(object sender, MouseButtonEventArgs e)
         {
             ServerItemModel serverModel = (ServerItemModel)((FrameworkElement)sender).DataContext;
+            Settings.LastServerID = serverModel.Server.ID;
             model.SelectedServer = serverModel;
         }
 

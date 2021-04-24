@@ -612,7 +612,7 @@
         <SolidColorBrush x:Key="OptionMark.MouseOver.Background" Color="#FFF3F9FF"/>
         <SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
         <SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="#FF212121"/>
-        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="OptionMark.Disabled.Background" Color="#7F545766"/>
         <SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="#FFBCBCBC"/>
         <SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
         <SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
@@ -655,7 +655,7 @@
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+                                <!--<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>-->
                                 <Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
                                 <Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
                             </Trigger>
@@ -698,6 +698,9 @@
                 <ComboBox HorizontalAlignment="Left" Margin="33,104,0,0" SelectedIndex="{Binding Path=SelectedLocale}" ItemsSource="{Binding Path=Locales}" VerticalAlignment="Top" Width="297" Style="{DynamicResource ComboBoxStyle1}" Background="#FF505465" Height="25" BorderBrush="#FFACACAC" Foreground="White"/>
 
                 <CheckBox Content="Экспериментальные функции" HorizontalAlignment="Left" Margin="33,146,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding Path=ExpFunctions}"/>
+                
+                <CheckBox Content="Отключить SKSE" IsEnabled="{Binding CanDisabledSKSE}" HorizontalAlignment="Left" Margin="33,188,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledSKSE}"/>
+                <CheckBox Content="Отключить платформу" IsEnabled="{Binding CanDisabledMods}" HorizontalAlignment="Left" Margin="33,230,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledMods}"/>
 
             </Grid>
         </ScrollViewer>
