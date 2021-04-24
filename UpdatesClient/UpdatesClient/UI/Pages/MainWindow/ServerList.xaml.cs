@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -40,7 +41,11 @@ namespace UpdatesClient.UI.Pages.MainWindow
         public async void Init()
         {
             await Task.Yield();
-            FillServerList();
+            while (true)
+            {
+                FillServerList();
+                await Task.Delay(30 * 1000);
+            }
         }
         public async void PostInit()
         {
@@ -90,17 +95,10 @@ namespace UpdatesClient.UI.Pages.MainWindow
         {
             try
             {
-                string servers;
-                try
-                {
-                    servers = await ServerModel.GetServers();
-                    ServerModel.Save(servers);
-                }
-                catch
-                {
-                    servers = ServerModel.Load();
-                }
-                List<ServerItemModel> list = ServerModel.ParseServersToList(servers).ConvertAll(c => new ServerItemModel(c));
+                string servers = await ServerModel.GetServers();
+
+                List<ServerItemModel> list = ServerModel.ParseServersToList(servers)
+                    .ConvertAll(c => new ServerItemModel(c)).OrderBy(o => o.ViewName).ToList();
                 list.RemoveAll(x => x.Server.IsEmpty());
 
                 model.ServersList = list;
