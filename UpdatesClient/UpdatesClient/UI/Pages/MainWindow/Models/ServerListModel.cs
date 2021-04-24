@@ -114,9 +114,11 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 if (selectedServer != null) selectedServer.Selected = false;
                 selectedServer = value;
                 if (selectedServer != null) selectedServer.Selected = true;
-                Tab = TabEn.Descrpt;
+                Tab = TabEn.Mods;
                 OnPropertyChanged();
                 OnPropertyChanged("VisibleServerBlock");
+
+                selectedServer.GetManifest();
             }
         }
 

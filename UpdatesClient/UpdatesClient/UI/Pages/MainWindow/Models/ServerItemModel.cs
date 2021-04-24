@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
@@ -6,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using UpdatesClient.Core.Models;
+using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.GameManager;
+using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 
 namespace UpdatesClient.UI.Pages.MainWindow.Models
 {
@@ -13,10 +17,21 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private readonly bool inited = false;
+
         public ServerModel Server;
         private bool selected;
         private bool favorite;
         private string ping;
+
+        private List<string> mods;
+
+        public List<string> Mods
+        {
+            get { return mods; }
+            set { mods = value; OnPropertyChanged(); }
+        }
+
 
         public string ViewName
         {
@@ -41,13 +56,49 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public bool Favorite
         {
             get { return favorite; }
-            set { favorite = value; OnPropertyChanged(); }
+            set { favorite = value; OnPropertyChanged(); SetFavorite(); }
         }
 
         public ServerItemModel(ServerModel server)
         {
             Server = server;
+            Mods = new List<string>();
+            if (Settings.FavoriteServers.Contains(Server.ID))
+            {
+                Favorite = true;
+            }
             GetPing();
+            inited = true;
+        }
+
+        public void GetManifest()
+        {
+            GetMods();
+        }
+
+        private async void GetMods()
+        {
+            await Task.Yield();
+            List<string> WhiteListFiles = new List<string>(5)
+            {
+                "Skyrim.esm",
+                "Update.esm",
+                "Dawnguard.esm",
+                "HearthFires.esm",
+                "Dragonborn.esm"
+            };
+
+            ServerModsManifest mods = await GameUtilities.GetManifest(Server.AddressData);
+            mods.Mods.RemoveAll(r => WhiteListFiles.Contains(r.FileName));
+
+            if (mods.Mods.Count != 0)
+            {
+                Mods.AddRange(mods.Mods.ConvertAll(c => c.FileName.Substring(0, c.FileName.LastIndexOf('.'))));
+            }
+            else
+            {
+                Mods.Add("<no mods>");
+            }
         }
 
         private async void GetPing()
@@ -69,6 +120,21 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 }
             }
             catch { Ping = "-"; }
+        }
+
+        private void SetFavorite()
+        {
+            if (inited)
+            {
+                if (favorite)
+                {
+                    Settings.FavoriteServers.Add(Server.ID);
+                }
+                else if (Settings.FavoriteServers.Contains(Server.ID))
+                {
+                    Settings.FavoriteServers.Remove(Server.ID);
+                }
+            }
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

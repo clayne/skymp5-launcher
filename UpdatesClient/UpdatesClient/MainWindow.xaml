@@ -12,7 +12,7 @@
         xmlns:res="clr-namespace:UpdatesClient.Properties" xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="{x:Static res:Resources.Title}" Height="672" Width="1055" ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen"
-        d:DataContext="{d:DesignInstance Type=local5:MainWindowModel}">
+        d:DataContext="{d:DesignInstance Type=local5:MainWindowModel}" Closing="wind_Closing">
     <Window.Resources>
 
         <Style x:Key="FocusVisual">

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Security.Extensions;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Enums;
@@ -25,6 +26,7 @@ namespace UpdatesClient.Modules.Configs
         #region Launcher
         public static string LastVersion { get => model.LastVersion; private set => model.LastVersion = value; }
         public static int LastServerID { get => model.LastServerID ?? -1; set => model.LastServerID = value; }
+        public static List<int> FavoriteServers { get => model.FavoriteServers; }
         public static Locales Locale { get => model.Locale; set => model.Locale = value; }
         public static bool? ExperimentalFunctions { get => model.ExperimentalFunctions; set => model.ExperimentalFunctions = value; }
         #endregion

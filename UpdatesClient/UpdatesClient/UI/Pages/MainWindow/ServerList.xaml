@@ -80,14 +80,14 @@
                 <RowDefinition/>
                 <RowDefinition Height="102"/>
             </Grid.RowDefinitions>
-            <Image HorizontalAlignment="Left" Height="34" Margin="27,26,0,0" VerticalAlignment="Top" Width="34" Source="/UpdatesClient;component/Assets/Debug/SyQdvUpSCa0.png"/>
+            <Image HorizontalAlignment="Left" Height="34" Margin="27,26,0,0" VerticalAlignment="Top" Width="34" Source="/UpdatesClient;component/Assets/Images/ServerIcon.png"/>
             <TextBlock HorizontalAlignment="Left" Margin="70,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="White" Text="{Binding Path=SelectedServer.ViewName}" FontSize="14" Height="19" Width="196" />
             <TextBlock HorizontalAlignment="Left" Margin="71,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#7FFFFFFF" Text="{Binding Path=SelectedServer.Address}" FontSize="12" Height="16" />
             <ContentControl x:Name="content" Content="{Binding Path=Content}" HorizontalAlignment="Left" Margin="27,11,0,18" Grid.Row="2" Width="309" Foreground="White"/>
 
             <Grid Margin="30,10,15,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Grid.Row="1" Height="28" VerticalAlignment="Top">
                 <RadioButton IsEnabled="False" Content="Описание" IsChecked="{Binding Path=IsDescrptTab}" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="8,3"/>
-                <RadioButton IsEnabled="False" Content="Моды" IsChecked="{Binding Path=IsModsTab}" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="8,3"/>
+                <RadioButton IsEnabled="True" Content="Моды" IsChecked="{Binding Path=IsModsTab}" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="8,3"/>
                 <RadioButton IsEnabled="False" Content="Параметры" IsChecked="{Binding Path=IsSettingsTab}" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="8,3"/>
             </Grid>
             <local1:MainButton x:Name="mainButton" IsEnabled="{Binding MainButtonEnabled}" Margin="0,0,1,39" VerticalAlignment="Bottom" Height="63" HorizontalAlignment="Right" Width="315" Grid.Row="3" Click="mainButton_Click"/>

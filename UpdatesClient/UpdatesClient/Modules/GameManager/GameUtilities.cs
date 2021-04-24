@@ -85,7 +85,7 @@ namespace UpdatesClient.Modules.GameManager
             }
         }
 
-        private static async Task<ServerModsManifest> GetManifest(string adress)
+        public static async Task<ServerModsManifest> GetManifest(string adress)
         {
             string serverManifest = await Net.Request($"http://{adress}/manifest.json", "GET", false, null);
             return JsonConvert.DeserializeObject<ServerModsManifest>(serverManifest);

@@ -61,5 +61,10 @@ namespace UpdatesClient
                 ServerList.PostInit();
             }
         }
+
+        private void wind_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Settings.Save();
+        }
     }
 }

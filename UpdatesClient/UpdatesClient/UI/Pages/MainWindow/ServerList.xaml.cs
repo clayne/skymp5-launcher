@@ -99,7 +99,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 string servers = await ServerModel.GetServers();
 
                 List<ServerItemModel> list = ServerModel.ParseServersToList(servers)
-                    .ConvertAll(c => new ServerItemModel(c)).OrderBy(o => o.ViewName).ToList();
+                    .ConvertAll(c => new ServerItemModel(c)).OrderByDescending(o => o.Favorite == true).ThenBy(o => o.ViewName).ToList();
                 list.RemoveAll(x => x.Server.IsEmpty());
 
                 model.ServersList = list;

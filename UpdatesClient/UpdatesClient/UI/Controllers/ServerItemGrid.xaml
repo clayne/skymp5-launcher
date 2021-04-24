@@ -71,7 +71,7 @@
         </Grid.ColumnDefinitions>
         <Rectangle Fill="#0CFFFFFF" Visibility="{Binding Path=SelectedRect}" Grid.ColumnSpan="6" Margin="0,0,0,7"/>
 
-        <Image Height="32" VerticalAlignment="Top" Source="/UpdatesClient;component/Assets/Debug/SyQdvUpSCa0.png" HorizontalAlignment="Right" Width="32" Margin="0,9,0,0"/>
+        <Image Height="32" VerticalAlignment="Top" Source="/UpdatesClient;component/Assets/Images/ServerIcon.png" HorizontalAlignment="Right" Width="32" Margin="0,9,0,0"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="10,16,0,0" TextWrapping="Wrap" Text="{Binding Path=ViewName}" VerticalAlignment="Top" FontSize="13" Foreground="White"/>
         <Rectangle Fill="#26F4F4F5" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="6" Margin="0,0,10,0"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="0,16,10,0" TextWrapping="Wrap" Text="{Binding Path=Players}" VerticalAlignment="Top" FontSize="13" Foreground="White" Width="120" TextAlignment="Center"/>

@@ -416,6 +416,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\Debug\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
   </ItemGroup>
@@ -443,9 +444,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Debug\Group 48.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Assets\Images\Banners\Default.png" />
   </ItemGroup>
   <ItemGroup>
@@ -453,6 +451,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\Banners\Installer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\ServerIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
