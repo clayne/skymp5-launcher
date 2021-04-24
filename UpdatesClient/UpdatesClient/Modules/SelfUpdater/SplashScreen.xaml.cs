@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using UpdatesClient.Core.Enums;
 using UpdatesClient.Core.Network;
@@ -20,6 +24,9 @@ namespace UpdatesClient.Modules.SelfUpdater
     {
         private bool WaitOk = false;
         private bool Ok = false;
+
+        private int bannerIdx = 0;
+        private int bannerDelay = 0;
 
         public SplashScreen()
         {
@@ -84,6 +91,8 @@ namespace UpdatesClient.Modules.SelfUpdater
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate { Close(); });
             }
             result = App.Current.ApplicationInitialize.BeginInvoke(this, initCompleted, null);
+
+            ShowBanners();
         }
 
         public void SetProgress(double Value, double LenFile, double prDown)
@@ -122,6 +131,94 @@ namespace UpdatesClient.Modules.SelfUpdater
             {
                 Animation();
             }
+        }
+
+        private async void ShowBanners()
+        {
+            await Task.Yield();
+            if (NetworkSettings.Banners == "null") return;
+            string[] bannersUrl = NetworkSettings.Banners.Split('|');
+            List<ImageSource> banners = new List<ImageSource>(bannersUrl.Length);
+            foreach (string url in bannersUrl)
+            {
+                banners.Add(await GetBanner(url));
+
+                Ellipse ellipse = new Ellipse()
+                {
+                    Height = 9,
+                    Width = 9,
+                    StrokeThickness = 1,
+                    Fill = Brushes.Transparent,
+                    Stroke = new BrushConverter().ConvertFromString("#FF969696") as SolidColorBrush,
+                    Margin = new Thickness(0, 0, 8, 0)
+                };
+                ellipse.MouseLeftButtonUp += Ellipse_MouseLeftButtonUp;
+                bannersButton.Children.Add(ellipse);
+            }
+            banners.Reverse();
+
+            AutoSet();
+            while (!WaitOk)
+            {
+                if (banner.Source != banners[bannerIdx]) 
+                    banner.Source = banners[bannerIdx];
+                await Task.Delay(100);
+            }
+        }
+        private async void AutoSet()
+        {
+            while (!WaitOk)
+            {
+                for (int i = bannersButton.Children.Count - 1; i >= 0;)
+                {
+                    if (bannerDelay > 0)
+                    {
+                        bannerDelay -= 50;
+                        await Task.Delay(50);
+                    }
+                    else
+                    {
+                        Ellipse_MouseLeftButtonUp(bannersButton.Children[i], null);
+                        i--;
+                    }
+                }
+            }
+        }
+        private void Ellipse_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            foreach (Ellipse b in bannersButton.Children)
+            {
+                b.StrokeThickness = 1;
+                b.Fill = Brushes.Transparent;
+            }
+            Ellipse el = (Ellipse)sender;
+            el.StrokeThickness = 0;
+            el.Fill = Brushes.White;
+            bannerIdx = bannersButton.Children.IndexOf(el);
+            bannerDelay = 5000;
+        }
+
+        public async Task<ImageSource> GetBanner(string url)
+        {
+            ImageSource image = BitmapFrame.Create(new Uri("pack://application:,,,/Assets/Images/Banners/Default.png"), BitmapCreateOptions.IgnoreImageCache, BitmapCacheOption.None);
+
+            try
+            {
+                BitmapImage logo = new BitmapImage();
+                logo.BeginInit();
+
+                logo.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                logo.CacheOption = BitmapCacheOption.None;
+                logo.UriCachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.Reload);
+
+                logo.UriSource = new Uri(url);
+                logo.EndInit();
+                while (logo.IsDownloading) await Task.Delay(10);
+                image = logo;
+            }
+            catch { }
+
+            return image;
         }
 
         private async Task Auth()

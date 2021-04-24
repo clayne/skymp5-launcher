@@ -177,7 +177,7 @@ namespace UpdatesClient
             try
             {
 #if (DEBUG || DeR)
-                Thread.Sleep(500);
+                Thread.Sleep(50000);
                 if (CanRun())
                 {
                     SplashWindow.Ready();

@@ -153,27 +153,45 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="authPanel" Visibility="{Binding Path=AuthPanel}" Grid.Column="1">
-            <TextBox Text="{Binding Path=AuthModel.Email}" HorizontalAlignment="Center" Height="50" Margin="27,150,27,0" Tag="{x:Static res:Resources.Email}" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
-            <PasswordBox x:Name="passwordBoxAuth" HorizontalAlignment="Left"  Height="50" Margin="27,220,0,0" Tag="{x:Static res:Resources.Password}" VerticalAlignment="Top" Width="402" Background="{x:Null}" BorderBrush="#7F707070" BorderThickness="0,0,0,1" FontSize="24" CaretBrush="White" Foreground="White" FontWeight="Light"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="275*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="356*"/>
+            </Grid.RowDefinitions>
+            <TextBox Text="{Binding Path=AuthModel.Email}" HorizontalAlignment="Center" Height="50" Margin="27,0,27,79" Tag="{x:Static res:Resources.Email}" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
+            <PasswordBox x:Name="passwordBoxAuth" HorizontalAlignment="Left" Margin="27,0,0,9" Tag="{x:Static res:Resources.Password}" Width="402" Background="{x:Null}" BorderBrush="#7F707070" BorderThickness="0,0,0,1" FontSize="24" CaretBrush="White" Foreground="White" FontWeight="Light" Height="50" VerticalAlignment="Bottom"/>
 
-            <CheckBox IsChecked="{Binding Path=AuthModel.RememberMe}" Content="{x:Static res:Resources.RememberMe}" Height="26" HorizontalAlignment="Left" Margin="27,300,0,0" VerticalAlignment="Top" FontSize="17" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="#7FFFFFFF" BorderBrush="White" Background="#7F7B7D87" Padding="13,4,0,0" FontWeight="Light"/>
-            <Button Content="{x:Static res:Resources.LogIn}" BorderThickness="2" Margin="22,350,22,0" VerticalAlignment="Top" Height="58" HorizontalAlignment="Center" Width="412" Style="{StaticResource ButtonStyleRounded}" Background="White" BorderBrush="White" FontSize="20" Click="Signin_Click" Foreground="White" FontWeight="Bold"/>
-            <Button Content="{x:Static res:Resources.Register}" BorderThickness="2" Margin="0,442,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" Foreground="#7FFFFFFF" Click="Open_RegisterPanel" FontWeight="Light"/>
-            <Button Content="{x:Static res:Resources.ForgotPassword}" BorderThickness="2" Margin="0,302,27,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17" Foreground="#7FFFFFFF" Click="Open_ForgotPassPanel" Width="192" FontWeight="Light" RenderTransformOrigin="0.495,1.133" HorizontalContentAlignment="Right"/>
+            <CheckBox IsChecked="{Binding Path=AuthModel.RememberMe}" Content="{x:Static res:Resources.RememberMe}" Height="26" HorizontalAlignment="Left" Margin="27,32,0,0" VerticalAlignment="Top" FontSize="17" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" Foreground="#7FFFFFFF" BorderBrush="White" Background="#7F7B7D87" Padding="13,4,0,0" FontWeight="Light" Grid.Row="2"/>
+            <Button Content="{x:Static res:Resources.LogIn}" BorderThickness="2" Margin="0,82,0,0" VerticalAlignment="Top" Height="58" HorizontalAlignment="Center" Width="412" Style="{StaticResource ButtonStyleRounded}" Background="White" BorderBrush="White" FontSize="20" Click="Signin_Click" Foreground="White" FontWeight="Bold" Grid.Row="2"/>
+            <Button Content="{x:Static res:Resources.Register}" BorderThickness="2" Margin="0,174,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" Foreground="#7FFFFFFF" Click="Open_RegisterPanel" FontWeight="Light" Grid.Row="2" Height="33"/>
+            <Button Content="{x:Static res:Resources.ForgotPassword}" BorderThickness="2" Margin="0,34,27,0" VerticalAlignment="Top" Height="25" HorizontalAlignment="Right" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="17" Foreground="#7FFFFFFF" Click="Open_ForgotPassPanel" FontWeight="Light" RenderTransformOrigin="0.495,1.133" HorizontalContentAlignment="Right" Grid.Row="2"/>
+            <TextBlock Visibility="{Binding Path=AuthModel.ShowError}" HorizontalAlignment="Left" Margin="27,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=AuthModel.Error}" FontSize="17" FontWeight="Light" Foreground="#FFBFF6FF" VerticalAlignment="Top"/>
         </Grid>
-        <Grid x:Name="registerPanel" Visibility="{Binding Path=RegPanel}" Grid.Column="1">
-            <TextBox Text="{Binding Path=RegModel.Email}" HorizontalAlignment="Center" Height="50" Margin="27,150,27,0" Tag="{x:Static res:Resources.Email}" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
-            <TextBox Text="{Binding Path=RegModel.Login}" HorizontalAlignment="Center" Height="50" Margin="27,220,27,0" Tag="{x:Static res:Resources.UserName}" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
-            <PasswordBox x:Name="passwordBoxReg" HorizontalAlignment="Left"  Height="50" Margin="27,290,0,0" Tag="{x:Static res:Resources.Password}" VerticalAlignment="Top" Width="402" Background="{x:Null}" BorderBrush="#7F707070" BorderThickness="0,0,0,1" FontSize="24" CaretBrush="White" Foreground="White" FontWeight="Light"/>
+        <Grid x:Name="registerPanel" Visibility="{Binding Path=RegPanel}"  Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="345*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="302*"/>
+            </Grid.RowDefinitions>
+            <TextBox Text="{Binding Path=RegModel.Email}" HorizontalAlignment="Center" Height="50" Margin="27,0,27,142" Tag="{x:Static res:Resources.Email}" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
+            <TextBox Text="{Binding Path=RegModel.Login}" HorizontalAlignment="Center" Height="50" Margin="27,0,27,72" Tag="{x:Static res:Resources.UserName}" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
+            <PasswordBox x:Name="passwordBoxReg" HorizontalAlignment="Left" Margin="27,0,0,2" Tag="{x:Static res:Resources.Password}" Width="402" Background="{x:Null}" BorderBrush="#7F707070" BorderThickness="0,0,0,1" FontSize="24" CaretBrush="White" Foreground="White" FontWeight="Light" Height="50" VerticalAlignment="Bottom"/>
 
-            <Button Content="{x:Static res:Resources.Register}" BorderThickness="2" Margin="22,375,22,0" VerticalAlignment="Top" Height="58" HorizontalAlignment="Center" Width="412" Style="{StaticResource ButtonStyleRounded}" Background="White" BorderBrush="White" FontSize="20" Click="Signup_Click" Foreground="White" FontWeight="Bold"/>
-            <Button Content="{x:Static res:Resources.LogIn}" BorderThickness="2" Margin="0,468,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" Foreground="#7FFFFFFF" Click="Open_AuthPanel" FontWeight="Light"/>
+            <Button Content="{x:Static res:Resources.Register}" BorderThickness="2" Margin="0,32,0,0" VerticalAlignment="Top" Height="58" HorizontalAlignment="Center" Width="412" Style="{StaticResource ButtonStyleRounded}" Background="White" BorderBrush="White" FontSize="20" Click="Signup_Click" Foreground="White" FontWeight="Bold" Grid.Row="2"/>
+            <Button Content="{x:Static res:Resources.LogIn}" BorderThickness="2" Margin="0,110,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" Foreground="#7FFFFFFF" Click="Open_AuthPanel" FontWeight="Light" Grid.Row="2" Height="34"/>
+            <TextBlock Visibility="{Binding Path=RegModel.ShowError}" HorizontalAlignment="Left" Margin="27,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=RegModel.Error}" FontSize="17" FontWeight="Light" Foreground="#FFBFF6FF" VerticalAlignment="Top"/>
         </Grid>
         <Grid x:Name="forgotPassPanel" Visibility="{Binding Path=RecPanel}" Grid.Column="1">
-            <TextBox Text="{Binding Path=RecPswrdModel.Email}" HorizontalAlignment="Center" Height="50" Margin="27,220,27,0" Tag="{x:Static res:Resources.Email}" TextWrapping="Wrap" VerticalAlignment="Top" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
-            
-            <Button Content="{x:Static res:Resources.PasswordRecovery}" BorderThickness="2" Margin="22,305,22,0" VerticalAlignment="Top" Height="58" HorizontalAlignment="Center" Width="412" Style="{StaticResource ButtonStyleRounded}" Background="White" BorderBrush="White" FontSize="20" Click="Forgot_Click" Foreground="White" FontWeight="Bold"/>
-            <Button Content="{x:Static res:Resources.LogIn}" BorderThickness="2" Margin="0,400,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" Foreground="#7FFFFFFF" Click="Open_AuthPanel" FontWeight="Light"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="275*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="356*"/>
+            </Grid.RowDefinitions>
+            <TextBox Text="{Binding Path=RecPswrdModel.Email}" HorizontalAlignment="Center" Height="50" Margin="27,0,27,9" Tag="{x:Static res:Resources.Email}" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="402" Style="{StaticResource placeHolder}" FontSize="24" BorderBrush="#7F707070" Background="{x:Null}" Foreground="White" CaretBrush="White" FontWeight="Light" />
+
+            <Button Content="{x:Static res:Resources.PasswordRecovery}" BorderThickness="2" Margin="0,32,0,0" VerticalAlignment="Top" Height="58" HorizontalAlignment="Center" Width="412" Style="{StaticResource ButtonStyleRounded}" Background="White" BorderBrush="White" FontSize="20" Click="Forgot_Click" Foreground="White" FontWeight="Bold" Grid.Row="2"/>
+            <Button Content="{x:Static res:Resources.LogIn}" BorderThickness="2" Margin="0,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{DynamicResource ButtonStyleText}" Background="{x:Null}" BorderBrush="{x:Null}" FontSize="20" Foreground="#7FFFFFFF" Click="Open_AuthPanel" FontWeight="Light" Grid.Row="2"/>
+            <TextBlock Visibility="{Binding Path=RecPswrdModel.ShowError}" HorizontalAlignment="Left" Margin="27,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=RecPswrdModel.Error}" FontSize="17" FontWeight="Light" Foreground="#FFBFF6FF" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </UserControl>

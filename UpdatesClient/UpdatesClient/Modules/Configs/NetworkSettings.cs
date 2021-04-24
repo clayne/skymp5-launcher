@@ -18,6 +18,7 @@ namespace UpdatesClient.Modules.Configs
         public static bool EnableAntiCheat { get => model.EnableAntiCheat; }
         public static bool EnableModLoader { get => model.EnableModLoader; }
         public static bool CompatibilityMode { get => model.CompatibilityMode; }
+        public static string Banners { get => model.Banners; }
 
         public static async void Init()
         {
