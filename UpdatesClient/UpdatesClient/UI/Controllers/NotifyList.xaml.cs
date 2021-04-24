@@ -13,7 +13,7 @@ namespace UpdatesClient.UI.Controllers
         public NotifyList()
         {
             InitializeComponent();
-            if (NotifyPanel != null) throw new Exception("Допускается один элемент");
+            //if (NotifyPanel != null) throw new Exception("Допускается один элемент");
             NotifyPanel = this;
         }
     }

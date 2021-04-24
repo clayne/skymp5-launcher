@@ -36,7 +36,6 @@ namespace UpdatesClient
             ModulesManager.PostInitModules();
         }
 
-        //TODO: переход на окно авторизации
         private void LogOut_Click(object sender, RoutedEventArgs e)
         {
             //TODO: аннулирование токена
@@ -45,6 +44,9 @@ namespace UpdatesClient
             Settings.UserName = "";
             Settings.UserToken = "";
             Settings.Save();
+
+            new Modules.SelfUpdater.SplashScreen().Show();
+            Close();
         }
 
         private void openSettings(object sender, RoutedEventArgs e)
