@@ -29,21 +29,8 @@ namespace UpdatesClient.UI.Controllers
         public PopupNotify(NotifyModel model)
         {
             InitializeComponent();
-            switch (model.Type)
-            {
-                case Type.Normal:
-                    border.Background = new SolidColorBrush(Color.FromArgb(255, 9, 188, 0));
-                    border.BorderBrush = new SolidColorBrush(Color.FromArgb(242, 0, 255, 102));
-                    smile.Source = (ImageSource)Application.Current.Resources["HappySmile"];
-                    break;
-                case Type.Error:
-                    border.Background = new SolidColorBrush(Color.FromArgb(255, 188, 0, 0));
-                    border.BorderBrush = new SolidColorBrush(Color.FromArgb(242, 255, 0, 0));
-                    smile.Source = (ImageSource)Application.Current.Resources["SadSmile"];
-                    break;
-            }
-            this.status.Text = model.Status;
             description.Text = model.Text;
+            time.Text = DateTime.Now.ToString("HH:mm");
             closeBtn.Click += (s, e) => ClickClose?.Invoke(this, e);
             DelayMs = model.DelayMs;
         }

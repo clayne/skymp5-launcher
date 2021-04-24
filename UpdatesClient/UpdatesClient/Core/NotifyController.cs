@@ -25,7 +25,7 @@ namespace UpdatesClient.Core
         {
             while (true)
             {
-                while (NotifyList.NotifyPanel?.panelList.Children.Count < 2 && popupNotifies.Count != 0)
+                while (popupNotifies.Count != 0)
                 {
                     PopupNotify popup;
                     lock (sync)
@@ -34,20 +34,11 @@ namespace UpdatesClient.Core
                         popup = new PopupNotify(popupModel);
                     }
 
-                    NotifyList.NotifyPanel?.panelList.Children.Add(popup);
-                    popup.Margin = new Thickness(0, 0, 0, 10);
+                    NotifyList.NotifyPanel?.panelList.Children.Insert(0, popup);
+                    popup.Margin = new Thickness(0, 0, 0, 20);
                     popup.ClickClose += Popup_ClickClose;
                 }
-                if (NotifyList.NotifyPanel?.panelList.Children.Count != 0)
-                {
-                    PopupNotify popup = (PopupNotify)NotifyList.NotifyPanel?.panelList.Children[0];
-                    await Task.Delay(popup.DelayMs);
-                    if (NotifyList.NotifyPanel?.panelList.Children.Contains(popup) == true) Close(popup);
-                }
-                else
-                {
-                    await Task.Delay(250);
-                }
+                await Task.Delay(100);
             }
         }
 

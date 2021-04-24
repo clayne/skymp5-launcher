@@ -5,51 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
              xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
-             mc:Ignorable="d" 
-             Style="{DynamicResource ControlStyle}"
-             d:DesignHeight="70" d:DesignWidth="414" RenderTransformOrigin="0.5,0.5">
-    <UserControl.Resources>
-        <Style x:Key="ControlStyle" TargetType="UserControl">
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
-                    <!--Триггер при открытие окна-->
-                    <EventTrigger.Actions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation
-                                Storyboard.TargetProperty="(UserControl.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                From="500"
-                                To="0"
-                                DecelerationRatio="0.9"
-                                Duration="0:0:0.5" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger.Actions>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
-    <UserControl.RenderTransform>
-        <TransformGroup>
-            <ScaleTransform/>
-            <SkewTransform/>
-            <RotateTransform/>
-            <TranslateTransform X="500"/>
-        </TransformGroup>
-    </UserControl.RenderTransform>
+             mc:Ignorable="d"
+             d:DesignHeight="35" d:DesignWidth="414" RenderTransformOrigin="0.5,0.5">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="38*"/>
-            <ColumnDefinition Width="169*"/>
-        </Grid.ColumnDefinitions>
-        <Border x:Name="border" BorderBrush="#F2FF0000" BorderThickness="2" Background="#FFBC0000" Opacity="0.4" CornerRadius="6" Grid.ColumnSpan="2"/>
-        <Image x:Name="smile" Margin="15,12" Source="{StaticResource SadSmile}"/>
-        <TextBlock x:Name="status" Grid.Column="1" Margin="0,12,10,0" TextWrapping="Wrap" Text="Status" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16" TextDecorations="{x:Null}"/>
-        <TextBlock x:Name="description" Grid.Column="1" Margin="0,33,10,0" TextWrapping="Wrap" Text="Description" VerticalAlignment="Top" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="14"/>
+        <TextBlock x:Name="description" Margin="10,7,86,11" TextWrapping="Wrap" Text="Description" Foreground="White" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="14"/>
         <Button x:Name="closeBtn" Style="{StaticResource HeaderIconButtonStyle}" Grid.Column="2" HorizontalAlignment="Right" Margin="0,7,7,0" VerticalAlignment="Top" Height="14" Width="14" OpacityMask="{x:Null}" BorderBrush="White" Padding="3">
             <Button.Background>
                 <ImageBrush ImageSource="{DynamicResource close}" Stretch="Uniform"/>
             </Button.Background>
         </Button>
+
+        <Rectangle Fill="#72F4F4F5" Height="1" Margin="0,0,86,0" Stroke="#72FFFFFF" VerticalAlignment="Bottom"/>
+        <TextBlock x:Name="time" HorizontalAlignment="Right" Margin="0,7,26,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Foreground="White"/>
     </Grid>
 </UserControl>

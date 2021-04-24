@@ -436,6 +436,19 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <DrawingImage x:Key="NotificationsChecked">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V17.35 H13.861 V0 H0 Z">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,-6.761,-3.93">
+                    <DrawingGroup Transform="1,0,0,1,-3.066,-9.414">
+                        <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M13.861,17.35z M0,0z M16.749,30.695A2.1,2.1,0,0,0,18.89,28.336L14.6,28.336A2.1,2.1,0,0,0,16.749,30.695z" />
+                    </DrawingGroup>
+                    <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M13.861,17.35z M0,0z M20.447,16.705C19.78,15.83 18.467,15.317 18.467,11.398 18.467,7.375 16.682,5.759 15.018,5.371 14.862,5.332 14.749,5.28 14.749,5.117L14.749,4.991A1.057,1.057,0,1,0,12.634,4.991L12.634,5.116C12.634,5.276 12.521,5.332 12.365,5.37 10.697,5.762 8.916,7.37 8.916,11.397 8.916,15.316 7.603,15.825 6.936,16.704A0.856,0.856,0,0,0,7.625,18.075L19.762,18.075A0.856,0.856,0,0,0,20.447,16.705z" />
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
     <DrawingImage x:Key="Search">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 V14.993 H14.989 V0 H0 Z">
@@ -670,4 +683,5 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+    
 </ResourceDictionary>

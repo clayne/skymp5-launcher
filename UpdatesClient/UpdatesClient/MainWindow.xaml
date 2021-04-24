@@ -224,6 +224,35 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="CheckBoxStyleNotify" TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource OptionMark.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OptionMark.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="checkBoxBorder" Visibility="Visible" Source="{StaticResource Notifications}" />
+                            <Image x:Name="checkBoxBorderChecked" Visibility="Visible" Source="{StaticResource NotificationsChecked}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="checkBoxBorder" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="checkBoxBorderChecked" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="Assets/Images/Backgrounds/Background1.png" Stretch="UniformToFill"/>
@@ -292,17 +321,47 @@
             <RadioButton IsEnabled="False" Content="Новости" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
             <RadioButton IsEnabled="False" Content="Магазин" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0"/>
         </StackPanel>
-        <StackPanel HorizontalAlignment="Right" Height="21" Margin="0,23,175,0" VerticalAlignment="Top" Width="205" ScrollViewer.VerticalScrollBarVisibility="Disabled" Orientation="Horizontal" FlowDirection="RightToLeft">
+        <StackPanel x:Name="stackUserPanel" HorizontalAlignment="Right" Height="21" Margin="0,23,175,0" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Disabled" Orientation="Horizontal" FlowDirection="RightToLeft">
             <local1:OnlineButton x:Name="userButton" FlowDirection="LeftToRight" Margin="0,0,20,0" />
             <CheckBox HorizontalAlignment="Left" IsChecked="{Binding Path=IsOpenSettings}" VerticalAlignment="Center" Width="17" Style="{StaticResource CheckBoxStyleSettings}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0" Click="openSettings" />
-            <Button IsEnabled="False" HorizontalAlignment="Left" VerticalAlignment="Center" Width="17" Style="{StaticResource HeaderIconButtonStyle}" BorderBrush="White" Foreground="White" Height="17" Margin="0,0,20,0">
-                <Button.Background>
-                    <ImageBrush ImageSource="{DynamicResource Notifications}" Stretch="Uniform"/>
-                </Button.Background>
-            </Button>
+            <CheckBox HorizontalAlignment="Left" IsChecked="{Binding Path=OpenNotifications}" VerticalAlignment="Center" Width="14" Style="{DynamicResource CheckBoxStyleNotify}" BorderBrush="White" Foreground="White" Height="17" Margin="0"/>
         </StackPanel>
 
-        <local1:NotifyList Margin="632,10,20,0" Grid.Row="1" VerticalAlignment="Top" />
+        <!--<Grid IsHitTestVisible="False"  Grid.RowSpan="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#00000000"/>-->
+        <local1:NotifyList x:Name="notifyList" Margin="{Binding MarginNotify}" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Width="356" Height="228" Grid.RowSpan="2" >
+            <local1:NotifyList.Style>
+                <Style TargetType="local1:NotifyList">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=OpenNotifications}">
+                            <DataTrigger.Value>
+                                <sys:Boolean>True</sys:Boolean>
+                            </DataTrigger.Value>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimation To="1" Duration="0:0:0.15" DecelerationRatio="0.995" Storyboard.TargetProperty="Opacity"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.35" DecelerationRatio="0.955" To="0" Storyboard.TargetProperty="Opacity" />
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{x:Static Visibility.Collapsed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </local1:NotifyList.Style>
+        </local1:NotifyList>
+
     </Grid>
 </Window>
     

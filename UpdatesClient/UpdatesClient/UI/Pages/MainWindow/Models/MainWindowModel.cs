@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace UpdatesClient.UI.Pages.MainWindow.Models
 {
@@ -7,6 +8,25 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
     {
         private string userName;
         private bool isOpenSettings;
+        private double marginNotifyRight;
+        private bool openNotifications;
+
+        public bool OpenNotifications
+        {
+            get { return openNotifications; }
+            set { openNotifications = value; OnPropertyChanged(); OnPropertyChanged("ShowNotifications"); }
+        }
+
+        public Thickness MarginNotify
+        {
+            get { return new Thickness(0, 50, 175 + marginNotifyRight - 42, 0); }
+        }
+
+        public double Width
+        {
+            get => marginNotifyRight;
+            set { marginNotifyRight = value; OnPropertyChanged("MarginNotify"); }
+        }
 
         public bool IsOpenSettings
         {

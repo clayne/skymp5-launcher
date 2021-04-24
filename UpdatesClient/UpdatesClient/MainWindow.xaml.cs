@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using UpdatesClient.Core;
 using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
@@ -31,9 +32,16 @@ namespace UpdatesClient
 
         private void Wind_Loaded(object sender, RoutedEventArgs e)
         {
+            WindowModel.Width = stackUserPanel.ActualWidth;
             NotifyController.Init();
             ServerList.PostInit();
             ModulesManager.PostInitModules();
+
+            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
+            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
+            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
+            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
+            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
         }
 
         private void LogOut_Click(object sender, RoutedEventArgs e)

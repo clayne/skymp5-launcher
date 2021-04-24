@@ -90,7 +90,7 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
 
             ServerModsManifest mods = await GameUtilities.GetManifest(Server.AddressData);
             mods.Mods.RemoveAll(r => WhiteListFiles.Contains(r.FileName));
-
+            Mods.Clear();
             if (mods.Mods.Count != 0)
             {
                 Mods.AddRange(mods.Mods.ConvertAll(c => c.FileName.Substring(0, c.FileName.LastIndexOf('.'))));
