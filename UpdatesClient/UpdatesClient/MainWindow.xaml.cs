@@ -70,5 +70,10 @@ namespace UpdatesClient
             NotifyController.Save();
             Settings.Save();
         }
+
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            WindowModel.OpenNotifications = false;
+        }
     }
 }

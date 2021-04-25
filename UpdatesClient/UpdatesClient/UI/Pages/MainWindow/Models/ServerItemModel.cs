@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -87,8 +88,13 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 "HearthFires.esm",
                 "Dragonborn.esm"
             };
+            ServerModsManifest mods = new ServerModsManifest();
+            try
+            {
+                await Task.Run(() => { mods = GameUtilities.GetManifest(Server.AddressData).GetAwaiter().GetResult(); });
+            }
+            catch (WebException) { }
 
-            ServerModsManifest mods = await GameUtilities.GetManifest(Server.AddressData);
             mods.Mods.RemoveAll(r => WhiteListFiles.Contains(r.FileName));
             Mods.Clear();
             if (mods.Mods.Count != 0)

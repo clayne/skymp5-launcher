@@ -14,8 +14,10 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public bool OpenNotifications
         {
             get { return openNotifications; }
-            set { openNotifications = value; OnPropertyChanged(); OnPropertyChanged("ShowNotifications"); }
+            set { openNotifications = value; OnPropertyChanged(); OnPropertyChanged("ShowNotificationsBg"); }
         }
+
+        public Visibility ShowNotificationsBg { get => openNotifications ? Visibility.Visible : Visibility.Collapsed; }
 
         public Thickness MarginNotify
         {

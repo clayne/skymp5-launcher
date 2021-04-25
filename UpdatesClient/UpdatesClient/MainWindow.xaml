@@ -327,7 +327,7 @@
             <CheckBox HorizontalAlignment="Left" IsChecked="{Binding Path=OpenNotifications}" VerticalAlignment="Center" Width="14" Style="{DynamicResource CheckBoxStyleNotify}" BorderBrush="White" Foreground="White" Height="17" Margin="0"/>
         </StackPanel>
 
-        <!--<Grid IsHitTestVisible="False"  Grid.RowSpan="2" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#00000000"/>-->
+        <Grid Grid.RowSpan="2" Visibility="{Binding Path=ShowNotificationsBg}" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="#00000000"/>
         <local1:NotifyList x:Name="notifyList" Margin="{Binding MarginNotify}" Visibility="Collapsed" VerticalAlignment="Top" HorizontalAlignment="Right" Width="356" Height="228" Grid.RowSpan="2" >
             <local1:NotifyList.Style>
                 <Style TargetType="local1:NotifyList">
