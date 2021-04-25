@@ -85,7 +85,8 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 }
                 else
                 {
-                    await ModUtilities.ActivateCoreMod();
+                    if (ModVersion.ModsDisabled && Mods.ExistMod("SKSE")) await Mods.EnableMod("SKSE");
+                    else await ModUtilities.ActivateCoreMod();
                 }
                 modifiedMv = true;
             }

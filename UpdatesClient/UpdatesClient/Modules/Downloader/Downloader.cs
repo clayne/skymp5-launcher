@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Debugger;
+using UpdatesClient.Modules.Notifications;
 
 namespace UpdatesClient.Modules.Downloader
 {

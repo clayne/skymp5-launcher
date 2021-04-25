@@ -16,6 +16,7 @@ using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Model;
 using UpdatesClient.Modules.ModsManager;
+using UpdatesClient.Modules.Notifications;
 using UpdatesClient.UI.Pages.MainWindow.Models;
 using UpdatesClient.UI.Windows;
 

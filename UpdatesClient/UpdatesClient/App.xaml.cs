@@ -283,6 +283,9 @@ namespace UpdatesClient
 
         private bool CanRun()
         {
+            if (Modules.SelfUpdater.Security.Status.Block)
+                MessageBox.Show("Please download the new version from skymp.io", "Is not a bug", MessageBoxButton.OK, MessageBoxImage.Warning);
+
             return !Modules.SelfUpdater.Security.Status.Block;
         }
         //====================================================

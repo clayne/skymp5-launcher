@@ -13,6 +13,7 @@ using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.Downloader;
 using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager;
+using UpdatesClient.Modules.Notifications;
 using UpdatesClient.UI.Controllers;
 using UpdatesClient.UI.Pages.MainWindow;
 using Res = UpdatesClient.Properties.Resources;
@@ -41,25 +42,25 @@ namespace UpdatesClient.Modules.GameManager
             }
             catch (JsonSerializationException)
             {
-                NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                NotifyController.Show(Res.ErrorReadSkyMPSettings);
                 return;
             }
             catch (JsonReaderException)
             {
-                NotifyController.Show(PopupNotify.Error, Res.Error, Res.ErrorReadSkyMPSettings);
+                NotifyController.Show(Res.ErrorReadSkyMPSettings);
                 return;
             }
             catch (UnauthorizedAccessException)
             {
                 FileAttributes attr = new FileInfo(Settings.PathToSkympClientSettings).Attributes;
                 Logger.Error("Play_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
-                NotifyController.Show(PopupNotify.Error, Res.Error, "UnAuthorizedAccessException: Unable to access file");
+                NotifyController.Show("UnAuthorizedAccessException: Unable to access file");
                 return;
             }
             catch (Exception e)
             {
                 Logger.Error("Play", e);
-                NotifyController.Show(PopupNotify.Error, Res.Error, e.Message);
+                NotifyController.Show(e);
                 return;
             }
 
@@ -132,7 +133,7 @@ namespace UpdatesClient.Modules.GameManager
             {
                 if (NetworkSettings.CompatibilityMode)
                 {
-                    NotifyController.Show(PopupNotify.Normal, Res.Attempt, "Вероятно целевой сервер устарел, используется режим совместимости");
+                    NotifyController.Show("Вероятно целевой сервер устарел, используется режим совместимости");
                     if (Mods.ExistMod("Farm"))
                         await Mods.OldModeEnable();
                     await Task.Delay(3000);
@@ -140,13 +141,13 @@ namespace UpdatesClient.Modules.GameManager
                 }
                 else
                 {
-                    NotifyController.Show(PopupNotify.Error, Res.Attempt, "Возможно целевой сервер устарел, так как не ответил на запрос");
+                    NotifyController.Show("Возможно целевой сервер устарел, так как не ответил на запрос");
                     return false;
                 }
             }
             catch (FileNotFoundException)
             {
-                NotifyController.Show(PopupNotify.Error, Res.Error, "Один или несколько модов не удалось загрузить с сервера");
+                NotifyController.Show("Один или несколько модов не удалось загрузить с сервера");
                 return false;
             }
             catch (Exception e)

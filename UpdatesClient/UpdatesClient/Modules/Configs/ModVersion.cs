@@ -4,6 +4,7 @@ using System.IO;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
 using UpdatesClient.Modules.Debugger;
+using UpdatesClient.Modules.Notifications;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.Configs
@@ -60,7 +61,7 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                NotifyController.Show(UI.Controllers.PopupNotify.Error, Res.Error, Res.ErrorSaveFileBusy);
+                NotifyController.Show(Res.ErrorSaveFileBusy);
                 Logger.Error("Version_Save", e);
             }
         }

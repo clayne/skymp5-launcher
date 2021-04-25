@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace UpdatesClient.Core.Helpers
@@ -16,6 +17,15 @@ namespace UpdatesClient.Core.Helpers
             if (Directory.Exists(Path.GetDirectoryName(path)) && File.Exists(path))
                 return JsonConvert.DeserializeObject<T>(File.ReadAllText(path));
             return new T();
+        }
+
+        //!Может не работать
+        public static IJsonSaver Load(this IJsonSaver obj, string path)
+        {
+            Type t = obj.GetType();
+            if (Directory.Exists(Path.GetDirectoryName(path)) && File.Exists(path))
+                return (IJsonSaver)JsonConvert.DeserializeObject(File.ReadAllText(path), t);
+            return default;
         }
     }
 

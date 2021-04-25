@@ -154,7 +154,9 @@
     <Compile Include="Core\Helpers\JsonModelSaver.cs" />
     <Compile Include="Core\IO.cs" />
     <Compile Include="Core\LocalesManager.cs" />
-    <Compile Include="Core\Models\NotifyModel.cs" />
+    <Compile Include="Modules\Notifications\Enums\NotificationType.cs" />
+    <Compile Include="Modules\Notifications\Models\NotificationsModel.cs" />
+    <Compile Include="Modules\Notifications\Models\NotifyModel.cs" />
     <Compile Include="Modules\Downloader\Models\ProgressBarModel.cs" />
     <Compile Include="Modules\GameManager\Model\ServerManifest\ServerModModel.cs" />
     <Compile Include="Modules\GameManager\Model\ServerManifest\ServerModsManifest.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Modules\ModsManager\ModUtilities.cs" />
     <Compile Include="Modules\ModsManager\WinFunctions.cs" />
     <Compile Include="Modules\ModulesManager.cs" />
+    <Compile Include="Modules\Notifications\Models\WNotifyModel.cs" />
     <Compile Include="Modules\SelfUpdater\Models\VersionStatus.cs" />
     <Compile Include="Modules\SelfUpdater\Net.cs" />
     <Compile Include="Properties\Resources.ru-RU.Designer.cs">
@@ -297,7 +300,7 @@
     <Compile Include="Core\Models\ServerModel.cs" />
     <Compile Include="Modules\Debugger\Logger.cs" />
     <Compile Include="Core\Net.cs" />
-    <Compile Include="Core\NotifyController.cs" />
+    <Compile Include="Modules\Notifications\NotifyController.cs" />
     <Compile Include="Core\Unpacker.cs" />
     <Compile Include="Modules\Configs\Models\ModVersionModel.cs" />
     <Compile Include="Modules\Configs\Models\SettingsFileModel.cs" />
@@ -318,7 +321,7 @@
     <Compile Include="UI\Controllers\OnlineButton.xaml.cs">
       <DependentUpon>OnlineButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controllers\PopupNotify.xaml.cs">
+    <Compile Include="Modules\Notifications\UI\PopupNotify.xaml.cs">
       <DependentUpon>PopupNotify.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modules\Downloader\UI\ProgressBar.xaml.cs">
@@ -352,7 +355,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controllers\PopupNotify.xaml">
+    <Page Include="Modules\Notifications\UI\PopupNotify.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Notifications;
 
 namespace UpdatesClient.Core.Network
 {

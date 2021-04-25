@@ -3,6 +3,7 @@ using System.Windows.Input;
 using UpdatesClient.Core;
 using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Notifications;
 using UpdatesClient.UI.Pages.MainWindow;
 using UpdatesClient.UI.Pages.MainWindow.Models;
 
@@ -36,12 +37,6 @@ namespace UpdatesClient
             NotifyController.Init();
             ServerList.PostInit();
             ModulesManager.PostInitModules();
-
-            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
-            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
-            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
-            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
-            NotifyController.Show(UI.Controllers.PopupNotify.Type.Normal, "", "Daler: Мать жива?");
         }
 
         private void LogOut_Click(object sender, RoutedEventArgs e)
@@ -72,6 +67,7 @@ namespace UpdatesClient
 
         private void wind_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            NotifyController.Save();
             Settings.Save();
         }
     }

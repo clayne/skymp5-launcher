@@ -1,38 +1,32 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using UpdatesClient.Core.Models;
+using UpdatesClient.Modules.Notifications.Models;
 
-namespace UpdatesClient.UI.Controllers
+namespace UpdatesClient.Modules.Notifications.UI
 {
-
-
     /// <summary>
     /// Логика взаимодействия для PopupNotify.xaml
     /// </summary>
     public partial class PopupNotify : UserControl
     {
         public event EventHandler ClickClose;
-
-        public const Type Normal = Type.Normal;
-        public const Type Error = Type.Error;
-
-        public int DelayMs { get; }
-
-        public enum Type
-        {
-            Normal,
-            Error
-        }
+        public readonly NotifyModel notifyModel;
 
         public PopupNotify(NotifyModel model)
         {
             InitializeComponent();
+            notifyModel = model;
+
             description.Text = model.Text;
-            time.Text = DateTime.Now.ToString("HH:mm");
+            time.Text = model.DateTime.ToString("HH:mm");
+
+            if (model.Color != null)
+            {
+                description.Foreground = new BrushConverter().ConvertFromString(model.Color) as SolidColorBrush;
+            }
+
             closeBtn.Click += (s, e) => ClickClose?.Invoke(this, e);
-            DelayMs = model.DelayMs;
         }
     }
 }
