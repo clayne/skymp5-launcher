@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:UpdatesClient"
         xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
         xmlns:local2="clr-namespace:UpdatesClient.UI.Pages"
-        xmlns:local3="clr-namespace:UpdatesClient.Modules.Downloader.UI"
         xmlns:local4="clr-namespace:UpdatesClient.UI.Pages.MainWindow"
         xmlns:local5="clr-namespace:UpdatesClient.UI.Pages.MainWindow.Models"
         xmlns:res="clr-namespace:UpdatesClient.Properties" xmlns:sys="clr-namespace:System;assembly=mscorlib"

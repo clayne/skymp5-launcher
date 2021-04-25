@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using UpdatesClient.Core;
 using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Notifications;

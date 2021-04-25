@@ -1,6 +1,5 @@
 ﻿using System;
 using UpdatesClient.Modules.Notifications.Enums;
-using UpdatesClient.UI.Controllers;
 
 namespace UpdatesClient.Modules.Notifications.Models
 {

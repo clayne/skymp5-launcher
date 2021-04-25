@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Helpers;
@@ -284,7 +283,7 @@ namespace UpdatesClient.Modules.ModsManager
                 }
             }
             catch (Exception e) { Logger.Error("DisableSkyrimMod", e); }
-            
+
             mods.EnabledMods.Remove(modName);
             mods.Save(List);
         }

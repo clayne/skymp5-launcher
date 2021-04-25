@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
-using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.Notifications;

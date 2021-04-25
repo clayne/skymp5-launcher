@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Helpers;
-using UpdatesClient.Core.Models;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Notifications.Enums;
 using UpdatesClient.Modules.Notifications.Models;

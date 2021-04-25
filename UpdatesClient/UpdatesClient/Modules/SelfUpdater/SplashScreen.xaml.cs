@@ -160,7 +160,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             AutoSet();
             while (!WaitOk)
             {
-                if (banner.Source != banners[bannerIdx]) 
+                if (banner.Source != banners[bannerIdx])
                     banner.Source = banners[bannerIdx];
                 await Task.Delay(100);
             }

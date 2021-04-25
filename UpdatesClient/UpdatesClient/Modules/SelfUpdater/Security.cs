@@ -20,7 +20,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             checking.Wait();
             if (!checking.Result)
             {
-                MessageBox.Show(Encoding.UTF8.GetString(Convert.FromBase64String("VGhlIHZlcnNpb24gaXMgcmV2b2tlZA==")) 
+                MessageBox.Show(Encoding.UTF8.GetString(Convert.FromBase64String("VGhlIHZlcnNpb24gaXMgcmV2b2tlZA=="))
                     + "\n" + Encoding.UTF8.GetString(Convert.FromBase64String("UGxlYXNlIGRvd25sb2FkIHRoZSBuZXcgdmVyc2lvbiBmcm9tIHNreW1wLmlv")),
                     Encoding.UTF8.GetString(Convert.FromBase64String("SXMgbm90IGEgYnVn")), MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
@@ -54,7 +54,7 @@ namespace UpdatesClient.Modules.SelfUpdater
                 Status = JsonConvert.DeserializeObject<VersionStatus>(jsn);
             }
             catch { Status.Block = false; }
-            
+
             return !(Status.Block && Status.Full);
         }
     }

@@ -7,9 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using UpdatesClient.Core;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
@@ -233,7 +230,7 @@ namespace UpdatesClient.UI.Pages
             {
                 string raw;
                 using (StreamReader reader = new StreamReader(we.Response.GetResponseStream())) raw = reader.ReadToEnd();
-                
+
                 try
                 {
                     JArray jObject = JArray.Parse(raw);
@@ -244,7 +241,7 @@ namespace UpdatesClient.UI.Pages
                     }
                 }
                 catch { }
-                
+
                 switch (raw)
                 {
                     case "Login failed":

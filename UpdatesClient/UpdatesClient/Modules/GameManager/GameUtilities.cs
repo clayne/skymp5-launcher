@@ -14,7 +14,6 @@ using UpdatesClient.Modules.Downloader;
 using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.Modules.Notifications;
-using UpdatesClient.UI.Controllers;
 using UpdatesClient.UI.Pages.MainWindow;
 using Res = UpdatesClient.Properties.Resources;
 

@@ -58,7 +58,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 Settings.ExperimentalFunctions = Model.ExpFunctions;
                 modified = true;
             }
-            
+
             if (ModVersion.ModsDisabled != Model.DisabledMods)
             {
                 ModVersion.ModsDisabled = Model.DisabledMods;
