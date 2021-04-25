@@ -407,7 +407,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Resource Include="Assets\Fonts\Gilroy-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -420,6 +419,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Debug\" />
+    <Folder Include="Assets\Fonts\" />
     <Folder Include="Core\Structs\" />
     <Folder Include="Modules\News\" />
   </ItemGroup>

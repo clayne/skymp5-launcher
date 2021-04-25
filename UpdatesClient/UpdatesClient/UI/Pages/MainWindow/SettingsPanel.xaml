@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Pages.MainWindow"
              xmlns:local1="clr-namespace:UpdatesClient.UI.Pages.MainWindow.Models"
-             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="UpdatesClient.UI.Pages.MainWindow.SettingsPanel"
+             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+             xmlns:res="clr-namespace:UpdatesClient.Properties"
+             x:Class="UpdatesClient.UI.Pages.MainWindow.SettingsPanel"
              mc:Ignorable="d" 
              d:DesignHeight="674" d:DesignWidth="362"
              d:DataContext="{d:DesignInstance Type=local1:SettingsPanelModel}">
@@ -686,25 +688,22 @@
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="1" Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto">
             <Grid x:Name="grid">
-                <TextBlock HorizontalAlignment="Left" Margin="33,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Общие" VerticalAlignment="Top" Foreground="#CCFFFFFF"/>
-                <TextBlock HorizontalAlignment="Left" Margin="33,26,0,0" TextWrapping="Wrap" Text="Путь к корневой папке Skyrim SE:" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light"/>
+                <TextBlock HorizontalAlignment="Left" Margin="33,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static res:Resources.Common}" VerticalAlignment="Top" Foreground="#CCFFFFFF"/>
+                <TextBlock HorizontalAlignment="Left" Margin="33,26,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.PathToSkyrimSE}" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light"/>
                 <TextBox Height="25" Margin="33,44,62,0" Text="{Binding Path=SkyrimPath, Mode=TwoWay}" VerticalAlignment="Top" FontWeight="Light" Background="#FF555A6B" Foreground="White" BorderBrush="{x:Null}" Style="{DynamicResource TextBoxStyle1}"/>
                 <Button HorizontalAlignment="Left" Margin="305,44,0,0" VerticalAlignment="Top" Width="25" Height="25" Style="{StaticResource IconButtonStyle}" BorderBrush="#B2FFFFFF" MinWidth="14" MinHeight="12" Click="SelectSkyrimPath">
                     <Button.Background>
                         <ImageBrush ImageSource="{DynamicResource Folder}" Stretch="Uniform"/>
                     </Button.Background>
                 </Button>
-                <TextBlock HorizontalAlignment="Left" Margin="33,86,0,0" TextWrapping="Wrap" Text="Язык приложения" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light"/>
+                <TextBlock HorizontalAlignment="Left" Margin="33,86,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.Language}" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light"/>
                 <ComboBox HorizontalAlignment="Left" Margin="33,104,0,0" SelectedIndex="{Binding Path=SelectedLocale}" ItemsSource="{Binding Path=Locales}" VerticalAlignment="Top" Width="297" Style="{DynamicResource ComboBoxStyle1}" Background="#FF505465" Height="25" BorderBrush="#FFACACAC" Foreground="White"/>
 
-                <CheckBox Content="Экспериментальные функции" HorizontalAlignment="Left" Margin="33,146,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding Path=ExpFunctions}"/>
-                
-                <CheckBox Content="Отключить SKSE" IsEnabled="{Binding CanDisabledSKSE}" HorizontalAlignment="Left" Margin="33,188,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledSKSE}"/>
-                <CheckBox Content="Отключить платформу" IsEnabled="{Binding CanDisabledMods}" HorizontalAlignment="Left" Margin="33,230,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledMods}"/>
+                <CheckBox Content="{x:Static res:Resources.ExperimentalFeatures}" HorizontalAlignment="Left" Margin="33,146,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding Path=ExpFunctions}"/>
 
+                <CheckBox Content="{x:Static res:Resources.DisableSKSE}" IsEnabled="{Binding CanDisabledSKSE}" HorizontalAlignment="Left" Margin="33,188,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledSKSE}"/>
+                <CheckBox Content="{x:Static res:Resources.DisableMods}" IsEnabled="{Binding CanDisabledMods}" HorizontalAlignment="Left" Margin="33,230,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledMods}"/>
             </Grid>
         </ScrollViewer>
-
-
     </Grid>
 </UserControl>

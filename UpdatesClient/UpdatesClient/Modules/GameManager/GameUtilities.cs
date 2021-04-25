@@ -54,7 +54,7 @@ namespace UpdatesClient.Modules.GameManager
             {
                 FileAttributes attr = new FileInfo(Settings.PathToSkympClientSettings).Attributes;
                 Logger.Error("Play_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
-                NotifyController.Show("UnAuthorizedAccessException: Unable to access file");
+                NotifyController.Show($"Unable to access file {Settings.PathToSkympClientSettings}");
                 return;
             }
             catch (Exception e)
@@ -133,7 +133,7 @@ namespace UpdatesClient.Modules.GameManager
             {
                 if (NetworkSettings.CompatibilityMode)
                 {
-                    NotifyController.Show("Вероятно целевой сервер устарел, используется режим совместимости");
+                    NotifyController.Show(Res.CompatibilityModeOn);
                     if (Mods.ExistMod("Farm"))
                         await Mods.OldModeEnable();
                     await Task.Delay(3000);
@@ -141,13 +141,13 @@ namespace UpdatesClient.Modules.GameManager
                 }
                 else
                 {
-                    NotifyController.Show("Возможно целевой сервер устарел, так как не ответил на запрос");
+                    NotifyController.Show(Res.CompatibilityModeOff);
                     return false;
                 }
             }
             catch (FileNotFoundException)
             {
-                NotifyController.Show("Один или несколько модов не удалось загрузить с сервера");
+                NotifyController.Show(Res.DownloadModError);
                 return false;
             }
             catch (Exception e)
@@ -166,7 +166,7 @@ namespace UpdatesClient.Modules.GameManager
             catch (UnauthorizedAccessException)
             {
                 FileAttributes attr = new FileInfo(path).Attributes;
-                Logger.Error("Write_Plugin_UAException", new UnauthorizedAccessException($"UnAuthorizedAccessException: Unable to access file. Attributes: {attr}"));
+                Logger.Error("Write_Plugin_UAException", new UnauthorizedAccessException($"Unable to access file. Attributes: {attr}"));
             }
             catch (Exception e)
             {

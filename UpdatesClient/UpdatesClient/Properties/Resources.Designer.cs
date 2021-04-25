@@ -61,29 +61,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Attempt.
+        ///   Ищет локализованную строку, похожую на Активировать код.
         /// </summary>
-        public static string Attempt {
+        public static string ActivateCode {
             get {
-                return ResourceManager.GetString("Attempt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Back.
-        /// </summary>
-        public static string Back {
-            get {
-                return ResourceManager.GetString("Back", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Checking for updates.
-        /// </summary>
-        public static string CheckingUpdates {
-            get {
-                return ResourceManager.GetString("CheckingUpdates", resourceCulture);
+                return ResourceManager.GetString("ActivateCode", resourceCulture);
             }
         }
         
@@ -93,6 +75,33 @@ namespace UpdatesClient.Properties {
         public static string CheckSelfUpdate {
             get {
                 return ResourceManager.GetString("CheckSelfUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Общие.
+        /// </summary>
+        public static string Common {
+            get {
+                return ResourceManager.GetString("Common", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Perhaps the target server is outdated, because I did not answer the request .
+        /// </summary>
+        public static string CompatibilityModeOff {
+            get {
+                return ResourceManager.GetString("CompatibilityModeOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Probably the target server is outdated, the compatibility mode is used .
+        /// </summary>
+        public static string CompatibilityModeOn {
+            get {
+                return ResourceManager.GetString("CompatibilityModeOn", resourceCulture);
             }
         }
         
@@ -125,11 +134,38 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Описание.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Details.
         /// </summary>
         public static string Details {
             get {
                 return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Отключить платформу.
+        /// </summary>
+        public static string DisableMods {
+            get {
+                return ResourceManager.GetString("DisableMods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Отключить SKSE.
+        /// </summary>
+        public static string DisableSKSE {
+            get {
+                return ResourceManager.GetString("DisableSKSE", resourceCulture);
             }
         }
         
@@ -143,29 +179,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Downloading client.
+        ///   Ищет локализованную строку, похожую на One or more mods could not be downloaded from the server .
         /// </summary>
-        public static string DownloadingClient {
+        public static string DownloadModError {
             get {
-                return ResourceManager.GetString("DownloadingClient", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Downloading SKSE.
-        /// </summary>
-        public static string DownloadingSKSE {
-            get {
-                return ResourceManager.GetString("DownloadingSKSE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Downloading SSERuFixConsole.
-        /// </summary>
-        public static string DownloadingSSERuFixConsole {
-            get {
-                return ResourceManager.GetString("DownloadingSSERuFixConsole", resourceCulture);
+                return ResourceManager.GetString("DownloadModError", resourceCulture);
             }
         }
         
@@ -175,6 +193,33 @@ namespace UpdatesClient.Properties {
         public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Поле почты не заполнено.
+        /// </summary>
+        public static string EmailEmpty {
+            get {
+                return ResourceManager.GetString("EmailEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Указанный адрес электронной почты уже занят.
+        /// </summary>
+        public static string EmailExists {
+            get {
+                return ResourceManager.GetString("EmailExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Неверный формат почты.
+        /// </summary>
+        public static string EmailInvalid {
+            get {
+                return ResourceManager.GetString("EmailInvalid", resourceCulture);
             }
         }
         
@@ -233,38 +278,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на You can join the testing of experimental features.\nAttention: the launcher may get better or worse.\nJoin?.
-        /// </summary>
-        public static string ExperimentalFeaturesText {
-            get {
-                return ResourceManager.GetString("ExperimentalFeaturesText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Extracting.
         /// </summary>
         public static string Extracting {
             get {
                 return ResourceManager.GetString("Extracting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Extracting client.
-        /// </summary>
-        public static string ExtractingClient {
-            get {
-                return ResourceManager.GetString("ExtractingClient", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Extracting SKSE.
-        /// </summary>
-        public static string ExtractingSKSE {
-            get {
-                return ResourceManager.GetString("ExtractingSKSE", resourceCulture);
             }
         }
         
@@ -278,20 +296,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Have a good game!.
+        ///   Ищет локализованную строку, похожую на (игра не найдена).
         /// </summary>
-        public static string HaveAGG {
+        public static string GameNotFound {
             get {
-                return ResourceManager.GetString("HaveAGG", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на h..
-        /// </summary>
-        public static string Hours {
-            get {
-                return ResourceManager.GetString("Hours", resourceCulture);
+                return ResourceManager.GetString("GameNotFound", resourceCulture);
             }
         }
         
@@ -305,6 +314,15 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на INSTALL.
+        /// </summary>
+        public static string INSTALL {
+            get {
+                return ResourceManager.GetString("INSTALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Installation completed.
         /// </summary>
         public static string InstallationCompleted {
@@ -314,11 +332,29 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Left.
+        ///   Ищет локализованную строку, похожую на Установить.
         /// </summary>
-        public static string Left {
+        public static string InstallDo {
             get {
-                return ResourceManager.GetString("Left", resourceCulture);
+                return ResourceManager.GetString("InstallDo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Установка.
+        /// </summary>
+        public static string Installing {
+            get {
+                return ResourceManager.GetString("Installing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Язык приложения.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         
@@ -332,6 +368,15 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Неправильная почта или пароль.
+        /// </summary>
+        public static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Change user.
         /// </summary>
         public static string LogOut {
@@ -341,20 +386,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на HOME.
+        ///   Ищет локализованную строку, похожую на Магазин.
         /// </summary>
-        public static string Main {
+        public static string Market {
             get {
-                return ResourceManager.GetString("Main", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Maximum players.
-        /// </summary>
-        public static string MaxPlayers {
-            get {
-                return ResourceManager.GetString("MaxPlayers", resourceCulture);
+                return ResourceManager.GetString("Market", resourceCulture);
             }
         }
         
@@ -369,11 +405,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на min..
+        ///   Ищет локализованную строку, похожую на Моды.
         /// </summary>
-        public static string Minutes {
+        public static string Mods {
             get {
-                return ResourceManager.GetString("Minutes", resourceCulture);
+                return ResourceManager.GetString("Mods", resourceCulture);
             }
         }
         
@@ -383,6 +419,15 @@ namespace UpdatesClient.Properties {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Новости.
+        /// </summary>
+        public static string News {
+            get {
+                return ResourceManager.GetString("News", resourceCulture);
             }
         }
         
@@ -397,20 +442,20 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на of.
+        ///   Ищет локализованную строку, похожую на NOTIFICATIONS.
         /// </summary>
-        public static string Of {
+        public static string Notifications {
             get {
-                return ResourceManager.GetString("Of", resourceCulture);
+                return ResourceManager.GetString("Notifications", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Online.
+        ///   Ищет локализованную строку, похожую на Параметры.
         /// </summary>
-        public static string Online {
+        public static string Parameters {
             get {
-                return ResourceManager.GetString("Online", resourceCulture);
+                return ResourceManager.GetString("Parameters", resourceCulture);
             }
         }
         
@@ -424,6 +469,24 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Поле пароля не заполнено.
+        /// </summary>
+        public static string PasswordEmpty {
+            get {
+                return ResourceManager.GetString("PasswordEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пароль должен быть длиннее 6 символов.
+        /// </summary>
+        public static string PasswordLonger {
+            get {
+                return ResourceManager.GetString("PasswordLonger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Password recovery.
         /// </summary>
         public static string PasswordRecovery {
@@ -433,11 +496,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на After clicking on the &quot;send&quot; button, you will be sent an email with further instructions..
+        ///   Ищет локализованную строку, похожую на Путь к корневой папке Skyrim SE:.
         /// </summary>
-        public static string PasswordRecoveryDescription {
+        public static string PathToSkyrimSE {
             get {
-                return ResourceManager.GetString("PasswordRecoveryDescription", resourceCulture);
+                return ResourceManager.GetString("PathToSkyrimSE", resourceCulture);
             }
         }
         
@@ -451,29 +514,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Refresh server list.
-        /// </summary>
-        public static string RefreshServerList {
-            get {
-                return ResourceManager.GetString("RefreshServerList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Registration.
         /// </summary>
         public static string Register {
             get {
                 return ResourceManager.GetString("Register", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Before you can explore Skyrim, we need you to verify your email address. An email with confirmation instructions will be sent to your address..
-        /// </summary>
-        public static string RegisterDescription {
-            get {
-                return ResourceManager.GetString("RegisterDescription", resourceCulture);
             }
         }
         
@@ -496,11 +541,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Confirm the password.
+        ///   Ищет локализованную строку, похожую на Требуется места:.
         /// </summary>
-        public static string RepeatPassword {
+        public static string RequiredSpace {
             get {
-                return ResourceManager.GetString("RepeatPassword", resourceCulture);
+                return ResourceManager.GetString("RequiredSpace", resourceCulture);
             }
         }
         
@@ -514,29 +559,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на sec..
-        /// </summary>
-        public static string Seconds {
-            get {
-                return ResourceManager.GetString("Seconds", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Select the folder with TES: Skyrim SE.
         /// </summary>
         public static string SelectGameFolder {
             get {
                 return ResourceManager.GetString("SelectGameFolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Select server.
-        /// </summary>
-        public static string SelectServer {
-            get {
-                return ResourceManager.GetString("SelectServer", resourceCulture);
             }
         }
         
@@ -589,6 +616,15 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Список серверов.
+        /// </summary>
+        public static string Servers {
+            get {
+                return ResourceManager.GetString("Servers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.Byte[].
         /// </summary>
         public static byte[] SharpCompress {
@@ -599,29 +635,11 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на SKSE not found, install?.
+        ///   Ищет локализованную строку, похожую на не найден (будет установлен).
         /// </summary>
         public static string SKSENotFound {
             get {
                 return ResourceManager.GetString("SKSENotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Skyrim SE not found.
-        /// </summary>
-        public static string SkyrimNotFound {
-            get {
-                return ResourceManager.GetString("SkyrimNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на SSE Russian Fix Console not found, install?.
-        /// </summary>
-        public static string SSERFix {
-            get {
-                return ResourceManager.GetString("SSERFix", resourceCulture);
             }
         }
         
@@ -631,15 +649,6 @@ namespace UpdatesClient.Properties {
         public static string Successfully {
             get {
                 return ResourceManager.GetString("Successfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Support.
-        /// </summary>
-        public static string Support {
-            get {
-                return ResourceManager.GetString("Support", resourceCulture);
             }
         }
         
@@ -731,6 +740,15 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Пользователь с тем же именем уже существует.
+        /// </summary>
+        public static string UserExists {
+            get {
+                return ResourceManager.GetString("UserExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Username.
         /// </summary>
         public static string UserName {
@@ -740,11 +758,29 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на You are registered! Verify your account..
+        ///   Ищет локализованную строку, похожую на Поле логина не заполнено.
         /// </summary>
-        public static string VerifyAccount {
+        public static string UsernameEmpty {
             get {
-                return ResourceManager.GetString("VerifyAccount", resourceCulture);
+                return ResourceManager.GetString("UsernameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Логин должен быть длиннее 2 символов.
+        /// </summary>
+        public static string UsernameLonger {
+            get {
+                return ResourceManager.GetString("UsernameLonger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Логин должен быть короче 32 символов.
+        /// </summary>
+        public static string UsernameShoter {
+            get {
+                return ResourceManager.GetString("UsernameShoter", resourceCulture);
             }
         }
         
@@ -758,20 +794,20 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Просмотр профиля.
+        /// </summary>
+        public static string ViewProfile {
+            get {
+                return ResourceManager.GetString("ViewProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Warning.
         /// </summary>
         public static string Warning {
             get {
                 return ResourceManager.GetString("Warning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Welcome.
-        /// </summary>
-        public static string Welcome {
-            get {
-                return ResourceManager.GetString("Welcome", resourceCulture);
             }
         }
         

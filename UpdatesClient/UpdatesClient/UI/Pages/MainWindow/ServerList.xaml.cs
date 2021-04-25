@@ -19,6 +19,7 @@ using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.Modules.Notifications;
 using UpdatesClient.UI.Pages.MainWindow.Models;
 using UpdatesClient.UI.Windows;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Pages.MainWindow
 {
@@ -146,7 +147,6 @@ namespace UpdatesClient.UI.Pages.MainWindow
             }
         }
 
-        //TODO: установщик
         private async Task Install()
         {
             InstallerWindow iw = new InstallerWindow();
@@ -161,8 +161,11 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 client = await ModUtilities.InstallClient();
                 model.MainButtonProgressBar = false;
 
-                if (skse && rufix && client) await CheckGame();
-                //TODO: уведомление установки
+                if (skse && rufix && client)
+                {
+                    NotifyController.Show(Res.InstallationCompleted);
+                    await CheckGame();
+                }
             }
         }
 

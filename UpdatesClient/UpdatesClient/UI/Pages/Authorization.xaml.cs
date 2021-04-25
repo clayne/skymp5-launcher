@@ -16,6 +16,7 @@ using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.UI.Pages.Models.AuthModels;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Pages
 {
@@ -71,17 +72,17 @@ namespace UpdatesClient.UI.Pages
 
             if (string.IsNullOrWhiteSpace(auth.Email))
             {
-                auth.Error += "Поле почты не заполнено\n";
+                auth.Error += Res.EmailEmpty + "\n";
                 can = false;
             }
             else if (!Regex.IsMatch(auth.Email, @".+@.+\..+"))
             {
-                auth.Error += "Неверный формат почты\n";
+                auth.Error += Res.EmailInvalid + "\n";
                 can = false;
             }
             if (string.IsNullOrEmpty(passwordBoxAuth.Password))
             {
-                auth.Error += "Поле пароля не заполнено\n";
+                auth.Error += Res.PasswordEmpty + "\n";
                 can = false;
             }
             auth.Error = auth.Error.Trim();
@@ -123,37 +124,37 @@ namespace UpdatesClient.UI.Pages
 
             if (string.IsNullOrWhiteSpace(reg.Email))
             {
-                reg.Error += "Поле почты не заполнено\n";
+                reg.Error += Res.EmailEmpty + "\n";
                 can = false;
             }
             else if (!Regex.IsMatch(reg.Email, @".+@.+\..+"))
             {
-                reg.Error += "Неверный формат почты\n";
+                reg.Error += Res.EmailInvalid + "\n";
                 can = false;
             }
             if (string.IsNullOrWhiteSpace(reg.Login))
             {
-                reg.Error += "Поле логина не заполнено\n";
+                reg.Error += Res.UsernameEmpty + "\n";
                 can = false;
             }
             else if (reg.Login.Length < 2)
             {
-                reg.Error += "Логин должен быть длиннее 2 символов\n";
+                reg.Error += Res.UsernameLonger + "\n";
                 can = false;
             }
             else if (reg.Login.Length > 32)
             {
-                reg.Error += "Логин должен быть короче 32 символов\n";
+                reg.Error += Res.UsernameShoter + "\n";
                 can = false;
             }
             if (string.IsNullOrEmpty(passwordBoxReg.Password))
             {
-                reg.Error += "Поле пароля не заполнено\n";
+                reg.Error += Res.PasswordEmpty + "\n";
                 can = false;
             }
             else if (passwordBoxReg.Password.Length < 6)
             {
-                reg.Error += "Пароль должен быть длиннее 6 символов\n";
+                reg.Error += Res.PasswordLonger + "\n";
                 can = false;
             }
             reg.Error = reg.Error.Trim();
@@ -192,12 +193,12 @@ namespace UpdatesClient.UI.Pages
 
             if (string.IsNullOrWhiteSpace(rec.Email))
             {
-                rec.Error += "Поле почты не заполнено\n";
+                rec.Error += Res.EmailEmpty + "\n";
                 can = false;
             }
             else if (!Regex.IsMatch(rec.Email, @".+@.+\..+"))
             {
-                rec.Error += "Неверный формат почты\n";
+                rec.Error += Res.EmailInvalid + "\n";
                 can = false;
             }
             rec.Error = rec.Error.Trim();
@@ -247,18 +248,18 @@ namespace UpdatesClient.UI.Pages
                 switch (raw)
                 {
                     case "Login failed":
-                        raw = "Неправильная почта или пароль";
+                        raw = Res.LoginFailed;
                         break;
                     case "The specified e-mail address already exists":
-                        raw = "Указанный адрес электронной почты уже занят";
+                        raw = Res.EmailExists;
                         break;
                     case "A user with the same name already exists":
-                        raw = "Пользователь с тем же именем уже существует";
+                        raw = Res.UserExists;
                         break;
                 }
                 return raw;
             }
-            return "Ошибка";
+            return Res.Error;
         }
     }
 }

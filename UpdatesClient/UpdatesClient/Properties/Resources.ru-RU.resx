@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Attempt" xml:space="preserve">
-    <value>Попытка</value>
-  </data>
-  <data name="Back" xml:space="preserve">
-    <value>Назад</value>
-  </data>
-  <data name="CheckingUpdates" xml:space="preserve">
-    <value>Проверка обновлений</value>
-  </data>
   <data name="CheckSelfUpdate" xml:space="preserve">
     <value>Проверка обновлений лаунчера...</value>
   </data>
@@ -140,15 +131,6 @@
   </data>
   <data name="Done" xml:space="preserve">
     <value>Готово</value>
-  </data>
-  <data name="DownloadingClient" xml:space="preserve">
-    <value>Загрузка клиента</value>
-  </data>
-  <data name="DownloadingSKSE" xml:space="preserve">
-    <value>Загрузка SKSE</value>
-  </data>
-  <data name="DownloadingSSERuFixConsole" xml:space="preserve">
-    <value>Загрузка SSERuFixConsole</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Почта</value>
@@ -171,26 +153,11 @@
   <data name="ExperimentalFeatures" xml:space="preserve">
     <value>Экспериментальные функции</value>
   </data>
-  <data name="ExperimentalFeaturesText" xml:space="preserve">
-    <value>Вы можете присоединиться к тестированию экспериментальных функций.\nВнимание: работа лаунчера может стать лучше или хуже.\nПрисоединиться?</value>
-  </data>
   <data name="Extracting" xml:space="preserve">
     <value>Распаковка</value>
   </data>
-  <data name="ExtractingClient" xml:space="preserve">
-    <value>Распаковка клиента</value>
-  </data>
-  <data name="ExtractingSKSE" xml:space="preserve">
-    <value>Распаковка SKSE</value>
-  </data>
   <data name="ForgotPassword" xml:space="preserve">
     <value>Забыли пароль?</value>
-  </data>
-  <data name="HaveAGG" xml:space="preserve">
-    <value>Приятной игры!</value>
-  </data>
-  <data name="Hours" xml:space="preserve">
-    <value>ч.</value>
   </data>
   <data name="InitError" xml:space="preserve">
     <value>Во время инициализации приложения произошла непоправимая ошибка</value>
@@ -198,32 +165,14 @@
   <data name="InstallationCompleted" xml:space="preserve">
     <value>Установка завершена</value>
   </data>
-  <data name="Left" xml:space="preserve">
-    <value>Осталось</value>
-  </data>
   <data name="LogIn" xml:space="preserve">
     <value>Войти</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Сменить пользователя</value>
   </data>
-  <data name="Main" xml:space="preserve">
-    <value>ГЛАВНАЯ</value>
-  </data>
-  <data name="MaxPlayers" xml:space="preserve">
-    <value>Максимум игроков</value>
-  </data>
-  <data name="Minutes" xml:space="preserve">
-    <value>мин.</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>Название</value>
-  </data>
-  <data name="Of" xml:space="preserve">
-    <value>из</value>
-  </data>
-  <data name="Online" xml:space="preserve">
-    <value>Онлайн</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
@@ -231,20 +180,8 @@
   <data name="PasswordRecovery" xml:space="preserve">
     <value>Восстановление пароля</value>
   </data>
-  <data name="PasswordRecoveryDescription" xml:space="preserve">
-    <value>После нажатия на кнопку «отправить», вам на почту будет отправлено письмо с дальнейшей инструкцией.</value>
-  </data>
-  <data name="PLAY" xml:space="preserve">
-    <value>ИГРАТЬ</value>
-  </data>
-  <data name="RefreshServerList" xml:space="preserve">
-    <value>Обновить список серверов</value>
-  </data>
   <data name="Register" xml:space="preserve">
     <value>Регистрация</value>
-  </data>
-  <data name="RegisterDescription" xml:space="preserve">
-    <value>Прежде чем вы сможете исследовать Skyrim, нам нужно, чтобы вы подтвердили свой адрес электронной почты. Электронное письмо с инструкциями по подтверждению будет отправлено на ваш адрес.</value>
   </data>
   <data name="RegisterNow" xml:space="preserve">
     <value>Зарегистрироваться</value>
@@ -252,20 +189,8 @@
   <data name="RememberMe" xml:space="preserve">
     <value>Запомнить меня</value>
   </data>
-  <data name="RepeatPassword" xml:space="preserve">
-    <value>Подтвердите пароль</value>
-  </data>
-  <data name="RETRY" xml:space="preserve">
-    <value>ПОВТОРИТЬ</value>
-  </data>
-  <data name="Seconds" xml:space="preserve">
-    <value>сек.</value>
-  </data>
   <data name="SelectGameFolder" xml:space="preserve">
     <value>Выберите папку с TES: Skyrim SE</value>
-  </data>
-  <data name="SelectServer" xml:space="preserve">
-    <value>Выберите сервер</value>
   </data>
   <data name="SelfUpdating" xml:space="preserve">
     <value>Обновление лаунчера</value>
@@ -273,26 +198,11 @@
   <data name="Send" xml:space="preserve">
     <value>Отправить</value>
   </data>
-  <data name="SKSENotFound" xml:space="preserve">
-    <value>SKSE не обнаружен, установить?</value>
-  </data>
-  <data name="SkyrimNotFound" xml:space="preserve">
-    <value>Skyrim SE не обнаружен</value>
-  </data>
-  <data name="SSERFix" xml:space="preserve">
-    <value>SSE Russian Fix Console не обнаружен, установить?</value>
-  </data>
   <data name="Successfully" xml:space="preserve">
     <value>Успешно</value>
   </data>
-  <data name="Support" xml:space="preserve">
-    <value>Поддержка</value>
-  </data>
   <data name="Title" xml:space="preserve">
     <value>SkyMP Launcher</value>
-  </data>
-  <data name="UPDATE" xml:space="preserve">
-    <value>ОБНОВИТЬ</value>
   </data>
   <data name="UrId" xml:space="preserve">
     <value>Ваш идентификатор</value>
@@ -300,16 +210,118 @@
   <data name="UserName" xml:space="preserve">
     <value>Логин</value>
   </data>
-  <data name="VerifyAccount" xml:space="preserve">
-    <value>Вы зарегистрировались! Подтвердите аккаунт.</value>
-  </data>
   <data name="Version" xml:space="preserve">
     <value>Версия</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Внимание</value>
   </data>
-  <data name="Welcome" xml:space="preserve">
-    <value>Добро пожаловать</value>
+  <data name="PLAY" xml:space="preserve">
+    <value>ИГРАТЬ</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>ОБНОВИТЬ</value>
+  </data>
+  <data name="INSTALL" xml:space="preserve">
+    <value>УСТАНОВИТЬ</value>
+  </data>
+  <data name="RETRY" xml:space="preserve">
+    <value>ПОВТОРИТЬ</value>
+  </data>
+  <data name="CompatibilityModeOn" xml:space="preserve">
+    <value>Вероятно целевой сервер устарел, используется режим совместимости</value>
+  </data>
+  <data name="CompatibilityModeOff" xml:space="preserve">
+    <value>Возможно целевой сервер устарел, так как не ответил на запрос</value>
+  </data>
+  <data name="DownloadModError" xml:space="preserve">
+    <value>Один или несколько модов не удалось загрузить с сервера</value>
+  </data>
+  <data name="ActivateCode" xml:space="preserve">
+    <value>Активировать код</value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>Общие</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="DisableMods" xml:space="preserve">
+    <value>Отключить платформу</value>
+  </data>
+  <data name="DisableSKSE" xml:space="preserve">
+    <value>Отключить SKSE</value>
+  </data>
+  <data name="EmailEmpty" xml:space="preserve">
+    <value>Поле почты не заполнено</value>
+  </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>Указанный адрес электронной почты уже занят</value>
+  </data>
+  <data name="EmailInvalid" xml:space="preserve">
+    <value>Неверный формат почты</value>
+  </data>
+  <data name="GameNotFound" xml:space="preserve">
+    <value>(игра не найдена)</value>
+  </data>
+  <data name="InstallDo" xml:space="preserve">
+    <value>Установить</value>
+  </data>
+  <data name="Installing" xml:space="preserve">
+    <value>Установка</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Язык приложения</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Неправильная почта или пароль</value>
+  </data>
+  <data name="Market" xml:space="preserve">
+    <value>Магазин</value>
+  </data>
+  <data name="Mods" xml:space="preserve">
+    <value>Моды</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>Новости</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>УВЕДОМЛЕНИЯ</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="PasswordEmpty" xml:space="preserve">
+    <value>Поле пароля не заполнено</value>
+  </data>
+  <data name="PasswordLonger" xml:space="preserve">
+    <value>Пароль должен быть длиннее 6 символов</value>
+  </data>
+  <data name="PathToSkyrimSE" xml:space="preserve">
+    <value>Путь к корневой папке Skyrim SE:</value>
+  </data>
+  <data name="RequiredSpace" xml:space="preserve">
+    <value>Требуется места:</value>
+  </data>
+  <data name="Servers" xml:space="preserve">
+    <value>Список серверов</value>
+  </data>
+  <data name="SKSENotFound" xml:space="preserve">
+    <value>не найден (будет установлен)</value>
+  </data>
+  <data name="UserExists" xml:space="preserve">
+    <value>Пользователь с тем же именем уже существует</value>
+  </data>
+  <data name="UsernameEmpty" xml:space="preserve">
+    <value>Поле логина не заполнено</value>
+  </data>
+  <data name="UsernameLonger" xml:space="preserve">
+    <value>Логин должен быть длиннее 2 символов</value>
+  </data>
+  <data name="UsernameShoter" xml:space="preserve">
+    <value>Логин должен быть короче 32 символов</value>
+  </data>
+  <data name="ViewProfile" xml:space="preserve">
+    <value>Просмотр профиля</value>
   </data>
 </root>

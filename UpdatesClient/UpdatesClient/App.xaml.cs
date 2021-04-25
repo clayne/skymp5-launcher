@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Net.WebSockets;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -284,7 +285,8 @@ namespace UpdatesClient
         private bool CanRun()
         {
             if (Modules.SelfUpdater.Security.Status.Block)
-                MessageBox.Show("Please download the new version from skymp.io", "Is not a bug", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Encoding.UTF8.GetString(Convert.FromBase64String("UGxlYXNlIGRvd25sb2FkIHRoZSBuZXcgdmVyc2lvbiBmcm9tIHNreW1wLmlv")),
+                    Encoding.UTF8.GetString(Convert.FromBase64String("SXMgbm90IGEgYnVn")), MessageBoxButton.OK, MessageBoxImage.Warning);
 
             return !Modules.SelfUpdater.Security.Status.Block;
         }

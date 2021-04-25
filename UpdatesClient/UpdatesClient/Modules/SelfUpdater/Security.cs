@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Security;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using UpdatesClient.Core;
@@ -19,7 +20,9 @@ namespace UpdatesClient.Modules.SelfUpdater
             checking.Wait();
             if (!checking.Result)
             {
-                MessageBox.Show("The version is revoked\nPlease download the new version from skymp.io", "Is not a bug", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Encoding.UTF8.GetString(Convert.FromBase64String("VGhlIHZlcnNpb24gaXMgcmV2b2tlZA==")) 
+                    + "\n" + Encoding.UTF8.GetString(Convert.FromBase64String("UGxlYXNlIGRvd25sb2FkIHRoZSBuZXcgdmVyc2lvbiBmcm9tIHNreW1wLmlv")),
+                    Encoding.UTF8.GetString(Convert.FromBase64String("SXMgbm90IGEgYnVn")), MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
 
@@ -45,9 +48,13 @@ namespace UpdatesClient.Modules.SelfUpdater
 
         private static async Task<bool> CheckVersion()
         {
-            string jsn = await Core.Net.Request($"{Core.Net.URL_ApiLauncher}CheckVersion/{EnvParams.VersionFile}", "POST", false, null);
-            Status = JsonConvert.DeserializeObject<VersionStatus>(jsn);
-
+            try
+            {
+                string jsn = await Core.Net.Request($"{Core.Net.URL_ApiLauncher}CheckVersion/{EnvParams.VersionFile}", "POST", false, null);
+                Status = JsonConvert.DeserializeObject<VersionStatus>(jsn);
+            }
+            catch { Status.Block = false; }
+            
             return !(Status.Block && Status.Full);
         }
     }

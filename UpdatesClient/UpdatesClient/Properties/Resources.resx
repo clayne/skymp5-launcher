@@ -117,15 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Attempt" xml:space="preserve">
-    <value>Attempt</value>
-  </data>
-  <data name="Back" xml:space="preserve">
-    <value>Back</value>
-  </data>
-  <data name="CheckingUpdates" xml:space="preserve">
-    <value>Checking for updates</value>
-  </data>
   <data name="CheckSelfUpdate" xml:space="preserve">
     <value>Checking for launcher updates...</value>
   </data>
@@ -144,15 +135,6 @@
   </data>
   <data name="Done" xml:space="preserve">
     <value>Done</value>
-  </data>
-  <data name="DownloadingClient" xml:space="preserve">
-    <value>Downloading client</value>
-  </data>
-  <data name="DownloadingSKSE" xml:space="preserve">
-    <value>Downloading SKSE</value>
-  </data>
-  <data name="DownloadingSSERuFixConsole" xml:space="preserve">
-    <value>Downloading SSERuFixConsole</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -175,26 +157,11 @@
   <data name="ExperimentalFeatures" xml:space="preserve">
     <value>Experimental features</value>
   </data>
-  <data name="ExperimentalFeaturesText" xml:space="preserve">
-    <value>You can join the testing of experimental features.\nAttention: the launcher may get better or worse.\nJoin?</value>
-  </data>
   <data name="Extracting" xml:space="preserve">
     <value>Extracting</value>
   </data>
-  <data name="ExtractingClient" xml:space="preserve">
-    <value>Extracting client</value>
-  </data>
-  <data name="ExtractingSKSE" xml:space="preserve">
-    <value>Extracting SKSE</value>
-  </data>
   <data name="ForgotPassword" xml:space="preserve">
     <value>Forgot your password?</value>
-  </data>
-  <data name="HaveAGG" xml:space="preserve">
-    <value>Have a good game!</value>
-  </data>
-  <data name="Hours" xml:space="preserve">
-    <value>h.</value>
   </data>
   <data name="InitError" xml:space="preserve">
     <value>An unrecoverable error occurred during application initialization</value>
@@ -202,26 +169,14 @@
   <data name="InstallationCompleted" xml:space="preserve">
     <value>Installation completed</value>
   </data>
-  <data name="Left" xml:space="preserve">
-    <value>Left</value>
-  </data>
   <data name="LogIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
   <data name="LogOut" xml:space="preserve">
     <value>Change user</value>
   </data>
-  <data name="Main" xml:space="preserve">
-    <value>HOME</value>
-  </data>
-  <data name="MaxPlayers" xml:space="preserve">
-    <value>Maximum players</value>
-  </data>
   <data name="Microsoft_Bcl_AsyncInterfaces" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Microsoft.Bcl.AsyncInterfaces.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Minutes" xml:space="preserve">
-    <value>min.</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Title</value>
@@ -229,32 +184,14 @@
   <data name="Newtonsoft_Json" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Newtonsoft.Json.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Of" xml:space="preserve">
-    <value>of</value>
-  </data>
-  <data name="Online" xml:space="preserve">
-    <value>Online</value>
-  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
   <data name="PasswordRecovery" xml:space="preserve">
     <value>Password recovery</value>
   </data>
-  <data name="PasswordRecoveryDescription" xml:space="preserve">
-    <value>After clicking on the "send" button, you will be sent an email with further instructions.</value>
-  </data>
-  <data name="PLAY" xml:space="preserve">
-    <value>PLAY</value>
-  </data>
-  <data name="RefreshServerList" xml:space="preserve">
-    <value>Refresh server list</value>
-  </data>
   <data name="Register" xml:space="preserve">
     <value>Registration</value>
-  </data>
-  <data name="RegisterDescription" xml:space="preserve">
-    <value>Before you can explore Skyrim, we need you to verify your email address. An email with confirmation instructions will be sent to your address.</value>
   </data>
   <data name="RegisterNow" xml:space="preserve">
     <value>Sign up</value>
@@ -262,20 +199,8 @@
   <data name="RememberMe" xml:space="preserve">
     <value>Remember me</value>
   </data>
-  <data name="RepeatPassword" xml:space="preserve">
-    <value>Confirm the password</value>
-  </data>
-  <data name="RETRY" xml:space="preserve">
-    <value>RETRY</value>
-  </data>
-  <data name="Seconds" xml:space="preserve">
-    <value>sec.</value>
-  </data>
   <data name="SelectGameFolder" xml:space="preserve">
     <value>Select the folder with TES: Skyrim SE</value>
-  </data>
-  <data name="SelectServer" xml:space="preserve">
-    <value>Select server</value>
   </data>
   <data name="SelfUpdating" xml:space="preserve">
     <value>Launcher update</value>
@@ -295,20 +220,8 @@
   <data name="SharpCompress" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SharpCompress.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SKSENotFound" xml:space="preserve">
-    <value>SKSE not found, install?</value>
-  </data>
-  <data name="SkyrimNotFound" xml:space="preserve">
-    <value>Skyrim SE not found</value>
-  </data>
-  <data name="SSERFix" xml:space="preserve">
-    <value>SSE Russian Fix Console not found, install?</value>
-  </data>
   <data name="Successfully" xml:space="preserve">
     <value>Successfully</value>
-  </data>
-  <data name="Support" xml:space="preserve">
-    <value>Support</value>
   </data>
   <data name="System_Buffers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\System.Buffers.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -328,9 +241,6 @@
   <data name="Title" xml:space="preserve">
     <value>SkyMP Launcher</value>
   </data>
-  <data name="UPDATE" xml:space="preserve">
-    <value>UPDATE</value>
-  </data>
   <data name="UpdatesClient_ru-RU_resources" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UpdatesClient.resources.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -340,19 +250,121 @@
   <data name="UserName" xml:space="preserve">
     <value>Username</value>
   </data>
-  <data name="VerifyAccount" xml:space="preserve">
-    <value>You are registered! Verify your account.</value>
-  </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
-  <data name="Welcome" xml:space="preserve">
-    <value>Welcome</value>
-  </data>
   <data name="Yandex_Metrica_NET" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Yandex.Metrica.NET.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PLAY" xml:space="preserve">
+    <value>PLAY</value>
+  </data>
+  <data name="UPDATE" xml:space="preserve">
+    <value>UPDATE</value>
+  </data>
+  <data name="INSTALL" xml:space="preserve">
+    <value>INSTALL</value>
+  </data>
+  <data name="RETRY" xml:space="preserve">
+    <value>RETRY</value>
+  </data>
+  <data name="CompatibilityModeOn" xml:space="preserve">
+    <value>Probably the target server is outdated, the compatibility mode is used </value>
+  </data>
+  <data name="CompatibilityModeOff" xml:space="preserve">
+    <value>Perhaps the target server is outdated, because I did not answer the request </value>
+  </data>
+  <data name="DownloadModError" xml:space="preserve">
+    <value>One or more mods could not be downloaded from the server </value>
+  </data>
+  <data name="ActivateCode" xml:space="preserve">
+    <value>Activate code </value>
+  </data>
+  <data name="Common" xml:space="preserve">
+    <value>General </value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description </value>
+  </data>
+  <data name="DisableMods" xml:space="preserve">
+    <value>Disable platform </value>
+  </data>
+  <data name="DisableSKSE" xml:space="preserve">
+    <value>Disable SKSE</value>
+  </data>
+  <data name="EmailEmpty" xml:space="preserve">
+    <value>Email field is empty</value>
+  </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>The specified email address is already exists</value>
+  </data>
+  <data name="EmailInvalid" xml:space="preserve">
+    <value>Invalid email format</value>
+  </data>
+  <data name="GameNotFound" xml:space="preserve">
+    <value>(the game is not found) </value>
+  </data>
+  <data name="InstallDo" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="Installing" xml:space="preserve">
+    <value>Installation </value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Wrong email or password</value>
+  </data>
+  <data name="Market" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="Mods" xml:space="preserve">
+    <value>Mods</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>NOTIFICATIONS</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>Parameters </value>
+  </data>
+  <data name="PasswordEmpty" xml:space="preserve">
+    <value>Password field is empty</value>
+  </data>
+  <data name="PasswordLonger" xml:space="preserve">
+    <value>Password should be longer than 6 characters </value>
+  </data>
+  <data name="PathToSkyrimSE" xml:space="preserve">
+    <value>Path to the root folder Skyrim SE: </value>
+  </data>
+  <data name="RequiredSpace" xml:space="preserve">
+    <value>Space required: </value>
+  </data>
+  <data name="Servers" xml:space="preserve">
+    <value>Server list</value>
+  </data>
+  <data name="SKSENotFound" xml:space="preserve">
+    <value>not found (will be installed) </value>
+  </data>
+  <data name="UserExists" xml:space="preserve">
+    <value>The user with the same name already exists </value>
+  </data>
+  <data name="UsernameEmpty" xml:space="preserve">
+    <value>Login filed is empty</value>
+  </data>
+  <data name="UsernameLonger" xml:space="preserve">
+    <value>Login must be longer than 2 characters </value>
+  </data>
+  <data name="UsernameShoter" xml:space="preserve">
+    <value>Login must be shorter than 32 characters </value>
+  </data>
+  <data name="ViewProfile" xml:space="preserve">
+    <value>View Profile </value>
   </data>
 </root>

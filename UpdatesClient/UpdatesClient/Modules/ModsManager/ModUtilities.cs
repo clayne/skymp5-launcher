@@ -35,7 +35,7 @@ namespace UpdatesClient.Modules.ModsManager
                             Logger.Error("ExtractSKSE", e);
                             NotifyController.Show(e);
                         }
-                    }, Res.ExtractingSKSE);
+                    }, Res.Extracting);
                     if (ok)
                     {
                         await Mods.AddMod("SKSE", "SKSEHash", path, false);
@@ -134,7 +134,7 @@ namespace UpdatesClient.Modules.ModsManager
                         Logger.Error("Extract", e);
                         NotifyController.Show(e);
                     }
-                }, Res.ExtractingClient);
+                }, Res.Extracting);
 
                 if (ok)
                 {

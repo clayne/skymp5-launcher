@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             xmlns:res="clr-namespace:UpdatesClient.Properties"
              mc:Ignorable="d" 
              d:DesignWidth="356" d:DesignHeight="228">
     <UserControl.Resources>
@@ -251,7 +252,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="{DynamicResource NLBackgroundDrawingImage}"/>
         </Grid.Background>
-        <TextBlock HorizontalAlignment="Left" Margin="18,18,0,0" TextWrapping="Wrap" Text="УВЕДОМЛЕНИЯ" FontSize="10" Padding="0" Foreground="White" Height="13" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="18,18,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.Notifications}" FontSize="10" Padding="0" Foreground="White" Height="13" VerticalAlignment="Top"/>
         <Rectangle Fill="#72F4F4F5" Height="1" Margin="18,0" Stroke="#72FFFFFF" VerticalAlignment="Bottom"/>
 
         <ScrollViewer x:Name="list" Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Visible" Grid.Row="1" Margin="27,10,18,10">

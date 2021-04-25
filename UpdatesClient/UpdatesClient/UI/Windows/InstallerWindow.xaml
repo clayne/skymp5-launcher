@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient.UI.Windows"
         xmlns:local1="clr-namespace:UpdatesClient.UI.Windows.InstallerWindowModels"
-        xmlns:Controllers="clr-namespace:UpdatesClient.UI.Controllers" 
+        xmlns:Controllers="clr-namespace:UpdatesClient.UI.Controllers"
+        xmlns:res="clr-namespace:UpdatesClient.Properties"
         x:Class="UpdatesClient.UI.Windows.InstallerWindow"
         mc:Ignorable="d"
-        Title="InstallerWindow" Height="381" Width="549"
+        Title="{x:Static res:Resources.Title}" Height="381" Width="549"
         ResizeMode="CanMinimize" WindowStyle="None" WindowStartupLocation="CenterScreen" Background="#FF2E333E"
         d:DataContext="{d:DesignInstance Type=local1:InstallerWindowModel}">
     <Window.Resources>
@@ -105,23 +106,20 @@
         </Grid.ColumnDefinitions>
         <Image Source="/UpdatesClient;component/Assets/Images/Banners/Installer.png" Grid.RowSpan="2" />
         <Controllers:Header MaximizeIsEnabled="False" Grid.ColumnSpan="2"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,29,0,0" TextWrapping="Wrap" Text="Установка" FontSize="16" FontWeight="Bold" Foreground="White" Height="21" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="39,10,0,0" TextWrapping="Wrap" Text="Путь к корневой папке Skyrim SE:" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light" Grid.Column="1" Grid.Row="1"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,29,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.Installing}" FontSize="16" FontWeight="Bold" Foreground="White" Height="21" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="39,10,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.PathToSkyrimSE}" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light" Grid.Column="1" Grid.Row="1"/>
         <TextBox Height="25" Margin="39,30,60,0" IsReadOnly="True" Text="{Binding Path=PathToSkyrim, Mode=TwoWay}" VerticalAlignment="Top" FontWeight="Light" Background="#FF555A6B" Foreground="White" BorderBrush="{x:Null}" Style="{DynamicResource TextBoxStyle1}" Grid.Column="1" Grid.Row="1"/>
         <Button Margin="311,30,0,0" VerticalAlignment="Top" Height="25" Style="{StaticResource IconButtonStyle}" BorderBrush="#B2FFFFFF" MinWidth="14" MinHeight="12" Click="SelectSkyrimPath" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Width="25">
             <Button.Background>
                 <ImageBrush ImageSource="{DynamicResource Folder}" Stretch="Uniform"/>
             </Button.Background>
         </Button>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,67,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Skyrim SE version:" VerticalAlignment="Top" Foreground="White" FontSize="10" FontWeight="Light"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="119,67,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=SkyrimVersion}" VerticalAlignment="Top" Foreground="White" FontSize="10" FontWeight="Light"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,67,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Skyrim SE:" VerticalAlignment="Top" Foreground="White" FontSize="10" FontWeight="Light"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="91,67,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=SkyrimVersion}" VerticalAlignment="Top" Foreground="White" FontSize="10" FontWeight="Light"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,92,0,0" Grid.Row="1" TextWrapping="Wrap" Text="SKSE:" VerticalAlignment="Top" Foreground="White" FontSize="10" FontWeight="Light"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="119,92,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=SKSEVersion}" VerticalAlignment="Top" Foreground="White" FontSize="10" FontWeight="Light"/>
-        <Button Content="Установить" IsEnabled="{Binding Path=CanInstall}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,33,33" Grid.Row="1" VerticalAlignment="Bottom" Width="147" Style="{StaticResource ButtonStyleRounded}" Foreground="White" Height="29" FontWeight="Bold" FontSize="11" Click="Button_Click" />
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="39,0,0,42" Grid.Row="1" TextWrapping="Wrap" Text="Требуется места:" VerticalAlignment="Bottom" Foreground="White" FontSize="10" FontWeight="Light"/>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="91,92,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=SKSEVersion}" VerticalAlignment="Top" Foreground="White" FontSize="10" FontWeight="Light"/>
+        <Button Content="{x:Static res:Resources.InstallDo}" IsEnabled="{Binding Path=CanInstall}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,33,33" Grid.Row="1" VerticalAlignment="Bottom" Width="147" Style="{StaticResource ButtonStyleRounded}" Foreground="White" Height="29" FontWeight="Bold" FontSize="11" Click="Button_Click" />
+        <TextBlock Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,254,42" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static res:Resources.RequiredSpace}" VerticalAlignment="Bottom" Foreground="White" FontSize="10" FontWeight="Light"/>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="117,0,0,42" Grid.Row="1" TextWrapping="Wrap" Text="~200 МБ" VerticalAlignment="Bottom" Foreground="White" FontSize="10" FontWeight="Light"/>
-
-
-
     </Grid>
 </Window>

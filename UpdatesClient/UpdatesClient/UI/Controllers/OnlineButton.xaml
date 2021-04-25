@@ -210,9 +210,9 @@
     <Grid>
         <Menu x:Name="menu" Margin="0,0,0,0" VerticalAlignment="Top" Background="{x:Null}">
             <MenuItem x:Name="Username" Header="{Binding Path=UserName}" BorderBrush="{x:Null}" Background="#00000000" Foreground="White" FontSize="16" Template="{DynamicResource MenuItemControlTemplate1}" FontWeight="Light" Margin="0" Padding="2,-2,5,0" >
-                <MenuItem Header="Просмотр профиля" IsEnabled="False" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,5,10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
+                <MenuItem Header="{x:Static res:Resources.ViewProfile}" IsEnabled="False" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,5,10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
                 <Separator Style="{DynamicResource SeparatorStyle1}" Background="#72FFFFFF" MinHeight="0" Height="1" Margin="0" />
-                <MenuItem Header="Активировать код" IsEnabled="False" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
+                <MenuItem Header="{x:Static res:Resources.ActivateCode}" IsEnabled="False" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
                 <Separator Style="{DynamicResource SeparatorStyle1}" Background="#72FFFFFF" MinHeight="0" Height="1" Margin="0" />
                 <MenuItem x:Name="LogoutBtn" Header="{x:Static res:Resources.LogOut}" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
             </MenuItem>

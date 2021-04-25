@@ -4,6 +4,7 @@ using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
 using UpdatesClient.Modules.GameManager.Model;
 using UpdatesClient.UI.Windows.InstallerWindowModels;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.UI.Windows
 {
@@ -48,14 +49,14 @@ namespace UpdatesClient.UI.Windows
                 }
                 else
                 {
-                    model.SKSEVersion = "не найден (будет установлен)";
+                    model.SKSEVersion = Res.SKSENotFound;
                 }
                 Result = result;
                 model.CanInstall = true;
             }
             else
             {
-                model.SkyrimVersion = "(игра не найдена)";
+                model.SkyrimVersion = Res.GameNotFound;
                 model.SKSEVersion = "-";
                 model.CanInstall = false;
             }
