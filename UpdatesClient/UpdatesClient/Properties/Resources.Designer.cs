@@ -61,7 +61,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Активировать код.
+        ///   Ищет локализованную строку, похожую на Activate code .
         /// </summary>
         public static string ActivateCode {
             get {
@@ -79,7 +79,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Общие.
+        ///   Ищет локализованную строку, похожую на General .
         /// </summary>
         public static string Common {
             get {
@@ -134,7 +134,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Описание.
+        ///   Ищет локализованную строку, похожую на Description .
         /// </summary>
         public static string Description {
             get {
@@ -152,7 +152,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Отключить платформу.
+        ///   Ищет локализованную строку, похожую на Disable platform .
         /// </summary>
         public static string DisableMods {
             get {
@@ -161,7 +161,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Отключить SKSE.
+        ///   Ищет локализованную строку, похожую на Disable SKSE.
         /// </summary>
         public static string DisableSKSE {
             get {
@@ -197,7 +197,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Поле почты не заполнено.
+        ///   Ищет локализованную строку, похожую на Email field is empty.
         /// </summary>
         public static string EmailEmpty {
             get {
@@ -206,7 +206,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Указанный адрес электронной почты уже занят.
+        ///   Ищет локализованную строку, похожую на The specified email address is already exists.
         /// </summary>
         public static string EmailExists {
             get {
@@ -215,7 +215,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Неверный формат почты.
+        ///   Ищет локализованную строку, похожую на Invalid email format.
         /// </summary>
         public static string EmailInvalid {
             get {
@@ -296,7 +296,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на (игра не найдена).
+        ///   Ищет локализованную строку, похожую на (the game is not found) .
         /// </summary>
         public static string GameNotFound {
             get {
@@ -332,7 +332,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Установить.
+        ///   Ищет локализованную строку, похожую на Install.
         /// </summary>
         public static string InstallDo {
             get {
@@ -341,7 +341,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Установка.
+        ///   Ищет локализованную строку, похожую на Installation .
         /// </summary>
         public static string Installing {
             get {
@@ -350,7 +350,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Язык приложения.
+        ///   Ищет локализованную строку, похожую на Language.
         /// </summary>
         public static string Language {
             get {
@@ -368,7 +368,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Неправильная почта или пароль.
+        ///   Ищет локализованную строку, похожую на Wrong email or password.
         /// </summary>
         public static string LoginFailed {
             get {
@@ -386,7 +386,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Магазин.
+        ///   Ищет локализованную строку, похожую на Store.
         /// </summary>
         public static string Market {
             get {
@@ -405,7 +405,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Моды.
+        ///   Ищет локализованную строку, похожую на Mods.
         /// </summary>
         public static string Mods {
             get {
@@ -423,7 +423,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Новости.
+        ///   Ищет локализованную строку, похожую на News.
         /// </summary>
         public static string News {
             get {
@@ -451,7 +451,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Параметры.
+        ///   Ищет локализованную строку, похожую на Parameters .
         /// </summary>
         public static string Parameters {
             get {
@@ -469,7 +469,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Поле пароля не заполнено.
+        ///   Ищет локализованную строку, похожую на Password field is empty.
         /// </summary>
         public static string PasswordEmpty {
             get {
@@ -478,7 +478,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Пароль должен быть длиннее 6 символов.
+        ///   Ищет локализованную строку, похожую на Password should be longer than 6 characters .
         /// </summary>
         public static string PasswordLonger {
             get {
@@ -496,7 +496,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Путь к корневой папке Skyrim SE:.
+        ///   Ищет локализованную строку, похожую на Path to the root folder Skyrim SE: .
         /// </summary>
         public static string PathToSkyrimSE {
             get {
@@ -541,7 +541,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Требуется места:.
+        ///   Ищет локализованную строку, похожую на Space required: .
         /// </summary>
         public static string RequiredSpace {
             get {
@@ -616,11 +616,56 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Список серверов.
+        ///   Ищет локализованную строку, похожую на Favorite.
+        /// </summary>
+        public static string ServerFavorite {
+            get {
+                return ResourceManager.GetString("ServerFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Language.
+        /// </summary>
+        public static string ServerLanguage {
+            get {
+                return ResourceManager.GetString("ServerLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ping.
+        /// </summary>
+        public static string ServerPing {
+            get {
+                return ResourceManager.GetString("ServerPing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Players.
+        /// </summary>
+        public static string ServerPlayers {
+            get {
+                return ResourceManager.GetString("ServerPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Server list.
         /// </summary>
         public static string Servers {
             get {
                 return ResourceManager.GetString("Servers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Settings.
+        /// </summary>
+        public static string ServerSettings {
+            get {
+                return ResourceManager.GetString("ServerSettings", resourceCulture);
             }
         }
         
@@ -635,7 +680,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на не найден (будет установлен).
+        ///   Ищет локализованную строку, похожую на not found (will be installed) .
         /// </summary>
         public static string SKSENotFound {
             get {
@@ -740,7 +785,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Пользователь с тем же именем уже существует.
+        ///   Ищет локализованную строку, похожую на The user with the same name already exists .
         /// </summary>
         public static string UserExists {
             get {
@@ -758,7 +803,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Поле логина не заполнено.
+        ///   Ищет локализованную строку, похожую на Login filed is empty.
         /// </summary>
         public static string UsernameEmpty {
             get {
@@ -767,7 +812,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Логин должен быть длиннее 2 символов.
+        ///   Ищет локализованную строку, похожую на Login must be longer than 2 characters .
         /// </summary>
         public static string UsernameLonger {
             get {
@@ -776,7 +821,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Логин должен быть короче 32 символов.
+        ///   Ищет локализованную строку, похожую на Login must be shorter than 32 characters .
         /// </summary>
         public static string UsernameShoter {
             get {
@@ -794,7 +839,7 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Просмотр профиля.
+        ///   Ищет локализованную строку, похожую на View Profile .
         /// </summary>
         public static string ViewProfile {
             get {

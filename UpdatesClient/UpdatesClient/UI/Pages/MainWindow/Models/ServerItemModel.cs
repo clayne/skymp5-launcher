@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using UpdatesClient.Core.Models;
@@ -17,6 +19,7 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly bool inited = false;
+        private readonly Action resort;
 
         public ServerModel Server;
         private bool selected;
@@ -58,9 +61,10 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             set { favorite = value; OnPropertyChanged(); SetFavorite(); }
         }
 
-        public ServerItemModel(ServerModel server)
+        public ServerItemModel(ServerModel server, Action action = null)
         {
             Server = server;
+            resort = action;
             Mods = new List<string>();
             if (Settings.FavoriteServers.Contains(Server.ID))
             {
@@ -70,12 +74,31 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             inited = true;
         }
 
-        public void GetManifest()
+        private static CancellationTokenSource cancelTokenSource;
+        public async void GetManifest()
         {
-            GetMods();
+            if (cancelTokenSource != null)
+            {
+                cancelTokenSource.Cancel();
+            }
+            cancelTokenSource = new CancellationTokenSource();
+            CancellationToken token = cancelTokenSource.Token;
+            ServerModsManifest mods = new ServerModsManifest();
+            try
+            {
+                await Task.Run(() => { mods = GameUtilities.GetManifest(Server.AddressData).GetAwaiter().GetResult(); }, token);
+            }
+            catch (WebException) { return; }
+            catch (TaskCanceledException) { return; }
+
+            if (cancelTokenSource == null || cancelTokenSource.IsCancellationRequested) return;
+
+            GetMods(mods);
+
+            cancelTokenSource = null;
         }
 
-        private async void GetMods()
+        private async void GetMods(ServerModsManifest mods)
         {
             await Task.Yield();
             List<string> WhiteListFiles = new List<string>(5)
@@ -86,13 +109,7 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 "HearthFires.esm",
                 "Dragonborn.esm"
             };
-            ServerModsManifest mods = new ServerModsManifest();
-            try
-            {
-                await Task.Run(() => { mods = GameUtilities.GetManifest(Server.AddressData).GetAwaiter().GetResult(); });
-            }
-            catch (WebException) { }
-
+            
             mods.Mods.RemoveAll(r => WhiteListFiles.Contains(r.FileName));
             Mods.Clear();
             if (mods.Mods.Count != 0)
@@ -133,6 +150,7 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 if (favorite)
                 {
                     Settings.FavoriteServers.Add(Server.ID);
+                    resort?.Invoke();
                 }
                 else if (Settings.FavoriteServers.Contains(Server.ID))
                 {

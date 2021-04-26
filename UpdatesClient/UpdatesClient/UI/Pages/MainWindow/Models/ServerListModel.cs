@@ -118,7 +118,7 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 OnPropertyChanged();
                 OnPropertyChanged("VisibleServerBlock");
 
-                selectedServer.GetManifest();
+                if (selectedServer != null) selectedServer.GetManifest();
             }
         }
 

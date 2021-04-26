@@ -25,7 +25,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
         {
             Model = new SettingsPanelModel()
             {
-                Locales = new string[] { "Русский", "Английский" },
+                Locales = new string[] { "Русский", "English" },
                 SelectedLocale = GetIdByLocale(Settings.Locale),
                 SkyrimPath = Settings.PathToSkyrim,
                 ExpFunctions = Settings.ExperimentalFunctions ?? false,

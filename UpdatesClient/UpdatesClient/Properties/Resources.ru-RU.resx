@@ -324,4 +324,19 @@
   <data name="ViewProfile" xml:space="preserve">
     <value>Просмотр профиля</value>
   </data>
+  <data name="ServerFavorite" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="ServerLanguage" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="ServerPing" xml:space="preserve">
+    <value>Пинг</value>
+  </data>
+  <data name="ServerPlayers" xml:space="preserve">
+    <value>Игроки</value>
+  </data>
+  <data name="ServerSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
 </root>

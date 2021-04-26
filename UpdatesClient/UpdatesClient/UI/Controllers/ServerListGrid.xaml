@@ -252,11 +252,11 @@
             <Rectangle Fill="#26F4F4F5" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="5"/>
             <Image HorizontalAlignment="Left" Width="15" Source="{DynamicResource Search}" Margin="0,8,0,11"/>
             <TextBlock HorizontalAlignment="Left" Margin="25,4,0,0" TextWrapping="Wrap" Text="Server Name" VerticalAlignment="Top" Foreground="White" FontSize="15" Height="20" Width="85"/>
-            <Image Source="{DynamicResource Bookmark}" Margin="0,8,0,11" Grid.Column="4" HorizontalAlignment="Right" Width="11"/>
-            <Image Source="{DynamicResource Ping}" Margin="23,8,23,10" Grid.Column="3"/>
-            <Image Source="{DynamicResource Locale}" Margin="7,8,7,11" Grid.Column="2"/>
-            <Image Source="{DynamicResource ServerSettings}" Margin="53,8,53,11" Grid.Column="1"/>
-            <Image Source="{DynamicResource Online}" Margin="0,8,57,11" Width="18" Height="15" HorizontalAlignment="Right"/>
+            <Image Source="{DynamicResource Bookmark}" Margin="0,8,0,11" Grid.Column="4" ToolTip="Избранное" HorizontalAlignment="Right" Width="11"/>
+            <Image Source="{DynamicResource Ping}" Margin="23,8,23,10" Grid.Column="3" ToolTip="Пинг"/>
+            <Image Source="{DynamicResource Locale}" Margin="7,8,7,11" Grid.Column="2" ToolTip="Язык"/>
+            <Image Source="{DynamicResource ServerSettings}" Margin="53,8,53,11" ToolTip="Настройки сервера" Grid.Column="1"/>
+            <Image Source="{DynamicResource Online}" Margin="0,8,57,11" Width="18" Height="15" ToolTip="Игроки" HorizontalAlignment="Right"/>
         </Grid>
 
         <ScrollViewer Grid.Row="1" Margin="37,10,36,39" Template="{DynamicResource ScrollViewerControlTemplate}">

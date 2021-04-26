@@ -179,8 +179,9 @@
                     <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
                 </Trigger>
                 <Trigger Property="IsHighlighted" Value="True">
-                    <Setter Property="Background" TargetName="templateRoot" Value="#3D26A0DA"/>
-                    <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF26A0DA"/>
+                    <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#99FFFFFF"/>
+                    <!--<Setter Property="Background" TargetName="templateRoot" Value="#3D26A0DA"/>-->
+                    <!--<Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF26A0DA"/>-->
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF707070"/>
