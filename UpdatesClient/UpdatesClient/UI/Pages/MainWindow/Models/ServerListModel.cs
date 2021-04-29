@@ -172,7 +172,12 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             {
                 string lowerSearch = serverSearch.ToLower();
                 ViewServersList = serversList.OrderBy(
-                    o => Levenshtein.Distance(o.ViewName.Substring(0, serverSearch.Length).ToLower(), lowerSearch)).ToList();
+                    o =>
+                    {
+                        string name = o.ViewName.ToLower();
+                        if (name.Length >= lowerSearch.Length) name = name.Substring(0, lowerSearch.Length);
+                        return Levenshtein.Distance(name, lowerSearch);
+                    }).ToList();
             }
             else
             {

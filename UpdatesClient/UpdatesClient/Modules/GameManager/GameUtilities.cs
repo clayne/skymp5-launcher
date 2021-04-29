@@ -180,8 +180,7 @@ namespace UpdatesClient.Modules.GameManager
         }
         private static void SetServer(ServerModel server)
         {
-            if (!Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings)))
-                Directory.CreateDirectory(Path.GetDirectoryName(Settings.PathToSkympClientSettings));
+            IO.CreateDirectory(Path.GetDirectoryName(Settings.PathToSkympClientSettings));
 
             SkympClientSettingsModel oldServer;
 

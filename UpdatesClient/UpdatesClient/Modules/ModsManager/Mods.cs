@@ -41,7 +41,11 @@ namespace UpdatesClient.Modules.ModsManager
 
         public static async void Init()
         {
-            IO.CreateDirectory(Settings.PathToSkyrimMods);
+            if (!string.IsNullOrWhiteSpace(Settings.PathToSkyrimMods))
+            {
+                IO.CreateDirectory(Settings.PathToSkyrimMods);
+            }
+
             mods = mods.Load<ModsModel>(List);
 
             string[] arMods = mods.Mods.ToArray();

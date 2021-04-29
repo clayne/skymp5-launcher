@@ -107,6 +107,10 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 model.ServersList = list;
                 model.SelectedServer = list.Find(x => x.Server.ID == Settings.LastServerID);
             }
+            catch (WebException we)
+            {
+                NotifyController.Show(we);
+            }
             catch (Exception e)
             {
                 Logger.Error("FillServerList", e);
@@ -115,9 +119,11 @@ namespace UpdatesClient.UI.Pages.MainWindow
 
         private void ServerListDataGrid_Click(object sender, MouseButtonEventArgs e)
         {
-            ServerItemModel serverModel = (ServerItemModel)((FrameworkElement)sender).DataContext;
-            Settings.LastServerID = serverModel.Server.ID;
-            model.SelectedServer = serverModel;
+            if (((FrameworkElement)sender).DataContext is ServerItemModel serverModel)
+            {
+                Settings.LastServerID = serverModel.Server.ID;
+                model.SelectedServer = serverModel;
+            }
         }
 
         private async void mainButton_Click(object sender, RoutedEventArgs e)
