@@ -287,6 +287,16 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] Fastenshtein {
+            get {
+                object obj = ResourceManager.GetObject("Fastenshtein", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Forgot your password?.
         /// </summary>
         public static string ForgotPassword {
@@ -630,6 +640,15 @@ namespace UpdatesClient.Properties {
         public static string ServerLanguage {
             get {
                 return ResourceManager.GetString("ServerLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Server name.
+        /// </summary>
+        public static string ServerName {
+            get {
+                return ResourceManager.GetString("ServerName", resourceCulture);
             }
         }
         

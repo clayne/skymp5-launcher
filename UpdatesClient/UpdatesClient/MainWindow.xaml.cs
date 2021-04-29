@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
@@ -33,7 +34,7 @@ namespace UpdatesClient
         private void Wind_Loaded(object sender, RoutedEventArgs e)
         {
             WindowModel.Width = stackUserPanel.ActualWidth;
-            NotifyController.Init();
+            NotifyController.Init(setNewNotification);
             ServerList.PostInit();
             ModulesManager.PostInitModules();
         }
@@ -62,6 +63,11 @@ namespace UpdatesClient
                 settingsPanel.Save();
                 ServerList.PostInit();
             }
+        }
+
+        public void setNewNotification()
+        {
+            WindowModel.HasNewNotification = true;
         }
 
         private void wind_Closing(object sender, System.ComponentModel.CancelEventArgs e)

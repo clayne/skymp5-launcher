@@ -10,11 +10,26 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         private bool isOpenSettings;
         private double marginNotifyRight;
         private bool openNotifications;
+        private bool hasNewNotification;
+
+        public bool HasNewNotification
+        {
+            get { return hasNewNotification; }
+            set { hasNewNotification = value; OnPropertyChanged(); OnPropertyChanged("ShowNewNotification"); }
+        }
+
+        public Visibility ShowNewNotification { get => hasNewNotification ? Visibility.Visible : Visibility.Collapsed; }
 
         public bool OpenNotifications
         {
             get { return openNotifications; }
-            set { openNotifications = value; OnPropertyChanged(); OnPropertyChanged("ShowNotificationsBg"); }
+            set 
+            { 
+                openNotifications = value; 
+                OnPropertyChanged(); 
+                OnPropertyChanged("ShowNotificationsBg");
+                if (openNotifications) HasNewNotification = false;
+            }
         }
 
         public Visibility ShowNotificationsBg { get => openNotifications ? Visibility.Visible : Visibility.Collapsed; }

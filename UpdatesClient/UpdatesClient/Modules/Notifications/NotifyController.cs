@@ -29,8 +29,12 @@ namespace UpdatesClient.Modules.Notifications
             Duration = TimeSpan.FromMilliseconds(500),
         };
 
-        public static async void Init()
+        private static Action setNewNotification;
+
+        public static async void Init(Action setterNewNotify)
         {
+            setNewNotification = setterNewNotify;
+
             Load();
             GetNotify();
             while (true)
@@ -53,7 +57,7 @@ namespace UpdatesClient.Modules.Notifications
             }
         }
 
-        public static async void GetNotify()
+        private static async void GetNotify()
         {
             await Task.Yield();
 
@@ -67,8 +71,7 @@ namespace UpdatesClient.Modules.Notifications
                     foreach (WNotifyModel model in models)
                     {
                         if (Notifications.LastID < model.Id) Notifications.LastID = model.Id;
-                        lock (sync)
-                            popupNotifies.Enqueue(new NotifyModel(model.Text, model.Color, model.Type));
+                        Add(new NotifyModel(model.Text, model.Color, model.Type));
                     }
                 }
                 catch { }
@@ -76,15 +79,21 @@ namespace UpdatesClient.Modules.Notifications
             }
         }
 
+        private static void Add(NotifyModel model)
+        {
+            lock (sync)
+                popupNotifies.Enqueue(model);
+            setNewNotification?.Invoke();
+        }
+
         public static void Show(string text)
         {
-            lock (sync)
-                popupNotifies.Enqueue(new NotifyModel(text, null, NotificationType.Text));
+            Add(new NotifyModel(text, null, NotificationType.Text));
         }
+
         public static void Show(Exception exception)
         {
-            lock (sync)
-                popupNotifies.Enqueue(new NotifyModel(exception));
+            Add(new NotifyModel(exception));
         }
 
         private static void Load()

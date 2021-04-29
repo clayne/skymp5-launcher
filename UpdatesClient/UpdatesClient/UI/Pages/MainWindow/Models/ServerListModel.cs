@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Fastenshtein;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using UpdatesClient.Core.Enums;
+using UpdatesClient.Core.Helpers;
 using UpdatesClient.UI.Controllers.ServerBlock;
 using Res = UpdatesClient.Properties.Resources;
 
@@ -13,12 +16,20 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         private List<ServerItemModel> serversList;
+        private List<ServerItemModel> viewServerList;
         private ServerItemModel selectedServer;
         private TabEn tab = TabEn.Descrpt;
         private object content;
         private bool mainButtonProgressBar;
         private bool mainButtonEnabled;
         private MainButtonStatus mainButtonStatus;
+        private string serverSearch;
+
+        public string ServerSearch
+        {
+            get { return serverSearch; }
+            set { serverSearch = value; OnPropertyChanged(); SortServerList(); }
+        }
 
         public MainButtonStatus MainButtonStatus
         {
@@ -125,6 +136,12 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public List<ServerItemModel> ServersList
         {
             get { return serversList; }
+            set { serversList = value; OnPropertyChanged(); SortServerList(); }
+        }
+
+        public List<ServerItemModel> ViewServersList
+        {
+            get { return serversList; }
             set { serversList = value; OnPropertyChanged(); }
         }
 
@@ -146,6 +163,20 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 case TabEn.Settings:
                     Content = new ServerPlayers();
                     break;
+            }
+        }
+
+        public void SortServerList()
+        {
+            if (!string.IsNullOrWhiteSpace(ServerSearch))
+            {
+                string lowerSearch = serverSearch.ToLower();
+                ViewServersList = serversList.OrderBy(
+                    o => Levenshtein.Distance(o.ViewName.Substring(0, serverSearch.Length).ToLower(), lowerSearch)).ToList();
+            }
+            else
+            {
+                ViewServersList = serversList.OrderByDescending(o => o.Favorite == true).ThenBy(o => o.ViewName).ToList();
             }
         }
 

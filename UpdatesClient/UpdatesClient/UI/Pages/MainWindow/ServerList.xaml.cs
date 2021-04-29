@@ -101,7 +101,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 string servers = await ServerModel.GetServers();
 
                 List<ServerItemModel> list = ServerModel.ParseServersToList(servers)
-                    .ConvertAll(c => new ServerItemModel(c, ResortList)).OrderByDescending(o => o.Favorite == true).ThenBy(o => o.ViewName).ToList();
+                    .ConvertAll(c => new ServerItemModel(c, model.SortServerList)).ToList();
                 list.RemoveAll(x => x.Server.IsEmpty());
 
                 model.ServersList = list;
@@ -111,11 +111,6 @@ namespace UpdatesClient.UI.Pages.MainWindow
             {
                 Logger.Error("FillServerList", e);
             }
-        }
-
-        private void ResortList()
-        {
-            model.ServersList = model.ServersList.OrderByDescending(o => o.Favorite == true).ThenBy(o => o.ViewName).ToList();
         }
 
         private void ServerListDataGrid_Click(object sender, MouseButtonEventArgs e)

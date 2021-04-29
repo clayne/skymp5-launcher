@@ -339,4 +339,7 @@
   <data name="ServerSettings" xml:space="preserve">
     <value>Настройки</value>
   </data>
+  <data name="ServerName" xml:space="preserve">
+    <value>Название сервера</value>
+  </data>
 </root>

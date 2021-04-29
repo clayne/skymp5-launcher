@@ -251,17 +251,17 @@
 
             <Rectangle Fill="#26F4F4F5" Height="1" VerticalAlignment="Bottom" Grid.ColumnSpan="5"/>
             <Image HorizontalAlignment="Left" Width="15" Source="{DynamicResource Search}" Margin="0,8,0,11"/>
-            <TextBlock HorizontalAlignment="Left" Margin="25,4,0,0" TextWrapping="Wrap" Text="Server Name" VerticalAlignment="Top" Foreground="White" FontSize="15" Height="20" Width="85"/>
-            <Image Source="{DynamicResource Bookmark}" Margin="0,8,0,11" Grid.Column="4" ToolTip="Избранное" HorizontalAlignment="Right" Width="11"/>
-            <Image Source="{DynamicResource Ping}" Margin="23,8,23,10" Grid.Column="3" ToolTip="Пинг"/>
-            <Image Source="{DynamicResource Locale}" Margin="7,8,7,11" Grid.Column="2" ToolTip="Язык"/>
-            <Image Source="{DynamicResource ServerSettings}" Margin="53,8,53,11" ToolTip="Настройки сервера" Grid.Column="1"/>
-            <Image Source="{DynamicResource Online}" Margin="0,8,57,11" Width="18" Height="15" ToolTip="Игроки" HorizontalAlignment="Right"/>
+            <TextBox HorizontalAlignment="Left" Text="{Binding Path=ServerSearch, UpdateSourceTrigger=PropertyChanged, Delay=500, Mode=TwoWay}" Margin="25,4,0,0" TextWrapping="Wrap" Style="{StaticResource placeHolder}" Tag="{x:Static res:Resources.ServerName}" VerticalAlignment="Top" Foreground="White" FontSize="15" Height="20" Background="{x:Null}" BorderBrush="{x:Null}" CaretBrush="White"/>
+            <Image Source="{DynamicResource Bookmark}" Margin="0,8,0,11" Grid.Column="4" ToolTip="{x:Static res:Resources.ServerFavorite}" HorizontalAlignment="Right" Width="11"/>
+            <Image Source="{DynamicResource Ping}" Margin="23,8,23,10" Grid.Column="3" ToolTip="{x:Static res:Resources.ServerPing}"/>
+            <Image Source="{DynamicResource Locale}" Margin="7,8,7,11" Grid.Column="2" ToolTip="{x:Static res:Resources.ServerLanguage}"/>
+            <Image Source="{DynamicResource ServerSettings}" Margin="53,8,53,11" ToolTip="{x:Static res:Resources.ServerSettings}" Grid.Column="1"/>
+            <Image Source="{DynamicResource Online}" Margin="0,8,57,11" Width="18" Height="15" ToolTip="{x:Static res:Resources.ServerPlayers}" HorizontalAlignment="Right"/>
         </Grid>
 
         <ScrollViewer Grid.Row="1" Margin="37,10,36,39" Template="{DynamicResource ScrollViewerControlTemplate}">
             <StackPanel>
-                <ItemsControl ItemsSource="{Binding Path=ServersList}" x:Name="tStack" Grid.Column="0">
+                <ItemsControl ItemsSource="{Binding Path=ViewServersList}" x:Name="tStack" Grid.Column="0">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>
