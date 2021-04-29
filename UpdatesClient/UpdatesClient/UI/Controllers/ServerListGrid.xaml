@@ -259,9 +259,9 @@
             <Image Source="{DynamicResource Online}" Margin="0,8,57,11" Width="18" Height="15" ToolTip="{x:Static res:Resources.ServerPlayers}" HorizontalAlignment="Right"/>
         </Grid>
 
-        <ScrollViewer Grid.Row="1" Margin="37,10,36,39" Template="{DynamicResource ScrollViewerControlTemplate}">
+        <ScrollViewer Grid.Row="1" Margin="37,10,36,39" Template="{DynamicResource ScrollViewerControlTemplate}" Focusable="False">
             <StackPanel>
-                <ItemsControl ItemsSource="{Binding Path=ViewServersList}" x:Name="tStack" Grid.Column="0">
+                <ItemsControl ItemsSource="{Binding Path=ViewServersList}" x:Name="tStack" Grid.Column="0" Focusable="False" IsTabStop="False">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>

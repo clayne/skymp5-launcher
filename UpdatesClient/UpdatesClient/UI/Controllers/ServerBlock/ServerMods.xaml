@@ -233,9 +233,9 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ScrollViewer Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto" Focusable="False">
             <StackPanel>
-                <ItemsControl ItemsSource="{Binding Path=SelectedServer.Mods}" x:Name="tStack" Grid.Column="0">
+                <ItemsControl ItemsSource="{Binding Path=SelectedServer.Mods}" x:Name="tStack" Grid.Column="0" Focusable="False" IsTabStop="False">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"/>

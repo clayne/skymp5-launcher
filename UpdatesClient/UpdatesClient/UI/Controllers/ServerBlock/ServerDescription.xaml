@@ -233,7 +233,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ScrollViewer Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto" Focusable="False">
             <TextBlock TextWrapping="Wrap" Text="{Binding Path=SelectedServer.Description}" Foreground="White" FontSize="13" FontWeight="Light"/>
         </ScrollViewer>
     </Grid>

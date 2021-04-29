@@ -684,7 +684,7 @@
             <RowDefinition Height="110"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="1" Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto" Focusable="False" IsTabStop="False">
             <Grid x:Name="grid">
                 <TextBlock HorizontalAlignment="Left" Margin="33,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static res:Resources.Common}" VerticalAlignment="Top" Foreground="#CCFFFFFF"/>
                 <TextBlock HorizontalAlignment="Left" Margin="33,26,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.PathToSkyrimSE}" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light"/>
@@ -697,10 +697,10 @@
                 <TextBlock HorizontalAlignment="Left" Margin="33,86,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.Language}" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light"/>
                 <ComboBox HorizontalAlignment="Left" Margin="33,104,0,0" SelectedIndex="{Binding Path=SelectedLocale}" ItemsSource="{Binding Path=Locales}" VerticalAlignment="Top" Width="297" Style="{DynamicResource ComboBoxStyle1}" Background="#FF505465" Height="25" BorderBrush="#FFACACAC" Foreground="White"/>
 
-                <CheckBox Content="{x:Static res:Resources.ExperimentalFeatures}" HorizontalAlignment="Left" Margin="33,146,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding Path=ExpFunctions}"/>
+                <CheckBox Content="{x:Static res:Resources.ExperimentalFeatures}" HorizontalAlignment="Left" Margin="33,146,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding Path=ExpFunctions}" Focusable="False" IsTabStop="False"/>
 
-                <CheckBox Content="{x:Static res:Resources.DisableSKSE}" IsEnabled="{Binding CanDisabledSKSE}" HorizontalAlignment="Left" Margin="33,188,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledSKSE}"/>
-                <CheckBox Content="{x:Static res:Resources.DisableMods}" IsEnabled="{Binding CanDisabledMods}" HorizontalAlignment="Left" Margin="33,230,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledMods}"/>
+                <CheckBox Content="{x:Static res:Resources.DisableSKSE}" IsEnabled="{Binding CanDisabledSKSE}" HorizontalAlignment="Left" Margin="33,188,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledSKSE}" Focusable="False" IsTabStop="False"/>
+                <CheckBox Content="{x:Static res:Resources.DisableMods}" IsEnabled="{Binding CanDisabledMods}" HorizontalAlignment="Left" Margin="33,230,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledMods}" Focusable="False" IsTabStop="False"/>
             </Grid>
         </ScrollViewer>
     </Grid>
