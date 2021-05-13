@@ -86,7 +86,13 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             ServerModsManifest mods = new ServerModsManifest();
             try
             {
-                await Task.Run(() => { mods = GameUtilities.GetManifest(Server.AddressData).GetAwaiter().GetResult(); }, token);
+                mods = await GameUtilities.GetManifest(Server.AddressData);
+                //await Task.Run(() => 
+                //{
+                //    Task<ServerModsManifest> w = GameUtilities.GetManifest(Server.AddressData);
+                //    w.Wait();
+                //    mods = w.Result; 
+                //}, token);
             }
             catch (WebException) { return; }
             catch (TaskCanceledException) { return; }

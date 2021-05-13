@@ -342,4 +342,7 @@
   <data name="ServerName" xml:space="preserve">
     <value>Название сервера</value>
   </data>
+  <data name="CloseAll" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
 </root>

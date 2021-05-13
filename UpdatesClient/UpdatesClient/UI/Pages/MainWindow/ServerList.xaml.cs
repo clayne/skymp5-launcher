@@ -17,6 +17,7 @@ using UpdatesClient.Modules.GameManager.AntiCheat;
 using UpdatesClient.Modules.GameManager.Model;
 using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.Modules.Notifications;
+using UpdatesClient.Modules.Recovery;
 using UpdatesClient.UI.Pages.MainWindow.Models;
 using UpdatesClient.UI.Windows;
 using Res = UpdatesClient.Properties.Resources;
@@ -107,10 +108,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 model.ServersList = list;
                 model.SelectedServer = list.Find(x => x.Server.ID == Settings.LastServerID);
             }
-            catch (WebException we)
-            {
-                NotifyController.Show(we);
-            }
+            catch (WebException) { }
             catch (Exception e)
             {
                 Logger.Error("FillServerList", e);
@@ -160,6 +158,9 @@ namespace UpdatesClient.UI.Pages.MainWindow
             if (iw.InstallReady)
             {
                 ResultGameVerification result = iw.Result;
+
+                GameCleaner.CreateGameManifest(Settings.PathToSkyrim);
+
                 bool skse = true, rufix = true, client = true;
                 model.MainButtonProgressBar = true;
                 if (!result.IsSKSEFound) skse = await ModUtilities.InstallSKSE();

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -94,6 +95,19 @@ namespace UpdatesClient.Modules.Notifications
         public static void Show(Exception exception)
         {
             Add(new NotifyModel(exception));
+        }
+
+        public static void CloseAll()
+        {
+            while (NotifyList.NotifyPanel?.panelList.Children.Count > 0)
+            {
+                PopupNotify popup = (PopupNotify)NotifyList.NotifyPanel?.panelList.Children[0];
+
+                popup.ClickClose -= Popup_ClickClose;
+                Notifications.Notifications.Remove(popup.notifyModel);
+                NotifyList.NotifyPanel?.panelList.Children.Remove(popup);
+            }
+            
         }
 
         private static void Load()

@@ -184,6 +184,11 @@
     <Compile Include="Modules\ModsManager\WinFunctions.cs" />
     <Compile Include="Modules\ModulesManager.cs" />
     <Compile Include="Modules\Notifications\Models\WNotifyModel.cs" />
+    <Compile Include="Modules\Recovery\GameCleaner.cs" />
+    <Compile Include="Modules\Recovery\Models\GameManifestModel.cs" />
+    <Compile Include="Modules\Recovery\UI\RecoveryWindow.xaml.cs">
+      <DependentUpon>RecoveryWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modules\SelfUpdater\Models\VersionStatus.cs" />
     <Compile Include="Modules\SelfUpdater\Net.cs" />
     <Compile Include="Properties\Resources.ru-RU.Designer.cs">
@@ -255,6 +260,10 @@
     </Compile>
     <Compile Include="UI\Windows\InstallerWindowModels\InstallerWindowModel.cs" />
     <Page Include="Assets\Images\Images.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\Recovery\UI\RecoveryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

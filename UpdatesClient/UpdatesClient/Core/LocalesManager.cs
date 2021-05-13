@@ -8,7 +8,7 @@ namespace UpdatesClient.Core
 {
     public static class LocalesManager
     {
-        private const string LastLocaleVersion = "2.5.0.3";
+        private const string LastLocaleVersion = "2.5.0.5";
         private static readonly string[] locales = { "ru-RU" };
 
         public static string GetPathToLocaleLib(string locale)
@@ -22,8 +22,9 @@ namespace UpdatesClient.Core
                 && File.Exists(GetPathToLocaleLib(locale));
         }
 
-        public static void CheckResxLocales()
+        public static bool CheckResxLocales()
         {
+            bool res = false;
             foreach (string locale in locales)
             {
                 string path = $"{DefaultPaths.PathToLocal}\\{locale}";
@@ -35,8 +36,13 @@ namespace UpdatesClient.Core
                 {
                     vers = FileVersionInfo.GetVersionInfo(pathToFile)?.FileVersion;
                 }
-                if (string.IsNullOrEmpty(vers) || LastLocaleVersion != vers) UnpackResxLocale(locale, pathToFile);
+                if (string.IsNullOrEmpty(vers) || LastLocaleVersion != vers)
+                {
+                    UnpackResxLocale(locale, pathToFile);
+                    res = true;
+                }
             }
+            return res;
         }
 
         private static void UnpackResxLocale(string locale, string destPath)

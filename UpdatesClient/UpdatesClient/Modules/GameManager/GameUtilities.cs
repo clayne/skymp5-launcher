@@ -120,7 +120,7 @@ namespace UpdatesClient.Modules.GameManager
                         }
                         await Mods.AddMod(mod.Key, "", tmpPath, true, mainFile);
                     }
-                    await Mods.EnableMod(Path.GetFileNameWithoutExtension(mod.Key));
+                    await Mods.EnableMod(mod.Key);
                 }
 
                 foreach (var item in mods.LoadOrder)

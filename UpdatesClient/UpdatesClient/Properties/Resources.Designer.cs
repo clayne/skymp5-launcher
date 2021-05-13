@@ -79,6 +79,15 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Clear.
+        /// </summary>
+        public static string CloseAll {
+            get {
+                return ResourceManager.GetString("CloseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на General .
         /// </summary>
         public static string Common {

@@ -243,6 +243,35 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" OpacityMask="{TemplateBinding Background}" SnapsToDevicePixels="true" Margin="{TemplateBinding Padding}" Background="#00000000">
+                            <TextBlock x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Text="{TemplateBinding Content}" TextDecorations="{x:Null}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource Button.MouseOver.Background}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Pressed.Background}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Background}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -253,9 +282,11 @@
             <ImageBrush ImageSource="{DynamicResource NLBackgroundDrawingImage}"/>
         </Grid.Background>
         <TextBlock HorizontalAlignment="Left" Margin="18,18,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.Notifications}" FontSize="10" Padding="0" Foreground="White" Height="13" VerticalAlignment="Top"/>
+        <Button HorizontalAlignment="Right" Margin="0,0,18,6" Content="{x:Static res:Resources.CloseAll}" FontSize="10" Padding="0" Foreground="White" VerticalAlignment="Bottom" Style="{DynamicResource ButtonStyle1}" Height="12" Background="#FFC1C0C0" Click="Button_Click"/>
+
         <Rectangle Fill="#72F4F4F5" Height="1" Margin="18,0" Stroke="#72FFFFFF" VerticalAlignment="Bottom"/>
 
-        <ScrollViewer x:Name="list" Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Visible" Grid.Row="1" Margin="27,10,18,10">
+        <ScrollViewer x:Name="list" Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Visible" Grid.Row="1" Margin="27,10,18,10" Focusable="False">
             <StackPanel x:Name="panelList" ScrollViewer.VerticalScrollBarVisibility="Disabled"   />
         </ScrollViewer>
 

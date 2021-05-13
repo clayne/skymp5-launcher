@@ -103,7 +103,8 @@ namespace UpdatesClient.Modules.ModsManager
                     string path = $"{Settings.PathToSkyrim}\\Data\\{mod.FileName}";
                     if (File.Exists(path))
                     {
-                        uint lhash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(path));
+                        //TODO: -----
+                        //uint lhash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(path));
                         //if (mod.CRC32 == lhash)
                         mods.Mods.Remove(mod);
                     }

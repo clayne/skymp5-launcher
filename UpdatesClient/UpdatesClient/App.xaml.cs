@@ -16,6 +16,7 @@ using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Helpers;
 using UpdatesClient.Modules.ModsManager;
+using UpdatesClient.Modules.Recovery.UI;
 using UpdatesClient.Modules.SelfUpdater;
 using Res = UpdatesClient.Properties.Resources;
 using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
@@ -47,7 +48,12 @@ namespace UpdatesClient
                 AppCurrent = Current;
             }
             catch { }
-            LocalesManager.CheckResxLocales();
+            if (LocalesManager.CheckResxLocales())
+            {
+                Process.Start(ResourceAssembly.Location);
+                Application.Current.Shutdown();
+                return;
+            }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
@@ -121,6 +127,10 @@ namespace UpdatesClient
                             }
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
                             goto default;
+                        case "recovery":
+                            RecoveryWindow rw = new RecoveryWindow();
+                            rw.ShowDialog();
+                            break;
                         case "repair":
                             Settings.Reset();
                             break;

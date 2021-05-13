@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using UpdatesClient.Modules.Notifications;
 
 namespace UpdatesClient.UI.Controllers
 {
@@ -14,6 +15,11 @@ namespace UpdatesClient.UI.Controllers
             InitializeComponent();
             //if (NotifyPanel != null) throw new Exception("Допускается один элемент");
             NotifyPanel = this;
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NotifyController.CloseAll();
         }
     }
 }
