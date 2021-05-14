@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using UpdatesClient.Core;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
@@ -24,7 +26,9 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public ServerModel Server;
         private bool selected;
         private bool favorite;
+        private bool hasSkyEye;
         private string ping;
+        private string description;
 
         private List<string> mods;
 
@@ -44,9 +48,10 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
 
         public string Address { get => $"{Server.Address}"; }
 
-        public string Description { get => "<Empty>"; }
+        public string Description { get => description; set { description = value; OnPropertyChanged(); } }
 
-        public Visibility HasMicrophone { get => Visibility.Hidden; }
+        public Visibility HasMicrophone { get => Visibility.Collapsed; }
+        public Visibility HasSkyEye { get => hasSkyEye ? Visibility.Visible : Visibility.Collapsed; }
 
         public string Locale { get => $"Ru"; }
 
@@ -70,30 +75,24 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             {
                 Favorite = true;
             }
-            GetPing();
+            GetPing(); 
+            GetAntiCheat();
+
             inited = true;
         }
 
         private static CancellationTokenSource cancelTokenSource;
         public async void GetManifest()
         {
-            if (cancelTokenSource != null)
-            {
-                cancelTokenSource.Cancel();
-            }
+            if (cancelTokenSource != null) cancelTokenSource.Cancel();
             cancelTokenSource = new CancellationTokenSource();
-            CancellationToken token = cancelTokenSource.Token;
-            ServerModsManifest mods = new ServerModsManifest();
+
+            ServerModsManifest mods;
             try
             {
                 mods = await GameUtilities.GetManifest(Server.AddressData);
-                //await Task.Run(() => 
-                //{
-                //    Task<ServerModsManifest> w = GameUtilities.GetManifest(Server.AddressData);
-                //    w.Wait();
-                //    mods = w.Result; 
-                //}, token);
             }
+            catch (HttpRequestException) { return; }
             catch (WebException) { return; }
             catch (TaskCanceledException) { return; }
 
@@ -103,10 +102,8 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
 
             cancelTokenSource = null;
         }
-
-        private async void GetMods(ServerModsManifest mods)
+        private void GetMods(ServerModsManifest mods)
         {
-            await Task.Yield();
             List<string> WhiteListFiles = new List<string>(5)
             {
                 "Skyrim.esm",
@@ -115,17 +112,36 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 "HearthFires.esm",
                 "Dragonborn.esm"
             };
-            
+
+            List<string> lmods = new List<string>();
+
             mods.Mods.RemoveAll(r => WhiteListFiles.Contains(r.FileName));
             Mods.Clear();
             if (mods.Mods.Count != 0)
             {
-                Mods.AddRange(mods.Mods.ConvertAll(c => c.FileName.Substring(0, c.FileName.LastIndexOf('.'))));
+                lmods.AddRange(mods.Mods.ConvertAll(c => c.FileName.Substring(0, c.FileName.LastIndexOf('.'))));
             }
             else
             {
-                Mods.Add("<no mods>");
+                lmods.Add("<no mods>");
             }
+            Mods = lmods;
+        }
+
+        public async void GetDesc()
+        {
+            string d = "<Empty>";
+            Description = d;
+            try
+            {
+                d = await Net.RequestHttp($"http://{Server.AddressData}/desc.txt", "GET", false, null);
+            }
+            catch (HttpRequestException) { return; }
+            catch (WebException) { return; }
+            catch (TaskCanceledException) { return; }
+
+            if (string.IsNullOrWhiteSpace(d)) d = "<Empty>";
+            Description = d;
         }
 
         private async void GetPing()
@@ -147,6 +163,24 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 }
             }
             catch { Ping = "-"; }
+        }
+
+        private async void GetAntiCheat()
+        {
+            try
+            {
+                string res = "false";
+                try
+                {
+                    res = await Net.RequestHttp($"http://{Server.AddressData}/SkyEye", "GET", false, null);
+                }
+                catch (HttpRequestException) { return; }
+                catch (WebException) { return; }
+                catch (TaskCanceledException) { return; }
+                if (res == "true") hasSkyEye = true;
+            }
+            catch { hasSkyEye = false; }
+            OnPropertyChanged(nameof(HasSkyEye));
         }
 
         private void SetFavorite()

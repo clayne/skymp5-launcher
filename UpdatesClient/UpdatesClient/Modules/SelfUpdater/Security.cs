@@ -11,7 +11,7 @@ namespace UpdatesClient.Modules.SelfUpdater
 {
     internal static class Security
     {
-        internal static VersionStatus Status;
+        internal static VersionStatus Status = new VersionStatus();
         internal static string UID;
 
         internal static bool CheckEnvironment()
@@ -53,7 +53,10 @@ namespace UpdatesClient.Modules.SelfUpdater
                 string jsn = await Core.Net.Request($"{Core.Net.URL_ApiLauncher}CheckVersion/{EnvParams.VersionFile}", "POST", false, null);
                 Status = JsonConvert.DeserializeObject<VersionStatus>(jsn);
             }
-            catch { Status.Block = false; }
+            catch 
+            {
+                Status.Block = false; 
+            }
 
             return !(Status.Block && Status.Full);
         }

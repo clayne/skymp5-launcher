@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using UpdatesClient.Modules.Configs;
@@ -22,6 +23,8 @@ namespace UpdatesClient.Core
         public const string URL_Mod_RuFix = "https://skymp.io/updates/mods/SSERuFixConsole.zip";
 
         public const string URL_ApiLauncher = "https://skymplauncher.skyrez.su/api/v1/";
+
+        private static readonly HttpClient http = new HttpClient();
 
         static Net()
         {
@@ -73,7 +76,7 @@ namespace UpdatesClient.Core
             if ((data == null && method == "POST") || (data != null))
                 using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data ?? ""}");
 
-            using (HttpWebResponse res = (HttpWebResponse)req.GetResponse())
+            using (HttpWebResponse res = (HttpWebResponse)(req.GetResponse()))
             {
                 using (StreamReader sr = new StreamReader(res.GetResponseStream()))
                 {
@@ -81,6 +84,22 @@ namespace UpdatesClient.Core
                     return raw;
                 }
             }
+        }
+
+        public static async Task<string> RequestHttp(string url, string method, bool auth, string data)
+        {
+            StringContent content = new StringContent(data ?? "", Encoding.UTF8, "application/json");
+            if (auth) content.Headers.Add(nameof(HttpRequestHeader.Authorization), Settings.UserToken);
+            if (method == "GET")
+            {
+                return await http.GetStringAsync(url);
+            }
+            else if (method == "POST")
+            {
+                HttpResponseMessage response = await http.PostAsync(url, content);
+                return await response.Content.ReadAsStringAsync();
+            }
+            return "ERR";
         }
 
         public static async Task<string> UploadRequest(string url, string data, string file, string paramName, string contentType)

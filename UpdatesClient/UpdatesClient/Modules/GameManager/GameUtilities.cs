@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SkyEye.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using UpdatesClient.Core;
@@ -24,6 +27,7 @@ namespace UpdatesClient.Modules.GameManager
         public static async Task Play(ServerModel server, Window window)
         {
             string adressData;
+            bool hasAc = false;
             try
             {
                 if (Directory.Exists(Path.GetDirectoryName(Settings.PathToSkympClientSettings)) && File.Exists(Settings.PathToSkympClientSettings))
@@ -37,6 +41,25 @@ namespace UpdatesClient.Modules.GameManager
 
                 object gameData = await Account.GetSession(adress);
                 if (gameData == null) return;
+
+                try
+                {
+                    string res = await Net.RequestHttp($"http://{adressData}/SkyEye", "GET", false, null);
+                    if (res == "true") hasAc = true;
+                }
+                catch (Exception) { }
+
+                if (hasAc)
+                {
+                    ResultInitModel res = await SkyEye.AntiCheat.Init(Settings.UserId, Settings.UserName, 
+                        ((JObject)gameData)["session"].ToObject<string>());
+                    if (!res.Success)
+                    {
+                        NotifyController.Show(res.Message);
+                        return;
+                    }
+                }
+
                 SetSession(gameData);
             }
             catch (JsonSerializationException)
@@ -68,8 +91,10 @@ namespace UpdatesClient.Modules.GameManager
             try
             {
                 window.Hide();
+                if (hasAc) SkyEye.AntiCheat.Detected += ACDetected;
                 bool crash = await GameLauncher.StartGame();
                 window.Show();
+                if (hasAc) SkyEye.AntiCheat.Close();
 
                 if (crash)
                 {
@@ -81,13 +106,23 @@ namespace UpdatesClient.Modules.GameManager
             catch
             {
                 Logger.ReportMetricaEvent("HasNotAccess");
-                window.Close();
+                window.Show();
             }
+            finally
+            {
+                if (hasAc) SkyEye.AntiCheat.Detected -= ACDetected;
+            }
+        }
+
+        private static async void ACDetected(object s, EventArgs e)
+        {
+            NotifyController.Show(s.ToString());
+            await GameLauncher.StopGame();
         }
 
         public static async Task<ServerModsManifest> GetManifest(string adress)
         {
-            string serverManifest = await Net.Request($"http://{adress}/manifest.json", "GET", false, null);
+            string serverManifest = await Net.RequestHttp($"http://{adress}/manifest.json", "GET", false, null);
             return JsonConvert.DeserializeObject<ServerModsManifest>(serverManifest);
         }
 
@@ -126,6 +161,22 @@ namespace UpdatesClient.Modules.GameManager
                 foreach (var item in mods.LoadOrder)
                 {
                     content += $"*{item}\n";
+                }
+            }
+            catch (HttpRequestException)
+            {
+                if (NetworkSettings.CompatibilityMode)
+                {
+                    NotifyController.Show(Res.CompatibilityModeOn);
+                    if (Mods.ExistMod("Farm"))
+                        await Mods.OldModeEnable();
+                    await Task.Delay(3000);
+                    content = @"*FarmSystem.esp";
+                }
+                else
+                {
+                    NotifyController.Show(Res.CompatibilityModeOff);
+                    return false;
                 }
             }
             catch (WebException)

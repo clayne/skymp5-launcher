@@ -102,13 +102,15 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public bool IsDescrptTab
         {
             get { return tab == TabEn.Descrpt; }
-            set { Tab = value ? TabEn.Descrpt : tab; }
+            set { Tab = value ? TabEn.Descrpt : tab;
+                if (selectedServer != null && value) selectedServer.GetDesc(); }
         }
 
         public bool IsModsTab
         {
             get { return tab == TabEn.Mods; }
-            set { Tab = value ? TabEn.Mods : tab; }
+            set { Tab = value ? TabEn.Mods : tab;
+                if (selectedServer != null && value) selectedServer.GetManifest(); }
         }
 
         public bool IsSettingsTab
@@ -125,11 +127,10 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 if (selectedServer != null) selectedServer.Selected = false;
                 selectedServer = value;
                 if (selectedServer != null) selectedServer.Selected = true;
-                Tab = TabEn.Mods;
+                if (selectedServer != null) selectedServer.GetDesc();
+                Tab = TabEn.Descrpt;
                 OnPropertyChanged();
                 OnPropertyChanged("VisibleServerBlock");
-
-                if (selectedServer != null) selectedServer.GetManifest();
             }
         }
 

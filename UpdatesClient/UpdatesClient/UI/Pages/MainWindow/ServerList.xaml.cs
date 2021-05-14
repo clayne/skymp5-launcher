@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -108,6 +109,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 model.ServersList = list;
                 model.SelectedServer = list.Find(x => x.Server.ID == Settings.LastServerID);
             }
+            catch (HttpRequestException) { }
             catch (WebException) { }
             catch (Exception e)
             {

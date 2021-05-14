@@ -717,6 +717,16 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] SkyEye {
+            get {
+                object obj = ResourceManager.GetObject("SkyEye", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Successfully.
         /// </summary>
         public static string Successfully {
