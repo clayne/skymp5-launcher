@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using UpdatesClient.Core;
 using UpdatesClient.Core.Enums;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.GameManager;
@@ -32,7 +33,8 @@ namespace UpdatesClient.UI.Pages.MainWindow
                 DisabledSKSE = ModVersion.SKSEDisabled,
                 DisabledMods = ModVersion.ModsDisabled,
                 CanDisabledMods = Mods.ExistMod("SkyMPCore"),
-                CanDisabledSKSE = Mods.ExistMod("SKSE")
+                CanDisabledSKSE = Mods.ExistMod("SKSE"),
+                SelfVersion = $"Vers. {EnvParams.VersionFile}.{Settings.UserId}"
             };
             grid.DataContext = Model;
         }

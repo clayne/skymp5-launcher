@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -107,7 +106,7 @@ namespace UpdatesClient.Modules.Notifications
                 Notifications.Notifications.Remove(popup.notifyModel);
                 NotifyList.NotifyPanel?.panelList.Children.Remove(popup);
             }
-            
+
         }
 
         private static void Load()

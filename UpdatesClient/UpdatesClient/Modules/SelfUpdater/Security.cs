@@ -53,9 +53,9 @@ namespace UpdatesClient.Modules.SelfUpdater
                 string jsn = await Core.Net.Request($"{Core.Net.URL_ApiLauncher}CheckVersion/{EnvParams.VersionFile}", "POST", false, null);
                 Status = JsonConvert.DeserializeObject<VersionStatus>(jsn);
             }
-            catch 
+            catch
             {
-                Status.Block = false; 
+                Status.Block = false;
             }
 
             return !(Status.Block && Status.Full);

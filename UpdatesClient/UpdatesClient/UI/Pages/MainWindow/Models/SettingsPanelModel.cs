@@ -18,6 +18,14 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         private bool disabledSKSE;
         private bool disabledMods;
 
+        private string selfVersion;
+
+        public string SelfVersion
+        {
+            get { return selfVersion; }
+            set { selfVersion = value; OnPropertyChanged(); }
+        }
+
         public bool CanDisabledSKSE
         {
             get { return canDisabledSKSE; }
@@ -66,8 +74,6 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             get { return skyrimPath; }
             set { skyrimPath = value; OnPropertyChanged(); }
         }
-
-
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

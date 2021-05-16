@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Modules.Configs;
@@ -32,12 +33,20 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
 
         private List<string> mods;
 
+        private BitmapImage serverIcon;
+
+        public BitmapImage ServerIcon
+        {
+            get { return serverIcon; }
+            set { serverIcon = value; OnPropertyChanged(); }
+        }
+
+
         public List<string> Mods
         {
             get { return mods; }
             set { mods = value; OnPropertyChanged(); }
         }
-
 
         public string ViewName
         {
@@ -71,12 +80,14 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             Server = server;
             resort = action;
             Mods = new List<string>();
+            ServerIcon = new BitmapImage(new Uri("pack://application:,,,/UpdatesClient;component/Assets/Images/ServerIcon.png"));
             if (Settings.FavoriteServers.Contains(Server.ID))
             {
                 Favorite = true;
             }
-            GetPing(); 
+            GetPing();
             GetAntiCheat();
+            GetServerIcon();
 
             inited = true;
         }
@@ -181,6 +192,28 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             }
             catch { hasSkyEye = false; }
             OnPropertyChanged(nameof(HasSkyEye));
+        }
+
+        private void GetServerIcon()
+        {
+            try
+            {
+                BitmapImage logo = new BitmapImage();
+                logo.BeginInit();
+
+                logo.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                logo.CacheOption = BitmapCacheOption.Default;
+                logo.UriCachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.CacheIfAvailable);
+
+                logo.UriSource = new Uri($"http://{Server.AddressData}/servericon.png");
+                logo.EndInit();
+
+                logo.DownloadCompleted += (s, e) =>
+                {
+                    ServerIcon = logo;
+                };
+            }
+            catch { }
         }
 
         private void SetFavorite()

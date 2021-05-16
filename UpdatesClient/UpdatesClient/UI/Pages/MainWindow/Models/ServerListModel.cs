@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using UpdatesClient.Core.Enums;
-using UpdatesClient.Core.Helpers;
 using UpdatesClient.UI.Controllers.ServerBlock;
 using Res = UpdatesClient.Properties.Resources;
 
@@ -102,15 +101,21 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public bool IsDescrptTab
         {
             get { return tab == TabEn.Descrpt; }
-            set { Tab = value ? TabEn.Descrpt : tab;
-                if (selectedServer != null && value) selectedServer.GetDesc(); }
+            set
+            {
+                Tab = value ? TabEn.Descrpt : tab;
+                if (selectedServer != null && value) selectedServer.GetDesc();
+            }
         }
 
         public bool IsModsTab
         {
             get { return tab == TabEn.Mods; }
-            set { Tab = value ? TabEn.Mods : tab;
-                if (selectedServer != null && value) selectedServer.GetManifest(); }
+            set
+            {
+                Tab = value ? TabEn.Mods : tab;
+                if (selectedServer != null && value) selectedServer.GetManifest();
+            }
         }
 
         public bool IsSettingsTab

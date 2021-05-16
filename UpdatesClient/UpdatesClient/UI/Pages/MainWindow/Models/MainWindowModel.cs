@@ -23,10 +23,10 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
         public bool OpenNotifications
         {
             get { return openNotifications; }
-            set 
-            { 
-                openNotifications = value; 
-                OnPropertyChanged(); 
+            set
+            {
+                openNotifications = value;
+                OnPropertyChanged();
                 OnPropertyChanged("ShowNotificationsBg");
                 if (openNotifications) HasNewNotification = false;
             }

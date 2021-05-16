@@ -679,13 +679,13 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Background="#F23A4049">
+    <Grid x:Name="grid" Background="#F23A4049">
         <Grid.RowDefinitions>
             <RowDefinition Height="110"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="1" Template="{DynamicResource ScrollViewerControlTemplate}" VerticalScrollBarVisibility="Auto" Focusable="False" IsTabStop="False">
-            <Grid x:Name="grid">
+            <Grid>
                 <TextBlock HorizontalAlignment="Left" Margin="33,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static res:Resources.Common}" VerticalAlignment="Top" Foreground="#CCFFFFFF"/>
                 <TextBlock HorizontalAlignment="Left" Margin="33,26,0,0" TextWrapping="Wrap" Text="{x:Static res:Resources.PathToSkyrimSE}" VerticalAlignment="Top" Foreground="#CCFFFFFF" FontSize="10" FontWeight="Light"/>
                 <TextBox Height="25" Margin="33,44,62,0" Text="{Binding Path=SkyrimPath, Mode=TwoWay}" VerticalAlignment="Top" FontWeight="Light" Background="#FF555A6B" Foreground="White" BorderBrush="{x:Null}" Style="{DynamicResource TextBoxStyle1}"/>
@@ -703,5 +703,6 @@
                 <CheckBox Content="{x:Static res:Resources.DisableMods}" IsEnabled="{Binding CanDisabledMods}" HorizontalAlignment="Left" Margin="33,230,0,0" VerticalAlignment="Top" Foreground="White" Height="25" Style="{DynamicResource CheckBoxStyle1}" Background="#FF525667" IsChecked="{Binding DisabledMods}" Focusable="False" IsTabStop="False"/>
             </Grid>
         </ScrollViewer>
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,5,5" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Path=SelfVersion}" VerticalAlignment="Bottom" FontSize="10" Foreground="#FF5F5F5F"/>
     </Grid>
 </UserControl>

@@ -51,7 +51,7 @@ namespace UpdatesClient.Modules.GameManager
 
                 if (hasAc)
                 {
-                    ResultInitModel res = await SkyEye.AntiCheat.Init(Settings.UserId, Settings.UserName, 
+                    ResultInitModel res = await SkyEye.AntiCheat.Init(Settings.UserId, Settings.UserName,
                         ((JObject)gameData)["session"].ToObject<string>());
                     if (!res.Success)
                     {
