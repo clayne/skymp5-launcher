@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using UpdatesClient.Core;
+using System.Windows;
+using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Enums;
 using UpdatesClient.Modules.GameManager.Model;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.GameManager
 {
-    internal class GameVerification
+    internal static class GameVerification
     {
         public static string GetGameFolder()
         {
@@ -31,7 +33,32 @@ namespace UpdatesClient.Modules.GameManager
             return null;
         }
 
-        internal static ResultGameVerification VerifyGame(string pathToGameFolder, string pathToVerificationFile)
+        public static ResultGameVerification CheckSkyrim()
+        {
+            string pathToSkyrim = Settings.PathToSkyrim;
+            ResultGameVerification result = default;
+            try
+            {
+                if (string.IsNullOrEmpty(pathToSkyrim) || !Directory.Exists(pathToSkyrim) || !File.Exists($"{pathToSkyrim}\\SkyrimSE.exe"))
+                {
+                    result.IsGameFound = false;
+                    result.NeedInstall = true;
+                    return result;
+                }
+
+                result = VerifyGame(pathToSkyrim, null);
+            }
+            catch (Exception er)
+            {
+                Logger.FatalError("CheckPathToSkyrim", er);
+                MessageBox.Show(Res.InitError, Res.Error);
+                result.NeedInstall = true;
+            }
+
+            return result;
+        }
+
+        public static ResultGameVerification VerifyGame(string pathToGameFolder, string pathToVerificationFile)
         {
             ResultGameVerification result = new ResultGameVerification();
             if (File.Exists($"{pathToGameFolder}\\SkyrimSE.exe"))
@@ -70,6 +97,14 @@ namespace UpdatesClient.Modules.GameManager
                     result.UnSafeSKSEFilesDictionary = VerifySKSEFiles();
                     result.IsSKSESafe = result.UnSafeSKSEFilesDictionary.Count == 0;
                 }
+                else
+                {
+                    result.NeedInstall = true;
+                }
+            }
+            else
+            {
+                result.NeedInstall = true;
             }
 
             if (Directory.Exists($"{pathToGameFolder}\\Data\\Interface"))

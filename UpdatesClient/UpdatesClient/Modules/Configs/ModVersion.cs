@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
-using UpdatesClient.Core;
-using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.Configs.Models;
+using UpdatesClient.Modules.Debugger;
+using UpdatesClient.Modules.Notifications;
 using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.Configs
@@ -19,6 +19,9 @@ namespace UpdatesClient.Modules.Configs
             set { model.LastDmpReported = value; }
         }
 
+        public static bool SKSEDisabled { get => model.SKSEDisabled; set => model.SKSEDisabled = value; }
+        public static bool ModsDisabled { get => model.ModsDisabled; set => model.ModsDisabled = value; }
+
         internal static void Load()
         {
             try
@@ -31,7 +34,7 @@ namespace UpdatesClient.Modules.Configs
                     lock (sync)
                         model = JsonConvert.DeserializeObject<ModVersionModel>(File.ReadAllText(path));
                 }
-                else  
+                else
                 {
                     model = new ModVersionModel();
                 }
@@ -39,7 +42,6 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 Logger.Error("Version_Load", e);
-                model = new ModVersionModel();
             }
             if (model == null) model = new ModVersionModel();
         }
@@ -57,7 +59,7 @@ namespace UpdatesClient.Modules.Configs
             }
             catch (Exception e)
             {
-                NotifyController.Show(UI.Controllers.PopupNotify.Error, Res.Error, Res.ErrorSaveFileBusy);
+                NotifyController.Show(Res.ErrorSaveFileBusy);
                 Logger.Error("Version_Save", e);
             }
         }

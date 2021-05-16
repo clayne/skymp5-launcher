@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Remoting;
@@ -157,7 +156,7 @@ namespace SingleInstanceApp
                 {
                     try
                     {
-                        using (TextReader reader = new StreamReader(cmdLinePath, Encoding.Unicode))
+                        using (StreamReader reader = new StreamReader(cmdLinePath, Encoding.Unicode))
                         {
                             args = NativeMethods.CommandLineToArgvW(reader.ReadToEnd());
                         }
@@ -172,7 +171,7 @@ namespace SingleInstanceApp
 
             if (args == null)
             {
-                args = new string[] { };
+                args = Array.Empty<string>();
             }
 
             return new List<string>(args);
@@ -188,7 +187,7 @@ namespace SingleInstanceApp
             {
                 TypeFilterLevel = TypeFilterLevel.Full
             };
-            IDictionary props = new Dictionary<string, string>
+            Dictionary<string, string> props = new Dictionary<string, string>
             {
                 ["name"] = channelName,
                 ["portName"] = channelName,

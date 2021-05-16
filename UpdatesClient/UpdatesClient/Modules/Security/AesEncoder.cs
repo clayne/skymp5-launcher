@@ -67,7 +67,6 @@ namespace Security
             aes.Key = key;
             aes.IV = bytesIv;
 
-            string text = "";
             byte[] data = mess;
             ICryptoTransform crypt = aes.CreateDecryptor(aes.Key, aes.IV);
             using (MemoryStream ms = new MemoryStream(data))
@@ -76,11 +75,10 @@ namespace Security
                 {
                     using (StreamReader sr = new StreamReader(cs))
                     {
-                        text = sr.ReadToEnd();
+                        return sr.ReadToEnd();
                     }
                 }
             }
-            return text;
         }
     }
 }

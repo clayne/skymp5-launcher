@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace UpdatesClient.UI.Controllers
@@ -10,14 +11,12 @@ namespace UpdatesClient.UI.Controllers
     {
         public event EventHandler Click;
 
-        public string Text { get => (string)Username.Header; set => Username.Header = value; }
-
         public OnlineButton()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             Click?.Invoke(sender, e);
         }

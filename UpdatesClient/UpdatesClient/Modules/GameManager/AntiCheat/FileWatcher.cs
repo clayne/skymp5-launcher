@@ -2,8 +2,8 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.GameManager.AntiCheat
 {

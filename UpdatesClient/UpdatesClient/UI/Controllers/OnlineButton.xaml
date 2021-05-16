@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             xmlns:local2="clr-namespace:UpdatesClient.UI.Pages.MainWindow.Models"
              xmlns:res="clr-namespace:UpdatesClient.Properties"
-             mc:Ignorable="d" Height="18">
+             mc:Ignorable="d" Height="21"
+             d:DataContext="{d:DesignInstance Type=local2:MainWindowModel}">
     <UserControl.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -25,6 +27,24 @@
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+
+        <DrawingImage x:Key="rightArrowDrawingImage">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V6.08 H11.65 V0 H0 Z">
+                    <DrawingGroup.Transform>
+                        <TranslateTransform X="0.000179786526132375" Y="0.0031441906467080116" />
+                    </DrawingGroup.Transform>
+                    <DrawingGroup Opacity="1" Transform="6.12303176911189E-17,1,-1,6.12303176911189E-17,11.65,0">
+                        <DrawingGroup Transform="1,0,0,1,0,0.003">
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M11.65,6.08z M0,0z M0.436,0.071A0.253,0.253,0,0,0,0.078,0.429L5.469,5.82 0.077,11.211A0.253,0.253,0,0,0,0.429,11.575L0.435,11.569 6.005,6A0.253,0.253,0,0,0,6.005,5.642z" />
+                        </DrawingGroup>
+                        <DrawingGroup Transform="1,0,0,1,0.003,0">
+                            <GeometryDrawing Brush="#FFFFFFFF" Geometry="F1 M11.65,6.08z M0,0z M0.254,11.647A0.253,0.253,0,0,1,0.075,11.215L5.466,5.823 0.074,0.433A0.254,0.254,0,0,1,0.433,0.074L6,5.644A0.253,0.253,0,0,1,6,6L0.43,11.57A0.253,0.253,0,0,1,0.254,11.647z" />
+                        </DrawingGroup>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
         <Style TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
@@ -93,50 +113,17 @@
 
         <ControlTemplate x:Key="MenuItemControlTemplate" TargetType="{x:Type MenuItem}">
             <Border x:Name="templateRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                <Border.Effect>
-                    <DropShadowEffect x:Name="effect" Color="#FF6BC1F2" ShadowDepth="0" BlurRadius="10" Direction="0" Opacity="0"/>
-                </Border.Effect>
                 <ContentPresenter x:Name="menuHeaderContainer" Focusable="False" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="2" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" HorizontalAlignment="Right" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Top"/>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsHighlighted" Value="True">
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Opacity" 
-                                                             To="1" Duration="0:0:0.15" AccelerationRatio="0.8" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-                    <Trigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Opacity" 
-                                                             To="0" Duration="0:0:0.15" DecelerationRatio="0.8" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.ExitActions>
+                    <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF707070"/>
+                    <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#33FFFFFF"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Trigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Color" 
-                                                             To="#FFFBC1F2" Duration="0:0:0.15" AccelerationRatio="0.8" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.EnterActions>
-                    <Trigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <ColorAnimation Storyboard.TargetName="effect" Storyboard.TargetProperty="Color" 
-                                                             To="#FF6BC1F2" Duration="0:0:0.15" DecelerationRatio="0.8" />
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </Trigger.ExitActions>
+                    <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#7FFFFFFF"/>
                 </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
@@ -158,16 +145,15 @@
                     </Grid.ColumnDefinitions>
                     <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" ContentSource="Icon" HorizontalAlignment="Center" Height="16" Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Width="16"/>
                     <Path x:Name="GlyphPanel" Data="F1M10,1.2L4.7,9.1 4.5,9.1 0,5.2 1.3,3.5 4.3,6.1 8.3,0 10,1.2z" Fill="{TemplateBinding Foreground}" FlowDirection="LeftToRight" Margin="3" Visibility="Collapsed" VerticalAlignment="Center"/>
-                    <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="0" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    <Border x:Name="img" HorizontalAlignment="Left" Height="6" Margin="5,5,0,0" VerticalAlignment="Top" Width="11" Grid.Column="1" Background="White">
+                    <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="0" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch"/>
+                    <Border x:Name="img" HorizontalAlignment="Center" Height="6" Margin="0,3,0,0" VerticalAlignment="Center" Width="12" Grid.Column="1" Background="White" Padding="0">
                         <Border.OpacityMask>
-                            <ImageBrush ImageSource="{DynamicResource arrowDown}" Stretch="Uniform"/>
+                            <ImageBrush ImageSource="{DynamicResource rightArrowDrawingImage}" Stretch="Uniform"/>
                         </Border.OpacityMask>
                     </Border>
-                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Center" Margin="0" VerticalOffset="38" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="2" HorizontalOffset="0">
+                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Center" Margin="0" VerticalOffset="86" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" HorizontalAlignment="Right" Grid.Column="2" HorizontalOffset="0">
                         <Grid VerticalAlignment="Stretch" Margin="0">
-                            <Border BorderBrush="White" BorderThickness="1" Margin="0" Padding="0" />
-                            <Border x:Name="SubMenuBorder" BorderBrush="{x:Null}" BorderThickness="1" Background="#FF03182B" Padding="2" Margin="0">
+                            <Border x:Name="SubMenuBorder" BorderBrush="{x:Null}" BorderThickness="0" Background="#FF3A434F" Padding="2" Margin="0" CornerRadius="3">
                                 <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}" Background="{x:Null}">
                                     <Grid x:Name="Grid1" RenderOptions.ClearTypeHint="Enabled" Background="{x:Null}">
                                         <Canvas x:Name="Canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
@@ -193,8 +179,9 @@
                     <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
                 </Trigger>
                 <Trigger Property="IsHighlighted" Value="True">
-                    <Setter Property="Background" TargetName="templateRoot" Value="#3D26A0DA"/>
-                    <Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF26A0DA"/>
+                    <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#99FFFFFF"/>
+                    <!--<Setter Property="Background" TargetName="templateRoot" Value="#3D26A0DA"/>-->
+                    <!--<Setter Property="BorderBrush" TargetName="templateRoot" Value="#FF26A0DA"/>-->
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="#FF707070"/>
@@ -206,11 +193,29 @@
                 </Trigger>-->
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        <SolidColorBrush x:Key="Menu.Static.Separator" Color="#FFD7D7D7"/>
+        <Style x:Key="SeparatorStyle1" TargetType="{x:Type Separator}">
+            <Setter Property="Background" Value="{StaticResource Menu.Static.Separator}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Menu.Static.Separator}"/>
+            <Setter Property="MinHeight" Value="1"/>
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Separator}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="0"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Menu x:Name="menu" Margin="0,0,0,0" VerticalAlignment="Top" Background="{x:Null}">
-            <MenuItem x:Name="Username" Header="POSPELOV" BorderBrush="{x:Null}" Background="#00000000" Foreground="White" FontSize="14" FontFamily="Constantia" Template="{DynamicResource MenuItemControlTemplate1}" >
-                <MenuItem x:Name="LogoutBtn" Header="{x:Static res:Resources.LogOut}" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontFamily="/UpdatesClient;component/Assets/Fonts/#Forum" FontSize="16"/>
+            <MenuItem x:Name="Username" Header="{Binding Path=UserName}" BorderBrush="{x:Null}" Background="#00000000" Foreground="White" FontSize="16" Template="{DynamicResource MenuItemControlTemplate1}" FontWeight="Light" Margin="0" Padding="2,-2,5,0" >
+                <MenuItem Header="{x:Static res:Resources.ViewProfile}" IsEnabled="False" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,5,10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
+                <Separator Style="{DynamicResource SeparatorStyle1}" Background="#72FFFFFF" MinHeight="0" Height="1" Margin="0" />
+                <MenuItem Header="{x:Static res:Resources.ActivateCode}" IsEnabled="False" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
+                <Separator Style="{DynamicResource SeparatorStyle1}" Background="#72FFFFFF" MinHeight="0" Height="1" Margin="0" />
+                <MenuItem x:Name="LogoutBtn" Header="{x:Static res:Resources.LogOut}" Background="#00000000" BorderBrush="{x:Null}" Template="{DynamicResource MenuItemControlTemplate}" FontSize="13" Margin="10,13" HorizontalAlignment="Center" Foreground="#7FFFFFFF"/>
             </MenuItem>
         </Menu>
     </Grid>

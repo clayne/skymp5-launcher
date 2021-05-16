@@ -1,30 +1,20 @@
 ﻿using Newtonsoft.Json;
 using Security.Extensions;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using UpdatesClient.Core;
+using UpdatesClient.Core.Enums;
 using UpdatesClient.Modules.Configs.Models;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.Configs
 {
-    internal class Settings
+    internal static class Settings
     {
         private static SettingsFileModel model;
 
-        public static readonly string VersionFile = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-        public static readonly string VersionAssembly = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         public static bool Loaded { get; private set; } = false;
-
-        #region Paths
-        public static readonly string PathToLocal = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\UpdatesClient\\";
-        public static readonly string PathToLocalSkyrim = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\Skyrim Special Edition\\";
-        public static readonly string PathToLocalTmp = $"{PathToLocal}tmp\\";
-        public static readonly string PathToLocalDlls = $"{PathToLocal}dlls\\";
-        public static readonly string PathToSettingsFile = $"{PathToLocal}{VersionAssembly}.json";
-        public static readonly string PathToSavedServerList = $"{PathToLocalTmp}\\Servers.json";
-        #endregion
 
         #region Skyrim
         public static string PathToSkyrim { get => model.PathToSkyrim; set => model.PathToSkyrim = value; }
@@ -36,7 +26,8 @@ namespace UpdatesClient.Modules.Configs
         #region Launcher
         public static string LastVersion { get => model.LastVersion; private set => model.LastVersion = value; }
         public static int LastServerID { get => model.LastServerID ?? -1; set => model.LastServerID = value; }
-        public static string Locale { get => model.Locale; set => model.Locale = value; }
+        public static List<int> FavoriteServers { get => model.FavoriteServers; }
+        public static Locales Locale { get => model.Locale; set => model.Locale = value; }
         public static bool? ExperimentalFunctions { get => model.ExperimentalFunctions; set => model.ExperimentalFunctions = value; }
         #endregion
 
@@ -57,9 +48,9 @@ namespace UpdatesClient.Modules.Configs
         {
             try
             {
-                if (File.Exists(PathToSettingsFile))
+                if (File.Exists(DefaultPaths.PathToSettingsFile))
                 {
-                    model = JsonConvert.DeserializeObject<SettingsFileModel>(File.ReadAllText(PathToSettingsFile));
+                    model = JsonConvert.DeserializeObject<SettingsFileModel>(File.ReadAllText(DefaultPaths.PathToSettingsFile));
                 }
                 else
                 {
@@ -69,16 +60,18 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 Logger.Error("Settings_Load", e);
-                model = new SettingsFileModel();
             }
+
+            if (model == null) model = new SettingsFileModel();
+            
             Loaded = true;
         }
         internal static void Save()
         {
             try
             {
-                if (!Directory.Exists(PathToLocal)) Directory.CreateDirectory(PathToLocal);
-                File.WriteAllText(PathToSettingsFile, JsonConvert.SerializeObject(model));
+                IO.CreateDirectory(DefaultPaths.PathToLocal);
+                File.WriteAllText(DefaultPaths.PathToSettingsFile, JsonConvert.SerializeObject(model));
             }
             catch (Exception e)
             {
@@ -89,7 +82,7 @@ namespace UpdatesClient.Modules.Configs
         {
             try
             {
-                if (File.Exists(PathToSettingsFile)) File.Delete(PathToSettingsFile);
+                if (File.Exists(DefaultPaths.PathToSettingsFile)) File.Delete(DefaultPaths.PathToSettingsFile);
                 model = new SettingsFileModel();
             }
             catch (Exception e)

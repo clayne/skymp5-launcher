@@ -2,6 +2,7 @@
 using System;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs.Models;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.Configs
 {
@@ -15,8 +16,8 @@ namespace UpdatesClient.Modules.Configs
         public static string ServerStatus { get => model.ServerStatus; }
         public static string OfficialServerAdress { get => model.OfficialServerAdress; }
         public static bool EnableAntiCheat { get => model.EnableAntiCheat; }
-        public static bool EnableModLoader { get => model.EnableModLoader; }
         public static bool CompatibilityMode { get => model.CompatibilityMode; }
+        public static string Banners { get => model.Banners; }
 
         public static async void Init()
         {
@@ -29,8 +30,8 @@ namespace UpdatesClient.Modules.Configs
                     Loaded = true;
                 }
             }
-            catch (Exception e) 
-            { 
+            catch (Exception e)
+            {
                 Logger.Error("NetSettigsInit", e);
             }
         }

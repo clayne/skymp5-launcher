@@ -1,6 +1,4 @@
-﻿using System;
-using System.Management;
-using UpdatesClient.Core;
+﻿using System.Management;
 
 namespace Security
 {

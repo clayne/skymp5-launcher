@@ -1,8 +1,5 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -11,51 +8,45 @@ namespace UpdatesClient.Modules.SelfUpdater
     /// </summary>
     public partial class SelectLanguage : Window
     {
-        public string LanguageBase = "en-US";
-        private bool Selected = false;
-        private readonly DropShadowEffect dse = new DropShadowEffect()
-        {
-            BlurRadius = 30,
-            Color = Colors.White,
-            Direction = 0,
-            ShadowDepth = 0
-        };
+        public string LanguageBase = null;
+        private string languageBase = "en-US";
+
 
         public SelectLanguage()
         {
             InitializeComponent();
         }
 
-        private void Clear()
+        private void SelectLang(object sender, RoutedEventArgs e)
         {
-            ru.Effect = null;
-            us.Effect = null;
-            ru.Opacity = 0.5;
-            us.Opacity = 0.5;
+            ruEff.Opacity = 0;
+            enEff.Opacity = 0;
+
+            switch (((Button)sender).Name)
+            {
+                case "ru":
+                    languageBase = "ru-RU";
+                    ruEff.Opacity = 1;
+
+                    text.Text = "Выберите ваш язык";
+                    _continue.Content = "ПРОДОЛЖИТЬ";
+                    break;
+                case "en":
+                    languageBase = "en-US";
+                    enEff.Opacity = 1;
+
+                    text.Text = "Choose your language";
+                    _continue.Content = "CONTINUE";
+                    break;
+                default:
+                    break;
+            }
         }
 
-
-        private void Ru_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void _continue_Click(object sender, RoutedEventArgs e)
         {
-            Clear();
-            ru.Effect = dse;
-            ru.Opacity = 1;
-            LanguageBase = "ru-RU";
-            Selected = true;
-        }
-
-        private void Us_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Clear();
-            us.Effect = dse;
-            us.Opacity = 1;
-            LanguageBase = "en-US";
-            Selected = true;
-        }
-
-        private void ImageButton_Click(object sender, EventArgs e)
-        {
-            if (Selected) Close();
+            LanguageBase = languageBase;
+            Close();
         }
     }
 }
