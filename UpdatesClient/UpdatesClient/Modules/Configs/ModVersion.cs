@@ -42,7 +42,6 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 Logger.Error("Version_Load", e);
-                model = new ModVersionModel();
             }
             if (model == null) model = new ModVersionModel();
         }

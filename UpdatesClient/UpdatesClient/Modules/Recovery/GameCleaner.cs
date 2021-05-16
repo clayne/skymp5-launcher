@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Recovery.Models;
 using UpdatesClient.Modules.SelfUpdater;
@@ -9,7 +11,7 @@ namespace UpdatesClient.Modules.Recovery
 {
     public class GameCleaner
     {
-        public static void CreateGameManifest(string pathToGame)
+        public static async Task CreateGameManifest(string pathToGame)
         {
             if (File.Exists($"{pathToGame}\\SkyrimSE.exe"))
             {
@@ -22,14 +24,19 @@ namespace UpdatesClient.Modules.Recovery
                         GameVersion = vers
                     };
 
-                    IO.RecursiveHandleFile(pathToGame, (file) =>
+                    await Task.Run(() =>
                     {
-                        string path = file.Replace(pathToGame, "");
-                        uint hash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(file));
-                        model.Files.Add(path, hash);
+                        IO.RecursiveHandleFile(pathToGame, (file) =>
+                        {
+                            if (file != null && !new FileInfo(file).Attributes.HasFlag(FileAttributes.ReparsePoint))
+                            {
+                                string path = file?.Replace(pathToGame, "");
+                                model.Files.Add(path, 0);
+                            }
+                        });
                     });
 
-                    File.WriteAllText("game.manifest.json", JsonConvert.SerializeObject(model));
+                    File.WriteAllText($"{pathToGame}\\game.manifest.json", JsonConvert.SerializeObject(model));
                 }
 
             }

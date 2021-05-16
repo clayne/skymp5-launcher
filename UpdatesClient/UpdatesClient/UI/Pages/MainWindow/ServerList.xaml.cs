@@ -71,6 +71,16 @@ namespace UpdatesClient.UI.Pages.MainWindow
             else
             {
                 await CheckClientUpdates();
+
+                if (!Mods.CheckModFiles("SKSE"))
+                {
+                    model.MainButtonProgressBar = true;
+                    await ModUtilities.InstallSKSE();
+                    model.MainButtonProgressBar = false;
+                }
+
+                if (!Mods.CheckModFiles("RuFixConsole")) await ModUtilities.InstallRuFixConsole();
+                
             }
         }
 
@@ -80,7 +90,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
             {
                 string lastVersion = await Net.GetLastestVersion();
                 string version = Mods.GetModHash("SkyMPCore");
-                if (string.IsNullOrEmpty(version) || lastVersion != version) model.MainButtonStatus = MainButtonStatus.Update;
+                if (string.IsNullOrEmpty(version) || lastVersion != version || !Mods.CheckModFiles("SkyMPCore")) model.MainButtonStatus = MainButtonStatus.Update;
                 else model.MainButtonStatus = MainButtonStatus.Play;
             }
             catch (WebException we)
@@ -161,7 +171,7 @@ namespace UpdatesClient.UI.Pages.MainWindow
             {
                 ResultGameVerification result = iw.Result;
 
-                GameCleaner.CreateGameManifest(Settings.PathToSkyrim);
+                await GameCleaner.CreateGameManifest(Settings.PathToSkyrim);
 
                 bool skse = true, rufix = true, client = true;
                 model.MainButtonProgressBar = true;

@@ -17,8 +17,13 @@ namespace UpdatesClient.Modules.ModsManager
         {
             try
             {
-                if (!Mods.ExistMod("SKSE"))
+                if (!Mods.ExistMod("SKSE") || !Mods.CheckModFiles("SKSE"))
                 {
+                    if (Mods.ExistMod("SKSE"))
+                    {
+                        await Mods.DisableMod("SKSE");
+                    }
+
                     string url = await Net.GetUrlToSKSE();
                     string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
 
@@ -55,8 +60,13 @@ namespace UpdatesClient.Modules.ModsManager
         {
             try
             {
-                if (!Mods.ExistMod("RuFixConsole"))
+                if (!Mods.ExistMod("RuFixConsole") || !Mods.CheckModFiles("RuFixConsole"))
                 {
+                    if (Mods.ExistMod("RuFixConsole"))
+                    {
+                        await Mods.DisableMod("RuFixConsole");
+                    }
+
                     const string url = Net.URL_Mod_RuFix;
                     string destinationPath = $@"{Settings.PathToSkyrimTmp}{url.Substring(url.LastIndexOf('/'), url.Length - url.LastIndexOf('/'))}";
 

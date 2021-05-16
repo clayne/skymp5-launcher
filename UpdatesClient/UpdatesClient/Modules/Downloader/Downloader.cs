@@ -83,6 +83,10 @@ namespace UpdatesClient.Modules.Downloader
             }
             catch (Exception e)
             {
+                if (e.HResult == -2146232800)
+                {
+                    NotifyController.Show(e.Message);
+                }
                 sDestinationPath = null;
                 Logger.Error("Downloader", e);
             }

@@ -60,8 +60,10 @@ namespace UpdatesClient.Modules.Configs
             catch (Exception e)
             {
                 Logger.Error("Settings_Load", e);
-                model = new SettingsFileModel();
             }
+
+            if (model == null) model = new SettingsFileModel();
+            
             Loaded = true;
         }
         internal static void Save()

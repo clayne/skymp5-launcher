@@ -66,7 +66,7 @@ namespace UpdatesClient.Modules.ModsManager
                 await PreLoadMod(modName);
             }
         }
-
+        //TODO: валидация файлов мода перед запуском
         private static async Task PreLoadMod(string modName)
         {
             if (ExistMod(modName))
@@ -82,6 +82,29 @@ namespace UpdatesClient.Modules.ModsManager
                     await RemoveMod(modName);
                 }
             }
+        }
+        public static bool CheckModFiles(string modName)
+        {
+            if (!ExistMod(modName)) return false;
+            string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
+            ModModel mod = new ModModel();
+            mod = mod.Load<ModModel>(pathToMod + "mod.json");
+
+            bool valid = true;
+
+            Dictionary<string, uint> files = new Dictionary<string, uint>();
+            IO.RecursiveHandleFile(pathToMod, (file) =>
+            {
+                files.Add(file.Replace(pathToMod, ""), 0);
+            });
+
+            foreach (var file in mod.Files)
+            {
+                if (!files.ContainsKey(file.Key)) 
+                    valid = false;
+            }
+
+            return valid;
         }
 
         #region Old
@@ -222,12 +245,14 @@ namespace UpdatesClient.Modules.ModsManager
             await GameLauncher.StopGame();
 
             ModModel mod = new ModModel();
-
+            
             string pathTmp = Settings.PathToSkyrimMods + modName + "\\";
+            mod = mod.Load<ModModel>(pathTmp + "mod.json");
+
             IO.RecursiveHandleFile(pathTmp, (file) =>
             {
                 string filePath = file.Replace(pathTmp, "");
-                mod.Files.Add(filePath, 0);
+                if (!mod.Files.ContainsKey(filePath)) mod.Files.Add(filePath, 0);
             });
 
             foreach (string file in mod.Files.Keys)
