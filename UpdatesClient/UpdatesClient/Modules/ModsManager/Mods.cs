@@ -1,15 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Core.Helpers;
-using UpdatesClient.Core.Models.ServerManifest;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager;
+using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager.Models;
 using UpdatesClient.Modules.SelfUpdater;
 
@@ -43,7 +41,11 @@ namespace UpdatesClient.Modules.ModsManager
 
         public static async void Init()
         {
-            IO.CreateDirectory(Settings.PathToSkyrimMods);
+            if (!string.IsNullOrWhiteSpace(Settings.PathToSkyrimMods))
+            {
+                IO.CreateDirectory(Settings.PathToSkyrimMods);
+            }
+
             mods = mods.Load<ModsModel>(List);
 
             string[] arMods = mods.Mods.ToArray();
@@ -64,7 +66,7 @@ namespace UpdatesClient.Modules.ModsManager
                 await PreLoadMod(modName);
             }
         }
-
+        //TODO: валидация файлов мода перед запуском
         private static async Task PreLoadMod(string modName)
         {
             if (ExistMod(modName))
@@ -81,6 +83,29 @@ namespace UpdatesClient.Modules.ModsManager
                 }
             }
         }
+        public static bool CheckModFiles(string modName)
+        {
+            if (!ExistMod(modName)) return false;
+            string pathToMod = Settings.PathToSkyrimMods + modName + "\\";
+            ModModel mod = new ModModel();
+            mod = mod.Load<ModModel>(pathToMod + "mod.json");
+
+            bool valid = true;
+
+            Dictionary<string, uint> files = new Dictionary<string, uint>();
+            IO.RecursiveHandleFile(pathToMod, (file) =>
+            {
+                files.Add(file.Replace(pathToMod, ""), 0);
+            });
+
+            foreach (var file in mod.Files)
+            {
+                if (!files.ContainsKey(file.Key)) 
+                    valid = false;
+            }
+
+            return valid;
+        }
 
         #region Old
         public static async Task OldModeEnable()
@@ -92,7 +117,7 @@ namespace UpdatesClient.Modules.ModsManager
 
         public static ServerModsManifest CheckCore(ServerModsManifest mods)
         {
-            var arrMods = mods.Mods.ToArray();
+            ServerModModel[] arrMods = mods.Mods.ToArray();
 
             foreach (ServerModModel mod in arrMods)
             {
@@ -101,9 +126,10 @@ namespace UpdatesClient.Modules.ModsManager
                     string path = $"{Settings.PathToSkyrim}\\Data\\{mod.FileName}";
                     if (File.Exists(path))
                     {
-                        uint lhash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(path));
+                        //TODO: -----
+                        //uint lhash = Hashing.GetCRC32FromBytes(File.ReadAllBytes(path));
                         //if (mod.CRC32 == lhash)
-                            mods.Mods.Remove(mod);
+                        mods.Mods.Remove(mod);
                     }
                 }
             }
@@ -120,7 +146,7 @@ namespace UpdatesClient.Modules.ModsManager
 
             if (files.Count != mod.Files.Count) return false;
 
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 if (file.Item2 != mod.Files[$"Data\\{file.Item1}"]) valid = false;
             }
@@ -148,8 +174,8 @@ namespace UpdatesClient.Modules.ModsManager
                     mods.Mods.Remove(modName);
                     mods.Save(List);
                 }
-                else if (onlySkyrimMods) 
-                { 
+                else if (onlySkyrimMods)
+                {
                     ModModel mod = new ModModel();
                     mod = mod.Load<ModModel>(Settings.PathToSkyrimMods + modName + "\\mod.json");
                     m = mod.IsSkyrimMod;
@@ -219,7 +245,15 @@ namespace UpdatesClient.Modules.ModsManager
             await GameLauncher.StopGame();
 
             ModModel mod = new ModModel();
-            mod = mod.Load<ModModel>(Settings.PathToSkyrimMods + modName + "\\mod.json");
+            
+            string pathTmp = Settings.PathToSkyrimMods + modName + "\\";
+            mod = mod.Load<ModModel>(pathTmp + "mod.json");
+
+            IO.RecursiveHandleFile(pathTmp, (file) =>
+            {
+                string filePath = file.Replace(pathTmp, "");
+                if (!mod.Files.ContainsKey(filePath)) mod.Files.Add(filePath, 0);
+            });
 
             foreach (string file in mod.Files.Keys)
             {
@@ -258,6 +292,28 @@ namespace UpdatesClient.Modules.ModsManager
                 }
             }
 
+            try
+            {
+                if (mod.IsSkyrimMod && mod.HasMainFile)
+                {
+                    string path = DefaultPaths.PathToLocalSkyrim + "Plugins.txt";
+                    if (Directory.Exists(DefaultPaths.PathToLocalSkyrim) && File.Exists(path))
+                    {
+                        IO.FileSetNormalAttribute(path);
+                        string content = File.ReadAllText(path);
+                        string[] cmods = content.Split('\n');
+                        List<string> nmods = new List<string>(cmods.Length - 1);
+                        for (int i = 0; i < cmods.Length; i++)
+                        {
+                            if (cmods[i] != $"*{mod.MainFile}") nmods.Add(cmods[i]);
+                        }
+                        content = string.Join("\n", nmods);
+                        File.WriteAllText(path, content);
+                    }
+                }
+            }
+            catch (Exception e) { Logger.Error("DisableSkyrimMod", e); }
+
             mods.EnabledMods.Remove(modName);
             mods.Save(List);
         }
@@ -265,7 +321,7 @@ namespace UpdatesClient.Modules.ModsManager
         {
             await GameLauncher.StopGame();
 
-            List<string> WhiteList = new List<string>
+            List<string> WhiteList = new List<string>(3)
             {
                 "SKSE",
                 "SkyMPCore",
@@ -335,7 +391,7 @@ namespace UpdatesClient.Modules.ModsManager
             {
                 mods.Mods.Add(mod.Name);
             }
-            
+
             mod.Save(Settings.PathToSkyrimMods + mod.Name + "\\mod.json");
             mods.Save(List);
         }

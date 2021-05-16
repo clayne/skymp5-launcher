@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.CodeDom;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using UpdatesClient.Core.Network.Models.Request;
 using UpdatesClient.Core.Network.Models.Response;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Notifications;
 
 namespace UpdatesClient.Core.Network
 {
@@ -42,9 +42,11 @@ namespace UpdatesClient.Core.Network
             return Net.Request($"{URL_Api}secure", "GET", true, null);
         }
 
-        public static Task<string> GetLogin()
+        public static async Task<string> GetLogin()
         {
-            return Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
+            string raw = await Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
+            JObject jObject = JObject.Parse(raw);
+            return jObject["name"].ToString();
         }
 
         public static async Task<object> GetSession(string address)
@@ -52,10 +54,10 @@ namespace UpdatesClient.Core.Network
             string raw = await Request($"{URL_Api}users/{Settings.UserId}/play/{address}", "POST", true, null);
             if (raw != null) return JsonConvert.DeserializeObject(raw);
             else return null;
-            
+
         }
 
-        private static async Task<string> Request(string url, string method, bool auth, string data) 
+        private static async Task<string> Request(string url, string method, bool auth, string data)
         {
             try
             {

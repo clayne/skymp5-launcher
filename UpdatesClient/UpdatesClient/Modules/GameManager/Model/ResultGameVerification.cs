@@ -14,6 +14,8 @@ namespace UpdatesClient.Modules.GameManager.Model
         public bool IsGameSafe { get; set; }
         public bool IsSKSESafe { get; set; }
 
+        public bool NeedInstall { get; set; }
+
         public Dictionary<string, FileState> UnSafeGameFilesDictionary { get; set; }
         public Dictionary<string, FileState> UnSafeSKSEFilesDictionary { get; set; }
 

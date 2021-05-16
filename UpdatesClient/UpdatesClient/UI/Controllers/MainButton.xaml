@@ -4,28 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UpdatesClient.UI.Controllers"
+             xmlns:local1="clr-namespace:UpdatesClient.Modules.Downloader.UI"
+             xmlns:local2="clr-namespace:UpdatesClient.UI.Pages.MainWindow.Models"
              xmlns:res="clr-namespace:UpdatesClient.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="155" d:DesignWidth="155">
+             d:DesignHeight="63" d:DesignWidth="315"
+             d:DataContext="{d:DesignInstance Type=local2:ServerListModel}">
     <Grid>
-        <Ellipse x:Name="cycle" StrokeThickness="3" Fill="#00000000">
-            <Ellipse.Stroke>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="0.9625"/>
-                    <GradientStop Color="White" Offset="0.9625"/>
-                    <GradientStop Color="White" Offset="0.999"/>
-                    <GradientStop Color="#FF0F0F0F" Offset="0.999"/>
-                </RadialGradientBrush>
-            </Ellipse.Stroke>
-            <Ellipse.Effect>
-                <DropShadowEffect ShadowDepth="0" Color="#FF6BC1F2" BlurRadius="16" Direction="0"/>
-            </Ellipse.Effect>
-        </Ellipse>
-        <Image Margin="20,15,20,60" Grid.Row="0" Source="{StaticResource logo}" Grid.ColumnSpan="1"/>
-        <TextBlock x:Name="textBlock" Margin="0,0,0,29" TextWrapping="Wrap" Text="{x:Static res:Resources.PLAY}" VerticalAlignment="Bottom" FontSize="28" FontFamily="/UpdatesClient;component/Assets/Fonts/#Aetherius" Foreground="White" TextAlignment="Center">
-            <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="0" BlurRadius="12" Color="#FF6BC1F2"/>
-            </TextBlock.Effect>
-        </TextBlock>
+        <local1:ProgressBar x:Name="progressBar" Visibility="{Binding Path=ShowMainProgressBar}" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="315"/>
+        <Button Visibility="{Binding Path=ShowMainButton}" Content="{Binding Path=MainButtonText}" VerticalAlignment="Bottom" Style="{StaticResource ButtonStyleRounded}" Height="63" HorizontalAlignment="Right" Width="315" Grid.Row="3" FontWeight="Bold" FontSize="25" Foreground="White" Click="Button_Click"/>
     </Grid>
 </UserControl>

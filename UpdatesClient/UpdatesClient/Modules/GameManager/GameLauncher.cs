@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UpdatesClient.Core;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Helpers;
 
 namespace UpdatesClient.Modules.GameManager
@@ -32,7 +33,9 @@ namespace UpdatesClient.Modules.GameManager
 
         public static void EnableDebug()
         {
-            string path = $"{Settings.PathToSkyrim}\\Data\\SKSE\\SKSE.ini";
+            string dir = $"{Settings.PathToSkyrim}\\Data\\SKSE\\";
+            string path = $"{dir}SKSE.ini";
+            IO.CreateDirectory(dir);
             if (!File.Exists(path)) File.Create(path).Close();
 
             IniFile iniFile = new IniFile(path);
@@ -55,17 +58,14 @@ namespace UpdatesClient.Modules.GameManager
                 }
                 catch (Win32Exception)
                 {
-                    if (Settings.ExperimentalFunctions == true)
+                    try
                     {
-                        try
-                        {
-                            if (!SkyrimPlatformCEFs[i].HasExited)
-                                ProcessKiller.KillProcess((IntPtr)SkyrimPlatformCEFs[i].Id);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error("StartGame_Killer_SkyrimPlatformCEF", e);
-                        }
+                        if (!SkyrimPlatformCEFs[i].HasExited)
+                            ProcessKiller.KillProcess((IntPtr)SkyrimPlatformCEFs[i].Id);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("StartGame_Killer_SkyrimPlatformCEF", e);
                     }
                 }
                 catch (Exception e)
@@ -73,7 +73,7 @@ namespace UpdatesClient.Modules.GameManager
                     Logger.Error("StartGame_KillSkyrimPlatformCEF", e);
                 }
             }
-        } 
+        }
 
         public static async Task<bool> StartGame()
         {
@@ -105,7 +105,7 @@ namespace UpdatesClient.Modules.GameManager
             if (!GameProcess.HasExited) await Task.Run(() => GameProcess.WaitForExit());
 
             Logger.ReportMetricaEvent("ExitedGame");
-            
+
             await Task.Delay(1000);
             await KillProcess();
 

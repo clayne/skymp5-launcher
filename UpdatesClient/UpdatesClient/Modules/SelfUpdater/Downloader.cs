@@ -2,8 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Windows;
-using UpdatesClient.Core;
+using UpdatesClient.Modules.Debugger;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -45,9 +44,9 @@ namespace UpdatesClient.Modules.SelfUpdater
             {
 
             }
-            catch (Exception e) 
-            { 
-                Logger.Error("SelfUpdate_Downloader", e); 
+            catch (Exception e)
+            {
+                Logger.Error("SelfUpdate_Downloader", e);
             }
             return false;
         }
@@ -58,7 +57,7 @@ namespace UpdatesClient.Modules.SelfUpdater
             string sPath = $"{sDestinationPath}";
 
             string path = Path.GetDirectoryName(sPath);
-            if (path != null && path != "") Directory.CreateDirectory(path);
+            if (string.IsNullOrEmpty(path)) Directory.CreateDirectory(path);
 
             hwRq = (HttpWebRequest)HttpWebRequest.Create(new Uri($"{sInternetPath}"));
             hwRq.Timeout = 10000;

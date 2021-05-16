@@ -6,18 +6,20 @@ using System.IO;
 using System.Net;
 using System.Net.WebSockets;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using UpdatesClient.Core;
+using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;
-using UpdatesClient.Modules.SelfUpdater;
-using Downloader = UpdatesClient.Modules.SelfUpdater.Downloader;
-using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
-using Res = UpdatesClient.Properties.Resources;
-using System.Globalization;
+using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.GameManager.Helpers;
 using UpdatesClient.Modules.ModsManager;
+using UpdatesClient.Modules.Recovery.UI;
+using UpdatesClient.Modules.SelfUpdater;
+using Res = UpdatesClient.Properties.Resources;
+using SplashScreen = UpdatesClient.Modules.SelfUpdater.SplashScreen;
 
 namespace UpdatesClient
 {
@@ -31,17 +33,8 @@ namespace UpdatesClient
         private const string BeginUpdate = "begin";
         private const string EndUpdate = "end";
 
-        private const string LastLocaleVersion = "2.0.5.2";
-
         internal delegate void ApplicationInitializeDelegate(SplashScreen splashWindow);
         internal ApplicationInitializeDelegate ApplicationInitialize;
-
-        private SplashScreen SplashWindow;
-
-        private string MasterHash;
-
-        private readonly string FullPathToSelfExe = Assembly.GetExecutingAssembly().Location;
-        private readonly string NameExeFile = Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
 
         public static new App Current { get { return Application.Current as App; } }
         public static Application AppCurrent { get; private set; }
@@ -53,17 +46,18 @@ namespace UpdatesClient
             try
             {
                 AppCurrent = Current;
-            } catch { }
-            UnpackResxLocale();
+            }
+            catch { }
+            if (LocalesManager.CheckResxLocales())
+            {
+                Process.Start(ResourceAssembly.Location);
+                Application.Current.Shutdown();
+                return;
+            }
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
-            Settings.Load();
-            Version version = new Version(FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion);
-            Logger.Init(version);
-            
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            NetworkSettings.Init();
+            ModulesManager.PreInitModules();
 
             if (!Modules.SelfUpdater.Security.CheckEnvironment()) { ExitApp(); return; }
             if (!HandleCmdArgs()) { ExitApp(); return; }
@@ -86,91 +80,7 @@ namespace UpdatesClient
             }
         }
 
-        private void UnpackResxLocale()
-        {
-            string[] locales = { "ru-RU" };
-            foreach(string l in locales)
-            {
-                try
-                {
-                    string path = $"{Settings.PathToLocal}\\{l}";
-
-                    if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-
-                    string fullPath = $"{path}\\UpdatesClient.resources.dll";
-
-                    string vers = FileVersionInfo.GetVersionInfo(fullPath).FileVersion;
-
-
-                    if (LastLocaleVersion != vers)
-                    {
-                        byte[] bytes = (byte[])Res.ResourceManager.GetObject($"UpdatesClient_{l}_resources");
-                        
-                        if (File.Exists(fullPath) && File.GetAttributes(fullPath) != FileAttributes.Normal)
-                            File.SetAttributes(fullPath, FileAttributes.Normal);
-                        File.WriteAllBytes(fullPath, bytes);
-                    }
-                }
-                catch { }
-            }
-        }
-
-        public bool SignalExternalCommandLineArgs(IList<string> args)
-        {
-            try
-            {
-                if (Current?.MainWindow?.WindowState == WindowState.Minimized) Current.MainWindow.WindowState = WindowState.Normal;
-                Current?.MainWindow?.Show();
-                Current?.MainWindow?.Activate();
-            }
-            catch (Exception e)
-            {
-                Logger.Error("SignalExternal", e);
-            }
-            return true;
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            if (mainInstance) SingleInstance<App>.Cleanup();
-            base.OnExit(e);
-        }
-
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Logger.FatalError("UnhandledException", (Exception)e?.ExceptionObject);
-        }
-
-        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            AssemblyName MissingAssembly = new AssemblyName(args.Name);
-            CultureInfo ci = MissingAssembly.CultureInfo;
-
-            string[] par = args.Name.Replace(" ", "").Split(',');
-            string newName = par[0].Replace(".", "_");
-            if (newName.EndsWith("_resources"))
-            {
-                if (Directory.Exists($"{Settings.PathToLocal}{ci.Name}\\") && File.Exists($"{Settings.PathToLocal}{ci.Name}\\UpdatesClient.resources.dll"))
-                {
-                    return Assembly.LoadFile($"{Settings.PathToLocal}{ci.Name}\\UpdatesClient.resources.dll");
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                try
-                {
-                    byte[] bytes = (byte[])Res.ResourceManager.GetObject(newName);
-                    return Assembly.Load(bytes);
-                }
-                catch { }
-            }
-            return null;
-        }
-
+        //TODO: Переработать
         private bool HandleCmdArgs()
         {
             string[] args = Environment.GetCommandLineArgs();
@@ -205,10 +115,10 @@ namespace UpdatesClient
                             Thread.Sleep(500);
                             try
                             {
-                                File.Copy(FullPathToSelfExe, $"{args[2]}.exe", true);
+                                File.Copy(EnvParams.PathToFile, $"{args[2]}.exe", true);
                                 File.SetAttributes($"{args[2]}.exe", FileAttributes.Normal);
                             }
-                            catch (IOException io) 
+                            catch (IOException io)
                             //фикс ошибки занятого файла, он должен освободится через какое то время
                             {
                                 trying++;
@@ -217,6 +127,10 @@ namespace UpdatesClient
                             }
                             Process.Start($"{args[2]}.exe", $"{EndUpdate} {args[2]}");
                             goto default;
+                        case "recovery":
+                            RecoveryWindow rw = new RecoveryWindow();
+                            rw.ShowDialog();
+                            break;
                         case "repair":
                             Settings.Reset();
                             break;
@@ -267,45 +181,35 @@ namespace UpdatesClient
             return true;
         }
 
-        private void InitApp()
-        {
-            ApplicationInitialize = ApplicationInit;
-        }
-
-        private void ExitApp()
-        {
-            Application.Current.Shutdown();
-        }
-
-        private async void ApplicationInit(SplashScreen splashWindow)
+#pragma warning disable CS1998 // В асинхронном методе отсутствуют операторы await, будет выполнен синхронный метод
+        private async void ApplicationInit(SplashScreen SplashWindow)
+#pragma warning restore CS1998 // В асинхронном методе отсутствуют операторы await, будет выполнен синхронный метод
         {
             try
             {
 #if (DEBUG || DeR)
-                Thread.Sleep(5); //Без этого может не работать
-                StartLuancher();
+                Thread.Sleep(100);
+                if (CanRun())
+                {
+                    SplashWindow.Ready();
+                    if (SplashWindow.Wait()) StartLuancher();
+                }
 #else
-                SplashWindow = splashWindow;
                 SplashWindow.SetStatus($"{Res.CheckSelfUpdate}");
 
-                MasterHash = await Updater.GetLauncherHash();
+                await Updater.Init(SplashWindow);
 
-                if (MasterHash == null || MasterHash == "") throw new Exception("Hash is empty");
-                if (NameExeFile == null || NameExeFile == "") throw new Exception("Path is empty");
-
-                if (!CheckFile(FullPathToSelfExe))
+                if (Updater.UpdateAvailable())
                 {
                     SplashWindow.SetStatus($"{Res.SelfUpdating}");
                     SplashWindow.SetProgressMode(false);
-                    bool downloaded = Update();
 
-                    if (downloaded && CheckFile($"{NameExeFile}.update.exe"))
+                    if (Updater.Update())
                     {
                         Process p = new Process();
-                        p.StartInfo.FileName = $"{NameExeFile}.update.exe";
-                        p.StartInfo.Arguments = $"{BeginUpdate} {NameExeFile}";
+                        p.StartInfo.FileName = $"{EnvParams.NameOfFileWithoutExtension}.update.exe";
+                        p.StartInfo.Arguments = $"{BeginUpdate} {EnvParams.NameOfFileWithoutExtension}";
                         p.Start();
-                        //ExitApp();
                     }
                     else
                     {
@@ -313,11 +217,12 @@ namespace UpdatesClient
                         Thread.Sleep(1500);
                     }
                 }
-                else
+                else if (CanRun())
                 {
                     SplashWindow.SetStatus($"{Res.Done}");
                     SplashWindow.SetProgressMode(false);
-                    StartLuancher();
+                    SplashWindow.Ready();
+                    if (SplashWindow.Wait()) StartLuancher();
                 }
 #endif
             }
@@ -334,8 +239,7 @@ namespace UpdatesClient
                 FileAttributes attributes = FileAttributes.Normal;
                 try
                 {
-                    string pathToUpdateFile = $"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe";
-                    attributes = File.GetAttributes(pathToUpdateFile);
+                    attributes = File.GetAttributes(Updater.PathToFileUpdate);
                 }
                 catch { }
                 Logger.Error($"CriticalError_{Modules.SelfUpdater.Security.UID}_{attributes}", uae);
@@ -347,13 +251,75 @@ namespace UpdatesClient
                 MessageBox.Show($"{Res.Details}: {e.Message}\n{Res.UrId}: {Modules.SelfUpdater.Security.UID}", $"{Res.CriticalError}");
             }
         }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            string newName = args.Name.Replace(" ", string.Empty).Split(',')[0].Replace('.', '_');
+            if (newName.EndsWith("_resources"))
+            {
+                AssemblyName MissingAssembly = new AssemblyName(args.Name);
+                string locale = MissingAssembly.CultureInfo?.Name;
+                if (LocalesManager.ExistLocale(locale))
+                {
+                    return Assembly.LoadFile(LocalesManager.GetPathToLocaleLib(locale));
+                }
+                return null;
+            }
+            else
+            {
+                try
+                {
+                    byte[] bytes = (byte[])Res.ResourceManager.GetObject(newName);
+                    return Assembly.Load(bytes);
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        public bool SignalExternalCommandLineArgs(IList<string> args)
+        {
+            try
+            {
+                if (Current?.MainWindow?.WindowState == WindowState.Minimized) Current.MainWindow.WindowState = WindowState.Normal;
+                Current?.MainWindow?.Show();
+                Current?.MainWindow?.Activate();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("SignalExternal", e);
+            }
+            return true;
+        }
+
+        private bool CanRun()
+        {
+            if (Modules.SelfUpdater.Security.Status.Block)
+                MessageBox.Show(Encoding.UTF8.GetString(Convert.FromBase64String("UGxlYXNlIGRvd25sb2FkIHRoZSBuZXcgdmVyc2lvbiBmcm9tIHNreW1wLmlv")),
+                    Encoding.UTF8.GetString(Convert.FromBase64String("SXMgbm90IGEgYnVn")), MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            return !Modules.SelfUpdater.Security.Status.Block;
+        }
+        //====================================================
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (mainInstance) SingleInstance<App>.Cleanup();
+            base.OnExit(e);
+        }
+
+        private void InitApp()
+        {
+            ApplicationInitialize = ApplicationInit;
+        }
+
+        public static void ExitApp()
+        {
+            Environment.Exit(0);
+        }
+
         private void StartLuancher()
         {
-            if (File.Exists($"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe"))
-            {
-                File.SetAttributes($"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe", FileAttributes.Normal);
-                File.Delete($"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe");
-            }
+            IO.DeleteFile(Updater.PathToFileUpdate);
 
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Invoker)delegate
             {
@@ -361,35 +327,6 @@ namespace UpdatesClient
                 MainWindow = new MainWindow();
                 MainWindow.Show();
             });
-        }
-        //****************************************************************//
-        private bool CheckFile(string pathToFile)
-        {
-            return File.Exists(pathToFile)
-                && MasterHash.ToUpper().Trim() == Hashing.GetMD5FromFile(File.OpenRead(pathToFile)).ToUpper().Trim();
-        }
-        private bool Update()
-        {
-            string pathToUpdateFile = $"{Path.GetDirectoryName(FullPathToSelfExe)}\\{NameExeFile}.update.exe";
-            if (File.Exists(pathToUpdateFile))
-            {
-                try
-                {
-                    File.SetAttributes(pathToUpdateFile, FileAttributes.Normal);
-                }
-                catch (Exception e)
-                {
-                    Logger.Error("UpdateSetAttr", e);
-                }
-                File.Delete(pathToUpdateFile);
-            }
-
-            Downloader downloader = new Downloader(Updater.AddressToLauncher + Updater.LauncherName, pathToUpdateFile)
-            {
-                IsHidden = true
-            };
-            downloader.DownloadChanged += SplashWindow.SetProgress;
-            return downloader.Download();
         }
     }
 }

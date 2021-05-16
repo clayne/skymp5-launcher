@@ -9,24 +9,18 @@ namespace UpdatesClient.Core.Models
 {
     public struct ServerModel
     {
+        private static ServerModel nullServer = new ServerModel();
+        public static int NullID => nullServer.ID;
+
         [JsonProperty("ip")]
         public string IP { get; set; }
 
         [JsonProperty("port")]
         public int Port { get; set; }
+        public int DataPort { get => Port == 7777 ? 3000 : Port + 1; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonIgnore]
-        public string ViewName
-        {
-            get
-            {
-                if (Name.Length > 18) return Name.Substring(0, 18) + "...";
-                else return Name;
-            }
-        }
 
         [JsonProperty("maxPlayers")]
         public int MaxPlayers { get; set; }
@@ -34,37 +28,25 @@ namespace UpdatesClient.Core.Models
         [JsonProperty("online")]
         public int Online { get; set; }
 
-        public int ID => (IP + Port.ToString()).GetHashCode();
         public string Address => $"{IP}:{Port}";
-
-        public int DataPort { get => Port == 7777 ? 3000 : Port + 1; }
         public string AddressData => $"{IP}:{DataPort}";
 
-        public static int NullID => new ServerModel().ID;
+        public int ID => Address.GetHashCode();
 
-        public bool IsEmpty()
-        {
-            return ID == NullID;
-        }
+        public bool IsEmpty() => ID == NullID;
 
-        public override string ToString()
-        {
-            return Name + " (" + Online + " / " + MaxPlayers + ")";
-        }
+        public override string ToString() => Name + " (" + Online + " / " + MaxPlayers + ")";
 
-        public bool IsSameServer(SkympClientSettingsModel settings)
-        {
-            return (settings.IP + settings.Port.ToString()).GetHashCode() == ID;
-        }
+        public bool IsSameServer(SkympClientSettingsModel s) => $"{s.IP}:{s.Port}".GetHashCode() == ID;
 
-        public SkympClientSettingsModel ToSkympClientSettings(SkympClientSettingsModel oldServer)
+        public SkympClientSettingsModel ToSkympClientSettings(SkympClientSettingsModel oldSettings)
         {
             return new SkympClientSettingsModel
             {
-                IP = this.IP,
-                IsEnableConsole = oldServer.IsEnableConsole,
-                IsShowMe = oldServer.IsShowMe,
-                Port = this.Port
+                IP = IP,
+                IsEnableConsole = oldSettings.IsEnableConsole,
+                IsShowMe = oldSettings.IsShowMe,
+                Port = Port
             };
         }
 
@@ -73,27 +55,27 @@ namespace UpdatesClient.Core.Models
             return JArray.Parse(jArrayServerList).ToObject<List<ServerModel>>();
         }
 
-        public static async Task<string> GetServers()
+        public static Task<string> GetServers()
         {
-            return await Net.Request(Net.URL_SERVERS, "GET", false, null);
+            return Net.Request(Net.URL_SERVERS, "GET", false, null);
         }
 
         public static string Load()
         {
-            if (File.Exists(Settings.PathToSavedServerList))
+            if (File.Exists(DefaultPaths.PathToSavedServerList))
             {
-                return File.ReadAllText(Settings.PathToSavedServerList);
+                return File.ReadAllText(DefaultPaths.PathToSavedServerList);
             }
             else
             {
-                File.WriteAllText(Settings.PathToSavedServerList, "[{}]");
+                File.WriteAllText(DefaultPaths.PathToSavedServerList, "[{}]");
                 return "[{}]";
             }
         }
 
         public static void Save(string serverList)
         {
-            File.WriteAllText(Settings.PathToSavedServerList, serverList);
+            File.WriteAllText(DefaultPaths.PathToSavedServerList, serverList);
         }
     }
 }
