@@ -48,7 +48,7 @@ namespace UpdatesClient
                 AppCurrent = Current;
             }
             catch { }
-            if (LocalesManager.CheckResxLocales())
+            if (LocalesManager.CheckResxLocales() && Environment.GetCommandLineArgs().Length == 1)
             {
                 Process.Start(ResourceAssembly.Location);
                 Application.Current.Shutdown();
