@@ -112,6 +112,7 @@ namespace UpdatesClient.Modules.Notifications
         private static void Load()
         {
             Notifications = Notifications.Load<NotificationsModel>(DefaultPaths.PathToLocal + "Notifications.json");
+            if (Notifications == null || Notifications.Notifications == null) Notifications = new NotificationsModel(); 
             foreach (NotifyModel notify in Notifications.Notifications)
             {
                 PopupNotify popup = new PopupNotify(notify);
