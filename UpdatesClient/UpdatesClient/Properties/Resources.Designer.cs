@@ -70,6 +70,15 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Authorization.
+        /// </summary>
+        public static string Authorization {
+            get {
+                return ResourceManager.GetString("Authorization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Checking for launcher updates....
         /// </summary>
         public static string CheckSelfUpdate {

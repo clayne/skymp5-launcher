@@ -14,6 +14,7 @@ using UpdatesClient.Core.Enums;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
 using UpdatesClient.Modules.Debugger;
+using Res = UpdatesClient.Properties.Resources;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -125,7 +126,8 @@ namespace UpdatesClient.Modules.SelfUpdater
         {
             try
             {
-                await Auth();
+                Status.Text = Res.Authorization;
+                await Task.Run(() => Auth());
             }
             catch
             {

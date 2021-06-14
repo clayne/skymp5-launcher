@@ -8,7 +8,7 @@ namespace UpdatesClient.Core
 {
     public static class LocalesManager
     {
-        private const string LastLocaleVersion = "3.0.0.0";
+        private const string LastLocaleVersion = "3.0.0.2";
         private static readonly string[] locales = { "ru-RU" };
 
         public static string GetPathToLocaleLib(string locale)
