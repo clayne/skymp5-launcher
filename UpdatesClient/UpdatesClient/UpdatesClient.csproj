@@ -225,6 +225,9 @@
     <Compile Include="UI\Controllers\Header.xaml.cs">
       <DependentUpon>Header.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Controllers\InfoProblemPanel.xaml.cs">
+      <DependentUpon>InfoProblemPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controllers\MainButton.xaml.cs">
       <DependentUpon>MainButton.xaml</DependentUpon>
     </Compile>
@@ -277,6 +280,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Controllers\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controllers\InfoProblemPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

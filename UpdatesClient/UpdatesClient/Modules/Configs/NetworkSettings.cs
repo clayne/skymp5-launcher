@@ -12,12 +12,13 @@ namespace UpdatesClient.Modules.Configs
         public static bool Loaded { get; private set; } = false;
 
         public static bool ReportDmp { get => model.ReportDmp; }
-        public static bool ShowingServerStatus { get => model.ShowingServerStatus; }
-        public static string ServerStatus { get => model.ServerStatus; }
         public static string OfficialServerAdress { get => model.OfficialServerAdress; }
         public static bool EnableAntiCheat { get => model.EnableAntiCheat; }
         public static bool CompatibilityMode { get => model.CompatibilityMode; }
         public static string Banners { get => model.Banners; }
+
+        public static bool ProblemShow { get => model.ProblemShow; }
+        public static string ProblemText { get => model.ProblemText; }
 
         public static async void Init()
         {
