@@ -74,7 +74,7 @@ namespace UpdatesClient.Core
             if (auth) req.Headers.Add(HttpRequestHeader.Authorization, Settings.UserToken);
 
             if ((data == null && method == "POST") || (data != null))
-                using (var sw = new StreamWriter(req.GetRequestStream())) sw.Write($"{data ?? ""}");
+                using (var sw = new StreamWriter(req.GetRequestStream())) await sw.WriteAsync($"{data ?? ""}");
 
             using (HttpWebResponse res = (HttpWebResponse)(req.GetResponse()))
             {

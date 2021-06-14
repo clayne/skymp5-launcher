@@ -272,7 +272,7 @@
             <local4:ServerList />
         </ContentControl>
 
-        
+
         <local1:Header  />
         <StackPanel Margin="27,0,331,0" Orientation="Horizontal">
             <RadioButton Content="{x:Static res:Resources.Servers}" IsChecked="True" Foreground="#7FFFFFFF" Style="{DynamicResource HeaderRadioButtonStyle}" Background="#CCFFFFFF" FontSize="16" FontWeight="Bold" Margin="0,0,50,0" Focusable="False" IsTabStop="False"/>
@@ -363,6 +363,7 @@
                 </Style>
             </local1:NotifyList.Style>
         </local1:NotifyList>
+        <local1:InfoProblemPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Grid.Row="1" Margin="3,0,0,3"/>
 
     </Grid>
 </Window>

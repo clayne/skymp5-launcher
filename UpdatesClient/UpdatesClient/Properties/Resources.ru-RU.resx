@@ -345,4 +345,7 @@
   <data name="CloseAll" xml:space="preserve">
     <value>Очистить</value>
   </data>
+  <data name="Authorization" xml:space="preserve">
+    <value>Авторизация</value>
+  </data>
 </root>

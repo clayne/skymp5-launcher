@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UpdatesClient.Modules.SelfUpdater"
+        xmlns:local1="clr-namespace:UpdatesClient.UI.Controllers"
         xmlns:ef="clr-namespace:UpdatesClient.Core.Helpers"
         xmlns:res="clr-namespace:UpdatesClient.Properties"
         xmlns:Controllers="clr-namespace:UpdatesClient.UI.Controllers" x:Class="UpdatesClient.Modules.SelfUpdater.SplashScreen"
@@ -37,5 +38,6 @@
         </Grid>
 
         <Controllers:Header x:Name="header" VerticalAlignment="Top" MaximizeIsEnabled="False" Grid.ColumnSpan="2" Height="72"/>
+        <local1:InfoProblemPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Grid.Row="1" Margin="3,0,0,3"/>
     </Grid>
 </Window>

@@ -394,4 +394,7 @@
   <data name="SkyEye" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SkyEye.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Authorization" xml:space="preserve">
+    <value>Authorization</value>
+  </data>
 </root>
