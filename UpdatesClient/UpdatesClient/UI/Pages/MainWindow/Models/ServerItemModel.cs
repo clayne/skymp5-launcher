@@ -188,7 +188,7 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 catch (HttpRequestException) { return; }
                 catch (WebException) { return; }
                 catch (TaskCanceledException) { return; }
-                if (res == "true") hasSkyEye = true;
+                if (res.Length == 36) hasSkyEye = true;
             }
             catch { hasSkyEye = false; }
             OnPropertyChanged(nameof(HasSkyEye));

@@ -42,16 +42,17 @@ namespace UpdatesClient.Modules.GameManager
                 object gameData = await Account.GetSession(adress);
                 if (gameData == null) return;
 
+                string publicKey = null;
                 try
                 {
-                    string res = await Net.RequestHttp($"http://{adressData}/SkyEye", "GET", false, null);
-                    if (res == "true") hasAc = true;
+                    publicKey = await Net.RequestHttp($"http://{adressData}/SkyEye", "GET", false, null);
+                    if (publicKey.Length == 36) hasAc = true;
                 }
                 catch (Exception) { }
 
                 if (hasAc)
                 {
-                    ResultInitModel res = await SkyEye.AntiCheat.Init(Settings.UserId, Settings.UserName,
+                    ResultInitModel res = await SkyEye.AntiCheat.Init(Settings.UserId, Settings.UserName, publicKey,
                         ((JObject)gameData)["session"].ToObject<string>());
                     if (!res.Success)
                     {
