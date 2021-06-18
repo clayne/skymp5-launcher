@@ -38,6 +38,6 @@
         </Grid>
 
         <Controllers:Header x:Name="header" VerticalAlignment="Top" MaximizeIsEnabled="False" Grid.ColumnSpan="2" Height="72"/>
-        <local1:InfoProblemPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="30" Grid.Row="1" Margin="3,0,0,3"/>
+        <local1:InfoProblemPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="31" Grid.Row="1" Margin="3,0,0,3"/>
     </Grid>
 </Window>

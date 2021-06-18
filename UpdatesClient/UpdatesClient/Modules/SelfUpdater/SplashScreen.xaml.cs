@@ -126,8 +126,10 @@ namespace UpdatesClient.Modules.SelfUpdater
         {
             try
             {
+                SetProgressMode(true);
                 Status.Text = Res.Authorization;
                 await Task.Run(() => Auth());
+                SetProgressMode(false);
             }
             catch
             {
