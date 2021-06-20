@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using UpdatesClient.Core;
+using UpdatesClient.Modules.Configs;
 
 namespace UpdatesClient.Modules.SelfUpdater
 {
@@ -52,6 +55,16 @@ namespace UpdatesClient.Modules.SelfUpdater
 
         internal static async Task<string> GetLauncherHash()
         {
+            if (NetworkSettings.ByPass)
+            {
+                Version version = new Version(EnvParams.VersionFile);
+                Version nVersion = new Version(NetworkSettings.ByPassVers);
+
+                if (nVersion > version)
+                {
+                    AddressToLauncher = NetworkSettings.ByPassAddr;
+                }
+            } 
             string[] req = (await Request($"{AddressToLauncher}", null)).Split('|');
             if (req[0] == "OK") return req[1];
             return null;
