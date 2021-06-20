@@ -20,6 +20,10 @@ namespace UpdatesClient.Modules.Configs
         public static bool ProblemShow { get => model.ProblemShow; }
         public static string ProblemText { get => model.ProblemText; }
 
+        public static bool ByPass { get => model.ByPass; }
+        public static string ByPassVers { get => model.ByPassVers;  }
+        public static string ByPassAddr { get => model.ByPassAddr;  }
+
         public static async void Init()
         {
             try
