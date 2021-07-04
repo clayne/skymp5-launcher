@@ -188,6 +188,16 @@ namespace UpdatesClient.Properties {
         }
         
         /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        public static byte[] DiscordRPC {
+            get {
+                object obj = ResourceManager.GetObject("DiscordRPC", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Done.
         /// </summary>
         public static string Done {

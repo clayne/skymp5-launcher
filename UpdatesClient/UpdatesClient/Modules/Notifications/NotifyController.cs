@@ -65,7 +65,7 @@ namespace UpdatesClient.Modules.Notifications
             {
                 try
                 {
-                    string jsn = await Net.Request(Net.URL_ApiLauncher + "GetNotifications/" + Notifications.LastID, "POST", false, null);
+                    string jsn = await Net.PostAsync(Net.URL_ApiLauncher + "GetNotifications/" + Notifications.LastID, false, null);
                     WNotifyModel[] models = JsonConvert.DeserializeObject<WNotifyModel[]>(jsn);
 
                     foreach (WNotifyModel model in models)

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
 using UpdatesClient.Core.Network.Models.Request;
@@ -16,52 +17,57 @@ namespace UpdatesClient.Core.Network
 
         public static async Task<ResRegisterModel> Register(ReqRegisterModel model)
         {
-            string raw = await Net.Request($"{URL_Api}users", "POST", false, JsonConvert.SerializeObject(model));
+            string raw = await Net.PostAsync($"{URL_Api}users", false, JsonConvert.SerializeObject(model));
             return JsonConvert.DeserializeObject<ResRegisterModel>(raw);
         }
 
         public static async Task<ResLoginModel> Login(ReqLoginModel model)
         {
-            string raw = await Net.Request($"{URL_Api}users/login", "POST", false, JsonConvert.SerializeObject(model));
+            string raw = await Net.PostAsync($"{URL_Api}users/login", false, JsonConvert.SerializeObject(model));
             return JsonConvert.DeserializeObject<ResLoginModel>(raw);
         }
 
         public static async Task<ResVerifyRegisterModel> Verify(ReqVerifyRegisterModel model)
         {
-            string raw = await Request($"{URL_Api}{model.Id}/users", "POST", true, JsonConvert.SerializeObject(model));
-            return JsonConvert.DeserializeObject<ResVerifyRegisterModel>(raw);
+            string raw = await RequestPost($"{URL_Api}{model.Id}/users", true, JsonConvert.SerializeObject(model));
+            if (raw != null) return JsonConvert.DeserializeObject<ResVerifyRegisterModel>(raw);
+            else return default;
         }
 
         public static Task ResetPassword(ReqResetPassword model)
         {
-            return Request($"{URL_Api}users/reset-password", "POST", false, JsonConvert.SerializeObject(model));
+            return RequestPost($"{URL_Api}users/reset-password", false, JsonConvert.SerializeObject(model));
         }
 
         public static Task VerifyToken()
         {
-            return Net.Request($"{URL_Api}secure", "GET", true, null);
+            return Net.GetAsync($"{URL_Api}secure", true);
         }
 
         public static async Task<string> GetLogin()
         {
-            string raw = await Net.Request($"{URL_Api}users/{Settings.UserId}", "GET", true, null);
+            string raw = await Net.GetAsync($"{URL_Api}users/{Settings.UserId}", true);
             JObject jObject = JObject.Parse(raw);
             return jObject["name"].ToString();
         }
 
         public static async Task<object> GetSession(string address)
         {
-            string raw = await Request($"{URL_Api}users/{Settings.UserId}/play/{address}", "POST", true, null);
+            string raw = await RequestPost($"{URL_Api}users/{Settings.UserId}/play/{address}", true, null);
             if (raw != null) return JsonConvert.DeserializeObject(raw);
             else return null;
 
         }
 
-        private static async Task<string> Request(string url, string method, bool auth, string data)
+        private static async Task<string> RequestPost(string url, bool auth, string data)
         {
             try
             {
-                return await Net.Request(url, method, auth, data);
+                return await Net.PostAsync(url, auth, data);
+            }
+            catch (HttpRequestException hre)
+            {
+                NotifyController.Show(hre);
             }
             catch (WebSocketException wse)
             {

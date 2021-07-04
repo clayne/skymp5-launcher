@@ -57,7 +57,7 @@ namespace UpdatesClient.Core.Models
 
         public static Task<string> GetServers()
         {
-            return Net.Request(Net.URL_SERVERS, "GET", false, null);
+            return Net.GetAsync(Net.URL_SERVERS, false);
         }
 
         public static string Load()
