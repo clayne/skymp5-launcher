@@ -12,8 +12,10 @@ using UpdatesClient.Core;
 using UpdatesClient.Core.Models;
 using UpdatesClient.Core.Network;
 using UpdatesClient.Modules.Configs;
+using UpdatesClient.Modules.Configs.Helpers;
 using UpdatesClient.Modules.Debugger;
 using UpdatesClient.Modules.Downloader;
+using UpdatesClient.Modules.GameManager.Discord;
 using UpdatesClient.Modules.GameManager.Models.ServerManifest;
 using UpdatesClient.Modules.ModsManager;
 using UpdatesClient.Modules.Notifications;
@@ -45,7 +47,7 @@ namespace UpdatesClient.Modules.GameManager
                 string publicKey = null;
                 try
                 {
-                    publicKey = await Net.RequestHttp($"http://{adressData}/SkyEye", "GET", false, null);
+                    publicKey = await Net.GetAsync($"http://{adressData}/SkyEye", false);
                     if (publicKey.Length == 36) hasAc = true;
                 }
                 catch (Exception) { }
@@ -92,8 +94,13 @@ namespace UpdatesClient.Modules.GameManager
             try
             {
                 window.Hide();
+                DiscordManager discordManager = new DiscordManager(server.Name);
+                ExperimentalFunctions.Use("DiscordApp", () => discordManager.Start());
+
                 if (hasAc) SkyEye.AntiCheat.Detected += ACDetected;
                 bool crash = await GameLauncher.StartGame();
+
+                ExperimentalFunctions.Use("DiscordApp", () => discordManager.Stop());
                 window.Show();
                 if (hasAc) SkyEye.AntiCheat.Close();
 
@@ -123,7 +130,7 @@ namespace UpdatesClient.Modules.GameManager
 
         public static async Task<ServerModsManifest> GetManifest(string adress)
         {
-            string serverManifest = await Net.RequestHttp($"http://{adress}/manifest.json", "GET", false, null);
+            string serverManifest = await Net.GetAsync($"http://{adress}/manifest.json", false);
             return JsonConvert.DeserializeObject<ServerModsManifest>(serverManifest);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using DiscordRPC;
+using System.Windows;
 using System.Windows.Input;
 using UpdatesClient.Modules;
 using UpdatesClient.Modules.Configs;

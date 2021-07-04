@@ -30,7 +30,7 @@ namespace UpdatesClient.Modules.Configs
             {
                 if (!Loaded)
                 {
-                    string jsn = await Net.Request(Net.URL_ApiLauncher + "GetParameters", "POST", false, null);
+                    string jsn = await Net.PostAsync(Net.URL_ApiLauncher + "GetParameters", false, null);
                     model = JsonConvert.DeserializeObject<NetworkSettingsModel>(jsn);
                     Loaded = true;
                 }

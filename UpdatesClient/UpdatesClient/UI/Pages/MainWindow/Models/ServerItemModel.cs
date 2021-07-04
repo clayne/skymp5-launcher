@@ -145,7 +145,7 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
             Description = d;
             try
             {
-                d = await Net.RequestHttp($"http://{Server.AddressData}/desc.txt", "GET", false, null);
+                d = await Net.GetAsync($"http://{Server.AddressData}/desc.txt", false);
             }
             catch (HttpRequestException) { return; }
             catch (WebException) { return; }
@@ -183,10 +183,9 @@ namespace UpdatesClient.UI.Pages.MainWindow.Models
                 string res = "false";
                 try
                 {
-                    res = await Net.RequestHttp($"http://{Server.AddressData}/SkyEye", "GET", false, null);
+                    res = await Net.GetAsync($"http://{Server.AddressData}/SkyEye", false);
                 }
                 catch (HttpRequestException) { return; }
-                catch (WebException) { return; }
                 catch (TaskCanceledException) { return; }
                 if (res.Length == 36) hasSkyEye = true;
             }
