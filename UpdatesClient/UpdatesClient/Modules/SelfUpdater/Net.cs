@@ -24,20 +24,20 @@ namespace UpdatesClient.Modules.SelfUpdater
 #elif (BETA)
         internal static string PROTOCOL = "https://";
 
-        private static readonly string OwnDomain = $@"skymp.io";
-        private static readonly string SubDomainS001 = $@"{OwnDomain}/updates";
+        private static readonly string OwnDomain = $@"skymp.skyrez.su";
+        private static readonly string SubDomainS001 = $@"{OwnDomain}/resources";
 
-        private static readonly string FolderLauncher = $@"launcherBeta";
+        private static readonly string FolderLauncher = $@"appBeta";
 #else
         internal static string PROTOCOL = "https://";
 
-        private static readonly string OwnDomain = $@"skymp.io";
-        private static readonly string SubDomainS001 = $@"{OwnDomain}/updates";
+        private static readonly string OwnDomain = $@"skymp.skyrez.su";
+        private static readonly string SubDomainS001 = $@"{OwnDomain}/resources";
 
-        private static readonly string FolderLauncher = $@"launcher";
+        private static readonly string FolderLauncher = $@"app";
 #endif
 
-        internal const string LauncherName = "SkyMPLauncher.exe";
+        internal const string LauncherName = "UpdatesClient.exe";
         internal static string AddressToLauncher = $@"{PROTOCOL}{SubDomainS001}/{FolderLauncher}/";
 
         private static Task<string> Request(string url, string data)
