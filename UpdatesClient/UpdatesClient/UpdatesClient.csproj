@@ -83,6 +83,7 @@
     </Reference>
     <Reference Include="DiscordRPC, Version=1.0.175.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DiscordRichPresence.1.0.175\lib\net35\DiscordRPC.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Fastenshtein, Version=1.0.0.7, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Fastenshtein.1.0.0.7\lib\net452\Fastenshtein.dll</HintPath>
@@ -178,6 +179,7 @@
     <Compile Include="Core\IO.cs" />
     <Compile Include="Core\LocalesManager.cs" />
     <Compile Include="Modules\GameManager\Discord\DiscordManager.cs" />
+    <Compile Include="Modules\GameManager\Model\ClientSettingsModel.cs" />
     <Compile Include="Modules\Notifications\Enums\NotificationType.cs" />
     <Compile Include="Modules\Notifications\Models\NotificationsModel.cs" />
     <Compile Include="Modules\Notifications\Models\NotifyModel.cs" />
@@ -503,6 +505,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SkyEye.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DiscordRPC.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
