@@ -9,7 +9,7 @@ namespace UpdatesClient.Modules.GameManager.Discord
 {
     public class DiscordManager
     {
-        private const string AppID = "861179363709419541";
+        private const string AppID = "720433908352549034";
         private readonly DiscordRpcClient Client = new DiscordRpcClient(AppID);
         private readonly RichPresence presence = new RichPresence();
         private bool run = true;
@@ -18,12 +18,12 @@ namespace UpdatesClient.Modules.GameManager.Discord
         {
             Client.Initialize();
             presence.Details = ServerName;
-            //presence.Assets = new Assets()
-            //{
-            //    //LargeImageKey = "image_large",
-            //    LargeImageText = "",
-            //    //SmallImageKey = "image_small"
-            //};
+            presence.Assets = new Assets()
+            {
+                LargeImageKey = "skymp",
+                LargeImageText = "SkyMP",
+                //SmallImageKey = "image_small"
+            };
         }
 
         public void Start()
